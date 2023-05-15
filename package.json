@@ -11,5 +11,9 @@
     "movies"
   ],
   "author": "Jordan Welch",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@notionhq/client": "^2.2.5",
+    "dotenv": "^16.0.3"
+  }
 }
