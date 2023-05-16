@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@notionhq/client": "^2.2.5",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9"
   }
 }
