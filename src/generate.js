@@ -23,9 +23,10 @@ async function getMovie(id) {
   });
 
   const record = records.results[0];
-  const movie = await getMovie(record.properties['Movie 1'].relation[0].id);
+  const movie1 = await getMovie(record.properties['Movie 1'].relation[0].id);
+  const movie2 = await getMovie(record.properties['Movie 2'].relation[0].id);
 
   const week = Week.fromNotion(record);
 
-  console.log(ejs.renderFile('./src/views/week.ejs', { week, movie }));
+  console.log(await ejs.renderFile('./src/views/week.ejs', { week, movie1, movie2 }));
 })();
