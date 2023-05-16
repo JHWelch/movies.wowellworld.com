@@ -1,5 +1,7 @@
 import * as dotenv from 'dotenv';
 import { Client } from "@notionhq/client";
+import { Week } from "./src/models/week.js";
+import { Movie } from "./src/models/movie.js";
 dotenv.config();
 
 const DATABASE_ID = '998af5d921dc41fe851443b57eec98bc';
@@ -14,5 +16,17 @@ const notion = new Client({
   });
 
   const x = records.results[0];
-  console.log(x.properties['Movie 1'].rich_text[0].plain_text);
+
+  const movieId = x.properties['Movie 1'].relation[0].id;
+
+  const page = await notion.pages.retrieve({
+    page_id: movieId
+  });
+
+  const movie = Movie.fromNotion(page);
+
+  const week = Week.fromNotion(x);
+
+  console.log(week.toString());
+  console.log(movie.toString());
 })();
