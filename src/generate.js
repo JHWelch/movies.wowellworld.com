@@ -11,21 +11,21 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
+async function getMovie(id) {
+  const page = await notion.pages.retrieve({page_id: id});
+
+  return Movie.fromNotion(page);
+}
+
 (async () => {
   const records = await notion.databases.query({
     database_id: DATABASE_ID
   });
 
-  const x = records.results[0];
+  const record = records.results[0];
+  const movie = await getMovie(record.properties['Movie 1'].relation[0].id);
 
-  const movieId = x.properties['Movie 1'].relation[0].id;
-
-  const page = await notion.pages.retrieve({
-    page_id: movieId
-  });
-
-  const movie = Movie.fromNotion(page);
-  const week = Week.fromNotion(x);
+  const week = Week.fromNotion(record);
 
   console.log(ejs.renderFile('./src/views/week.ejs', { week, movie }));
 })();
