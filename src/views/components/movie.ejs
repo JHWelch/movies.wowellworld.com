@@ -1,0 +1,8 @@
+<h3>
+  <%= movie.title %>
+  <small>(<%= movie.year %>, <%= movie.displayLength() %>)</small>
+</h3>
+
+<a href="<%= movie.url %>">
+  <img src="<%= movie.poster %>" alt="<%= movie.title %> Poster">
+</a>

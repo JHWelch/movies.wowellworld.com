@@ -11,7 +11,9 @@
 
   <h2>Now Playing: <%= week.theme %></h1>
 
-  <h3><%= movie1 %></h3>
+  <%- include('components/movie', {movie: movie1}); %>
+
+  <%- include('components/movie', {movie: movie2}); %>
 
   <h3><%= movie2 %></h3>
 </body>

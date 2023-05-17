@@ -21,6 +21,10 @@ export class Movie {
     );
   }
 
+  displayLength () {
+    return `${Math.floor(this.length / 60)}h ${this.length % 60}m`;
+  }
+
   toString() {
     return `${this.title} (${this.year})`;
   }
