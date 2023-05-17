@@ -1,9 +1,12 @@
 import * as dotenv from 'dotenv';
-import * as ejs from 'ejs';
+import express from 'express';
 import { Client } from "@notionhq/client";
 import { Week } from "./models/week.js";
 import { Movie } from "./models/movie.js";
 dotenv.config();
+
+var app = express();
+app.set('view engine', 'ejs');
 
 const DATABASE_ID = '998af5d921dc41fe851443b57eec98bc';
 
@@ -11,13 +14,7 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-async function getMovie(id) {
-  const page = await notion.pages.retrieve({page_id: id});
-
-  return Movie.fromNotion(page);
-}
-
-(async () => {
+app.get('/', async function (req, res) {
   const records = await notion.databases.query({
     database_id: DATABASE_ID
   });
@@ -28,5 +25,13 @@ async function getMovie(id) {
 
   const week = Week.fromNotion(record);
 
-  console.log(await ejs.renderFile('./src/views/week.ejs', { week, movie1, movie2 }));
-})();
+  res.render('week', { week, movie1, movie2 });
+})
+
+app.listen(3000)
+
+async function getMovie(id) {
+  const page = await notion.pages.retrieve({page_id: id});
+
+  return Movie.fromNotion(page);
+}

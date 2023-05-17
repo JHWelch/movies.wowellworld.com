@@ -5,7 +5,7 @@
   "type": "module",
   "main": "generate.js",
   "scripts": {
-    "generate": "node src/generate.js",
+    "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,6 +17,7 @@
   "dependencies": {
     "@notionhq/client": "^2.2.5",
     "dotenv": "^16.0.3",
-    "ejs": "^3.1.9"
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
   }
 }
