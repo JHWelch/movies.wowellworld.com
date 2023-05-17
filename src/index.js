@@ -8,15 +8,13 @@ dotenv.config();
 var app = express();
 app.set('view engine', 'ejs');
 
-const DATABASE_ID = '998af5d921dc41fe851443b57eec98bc';
-
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
 app.get('/', async function (req, res) {
   const records = await notion.databases.query({
-    database_id: DATABASE_ID
+    database_id: process.env.DATABASE_ID
   });
 
   const record = records.results[0];
