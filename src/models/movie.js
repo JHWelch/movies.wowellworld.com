@@ -9,8 +9,6 @@ export class Movie {
   }
 
   static fromNotion (movie) {
-    console.log(movie.properties);
-
     return new Movie(
       movie.id,
       movie.properties['Title']?.title[0]?.plain_text,
