@@ -7,3 +7,9 @@ An integration with [Notion](https://notion.so) to serve a specific database as 
 ```sh
 npm start
 ```
+
+## Development
+
+```sh
+npm run watch
+```
