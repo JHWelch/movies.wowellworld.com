@@ -4,6 +4,9 @@ import path from 'path';
 import { Week } from "./models/week.js";
 import { Notion } from './data/notion.js';
 import { fileURLToPath } from 'url';
+import fake from './dev/fake.json' assert { type: 'json' };
+import { Movie } from './models/movie.js';
+
 
 dotenv.config();
 
@@ -16,6 +19,16 @@ app.use('/public', express.static(__dirname + "/../public"));
 const notion = new Notion();
 
 app.get('/', async function (req, res) {
+  if (process.env.NODE_ENV === 'development') {
+    res.render('week', {
+      week: Week.fromObject(fake.week),
+      movie1: Movie.fromObject(fake.movie1),
+      movie2: Movie.fromObject(fake.movie2),
+    });
+
+    return;
+  }
+
   const record = await notion.getCurrentWeek();
 
   res.render('week', {

@@ -19,6 +19,17 @@ export class Movie {
     );
   }
 
+  static fromObject (obj) {
+    return new Movie(
+      obj.id,
+      obj.title,
+      obj.year,
+      obj.length,
+      obj.imdbUrl,
+      obj.posterUrl,
+    );
+  }
+
   displayLength () {
     return `${Math.floor(this.length / 60)}h ${this.length % 60}m`;
   }

@@ -11,6 +11,13 @@ export class Week {
     );
   }
 
+  static fromObject(obj) {
+    return new Week(
+      obj.id,
+      obj.theme,
+    );
+  }
+
   toString() {
     return `${this.theme}`;
   }
