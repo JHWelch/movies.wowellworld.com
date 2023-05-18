@@ -2,9 +2,10 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import { Week } from "./models/week.js";
 import { Notion } from './data/notion.js';
+
 dotenv.config();
 
-var app = express();
+const app = express();
 app.set('view engine', 'ejs');
 
 const notion = new Notion();
