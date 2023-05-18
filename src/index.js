@@ -1,20 +1,13 @@
 import * as dotenv from 'dotenv';
-import express from 'express';
-import path from 'path';
 import { Week } from "./models/week.js";
 import { Notion } from './data/notion.js';
-import { fileURLToPath } from 'url';
 import fake from './dev/fake.json' assert { type: 'json' };
 import { Movie } from './models/movie.js';
-
+import { setupExpress } from '../config/express.js';
 
 dotenv.config();
 
-const app = express();
-app.set('view engine', 'ejs');
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use('/public', express.static(__dirname + "/../public"));
+const app = setupExpress();
 
 const notion = new Notion();
 
