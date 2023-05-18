@@ -8,7 +8,7 @@
 
   <link rel="stylesheet" href="/public/app.css">
 </head>
-<body class="prose p-4">
+<body class="p-4 prose">
   <h1 class="flex flex-col items-center">
     <span class="text-xl text-slate-600">
       Wowell World Studios Presents
@@ -37,8 +37,8 @@
 
   <h2>Now Playing: <%= week.theme %></h1>
 
-  <%- include('components/movie', {movie: movie1}); %>
+  <%- include('partials/movie', {movie: movie1}); %>
 
-  <%- include('components/movie', {movie: movie2}); %>
+  <%- include('partials/movie', {movie: movie2}); %>
 </body>
 </html>
