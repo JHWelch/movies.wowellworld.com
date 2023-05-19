@@ -1,15 +1,26 @@
-<h4 class="text-xl">
-  <%= movie.title %>
-  <small>(<%= movie.year %>, <%= movie.displayLength() %>)</small>
-</h4>
+<div class="p-4 bg-purple-200 rounded-md">
+  <h4 class="flex justify-between">
+    <span class="text-xl font-medium"><%= movie.title %></span>
 
-<a
-  href="<%= movie.imdbUrl %>"
-  class="w-full p-10"
->
-  <img
-    src="<%= movie.posterUrl %>"
-    alt="<%= movie.title %> Poster"
-    class="w-full"
+    <span class="flex items-center space-x-1">
+      <%- include('icons/calendar', { htmlClass: 'h-4 w-4 text-slate-500'}); %>
+
+      <span class="text-slate-800"><%= movie.year %></span>
+    </span>
+
+    <span>
+      <%= movie.displayLength() %>
+    </span>
+  </h4>
+
+  <a
+    href="<%= movie.imdbUrl %>"
+    class="w-full mt-2"
   >
-</a>
+    <img
+      src="<%= movie.posterUrl %>"
+      alt="<%= movie.title %> Poster"
+      class="w-full"
+    >
+  </a>
+</div>
