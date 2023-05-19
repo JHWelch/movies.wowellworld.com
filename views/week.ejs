@@ -4,22 +4,23 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Thursday Night Movie Club</title>
 
   <link rel="stylesheet" href="/public/app.css">
 </head>
-<body class="p-4 prose">
-  <h1 class="flex flex-col items-center">
+<body class="p-4 prose bg-slate-100">
+  <h1 class="flex flex-col items-center text-center">
     <span class="text-xl text-slate-600">
       Wowell World Studios Presents
     </span>
 
-    <span class="text-3xl">
-      Thursday Night Movie Club
+    <span class="mt-1 text-3xl">
+      Thursday&nbsp;Night Movie&nbsp;Club
     </span>
   </h1>
 
-  <h2 class="text-violet-600">
+  <h2 class="mt-1 text-violet-600">
     You’re invited!
   </h2>
 
@@ -41,6 +42,8 @@
   <%- include('partials/movie', {movie: movie1}); %>
 
   <%- include('partials/movie', {movie: movie2}); %>
+
+  <h2>Coming Attractions</h2>
 
   <%- include('partials/calendar'); %>
 </body>
