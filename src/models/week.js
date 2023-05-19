@@ -18,6 +18,13 @@ export class Week {
     );
   }
 
+  setMovies(movie1, movie2) {
+    this.movie1 = movie1;
+    this.movie2 = movie2;
+
+    return this;
+  }
+
   toString() {
     return `${this.theme}`;
   }

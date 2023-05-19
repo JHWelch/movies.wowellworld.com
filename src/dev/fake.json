@@ -1,22 +1,22 @@
 {
   "week": {
     "id": "012de56a-afb8-4ec0-9c40-839f673e1b6e",
-    "theme": "The Goodest Boys"
-  },
-  "movie1": {
-    "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
-    "title": "AirBud",
-    "year": 1997,
-    "length": 98,
-    "imdbUrl": "https://www.imdb.com/title/tt0118570/",
-    "posterUrl": "https://m.media-amazon.com/images/I/51ixe7szMsL._AC_.jpg"
-  },
-  "movie2": {
-    "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
-    "title": "Best in Show",
-    "year": 2000,
-    "length": 90,
-    "imdbUrl": "https://www.imdb.com/title/tt0218839/",
-    "posterUrl": "https://upload.wikimedia.org/wikipedia/en/4/43/BestInShow2000.jpg"
+    "theme": "The Goodest Boys",
+    "movie1": {
+      "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
+      "title": "AirBud",
+      "year": 1997,
+      "length": 98,
+      "imdbUrl": "https://www.imdb.com/title/tt0118570/",
+      "posterUrl": "https://m.media-amazon.com/images/I/51ixe7szMsL._AC_.jpg"
+    },
+    "movie2": {
+      "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
+      "title": "Best in Show",
+      "year": 2000,
+      "length": 90,
+      "imdbUrl": "https://www.imdb.com/title/tt0218839/",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/en/4/43/BestInShow2000.jpg"
+    }
   }
 }
