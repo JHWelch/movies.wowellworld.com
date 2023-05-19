@@ -1,8 +1,15 @@
-<h3>
+<h4 class="text-xl">
   <%= movie.title %>
   <small>(<%= movie.year %>, <%= movie.displayLength() %>)</small>
-</h3>
+</h4>
 
-<a href="<%= movie.imdbUrl %>">
-  <img src="<%= movie.posterUrl %>" alt="<%= movie.title %> Poster">
+<a
+  href="<%= movie.imdbUrl %>"
+  class="w-full p-10"
+>
+  <img
+    src="<%= movie.posterUrl %>"
+    alt="<%= movie.title %> Poster"
+    class="w-full"
+  >
 </a>

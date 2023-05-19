@@ -18,7 +18,7 @@ app.get('/', async function (req, res) {
         Movie.fromObject(fake.week.movie1),
         Movie.fromObject(fake.week.movie2),
       );
-    res.render('week', {week});
+    res.render('week', { week });
 
     return;
   }
