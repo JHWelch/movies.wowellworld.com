@@ -2,15 +2,11 @@
   <h4 class="flex justify-between">
     <span class="text-xl font-medium"><%= movie.title %></span>
 
-    <span class="flex items-center space-x-1">
-      <%- include('icons/calendar', { htmlClass: 'h-4 w-4 text-slate-500'}); %>
+    <div class="flex space-x-2">
+      <%- include('icon_label', { icon: 'calendar', text: movie.year }); %>
 
-      <span class="text-slate-800"><%= movie.year %></span>
-    </span>
-
-    <span>
-      <%= movie.displayLength() %>
-    </span>
+      <%- include('icon_label', { icon: 'clock', text: movie.displayLength() }); %>
+    </div>
   </h4>
 
   <a
