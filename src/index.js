@@ -25,7 +25,7 @@ app.get('/', async (req, res) => {
       await notion.getMovie(record.properties['Movie 2'].relation[0].id),
     );
 
-  res.render('week', { week });
+  res.render('index', { currentWeek: week, upcoming: [] });
 });
 
 app.listen(process.env.PORT || 8080);

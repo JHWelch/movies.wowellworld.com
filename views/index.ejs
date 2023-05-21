@@ -45,11 +45,15 @@
           Now Playing
         </h2>
 
-        <%- include('partials/week', { week }); %>
+        <%- include('partials/week', { week: currentWeek }); %>
 
         <h2 class="flex flex-col items-center mt-4 text-2xl text-center">
           Coming Attractions
         </h2>
+
+        <% upcoming.forEach(function(week) { %>
+          <%- include('partials/week', { week }); %>
+        <% }); %>
       </div>
     </div>
 
