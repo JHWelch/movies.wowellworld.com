@@ -37,11 +37,18 @@ export default class Notion {
     const records = await this.notion.databases.query({
       database_id: process.env.DATABASE_ID,
       filter: {
-        property: 'Date',
-        date: {
-          on_or_after: from,
-          on_or_before: to,
+        and: [{
+          property: 'Date',
+          date: {
+            on_or_after: from,
+          },
         },
+        {
+          property: 'Date',
+          date: {
+            on_or_before: to,
+          },
+        }],
       },
     });
 
