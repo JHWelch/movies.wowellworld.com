@@ -8,7 +8,7 @@ export default function setupExpress() {
   app.set('view engine', 'ejs');
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  app.use('/public', express.static(`${__dirname}/../public`));
+  app.use('/public', express.static(`${__dirname}/../../public`));
 
   return app;
 }

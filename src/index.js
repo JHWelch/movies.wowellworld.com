@@ -3,7 +3,7 @@ import Week from './models/week.js';
 import Notion from './data/notion.js';
 import fake from './dev/fake.json' assert { type: 'json' };
 import Movie from './models/movie.js';
-import setupExpress from '../config/express.js';
+import setupExpress from './config/express.js';
 
 dotenv.config();
 
