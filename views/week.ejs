@@ -21,7 +21,7 @@
   </h1>
 
 
-  <div class="mt-2 space-y-2">
+  <div class="mt-2 space-y-4">
     <h2 class="text-lg font-semibold text-violet-600">
       You’re invited!
     </h2>
@@ -39,7 +39,7 @@
     </p>
   </div>
 
-  <h2 class="mt-4 text-2xl">
+  <h2 class="flex flex-col items-center mt-4 text-2xl text-center">
     Now Playing
   </h2>
 
@@ -47,16 +47,18 @@
     <%= `${week.displayDate()}: ${week.theme}` %>
   </h3>
 
-  <div class="mt-2 space-y-4">
+  <div class="mt-2 space-y-4 sm:space-y-0 sm:flex sm:space-x-2">
     <%- include('partials/movie', {movie: week.movie1}); %>
 
     <%- include('partials/movie', {movie: week.movie2}); %>
   </div>
 
-  <h2 class="mt-4 text-2xl">
+  <h2 class="flex flex-col items-center mt-4 text-2xl text-center">
     Coming Attractions
   </h2>
 
-  <%- include('partials/calendar'); %>
+  <div class="mt-4">
+    <%- include('partials/calendar'); %>
+  </div>
 </body>
 </html>
