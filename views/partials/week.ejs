@@ -1,0 +1,8 @@
+<h3 class="mt-2 text-xl">
+  <%= `${week.displayDate()}: ${week.theme}` %>
+</h3>
+
+<div class="mt-2 space-y-4 sm:space-y-0 sm:flex sm:space-x-2">
+  <%- include('movie', {movie: week.movie1}); %>
+  <%- include('movie', {movie: week.movie2}); %>
+</div>
