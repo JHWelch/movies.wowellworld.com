@@ -1,9 +1,8 @@
 import * as dotenv from 'dotenv';
 import Week from './models/week.js';
 import Notion from './data/notion.js';
-import fake from './dev/fake.json' assert { type: 'json' };
-import Movie from './models/movie.js';
 import setupExpress from './config/express.js';
+import renderFake from './dev/render_fake.js';
 
 dotenv.config();
 
@@ -13,12 +12,7 @@ const notion = new Notion();
 
 app.get('/', async (req, res) => {
   if (process.env.NODE_ENV === 'development') {
-    const week = Week.fromObject(fake.week)
-      .setMovies(
-        Movie.fromObject(fake.week.movie1),
-        Movie.fromObject(fake.week.movie2),
-      );
-    res.render('index', { week });
+    renderFake(res);
 
     return;
   }
