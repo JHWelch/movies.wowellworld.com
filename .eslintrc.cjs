@@ -6,10 +6,16 @@ module.exports = {
   extends: 'airbnb-base',
   overrides: [
   ],
+  parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    requireConfigFile: false,
+    babelOptions: {
+      plugins: [
+        '@babel/plugin-syntax-import-assertions',
+      ],
+    },
   },
   rules: {
+    'import/extensions': ['error', 'always'],
   },
 };

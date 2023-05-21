@@ -1,4 +1,4 @@
-export class Week {
+export default class Week {
   constructor(id, theme, date) {
     this.id = id;
     this.theme = theme;
@@ -8,8 +8,8 @@ export class Week {
   static fromNotion(record) {
     return new Week(
       record.id,
-      record.properties['Theme'].title[0].plain_text,
-      new Date(record.properties['Date'].date.start),
+      record.properties.Theme.title[0].plain_text,
+      new Date(record.properties.Date.date.start),
     );
   }
 

@@ -30,6 +30,8 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.21.8",
+    "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@tailwindcss/typography": "^0.5.9",
     "concurrently": "^8.0.1",
     "eslint": "^8.41.0",
