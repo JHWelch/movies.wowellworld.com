@@ -4,6 +4,7 @@
             "date": "2023-05-25",
             "id": "012de56a-afb8-4ec0-9c40-839f673e1b6e",
             "movie1": {
+                "director": "Tony Scott",
                 "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
                 "imdbUrl": "https://www.imdb.com/title/tt0092099/",
                 "length": 109,
@@ -12,6 +13,7 @@
                 "year": 1986
             },
             "movie2": {
+                "director": "Joseph Kosinski",
                 "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
                 "imdbUrl": "https://www.imdb.com/title/tt1745960/",
                 "length": 130,
@@ -26,6 +28,7 @@
         "date": "2023-05-18",
         "id": "012de56a-afb8-4ec0-9c40-839f673e1b6e",
         "movie1": {
+            "director": "Charles Martin Smith",
             "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
             "imdbUrl": "https://www.imdb.com/title/tt0118570/",
             "length": 98,
@@ -34,6 +37,7 @@
             "year": 1997
         },
         "movie2": {
+            "director": "Christopher Guest",
             "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
             "imdbUrl": "https://www.imdb.com/title/tt0218839/",
             "length": 90,

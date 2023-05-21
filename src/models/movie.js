@@ -1,7 +1,8 @@
 export default class Movie {
-  constructor(id, title, year, length, imdbUrl, posterUrl) {
+  constructor(id, title, director, year, length, imdbUrl, posterUrl) {
     this.id = id;
     this.title = title;
+    this.director = director;
     this.year = year;
     this.length = length;
     this.imdbUrl = imdbUrl;
@@ -12,6 +13,7 @@ export default class Movie {
     return new Movie(
       movie.id,
       movie.properties.Title?.title[0]?.plain_text,
+      movie.properties.Director?.rich_text[0]?.plain_text,
       movie.properties.Year?.number,
       movie.properties['Length (mins)']?.number,
       movie.properties.IMDb?.url,
@@ -23,6 +25,7 @@ export default class Movie {
     return new Movie(
       obj.id,
       obj.title,
+      obj.director,
       obj.year,
       obj.length,
       obj.imdbUrl,

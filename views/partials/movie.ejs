@@ -1,12 +1,8 @@
 <div class="px-4 pt-2 pb-4 rounded-md bg-violet-200 sm:w-1/2">
-  <h4 class="flex justify-between">
-    <span class="text-xl font-medium"><%= movie.title %></span>
-
-    <div class="flex space-x-2">
-      <%- include('icon_label', { icon: 'calendar', text: movie.year }); %>
-
-      <%- include('icon_label', { icon: 'clock', text: movie.displayLength() }); %>
-    </div>
+  <h4 class="flex justify-center h-12">
+    <span class="overflow-hidden text-xl font-medium text-center overflow-ellipsis">
+      <%= movie.title %>
+    </span>
   </h4>
 
   <a
@@ -19,4 +15,16 @@
       class="w-full"
     >
   </a>
+
+  <span class="flex justify-between">
+    <span class="text-lg font-medium text-slate-800">
+      <%= movie.director %>
+    </span>
+
+    <div class="flex space-x-2">
+      <%- include('icon_label', { icon: 'calendar', text: movie.year }); %>
+
+      <%- include('icon_label', { icon: 'clock', text: movie.displayLength() }); %>
+    </div>
+  </span>
 </div>
