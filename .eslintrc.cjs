@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -18,4 +19,8 @@ module.exports = {
   rules: {
     'import/extensions': ['error', 'always'],
   },
+  ignorePatterns: [
+    'node_modules/',
+    '*.config.js',
+  ],
 };
