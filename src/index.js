@@ -17,15 +17,10 @@ app.get('/', async (req, res) => {
     return;
   }
 
-  const record = await notion.getCurrentWeek();
+  const currentWeek = await notion.getCurrentWeek();
+  const upcoming = await notion.getUpcomingWeeks();
 
-  const week = Week.fromNotion(record)
-    .setMovies(
-      await notion.getMovie(record.properties['Movie 1'].relation[0].id),
-      await notion.getMovie(record.properties['Movie 2'].relation[0].id),
-    );
-
-  res.render('index', { currentWeek: week, upcoming: [] });
+  res.render('index', { currentWeek, upcoming });
 });
 
 app.listen(process.env.PORT || 8080);
