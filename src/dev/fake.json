@@ -5,11 +5,11 @@
     "date": "2023-05-18",
     "movie1": {
       "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
-      "title": "AirBud",
+      "title": "Top Gun",
       "year": 1997,
-      "length": 98,
-      "imdbUrl": "https://www.imdb.com/title/tt0118570/",
-      "posterUrl": "https://m.media-amazon.com/images/I/51ixe7szMsL._AC_.jpg"
+      "length": 109,
+      "imdbUrl": "https://www.imdb.com/title/tt0092099/",
+      "posterUrl": "/public/posters/top_gun.jpg"
     },
     "movie2": {
       "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
