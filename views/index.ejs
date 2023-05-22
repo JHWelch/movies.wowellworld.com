@@ -43,15 +43,11 @@
           </p>
         </div>
 
-        <h2 class="flex flex-col items-center mt-4 text-2xl text-center">
-          Now Playing
-        </h2>
+        <%- include('partials/section_title', { text: 'Now Playing' }); %>
 
         <%- include('partials/week', { week: currentWeek }); %>
 
-        <h2 class="flex flex-col items-center mt-10 text-2xl text-center">
-          Coming Attractions
-        </h2>
+        <%- include('partials/section_title', { text: 'Coming Attractions' }); %>
 
         <% upcoming.forEach(function(week) { %>
           <%- include('partials/week', { week }); %>
