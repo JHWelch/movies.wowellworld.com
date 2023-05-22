@@ -22,6 +22,29 @@
                 "year": 2022
             },
             "theme": "Suns Out, Top Guns Out"
+        },
+        {
+            "date": "2023-06-01",
+            "id": "012de56a-afb8-4ec0-9c40-839f673e1b6e",
+            "movie1": {
+                "director": "David Swift",
+                "id": "42d3de3b-1efe-41e6-b1c5-70c92c2a2e4b",
+                "imdbUrl": "https://www.imdb.com/title/tt0092099/",
+                "length": 121,
+                "posterUrl": "https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/398379/4821819/apilmyoi6__61229.1625672954.jpg?c=2",
+                "title": "How to Succeed in Business Without Really Trying",
+                "year": 1967
+            },
+            "movie2": {
+                "director": "Mel Brooks",
+                "id": "b374aea4-24ac-457a-bdbd-3fef9bb12456",
+                "imdbUrl": "https://www.imdb.com/title/tt0395251/",
+                "length": 134,
+                "posterUrl": "/public/posters/the_producers.jpg",
+                "title": "The Producers",
+                "year": 2005
+            },
+            "theme": "How to Succeed in Business Even When Really Trying Not To"
         }
     ],
     "week1": {
