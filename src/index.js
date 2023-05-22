@@ -1,5 +1,4 @@
 import * as dotenv from 'dotenv';
-import Week from './models/week.js';
 import Notion from './data/notion.js';
 import setupExpress from './config/express.js';
 import renderFake from './dev/render_fake.js';
