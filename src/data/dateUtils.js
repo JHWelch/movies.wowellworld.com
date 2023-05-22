@@ -3,6 +3,8 @@ export default class DateUtils {
     const today = new Date();
     const thursday = new Date(today.setDate(today.getDate() - today.getDay() + 4));
 
+    thursday.setHours(0, 0, 0, 0);
+
     return thursday;
   }
 
