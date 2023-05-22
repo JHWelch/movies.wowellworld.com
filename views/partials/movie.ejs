@@ -1,6 +1,7 @@
 <div class="flex flex-col px-4 py-2 rounded-md bg-violet-200 sm:w-1/2">
   <h4 class="flex items-center justify-center h-12">
-    <span class="overflow-hidden text-xl font-medium text-center overflow-ellipsis">
+    <% const titleSize = movie.title.length > 20 ? 'text-xl' : 'text-2xl'; %>
+    <span class="<%= titleSize %> overflow-hidden font-medium text-center  overflow-ellipsis">
       <%= movie.title %>
     </span>
   </h4>
