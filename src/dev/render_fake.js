@@ -1,5 +1,5 @@
 import Week from '../models/week.js';
-import fake from './fake.json' assert { type: 'json' };
+import fake from './fake.js';
 import Movie from '../models/movie.js';
 
 function processWeek(week) {
