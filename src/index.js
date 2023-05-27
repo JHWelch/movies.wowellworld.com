@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import Notion from './data/notion.js';
 import setupExpress from './config/express.js';
-import renderFake from './dev/render_fake.js';
+import renderFake from './dev/renderFake.js';
 
 dotenv.config();
 
