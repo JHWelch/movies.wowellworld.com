@@ -1,7 +1,10 @@
 export default class DateUtils {
   static getThursdayDate() {
     const today = new Date();
-    const thursday = new Date(today.setDate(today.getDate() - today.getDay() + 4));
+
+    const thursday = today.getDay() < 5
+      ? new Date(today.setDate(today.getDate() - today.getDay() + 4))
+      : new Date(today.setDate(today.getDate() + 11 - today.getDay()));
 
     thursday.setHours(0, 0, 0, 0);
 
