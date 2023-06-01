@@ -50,6 +50,12 @@ export default class Notion {
           },
         }],
       },
+      sorts: [
+        {
+          property: 'Date',
+          direction: 'ascending',
+        },
+      ],
     });
 
     return Promise.all(records.results.map((record) => this.recordToWeek(record)));
