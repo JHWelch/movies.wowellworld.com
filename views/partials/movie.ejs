@@ -9,16 +9,7 @@
 
   <div class="flex flex-col justify-between flex-1">
     <div class="relative mt-2">
-      <% if (movie.isFieldTrip()) { %>
-        <a
-          href="<%= movie.showingUrl %>"
-          class="absolute inset-0 flex items-center justify-between w-full h-12 px-3 text-lg font-medium text-center text-white opacity-80 bg-fuchsia-500"
-        >
-          <span>Field Trip to <%= movie.theaterName %>!</span>
-
-          <%- include('icons/ticket', { htmlClass: 'w-6 h-6 ml-2 -rotate-45' }); %>
-        </a>
-      <% } %>
+      <%- include('movie/field_trip_banner', { movie: movie }); %>
 
       <a
         href="<%= movie.imdbUrl %>"
