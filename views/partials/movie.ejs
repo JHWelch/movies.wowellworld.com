@@ -8,16 +8,27 @@
   </h4>
 
   <div class="flex flex-col justify-between flex-1">
-    <a
-      href="<%= movie.imdbUrl %>"
-      class="w-full mt-2"
-    >
-      <img
-        src="<%= movie.posterUrl %>"
-        alt="<%= movie.title %> Poster"
+    <div class="relative mt-2">
+      <% if (movie.isFieldTrip()) { %>
+        <a
+          href="<%= movie.showingUrl %>"
+          class="absolute inset-0 flex items-center justify-center w-full h-12 text-lg font-medium text-center text-white opacity-80 bg-fuchsia-500"
+        >
+          Field Trip to <%= movie.theaterName %>!
+        </a>
+      <% } %>
+
+      <a
+        href="<%= movie.imdbUrl %>"
         class="w-full"
       >
-    </a>
+        <img
+          src="<%= movie.posterUrl %>"
+          alt="<%= movie.title %> Poster"
+          class="w-full"
+        >
+      </a>
+    </div>
 
     <span class="flex justify-between mt-2">
       <span class="font-medium text-md text-slate-700">

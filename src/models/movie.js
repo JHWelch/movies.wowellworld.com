@@ -1,5 +1,6 @@
 export default class Movie {
-  constructor(id,
+  constructor(
+    id,
     title,
     director,
     year,
@@ -46,6 +47,10 @@ export default class Movie {
       obj.theaterName,
       obj.showingUrl,
     );
+  }
+
+  isFieldTrip() {
+    return this.theaterName !== null && this.showingUrl !== null;
   }
 
   displayLength() {

@@ -45,6 +45,8 @@ export default {
         posterUrl: '/public/posters/the_producers.jpg',
         title: 'The Producers',
         year: 2005,
+        theaterName: 'Theatre 1',
+        showingUrl: 'https://www.fandango.com/the-producers-2005-83965/movie-overview',
       },
       theme: 'How to Succeed in Business Even When Really Trying Not To',
     },
