@@ -1,5 +1,14 @@
 export default class Movie {
-  constructor(id, title, director, year, length, imdbUrl, posterUrl) {
+  constructor(id,
+    title,
+    director,
+    year,
+    length,
+    imdbUrl,
+    posterUrl,
+    theaterName = null,
+    showingUrl = null,
+  ) {
     this.id = id;
     this.title = title;
     this.director = director;
@@ -7,6 +16,8 @@ export default class Movie {
     this.length = length;
     this.imdbUrl = imdbUrl;
     this.posterUrl = posterUrl;
+    this.theaterName = theaterName;
+    this.showingUrl = showingUrl;
   }
 
   static fromNotion(movie) {
@@ -18,6 +29,8 @@ export default class Movie {
       movie.properties['Length (mins)']?.number,
       movie.properties.IMDb?.url,
       movie.properties.Poster?.url,
+      movie.properties['Theater Name']?.rich_text[0]?.plain_text,
+      movie.properties['Showing URL']?.url,
     );
   }
 
@@ -30,6 +43,8 @@ export default class Movie {
       obj.length,
       obj.imdbUrl,
       obj.posterUrl,
+      obj.theaterName,
+      obj.showingUrl,
     );
   }
 
