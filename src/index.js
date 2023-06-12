@@ -1,7 +1,9 @@
-import app from './app.js';
+import * as dotenv from 'dotenv';
+import Application from './app.js';
+import Notion from './data/notion.js';
 
-const port = process.env.PORT || 8080;
+dotenv.config();
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}...`); // eslint-disable-line no-console
-});
+const app = new Application(new Notion());
+
+app.listen();
