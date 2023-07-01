@@ -3,7 +3,7 @@ export default class Week {
     this.id = id;
     this.theme = theme;
     this.date = date;
-    this.isSkipped = false;
+    this.isSkipped = isSkipped;
   }
 
   static fromNotion(record) {
