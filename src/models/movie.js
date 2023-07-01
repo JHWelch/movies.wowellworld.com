@@ -60,4 +60,20 @@ export default class Movie {
   toString() {
     return `${this.title} (${this.year})`;
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      title: this.title,
+      director: this.director,
+      year: this.year,
+      length: this.length,
+      imdbUrl: this.imdbUrl,
+      posterUrl: this.posterUrl,
+      theaterName: this.theaterName,
+      showingUrl: this.showingUrl,
+      isFieldTrip: this.isFieldTrip(),
+      displayLength: this.displayLength(),
+    };
+  }
 }

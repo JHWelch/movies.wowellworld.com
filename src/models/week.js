@@ -40,4 +40,14 @@ export default class Week {
   toString() {
     return `${this.theme}`;
   }
+
+  toDTO() {
+    return {
+      id: this.id,
+      theme: this.theme,
+      date: this.displayDate(),
+      movie1: this.movie1.toDTO(),
+      movie2: this.movie2.toDTO(),
+    };
+  }
 }
