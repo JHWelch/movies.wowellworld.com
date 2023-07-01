@@ -21,9 +21,7 @@ export default class Notion {
       database_id: process.env.DATABASE_ID,
       filter: {
         property: 'Date',
-        date: {
-          equals: date,
-        },
+        date: { equals: date },
       },
     });
     const record = records.results[0];
@@ -36,9 +34,7 @@ export default class Notion {
       database_id: process.env.DATABASE_ID,
       filter: {
         property: 'Date',
-        date: {
-          equals: DateUtils.getThursday(),
-        },
+        date: { equals: DateUtils.getThursday() },
       },
     });
 
@@ -54,23 +50,17 @@ export default class Notion {
       filter: {
         and: [{
           property: 'Date',
-          date: {
-            on_or_after: from,
-          },
+          date: { on_or_after: from },
         },
         {
           property: 'Date',
-          date: {
-            on_or_before: to,
-          },
+          date: { on_or_before: to },
         }],
       },
-      sorts: [
-        {
-          property: 'Date',
-          direction: 'ascending',
-        },
-      ],
+      sorts: [{
+        property: 'Date',
+        direction: 'ascending',
+      }],
     });
 
     return Promise.all(records.results.map((record) => this.recordToWeek(record)));
