@@ -1,5 +1,5 @@
 import setupExpress from './config/express.js';
-import DateUtils from './data/dateUtils.js';
+import DashboardController from './controllers/dashboardController.js';
 
 class Application {
   constructor(notion) {
@@ -8,12 +8,15 @@ class Application {
     this.setupRoutes();
   }
 
+  static routes() {
+    return new Map([
+      ['/', DashboardController.index],
+    ]);
+  }
+
   setupRoutes() {
-    this.express.get('/', async (_req, res) => {
-      res.render('index', {
-        currentWeek: DateUtils.getThursday(),
-        upcoming: DateUtils.getNextTwoThursdays(),
-      });
+    Application.routes().forEach((handler, route) => {
+      this.express.get(route, handler);
     });
 
     this.express.get('/api/weeks/:date', async (req, res) => {
