@@ -1,8 +1,9 @@
 export default class Week {
-  constructor(id, theme, date) {
+  constructor(id, theme, date, isSkipped = false) {
     this.id = id;
     this.theme = theme;
     this.date = date;
+    this.isSkipped = false;
   }
 
   static fromNotion(record) {
@@ -10,6 +11,7 @@ export default class Week {
       record.id,
       record.properties.Theme.title[0].plain_text,
       new Date(record.properties.Date.date.start),
+      record.properties.Skipped.checkbox,
     );
   }
 
@@ -18,6 +20,7 @@ export default class Week {
       obj.id,
       obj.theme,
       new Date(obj.date),
+      obj.isSkipped,
     );
   }
 
@@ -46,6 +49,7 @@ export default class Week {
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),
+      isSkipped: this.isSkipped,
     };
   }
 }

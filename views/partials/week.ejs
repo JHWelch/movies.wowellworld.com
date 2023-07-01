@@ -7,6 +7,9 @@
     titleSize: function (title) {
       return title.length > 20 ? 'text-xl' : 'text-2xl';
     },
+    weekTitle: function () {
+      return this.week.isSkipped ? 'No movies this week!' : this.week.theme;
+    }
   }"
   x-init="
     week = fetch('/api/weeks/' + thursday)
@@ -33,13 +36,17 @@
 
         <span
           class="text-3xl font-semibold"
-          x-text="week.theme"
+          x-text="weekTitle()"
         ></span>
       </h3>
 
-      <div class="mt-2 space-y-4 sm:space-y-0 sm:flex sm:space-x-2 md:space-x-4">
+      <template x-if="week.isSkipped">
+        <%- include('skipped_banner') %>
+      </template>
+
+      <template x-if="!week.isSkipped">
         <%- include('movies') %>
-      </div>
+      </template>
     </div>
   </template>
 </div>

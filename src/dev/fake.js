@@ -3,6 +3,7 @@ export default {
     {
       date: '2023-05-25',
       id: '012de56a-afb8-4ec0-9c40-839f673kwe1b6e',
+      isSkipped: false,
       movies: [
         {
           director: 'Tony Scott',
@@ -29,6 +30,7 @@ export default {
     {
       date: '2023-06-01',
       id: '012de56a-afb8-4ec0-9c40-839f673e1b6e',
+      isSkipped: false,
       movies: [
         {
           director: 'David Swift',
@@ -58,6 +60,7 @@ export default {
   week1: {
     date: '2023-05-18',
     id: '012de56a-afb8-4ec0-9c40-839f673e1b6e',
+    isSkipped: true,
     movies: [
       {
         director: 'Charles Martin Smith',
@@ -79,6 +82,6 @@ export default {
         year: 2000,
       },
     ],
-    theme: 'The Goodest Boys',
+    theme: 'Hoping Jordan Will survive RAGBRAI',
   },
 };
