@@ -30,9 +30,8 @@ export default class Week {
     });
   }
 
-  setMovies(movie1, movie2) {
-    this.movie1 = movie1;
-    this.movie2 = movie2;
+  setMovies(movies) {
+    this.movies = movies;
 
     return this;
   }
@@ -46,8 +45,7 @@ export default class Week {
       id: this.id,
       theme: this.theme,
       date: this.displayDate(),
-      movie1: this.movie1.toDTO(),
-      movie2: this.movie2.toDTO(),
+      movies: this.movies.map((movie) => movie.toDTO()),
     };
   }
 }

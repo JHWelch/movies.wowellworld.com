@@ -78,9 +78,9 @@ export default class Notion {
 
   async recordToWeek(record) {
     return Week.fromNotion(record)
-      .setMovies(
+      .setMovies([
         await this.getMovie(record.properties['Movie 1'].relation[0].id),
         await this.getMovie(record.properties['Movie 2'].relation[0].id),
-      );
+      ]);
   }
 }
