@@ -28,7 +28,7 @@ export default class Notion {
     });
     const record = records.results[0];
 
-    return this.recordToWeek(record);
+    return record ? this.recordToWeek(record) : null;
   }
 
   async getCurrentWeek() {

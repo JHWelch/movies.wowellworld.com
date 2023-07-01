@@ -17,7 +17,14 @@ class Application {
     });
 
     this.express.get('/api/weeks/:date', async (req, res) => {
-      res.json((await this.notion.getWeek(req.params.date)).toDTO());
+      const week = await this.notion.getWeek(req.params.date);
+
+      if (!week) {
+        res.status(404).json({ error: 'Week not found' });
+        return;
+      }
+
+      res.json(week.toDTO());
     });
   }
 
