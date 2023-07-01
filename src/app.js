@@ -6,7 +6,7 @@ class Application {
   constructor(notion) {
     this.express = setupExpress();
     this.notion = notion;
-    this.setupRoutes();
+    this.registerRoutes();
   }
 
   /**
@@ -20,7 +20,7 @@ class Application {
     ]);
   }
 
-  setupRoutes() {
+  registerRoutes() {
     this.routes().forEach((handler, route) => {
       this.express.get(route, handler);
     });
