@@ -1,5 +1,6 @@
 import setupExpress from './config/express.js';
 import DashboardController from './controllers/dashboardController.js';
+import WeekController from './controllers/weekController.js';
 
 class Application {
   constructor(notion) {
@@ -8,26 +9,20 @@ class Application {
     this.setupRoutes();
   }
 
-  static routes() {
+  /**
+   * This currently only works for GET requests
+   */
+  routes() {
+    const weekController = new WeekController(this.notion);
     return new Map([
       ['/', DashboardController.index],
+      ['/api/weeks/:date', weekController.show.bind(weekController)],
     ]);
   }
 
   setupRoutes() {
-    Application.routes().forEach((handler, route) => {
+    this.routes().forEach((handler, route) => {
       this.express.get(route, handler);
-    });
-
-    this.express.get('/api/weeks/:date', async (req, res) => {
-      const week = await this.notion.getWeek(req.params.date);
-
-      if (!week) {
-        res.status(404).json({ error: 'Week not found' });
-        return;
-      }
-
-      res.json(week.toDTO());
     });
   }
 
