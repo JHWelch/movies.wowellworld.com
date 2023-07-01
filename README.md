@@ -34,6 +34,7 @@ npm run fix
 
 ## Technologies
 - [Express](https://expressjs.com/)
+- [AlpineJS](https://alpinejs.dev/)
 - [Notion JS SDK](https://github.com/makenotion/notion-sdk-js)
 - [Google App Engine](https://cloud.google.com/appengine)
 - [EJS](https://ejs.co/)
