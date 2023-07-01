@@ -1,15 +1,45 @@
-<h3 class="flex flex-col mt-10 mb-5">
-  <span class="text-lg font-light text-violet-700">
-    <%= week.displayDate() %>
-  </span>
+<div
+  x-show="week !== null"
+  x-cloak
+  x-data="{
+    thursday: '<%= week %>',
+    week: null,
+    titleSize: function (title) {
+      return title.length > 20 ? 'text-xl' : 'text-2xl';
+    },
+  }"
+  x-init="
+    week = fetch('/api/weeks/' + thursday)
+      .then(response => {
+        if (!response.ok) {
+          console.error('Error fetching week data: ', response.status, response.statusText);
+          return Promise.resolve(null);
+        }
 
-  <span class="text-3xl font-semibold">
-    <%= week.theme %>
-  </span>
-</h3>
+        return response.json();
+      })
+      .then(data => {
+        week = data;
+      });
+  "
+>
+  <template x-if="week !== null">
+    <div>
+      <h3 class="flex flex-col mt-10 mb-5">
+        <span
+          class="text-lg font-light text-violet-700"
+          x-text="week.date"
+        ></span>
 
-<div class="mt-2 space-y-4 sm:space-y-0 sm:flex sm:space-x-2 md:space-x-4">
-  <%- include('movie', {movie: week.movie1}); %>
+        <span
+          class="text-3xl font-semibold"
+          x-text="week.theme"
+        ></span>
+      </h3>
 
-  <%- include('movie', {movie: week.movie2}); %>
+      <div class="mt-2 space-y-4 sm:space-y-0 sm:flex sm:space-x-2 md:space-x-4">
+        <%- include('movies') %>
+      </div>
+    </div>
+  </template>
 </div>

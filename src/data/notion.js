@@ -16,6 +16,21 @@ export default class Notion {
     return Movie.fromNotion(page);
   }
 
+  async getWeek(date) {
+    const records = await this.notion.databases.query({
+      database_id: process.env.DATABASE_ID,
+      filter: {
+        property: 'Date',
+        date: {
+          equals: date,
+        },
+      },
+    });
+    const record = records.results[0];
+
+    return record ? this.recordToWeek(record) : null;
+  }
+
   async getCurrentWeek() {
     const records = await this.notion.databases.query({
       database_id: process.env.DATABASE_ID,
@@ -63,9 +78,9 @@ export default class Notion {
 
   async recordToWeek(record) {
     return Week.fromNotion(record)
-      .setMovies(
+      .setMovies([
         await this.getMovie(record.properties['Movie 1'].relation[0].id),
         await this.getMovie(record.properties['Movie 2'].relation[0].id),
-      );
+      ]);
   }
 }

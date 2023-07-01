@@ -30,14 +30,22 @@ export default class Week {
     });
   }
 
-  setMovies(movie1, movie2) {
-    this.movie1 = movie1;
-    this.movie2 = movie2;
+  setMovies(movies) {
+    this.movies = movies;
 
     return this;
   }
 
   toString() {
     return `${this.theme}`;
+  }
+
+  toDTO() {
+    return {
+      id: this.id,
+      theme: this.theme,
+      date: this.displayDate(),
+      movies: this.movies.map((movie) => movie.toDTO()),
+    };
   }
 }

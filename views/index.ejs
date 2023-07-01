@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +11,9 @@
   <link rel="stylesheet" href="/public/app.css">
 
   <link rel="icon" href="https://fav.farm/🎥" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
+
 <body class="flex justify-center bg-slate-100">
   <div class="flex flex-col justify-center w-full align-middle bg-slate-100">
     <div class="flex justify-center w-full">
@@ -31,15 +34,23 @@
           </h2>
 
           <p>
-            For every week that we are in town, we are opening Wowell World Studios to you to enjoy an evening of laughs, tears, screams, and likely many groans. Every Thursday, starting ~5:30 PM, we’re gonna be watching movies. First, we’ll show something campy, weird, and likely Not Good Cinema. And then, it’s on to the main attraction, which will range from high brow to low brow and anything in between. You are welcome to arrive during the first movie at any point, but just as Hitchcock would intend, once the movie has started we gotta be butts in seats and lights out! Just kidding - but please be kind, rewind, and try to arrive on time.
+            For every week that we are in town, we are opening Wowell World Studios to you to enjoy an evening of
+            laughs, tears, screams, and likely many groans. Every Thursday, starting ~5:30 PM, we’re gonna be watching
+            movies. First, we’ll show something campy, weird, and likely Not Good Cinema. And then, it’s on to the main
+            attraction, which will range from high brow to low brow and anything in between. You are welcome to arrive
+            during the first movie at any point, but just as Hitchcock would intend, once the movie has started we gotta
+            be butts in seats and lights out! Just kidding - but please be kind, rewind, and try to arrive on time.
           </p>
 
           <p class="font-semibold text-violet-600">
-            To RSVP, just accept the calendar invite for that week! If you don’t use something compatible with Google Calendar… who are you?
+            To RSVP, just accept the calendar invite for that week! If you don’t use something compatible with Google
+            Calendar… who are you?
           </p>
 
           <p>
-            From time to time, we’ll have some field trips to special showings at theaters in our neighborhood. We are in one of the best spots in the city for movie lovers, with The Music Box Theatre and Alamo Drafthouse/Video Vortex within walking distance. And there’s food over this way!
+            From time to time, we’ll have some field trips to special showings at theaters in our neighborhood. We are
+            in one of the best spots in the city for movie lovers, with The Music Box Theatre and Alamo Drafthouse/Video
+            Vortex within walking distance. And there’s food over this way!
           </p>
         </div>
 
@@ -50,7 +61,7 @@
         <%- include('partials/section_title', { text: 'Coming Attractions' }); %>
 
         <% upcoming.forEach(function(week) { %>
-          <%- include('partials/week', { week }); %>
+        <%- include('partials/week', { week }); %>
         <% }); %>
       </div>
     </div>
@@ -60,4 +71,5 @@
     </div>
   </div>
 </body>
+
 </html>

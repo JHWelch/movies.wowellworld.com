@@ -1,5 +1,5 @@
 import setupExpress from './config/express.js';
-import renderFake from './dev/renderFake.js';
+import DateUtils from './data/dateUtils.js';
 
 class Application {
   constructor(notion) {
@@ -9,17 +9,22 @@ class Application {
   }
 
   setupRoutes() {
-    this.express.get('/', async (req, res) => {
-      if (process.env.NODE_ENV === 'development') {
-        renderFake(res);
+    this.express.get('/', async (_req, res) => {
+      res.render('index', {
+        currentWeek: DateUtils.getThursday(),
+        upcoming: DateUtils.getNextTwoThursdays(),
+      });
+    });
 
+    this.express.get('/api/weeks/:date', async (req, res) => {
+      const week = await this.notion.getWeek(req.params.date);
+
+      if (!week) {
+        res.status(404).json({ error: 'Week not found' });
         return;
       }
 
-      const currentWeek = await this.notion.getCurrentWeek();
-      const upcoming = await this.notion.getUpcomingWeeks();
-
-      res.render('index', { currentWeek, upcoming });
+      res.json(week.toDTO());
     });
   }
 
