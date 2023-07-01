@@ -69,8 +69,18 @@ export default class Notion {
   async recordToWeek(record) {
     return Week.fromNotion(record)
       .setMovies([
-        await this.getMovie(record.properties['Movie 1'].relation[0].id),
-        await this.getMovie(record.properties['Movie 2'].relation[0].id),
-      ]);
+        await this.movieOrNull(record, 'Movie 1'),
+        await this.movieOrNull(record, 'Movie 2'),
+      ].filter((movie) => movie !== null));
+  }
+
+  async movieOrNull(record, movie) {
+    const relation = record.properties[movie].relation[0];
+
+    if (!relation) {
+      return null;
+    }
+
+    return this.getMovie(record.properties[movie].relation[0].id);
   }
 }
