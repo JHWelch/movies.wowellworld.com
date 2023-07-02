@@ -1,4 +1,11 @@
 export default class DateUtils {
+  static today() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return DateUtils.dateToString(today);
+  }
+
   static getThursdayDate() {
     const today = new Date();
 
@@ -12,15 +19,19 @@ export default class DateUtils {
   }
 
   static getThursday() {
-    return this.getThursdayDate().toISOString().substring(0, 10);
+    return DateUtils.dateToString(this.getThursdayDate());
   }
 
   static getNextTwoThursdays() {
     const thursday = this.getThursdayDate();
 
     return [
-      new Date(thursday.setDate(thursday.getDate() + 7)).toISOString().substring(0, 10),
-      new Date(thursday.setDate(thursday.getDate() + 7)).toISOString().substring(0, 10),
+      this.dateToString(new Date(thursday.setDate(thursday.getDate() + 7))),
+      this.dateToString(new Date(thursday.setDate(thursday.getDate() + 7))),
     ];
+  }
+
+  static dateToString(date) {
+    return date.toISOString().substring(0, 10);
   }
 }

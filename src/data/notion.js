@@ -29,33 +29,13 @@ export default class Notion {
     return record ? this.recordToWeek(record) : null;
   }
 
-  async getCurrentWeek() {
+  async getUpcomingWeeks() {
     const records = await this.notion.databases.query({
       database_id: process.env.DATABASE_ID,
+      page_size: 10,
       filter: {
         property: 'Date',
-        date: { equals: DateUtils.getThursday() },
-      },
-    });
-
-    const record = records.results[0];
-
-    return this.recordToWeek(record);
-  }
-
-  async getUpcomingWeeks() {
-    const [from, to] = DateUtils.getNextTwoThursdays();
-    const records = await this.notion.databases.query({
-      database_id: process.env.DATABASE_ID,
-      filter: {
-        and: [{
-          property: 'Date',
-          date: { on_or_after: from },
-        },
-        {
-          property: 'Date',
-          date: { on_or_before: to },
-        }],
+        date: { on_or_after: DateUtils.today() },
       },
       sorts: [{
         property: 'Date',

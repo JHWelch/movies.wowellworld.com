@@ -14,8 +14,10 @@ class Application {
    */
   routes() {
     const weekController = new WeekController(this.notion);
+
     return new Map([
       ['/', DashboardController.index],
+      ['/api/weeks', weekController.index.bind(weekController)],
       ['/api/weeks/:date', weekController.show.bind(weekController)],
     ]);
   }
