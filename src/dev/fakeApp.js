@@ -1,4 +1,4 @@
-import Application from '../app.js';
+import Application from '../application.js';
 import FakeWeekController from './fakeWeekController.js';
 
 class FakeApplication extends Application {

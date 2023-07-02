@@ -1,59 +1,21 @@
-<div
-  x-show="week !== null"
-  x-cloak
-  x-data="{
-    thursday: '<%= week %>',
-    week: null,
-    loading: true,
-    titleSize: function (title) {
-      return title.length > 20 ? 'text-xl' : 'text-2xl';
-    },
-    weekTitle: function () {
-      return this.week.isSkipped ? 'No movies this week!' : this.week.theme;
-    },
-  }"
-  x-init="
-    loading = true;
-    week = fetch('/api/weeks/' + thursday)
-      .then(response => {
-        if (!response.ok) {
-          console.error('Error fetching week data: ', response.status, response.statusText);
-          return Promise.resolve(null);
-        }
+<div>
+  <h3 class="flex flex-col mt-10 mb-5">
+    <span
+      class="text-lg font-light text-violet-700"
+      x-text="week.date"
+    ></span>
 
-        return response.json();
-      })
-      .then(data => {
-        week = data;
-        loading = false;
-      });
-  "
->
-  <template x-if="loading">
-    <%- include('loading') %>
+    <span
+      class="text-3xl font-semibold"
+      x-text="weekTitle(week)"
+    ></span>
+  </h3>
+
+  <template x-if="week.isSkipped">
+    <%- include('skipped_banner') %>
   </template>
 
-  <template x-if="week !== null">
-    <div>
-      <h3 class="flex flex-col mt-10 mb-5">
-        <span
-          class="text-lg font-light text-violet-700"
-          x-text="week.date"
-        ></span>
-
-        <span
-          class="text-3xl font-semibold"
-          x-text="weekTitle()"
-        ></span>
-      </h3>
-
-      <template x-if="week.isSkipped">
-        <%- include('skipped_banner') %>
-      </template>
-
-      <template x-if="!week.isSkipped">
-        <%- include('movies') %>
-      </template>
-    </div>
+  <template x-if="!week.isSkipped">
+    <%- include('movies') %>
   </template>
 </div>

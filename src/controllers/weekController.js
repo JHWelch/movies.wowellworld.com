@@ -3,6 +3,12 @@ class WeekController {
     this.notion = notion;
   }
 
+  async index(_req, res) {
+    const weeks = await this.notion.getUpcomingWeeks();
+
+    res.json(weeks.map((week) => week.toDTO()));
+  }
+
   async show(req, res) {
     const week = await this.notion.getWeek(req.params.date);
 
