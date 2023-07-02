@@ -59,6 +59,9 @@
         x-data="{
             weeks: [],
             loading: true,
+            movieSizeClass: function (week, max) {
+              return 'w-1/' + Math.min(week.movies.length, max);
+            },
             titleSize: function (title) {
               return title.length > 20 ? 'text-xl' : 'text-2xl';
             },
