@@ -54,15 +54,42 @@
           </p>
         </div>
 
-        <%- include('partials/section_title', { text: 'Now Playing' }); %>
+        <div
+          x-data="{
+            weeks: [],
+            loading: true,
+            titleSize: function (title) {
+              return title.length > 20 ? 'text-xl' : 'text-2xl';
+            },
+            weekTitle: function (week) {
+              return week.isSkipped ? 'No movies this week!' : week.theme;
+            },
+          }"
+          x-init="
+            loading = true;
+            weeks = fetch('/api/weeks/')
+              .then(response => {
+                if (!response.ok) {
+                  console.error('Error fetching week data: ', response.status, response.statusText);
+                  return Promise.resolve(null);
+                }
 
-        <%- include('partials/week', { week: currentWeek }); %>
+                return response.json();
+              })
+              .then(data => {
+                weeks = data;
+                loading = false;
+              });
+          "
+        >
+          <template x-if="loading">
+            <%- include('partials/loading') %>
+          </template>
 
-        <%- include('partials/section_title', { text: 'Coming Attractions' }); %>
-
-        <% upcoming.forEach(function(week) { %>
-        <%- include('partials/week', { week }); %>
-        <% }); %>
+          <template x-for="week in weeks">
+            <%- include('partials/week'); %>
+          </template>
+        </div>
       </div>
     </div>
 
