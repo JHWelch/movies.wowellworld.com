@@ -4,14 +4,16 @@
   x-data="{
     thursday: '<%= week %>',
     week: null,
+    loading: true,
     titleSize: function (title) {
       return title.length > 20 ? 'text-xl' : 'text-2xl';
     },
     weekTitle: function () {
       return this.week.isSkipped ? 'No movies this week!' : this.week.theme;
-    }
+    },
   }"
   x-init="
+    loading = true;
     week = fetch('/api/weeks/' + thursday)
       .then(response => {
         if (!response.ok) {
@@ -23,9 +25,14 @@
       })
       .then(data => {
         week = data;
+        loading = false;
       });
   "
 >
+  <template x-if="loading">
+    <%- include('loading') %>
+  </template>
+
   <template x-if="week !== null">
     <div>
       <h3 class="flex flex-col mt-10 mb-5">
