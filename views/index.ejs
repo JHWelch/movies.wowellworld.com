@@ -86,7 +86,7 @@
             <%- include('partials/loading') %>
           </template>
 
-          <template x-for="week in weeks">
+          <template x-for="[id, week] in Object.entries(weeks)">
             <%- include('partials/week'); %>
           </template>
         </div>
