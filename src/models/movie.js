@@ -54,7 +54,9 @@ export default class Movie {
   }
 
   displayLength() {
-    return `${Math.floor(this.length / 60)}h ${this.length % 60}m`;
+    return this.length > 59
+      ? `${Math.floor(this.length / 60)}h ${this.length % 60}m`
+      : `${this.length}m`;
   }
 
   toString() {
