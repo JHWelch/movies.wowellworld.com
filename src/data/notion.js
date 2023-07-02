@@ -48,7 +48,7 @@ export default class Notion {
 
   async recordToWeek(record) {
     const movies = await Promise.all(
-      record.properties['Movie 1'].relation
+      record.properties.Movies.relation
         .map((relation) => this.getMovie(relation.id)),
     );
 
