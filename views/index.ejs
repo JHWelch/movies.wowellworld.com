@@ -62,10 +62,10 @@
             movieSizeClass: function (week, max) {
               return 'w-1/' + Math.min(week.movies.length, max);
             },
-            titleSize: function (title) {
-              return title.length > 20 ? 'text-xl' : 'text-2xl';
+            titleSize: (movie) => {
+              return movie.title.length > 20 ? 'text-xl' : 'text-2xl';
             },
-            weekTitle: function (week) {
+            weekTitle: (week) => {
               return week.isSkipped ? 'No movies this week!' : week.theme;
             },
           }"
