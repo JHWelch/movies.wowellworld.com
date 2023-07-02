@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import Application from './app.js';
+import Application from './application.js';
 import FakeApplication from './dev/fakeApp.js';
 import Notion from './data/notion.js';
 
