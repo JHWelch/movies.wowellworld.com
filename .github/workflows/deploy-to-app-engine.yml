@@ -1,0 +1,44 @@
+name: Deploy to App Engine
+on:
+  pull_request:
+    types:
+    - closed
+    branches:
+    - main
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Place .env file
+      run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
+
+    - name: Install Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.15.0'
+        cache: npm
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+
+    - name: Auth with Google
+      uses: google-github-actions/auth@v1
+      with:
+        workload_identity_provider: ${{ secrets.GOOGLE_WORKFLOW_IDENTITY_PROVIDER }}
+        service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+
+    - name: Deploy to Google
+      uses: google-github-actions/deploy-appengine@v1
