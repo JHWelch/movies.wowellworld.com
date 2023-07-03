@@ -5,8 +5,11 @@ import Notion from './data/notion.js';
 
 dotenv.config();
 
-const app = process.env.NODE_ENV === 'development'
-  ? new FakeApplication()
-  : new Application(new Notion());
+console.log(process.env.NODE_ENV);
+console.log(process.env.CALENDAR_URL);
 
-app.listen();
+// const app = process.env.NODE_ENV === 'development'
+//   ? new FakeApplication()
+//   : new Application(new Notion());
+
+// app.listen();
