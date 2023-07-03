@@ -59,35 +59,43 @@
         x-data="{
             weeks: [],
             loading: true,
+            error: false,
             movieSizeClass: function (week, max) {
               return 'w-1/' + Math.min(week.movies.length, max);
             },
-            titleSize: (movie) => {
+            titleSize: function (movie) {
               return movie.title.length > 20 ? 'text-xl' : 'text-2xl';
             },
-            weekTitle: (week) => {
+            weekTitle: function (week) {
               return week.isSkipped ? 'No movies this week!' : week.theme;
             },
-          }"
-          x-init="
-            loading = true;
-            weeks = fetch('/api/weeks/')
-              .then(response => {
-                if (!response.ok) {
-                  console.error('Error fetching week data: ', response.status, response.statusText);
-                  return Promise.resolve(null);
-                }
+            reload: function () {
+              this.loading = true;
+              this.error = false;
+              this.weeks = fetch('/api/weeks/')
+                .then(response => {
+                  if (!response.ok) {
+                    console.error('Error fetching week data: ', response.status, response.statusText);
+                    this.error = true;
+                    return Promise.resolve([]);
+                  }
 
-                return response.json();
-              })
-              .then(data => {
-                weeks = data;
-                loading = false;
-              });
-          "
+                  return response.json();
+                })
+                .then(data => {
+                  this.weeks = data;
+                  this.loading = false;
+                });
+            }
+          }"
+          x-init="reload()"
       >
         <template x-if="loading">
           <%- include('partials/loading') %>
+        </template>
+
+        <template x-if="error">
+          <%- include('partials/error') %>
         </template>
 
         <template x-for="[index, week] in Object.entries(weeks)">
