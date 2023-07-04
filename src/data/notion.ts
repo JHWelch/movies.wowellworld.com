@@ -1,7 +1,7 @@
 import { Client } from '@notionhq/client'
-import Movie from '../models/movie.js'
-import Week from '../models/week.js'
-import DateUtils from './dateUtils.js'
+import Movie from '../models/movie'
+import Week from '../models/week'
+import DateUtils from './dateUtils'
 
 export default class Notion {
   constructor () {

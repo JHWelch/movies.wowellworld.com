@@ -1,5 +1,5 @@
-import Application from '../application.js'
-import FakeWeekController from './fakeWeekController.js'
+import Application from '../application'
+import FakeWeekController from './fakeWeekController'
 
 class FakeApplication extends Application {
   routes () {

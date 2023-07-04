@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
-import Application from './application.js'
-import FakeApplication from './dev/fakeApp.js'
-import Notion from './data/notion.js'
+import Application from './application'
+import FakeApplication from './dev/fakeApp'
+import Notion from './data/notion'
 
 dotenv.config()
 

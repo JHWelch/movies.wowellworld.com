@@ -1,6 +1,6 @@
-import setupExpress from './config/express.js'
-import DashboardController from './controllers/dashboardController.js'
-import WeekController from './controllers/weekController.js'
+import setupExpress from './config/express'
+import DashboardController from './controllers/dashboardController'
+import WeekController from './controllers/weekController'
 
 class Application {
   constructor (notion) {

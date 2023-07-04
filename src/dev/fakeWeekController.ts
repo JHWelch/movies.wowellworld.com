@@ -1,4 +1,4 @@
-import fake from './fake.js'
+import fake from './fake'
 
 class FakeWeekController {
   static async show (_req, res) {
