@@ -14,7 +14,7 @@
     "start-ts": "ts-node --esm src/index.ts",
     "test": "jest",
     "watch": "concurrently \"npm run watch-express\" \"npm run watch-tailwind\"",
-    "watch-express": "nodemon npm start-ts",
+    "watch-express": "nodemon src/index.ts",
     "watch-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --watch"
   },
   "keywords": [
@@ -24,7 +24,10 @@
   "author": "Jordan Welch",
   "license": "MIT",
   "nodemonConfig": {
-    "ext": "js,ejs"
+    "ext": "ts,ejs",
+    "execMap": {
+      "ts": "ts-node --esm"
+    }
   },
   "dependencies": {
     "@notionhq/client": "^2.2.5",
