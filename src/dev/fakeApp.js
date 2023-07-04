@@ -1,15 +1,15 @@
-import Application from '../application.js';
-import FakeWeekController from './fakeWeekController.js';
+import Application from '../application.js'
+import FakeWeekController from './fakeWeekController.js'
 
 class FakeApplication extends Application {
-  routes() {
-    const routes = super.routes();
+  routes () {
+    const routes = super.routes()
     const fakeRoutes = new Map([
-      ['/api/weeks/:date', FakeWeekController.show],
-    ]);
+      ['/api/weeks/:date', FakeWeekController.show]
+    ])
 
-    return new Map([...routes, ...fakeRoutes]);
+    return new Map([...routes, ...fakeRoutes])
   }
 }
 
-export default FakeApplication;
+export default FakeApplication

@@ -1,7 +1,7 @@
 class DashboardController {
-  static async index(_req, res) {
-    res.render('index');
+  static async index (_req, res) {
+    res.render('index')
   }
 }
 
-export default DashboardController;
+export default DashboardController

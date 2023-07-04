@@ -1,12 +1,12 @@
 export default class DateUtils {
-  static today() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  static today () {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
-    return DateUtils.dateToString(today);
+    return DateUtils.dateToString(today)
   }
 
-  static dateToString(date) {
-    return date.toISOString().substring(0, 10);
+  static dateToString (date) {
+    return date.toISOString().substring(0, 10)
   }
 }

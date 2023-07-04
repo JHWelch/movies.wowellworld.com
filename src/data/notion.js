@@ -1,67 +1,67 @@
-import { Client } from '@notionhq/client';
-import Movie from '../models/movie.js';
-import Week from '../models/week.js';
-import DateUtils from './dateUtils.js';
+import { Client } from '@notionhq/client'
+import Movie from '../models/movie.js'
+import Week from '../models/week.js'
+import DateUtils from './dateUtils.js'
 
 export default class Notion {
-  constructor() {
+  constructor () {
     this.notion = new Client({
-      auth: process.env.NOTION_TOKEN,
-    });
+      auth: process.env.NOTION_TOKEN
+    })
   }
 
-  async getMovie(id) {
-    const page = await this.notion.pages.retrieve({ page_id: id });
+  async getMovie (id) {
+    const page = await this.notion.pages.retrieve({ page_id: id })
 
-    return Movie.fromNotion(page);
+    return Movie.fromNotion(page)
   }
 
-  async getWeek(date) {
+  async getWeek (date) {
     const records = await this.notion.databases.query({
       database_id: process.env.DATABASE_ID,
       filter: {
         property: 'Date',
-        date: { equals: date },
-      },
-    });
-    const record = records.results[0];
+        date: { equals: date }
+      }
+    })
+    const record = records.results[0]
 
-    return record ? this.recordToWeek(record) : null;
+    return record ? await this.recordToWeek(record) : null
   }
 
-  async getUpcomingWeeks() {
+  async getUpcomingWeeks () {
     const records = await this.notion.databases.query({
       database_id: process.env.DATABASE_ID,
       page_size: 10,
       filter: {
         property: 'Date',
-        date: { on_or_after: DateUtils.today() },
+        date: { on_or_after: DateUtils.today() }
       },
       sorts: [{
         property: 'Date',
-        direction: 'ascending',
-      }],
-    });
+        direction: 'ascending'
+      }]
+    })
 
-    return Promise.all(records.results.map((record) => this.recordToWeek(record)));
+    return await Promise.all(records.results.map(async (record) => await this.recordToWeek(record)))
   }
 
-  async recordToWeek(record) {
+  async recordToWeek (record) {
     const movies = await Promise.all(
       record.properties.Movies.relation
-        .map((relation) => this.getMovie(relation.id)),
-    );
+        .map(async (relation) => await this.getMovie(relation.id))
+    )
 
-    return Week.fromNotion(record).setMovies(movies);
+    return Week.fromNotion(record).setMovies(movies)
   }
 
-  async movieOrNull(record, movie) {
-    const relation = record.properties[movie].relation[0];
+  async movieOrNull (record, movie) {
+    const relation = record.properties[movie].relation[0]
 
     if (!relation) {
-      return null;
+      return null
     }
 
-    return this.getMovie(record.properties[movie].relation[0].id);
+    return await this.getMovie(record.properties[movie].relation[0].id)
   }
 }

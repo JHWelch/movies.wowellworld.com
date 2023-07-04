@@ -1,9 +1,9 @@
-import fake from './fake.js';
+import fake from './fake.js'
 
 class FakeWeekController {
-  static async show(_req, res) {
-    res.json(fake.week1);
+  static async show (_req, res) {
+    res.json(fake.week1)
   }
 }
 
-export default FakeWeekController;
+export default FakeWeekController
