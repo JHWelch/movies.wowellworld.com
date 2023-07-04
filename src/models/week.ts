@@ -1,12 +1,21 @@
+import type Movie from './movie'
+
 export default class Week {
+  id: string
+  theme: string
+  date: Date
+  movies: Movie[]
+  isSkipped: boolean
+
   constructor (id, theme, date, isSkipped = false) {
     this.id = id
     this.theme = theme
     this.date = date
     this.isSkipped = isSkipped
+    this.movies = []
   }
 
-  static fromNotion (record) {
+  static fromNotion (record): Week {
     return new Week(
       record.id,
       record.properties.Theme.title[0].plain_text,
@@ -15,7 +24,7 @@ export default class Week {
     )
   }
 
-  static fromObject (obj) {
+  static fromObject (obj): Week {
     return new Week(
       obj.id,
       obj.theme,
@@ -24,7 +33,7 @@ export default class Week {
     )
   }
 
-  displayDate () {
+  displayDate (): string {
     return this.date.toLocaleDateString('en-US', {
       timeZone: 'UTC',
       weekday: 'long',
@@ -33,17 +42,17 @@ export default class Week {
     })
   }
 
-  setMovies (movies) {
+  setMovies (movies): Week {
     this.movies = movies
 
     return this
   }
 
-  toString () {
+  toString (): string {
     return `${this.theme}`
   }
 
-  toDTO () {
+  toDTO (): object {
     return {
       id: this.id,
       theme: this.theme,

@@ -1,4 +1,14 @@
 export default class Movie {
+  id: string
+  title: string
+  director: string
+  year: number
+  length: number
+  imdbUrl: string
+  posterUrl: string
+  theaterName: string | null
+  showingUrl: string | null
+
   constructor (
     id,
     title,
@@ -21,7 +31,7 @@ export default class Movie {
     this.showingUrl = showingUrl
   }
 
-  static fromNotion (movie) {
+  static fromNotion (movie): Movie {
     return new Movie(
       movie.id,
       movie.properties.Title?.title[0]?.plain_text,
@@ -35,7 +45,7 @@ export default class Movie {
     )
   }
 
-  static fromObject (obj) {
+  static fromObject (obj): Movie {
     return new Movie(
       obj.id,
       obj.title,
@@ -49,21 +59,21 @@ export default class Movie {
     )
   }
 
-  isFieldTrip () {
+  isFieldTrip (): boolean {
     return this.theaterName !== null && this.showingUrl !== null
   }
 
-  displayLength () {
+  displayLength (): string {
     return this.length > 59
       ? `${Math.floor(this.length / 60)}h ${this.length % 60}m`
       : `${this.length}m`
   }
 
-  toString () {
+  toString (): string {
     return `${this.title} (${this.year})`
   }
 
-  toDTO () {
+  toDTO (): object {
     return {
       id: this.id,
       title: this.title,
