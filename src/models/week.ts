@@ -38,7 +38,7 @@ export default class Week {
       timeZone: 'UTC',
       weekday: 'long',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -58,7 +58,7 @@ export default class Week {
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),
-      isSkipped: this.isSkipped
+      isSkipped: this.isSkipped,
     }
   }
 }

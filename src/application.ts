@@ -23,7 +23,7 @@ class Application {
     return new Map([
       ['/', DashboardController.index],
       ['/api/weeks', weekController.index.bind(weekController)],
-      ['/api/weeks/:date', weekController.show.bind(weekController)]
+      ['/api/weeks/:date', weekController.show.bind(weekController)],
     ])
   }
 

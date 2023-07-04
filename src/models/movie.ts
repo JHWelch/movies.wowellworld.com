@@ -35,7 +35,7 @@ export default class Movie {
   }
 
   static fromNotion (movie: PageObjectResponse): Movie {
-    const properties = movie.properties as unknown as MovieProperties;
+    const properties = movie.properties as unknown as MovieProperties
 
     return new Movie(
       movie.id,
@@ -76,7 +76,7 @@ export default class Movie {
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
-      displayLength: this.displayLength()
+      displayLength: this.displayLength(),
     }
   }
 }

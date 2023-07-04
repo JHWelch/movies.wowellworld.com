@@ -5,9 +5,13 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    'comma-dangle': ['error', 'always-multiline'],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    indent: ['error', 2],
     quotes: ['error', 'single'],
-  }
+    semi: ['error', 'never'],
+  },
 };
