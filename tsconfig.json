@@ -7,8 +7,6 @@
     "strict": true,
     "noImplicitAny": false,
     "strictNullChecks": true,
-    "checkJs": true,
-    "allowJs": true,
     "moduleResolution": "node",
     "types": [
       "node"
@@ -23,7 +21,6 @@
 },
   "include": [
     "src/**/*.ts",
-    "src/**/*.js"
   ],
   "exclude": [
     "node_modules",
