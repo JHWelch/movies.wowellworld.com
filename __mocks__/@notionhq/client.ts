@@ -50,5 +50,6 @@ module.exports = {
       },
     }
   }),
-  isFullPage: jest.fn(() => true),
+
+  isFullPage: jest.fn(),
 }

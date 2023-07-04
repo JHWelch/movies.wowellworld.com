@@ -3,6 +3,9 @@ import Notion from '../../src/data/notion'
 
 jest.mock('@notionhq/client')
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const notionMock = require('@notionhq/client')
+
 beforeEach(() => {
   jest.clearAllMocks()
 })
@@ -57,6 +60,10 @@ describe('notion', () => {
     })
 
     describe('when the movie exists', () => {
+      beforeEach(() => {
+        notionMock.isFullPage.mockReturnValue(true)
+      })
+
       it('should return the movie', async () => {
         const notion = new Notion()
         const movie = await notion.getMovie('movieId')
@@ -75,13 +82,17 @@ describe('notion', () => {
       })
     })
 
-    // describe('when the movie does not exist', () => {
-    //   it('should return null', async () => {
-    //     const notion = new Notion()
-    //     const movie = await notion.getMovie('invalidMovieId')
+    describe('returns not full page', () => {
+      beforeEach(() => {
+        notionMock.isFullPage.mockReturnValue(false)
+      })
 
-    //     expect(movie).toBeNull()
-    //   })
-    // })
+      it('should throw an error', async () => {
+        const notion = new Notion()
+
+        await expect(notion.getMovie('movieId'))
+          .rejects.toThrowError('Page was not successfully retrieved')
+      })
+    })
   })
 })
