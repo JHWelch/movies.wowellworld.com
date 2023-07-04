@@ -1,3 +1,6 @@
+import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type MovieProperties from '../types/movieProperties'
+
 export default class Movie {
   id: string
   title: string
@@ -10,15 +13,15 @@ export default class Movie {
   showingUrl: string | null
 
   constructor (
-    id,
-    title,
-    director,
-    year,
-    length,
-    imdbUrl,
-    posterUrl,
-    theaterName = null,
-    showingUrl = null
+    id: string,
+    title: string,
+    director: string,
+    year: number,
+    length: number,
+    imdbUrl: string,
+    posterUrl: string,
+    theaterName: string | null = null,
+    showingUrl: string | null = null
   ) {
     this.id = id
     this.title = title
@@ -31,31 +34,19 @@ export default class Movie {
     this.showingUrl = showingUrl
   }
 
-  static fromNotion (movie): Movie {
+  static fromNotion (movie: PageObjectResponse): Movie {
+    const properties = movie.properties as unknown as MovieProperties;
+
     return new Movie(
       movie.id,
-      movie.properties.Title?.title[0]?.plain_text,
-      movie.properties.Director?.rich_text[0]?.plain_text,
-      movie.properties.Year?.number,
-      movie.properties['Length (mins)']?.number,
-      movie.properties.IMDb?.url,
-      movie.properties.Poster?.url,
-      movie.properties['Theater Name']?.rich_text[0]?.plain_text,
-      movie.properties['Showing URL']?.url
-    )
-  }
-
-  static fromObject (obj): Movie {
-    return new Movie(
-      obj.id,
-      obj.title,
-      obj.director,
-      obj.year,
-      obj.length,
-      obj.imdbUrl,
-      obj.posterUrl,
-      obj.theaterName,
-      obj.showingUrl
+      properties.Title?.title[0]?.plain_text,
+      properties.Director?.rich_text[0]?.plain_text,
+      properties.Year?.number,
+      properties['Length (mins)']?.number,
+      properties.IMDb?.url,
+      properties.Poster?.url,
+      properties['Theater Name']?.rich_text[0]?.plain_text,
+      properties['Showing URL']?.url
     )
   }
 
