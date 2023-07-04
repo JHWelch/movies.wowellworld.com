@@ -19,12 +19,8 @@ describe('notion', () => {
         }
       })
 
-      it('should set the database id', () => {
-        expect(new Notion()._databaseId).toEqual('DATABASE_ID')
-      })
-
-      it('should set the notion client', () => {
-        expect(new Notion().notion).toBeDefined()
+      it('should be created successfully', () => {
+        expect(() => new Notion()).not.toThrow()
       })
     })
 
@@ -50,6 +46,40 @@ describe('notion', () => {
 
       it('should throw an error', () => {
         expect(() => new Notion()).toThrowError('Missing DATABASE_ID environment variable')
+      })
+    })
+  })
+
+  describe('getMovie', () => {
+    beforeEach(() => {
+      process.env = {
+        NOTION_TOKEN: 'NOTION_TOKEN',
+        DATABASE_ID: 'DATABASE_ID',
+      }
+    })
+
+    describe('when the movie exists', () => {
+      it('should return the movie', async () => {
+        const notion = new Notion()
+        const movie = await notion.getMovie('movieId')
+
+        expect(movie).toEqual({
+          id: 'movieId',
+          title: 'movieTitle',
+          year: 'movieYear',
+          tmdbId: 'movieTmdbId',
+          poster: 'moviePoster',
+          watched: false,
+        })
+      })
+    })
+
+    describe('when the movie does not exist', () => {
+      it('should return null', async () => {
+        const notion = new Notion()
+        const movie = await notion.getMovie('invalidMovieId')
+
+        expect(movie).toBeNull()
       })
     })
   })

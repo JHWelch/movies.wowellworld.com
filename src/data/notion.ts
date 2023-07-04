@@ -6,19 +6,19 @@ import { type PageObjectResponse, type PartialPageObjectResponse } from '@notion
 import type WeekProperties from '../types/weekProperties.js'
 
 export default class Notion {
-  notion: Client
-  _databaseId: string
+  #notion: Client
+  #databaseId: string
 
   constructor () {
     const { NOTION_TOKEN, DATABASE_ID } = this._envVariables()
-    this._databaseId = DATABASE_ID
-    this.notion = new Client({
+    this.#databaseId = DATABASE_ID
+    this.#notion = new Client({
       auth: NOTION_TOKEN,
     })
   }
 
   async getMovie (id: string): Promise<Movie> {
-    const page = await this.notion.pages.retrieve({ page_id: id })
+    const page = await this.#notion.pages.retrieve({ page_id: id })
     if (!isFullPage(page)) {
       throw new Error('Page was not successfully retrieved')
     }
@@ -27,8 +27,8 @@ export default class Notion {
   }
 
   async getWeek (date: string): Promise<Week | null> {
-    const records = await this.notion.databases.query({
-      database_id: this._databaseId,
+    const records = await this.#notion.databases.query({
+      database_id: this.#databaseId,
       filter: {
         property: 'Date',
         date: { equals: date },
@@ -40,8 +40,8 @@ export default class Notion {
   }
 
   async getUpcomingWeeks (): Promise<Week[]> {
-    const records = await this.notion.databases.query({
-      database_id: this._databaseId,
+    const records = await this.#notion.databases.query({
+      database_id: this.#databaseId,
       page_size: 10,
       filter: {
         property: 'Date',
