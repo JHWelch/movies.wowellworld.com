@@ -10,10 +10,11 @@
     "build": "npm run build-ts && npm run build-tailwind",
     "lint": "eslint",
     "fix": "eslint --fix",
-    "start": "ts-node --esm src/index.ts",
+    "start": "node built/index.js",
+    "start-ts": "ts-node --esm src/index.ts",
     "test": "jest",
     "watch": "concurrently \"npm run watch-express\" \"npm run watch-tailwind\"",
-    "watch-express": "nodemon npm start",
+    "watch-express": "nodemon npm start-ts",
     "watch-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --watch"
   },
   "keywords": [
