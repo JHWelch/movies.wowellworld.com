@@ -5,16 +5,16 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build-ts": "tsc",
-    "build-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --minify",
     "build": "npm run build-ts && npm run build-tailwind",
-    "lint": "eslint",
-    "fix": "eslint --fix",
     "start": "node built/index.js",
-    "start-ts": "ts-node --esm src/index.ts",
+    "build-ts": "tsc",
+    "start-ts": "ts-node src/index.ts",
+    "build-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --minify",
+    "lint": "eslint . --ext .ts",
+    "fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "watch": "concurrently \"npm run watch-express\" \"npm run watch-tailwind\"",
-    "watch-express": "nodemon npm start-ts",
+    "watch-express": "nodemon src/index.ts",
     "watch-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --watch"
   },
   "keywords": [
@@ -24,7 +24,10 @@
   "author": "Jordan Welch",
   "license": "MIT",
   "nodemonConfig": {
-    "ext": "js,ejs"
+    "ext": "ts,ejs",
+    "execMap": {
+      "ts": "ts-node --esm"
+    }
   },
   "dependencies": {
     "@notionhq/client": "^2.2.5",

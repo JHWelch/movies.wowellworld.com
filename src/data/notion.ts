@@ -13,7 +13,7 @@ export default class Notion {
     const { NOTION_TOKEN, DATABASE_ID } = this._envVariables()
     this._databaseId = DATABASE_ID
     this.notion = new Client({
-      auth: NOTION_TOKEN
+      auth: NOTION_TOKEN,
     })
   }
 
@@ -31,8 +31,8 @@ export default class Notion {
       database_id: this._databaseId,
       filter: {
         property: 'Date',
-        date: { equals: date }
-      }
+        date: { equals: date },
+      },
     })
     const record = records.results[0]
 
@@ -45,12 +45,12 @@ export default class Notion {
       page_size: 10,
       filter: {
         property: 'Date',
-        date: { on_or_after: today() }
+        date: { on_or_after: today() },
       },
       sorts: [{
         property: 'Date',
-        direction: 'ascending'
-      }]
+        direction: 'ascending',
+      }],
     })
 
     return await Promise.all(records.results
@@ -77,7 +77,7 @@ export default class Notion {
   _envVariables (): {
     NOTION_TOKEN: string
     DATABASE_ID: string
-  } {
+    } {
     const { NOTION_TOKEN, DATABASE_ID } = process.env
 
     if (typeof NOTION_TOKEN !== 'string') {

@@ -1,25 +1,17 @@
 module.exports = {
-  'root': true,
-  'parser': '@typescript-eslint/parser',
-  'env': {
-    'browser': true,
-    'es2022': true
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+  ],
+  rules: {
+    'comma-dangle': ['error', 'always-multiline'],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    indent: ['error', 2],
+    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
   },
-  'extends': 'standard-with-typescript',
-  'overrides': [],
-  'parserOptions': {
-    'ecmaVersion': 'latest',
-    'sourceType': 'module',
-    'project': './tsconfig.json'
-  },
-  'rules': {
-    '@typescript-eslint/indent': 'off',
-    '@typescript-eslint/keyword-spacing': 'off',
-    '@typescript-eslint/semi': 'off',
-  },
-  'ignorePatterns': [
-    'built/**/*',
-    'node_modules/**/*',
-    '/tailwind.config.js',
-  ]
-}
+};
