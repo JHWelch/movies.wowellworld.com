@@ -1,26 +1,25 @@
 module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    es2021: true,
+  'root': true,
+  'parser': '@typescript-eslint/parser',
+  'env': {
+    'browser': true,
+    'es2022': true
   },
-  extends: 'airbnb-base',
-  overrides: [
-  ],
-  parser: '@babel/eslint-parser',
-  parserOptions: {
-    requireConfigFile: false,
-    babelOptions: {
-      plugins: [
-        '@babel/plugin-syntax-import-assertions',
-      ],
-    },
+  'extends': 'standard-with-typescript',
+  'overrides': [],
+  'parserOptions': {
+    'ecmaVersion': 'latest',
+    'sourceType': 'module',
+    'project': './tsconfig.json'
   },
-  rules: {
-    'import/extensions': ['error', 'always'],
+  'rules': {
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/keyword-spacing': 'off',
+    '@typescript-eslint/semi': 'off',
   },
-  ignorePatterns: [
-    'node_modules/',
-    '*.config.js',
-  ],
-};
+  'ignorePatterns': [
+    'built/**/*',
+    'node_modules/**/*',
+    '/tailwind.config.js',
+  ]
+}

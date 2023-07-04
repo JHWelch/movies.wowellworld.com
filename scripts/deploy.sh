@@ -1,9 +1,4 @@
 #!/bin/bash
-echo '****************************************'
-echo '***         Building Assets          ***'
-echo '****************************************'
-npm run build
-
 if [ -f .env ]; then
     echo '****************************************'
     echo '***        Backing Up .env           ***'
