@@ -1,5 +1,10 @@
 import { jest } from '@jest/globals'
 
+const title = (title: string) => ({ title: [{ plain_text: title }] })
+const richText = (text: string) => ({ rich_text: [{ plain_text: text }] })
+const url = (url: string) => ({ url })
+const number = (number: number) => ({ number })
+
 module.exports = {
   Client: jest.fn().mockImplementation(() => {
     return {
@@ -14,36 +19,14 @@ module.exports = {
           return {
             id: 'movieId',
             properties: {
-              Title: {
-                title: [{
-                  plain_text: 'movieTitle',
-                }],
-              },
-              Director: {
-                rich_text: [{
-                  plain_text: 'movieDirector',
-                }],
-              },
-              Year: {
-                number: 2021,
-              },
-              'Length (mins)': {
-                number: 120,
-              },
-              IMDb: {
-                url: 'movieImdbUrl',
-              },
-              Poster: {
-                url: 'moviePosterUrl',
-              },
-              'Theater Name': {
-                rich_text: [{
-                  plain_text: 'movieTheaterName',
-                }],
-              },
-              'Showing URL': {
-                url: 'movieShowingUrl',
-              },
+              Title: title('movieTitle'),
+              Director: richText('movieDirector'),
+              Year: number(2021),
+              'Length (mins)': number(120),
+              IMDb: url('movieImdbUrl'),
+              Poster: url('moviePosterUrl'),
+              'Theater Name': richText('movieTheaterName'),
+              'Showing URL': url('movieShowingUrl'),
             },
           }
         }),
