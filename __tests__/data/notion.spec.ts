@@ -136,4 +136,39 @@ describe('notion', () => {
       })
     })
   })
+
+  describe('getUpcomingWeeks', () => {
+    describe('when the weeks exist', () => {
+      beforeEach(() => {
+        notionMock.isFullPage.mockReturnValue(true)
+      })
+
+      it('should return the weeks', async () => {
+        const notion = new Notion()
+        const weeks = await notion.getUpcomingWeeks()
+
+        expect(weeks).toEqual([
+          {
+            'id': 'weekId1',
+            'date': new Date('2021-01-01'),
+            'isSkipped': false,
+            'movies': [],
+            'theme': 'theme1',
+          }, {
+            'id': 'weekId2',
+            'date': new Date('2021-01-08'),
+            'isSkipped': false,
+            'movies': [],
+            'theme': 'theme2',
+          }, {
+            'id': 'weekId3',
+            'date': new Date('2021-01-15'),
+            'isSkipped': false,
+            'movies': [],
+            'theme': 'theme3',
+          },
+        ])
+      })
+    })
+  })
 })
