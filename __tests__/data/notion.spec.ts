@@ -95,4 +95,33 @@ describe('notion', () => {
       })
     })
   })
+
+  describe('getWeek', () => {
+    beforeEach(() => {
+      process.env = {
+        NOTION_TOKEN: 'NOTION_TOKEN',
+        DATABASE_ID: 'DATABASE_ID',
+      }
+    })
+
+    describe('when the week exists', () => {
+      beforeEach(() => {
+        notionMock.isFullPage.mockReturnValue(true)
+      })
+
+      it('should return the week', async () => {
+        const notion = new Notion()
+        const week = await notion.getWeek('2021-01-01')
+
+        expect(week).toEqual({
+          'date': new Date('2021-01-01'),
+          'id': 'weekId',
+          'isSkipped': false,
+          'movies': [],
+          'theme': 'weekTheme',
+        })
+      })
+    })
+
+  })
 })
