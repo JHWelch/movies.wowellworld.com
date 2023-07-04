@@ -5,6 +5,6 @@
     return _dateToString(today)
   }
 
-  function _dateToString (date): string {
+  function _dateToString (date: Date): string {
     return date.toISOString().substring(0, 10)
   }

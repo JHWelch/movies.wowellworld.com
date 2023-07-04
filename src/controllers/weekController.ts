@@ -1,19 +1,20 @@
+import { type Request, type Response } from 'express'
 import type Notion from '../data/notion'
 
 class WeekController {
   notion: Notion
 
-  constructor (notion) {
+  constructor (notion: Notion) {
     this.notion = notion
   }
 
-  async index (_req, res): Promise<void> {
+  async index (_req: Request, res: Response): Promise<void> {
     const weeks = await this.notion.getUpcomingWeeks()
 
     res.json(weeks.map((week) => week.toDTO()))
   }
 
-  async show (req, res): Promise<void> {
+  async show (req: Request, res: Response): Promise<void> {
     const week = await this.notion.getWeek(req.params.date)
 
     if (week == null) {

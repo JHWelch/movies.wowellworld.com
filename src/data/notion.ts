@@ -1,7 +1,9 @@
-import { Client } from '@notionhq/client'
+import { Client, isFullPage } from '@notionhq/client'
 import Movie from '../models/movie'
 import Week from '../models/week'
 import { today } from './dateUtils'
+import { type PageObjectResponse, type PartialPageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import type WeekProperties from '../types/weekProperties'
 
 export default class Notion {
   notion: Client
@@ -17,6 +19,9 @@ export default class Notion {
 
   async getMovie (id: string): Promise<Movie> {
     const page = await this.notion.pages.retrieve({ page_id: id })
+    if (!isFullPage(page)) {
+      throw new Error('Page was not successfully retrieved')
+    }
 
     return Movie.fromNotion(page)
   }
@@ -52,9 +57,17 @@ export default class Notion {
       .map(async (record) => await this.recordToWeek(record)))
   }
 
-  async recordToWeek (record): Promise<Week> {
+  async recordToWeek (
+    record: PageObjectResponse | PartialPageObjectResponse
+  ): Promise<Week> {
+    if (!isFullPage(record)) {
+      throw new Error('Page was not successfully retrieved')
+    }
+
+    const properties = record.properties as unknown as WeekProperties
+
     const movies = await Promise.all(
-      record.properties.Movies.relation
+      properties.Movies.relation
         .map(async (relation) => await this.getMovie(relation.id))
     )
 

@@ -12,4 +12,9 @@ export default interface WeekProperties {
   Skipped: {
     checkbox: boolean
   }
+  Movies: {
+    relation: Array<{
+      id: string
+    }>
+  }
 }
