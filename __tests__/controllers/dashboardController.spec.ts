@@ -1,19 +1,20 @@
 import DashboardController from '../../src/controllers/dashboardController'
-import {beforeEach, describe, expect, it, jest} from '@jest/globals'
+import { beforeEach, describe, expect, it } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 
-const { res, next, mockClear } = getMockRes()
+const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
-  mockClear() // can also use clearMockRes()
+  mockClear()
 })
 
 describe('DashboardController', () => {
   describe('index', () => {
     it('should render index view', async () => {
-      const mockRequest = getMockReq()
+      const req = getMockReq()
 
-      await DashboardController.index(mockRequest, res)
+      await DashboardController.index(req, res)
+
       expect(res.render).toHaveBeenCalledWith('index')
     })
   })
