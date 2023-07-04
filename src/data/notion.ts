@@ -1,7 +1,7 @@
 import { Client } from '@notionhq/client'
 import Movie from '../models/movie'
 import Week from '../models/week'
-import DateUtils from './dateUtils'
+import { today } from './dateUtils'
 
 export default class Notion {
   constructor () {
@@ -35,7 +35,7 @@ export default class Notion {
       page_size: 10,
       filter: {
         property: 'Date',
-        date: { on_or_after: DateUtils.today() }
+        date: { on_or_after: today() }
       },
       sorts: [{
         property: 'Date',
