@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import type Notion from '../data/notion'
+import type Notion from '../data/notion.js'
 
 class WeekController {
   notion: Notion

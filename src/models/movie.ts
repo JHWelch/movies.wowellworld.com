@@ -1,5 +1,5 @@
-import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import type MovieProperties from '../types/movieProperties'
+import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
+import type MovieProperties from '../types/movieProperties.js'
 
 export default class Movie {
   id: string

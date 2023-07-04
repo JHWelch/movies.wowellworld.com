@@ -1,6 +1,6 @@
-import setupExpress from './config/express'
-import DashboardController from './controllers/dashboardController'
-import WeekController from './controllers/weekController'
+import setupExpress from './config/express.js'
+import DashboardController from './controllers/dashboardController.js'
+import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
 import type Notion from './data/notion'
 

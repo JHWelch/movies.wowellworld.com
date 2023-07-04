@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
-import Application from './application'
-import Notion from './data/notion'
+import Application from './application.js'
+import Notion from './data/notion.js'
 
 dotenv.config()
 

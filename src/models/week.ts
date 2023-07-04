@@ -1,6 +1,6 @@
 import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import type Movie from './movie'
-import type WeekProperties from '../types/weekProperties'
+import type Movie from './movie.js'
+import type WeekProperties from '../types/weekProperties.js'
 
 export default class Week {
   id: string
