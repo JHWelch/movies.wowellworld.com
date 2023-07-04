@@ -123,5 +123,17 @@ describe('notion', () => {
       })
     })
 
+    describe('when the week does not exist', () => {
+      beforeEach(() => {
+        notionMock.isFullPage.mockReturnValue(false)
+      })
+
+      it('should throw an error', async () => {
+        const notion = new Notion()
+
+        expect(notion.getWeek('2021-01-01'))
+          .rejects.toThrowError('Page was not successfully retrieved')
+      })
+    })
   })
 })
