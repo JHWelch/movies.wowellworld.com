@@ -1,9 +1,14 @@
 import setupExpress from './config/express'
 import DashboardController from './controllers/dashboardController'
 import WeekController from './controllers/weekController'
+import { type Express, type Request, type Response } from 'express'
+import type Notion from './data/notion'
 
 class Application {
-  constructor (notion) {
+  express: Express
+  notion: Notion
+
+  constructor (notion: Notion) {
     this.express = setupExpress()
     this.notion = notion
     this.registerRoutes()
@@ -12,7 +17,7 @@ class Application {
   /**
    * This currently only works for GET requests
    */
-  routes () {
+  routes (): Map<string, (req: Request, res: Response) => void> {
     const weekController = new WeekController(this.notion)
 
     return new Map([
@@ -22,14 +27,14 @@ class Application {
     ])
   }
 
-  registerRoutes () {
+  registerRoutes (): void {
     this.routes().forEach((handler, route) => {
       this.express.get(route, handler)
     })
   }
 
-  listen () {
-    const port = process.env.PORT || 8080
+  listen (): void {
+    const port = process.env.PORT ?? 8080
 
     this.express.listen(port, () => {
       console.log(`Listening on port ${port}...`) // eslint-disable-line no-console
