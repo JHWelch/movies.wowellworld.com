@@ -8,7 +8,7 @@
     "build": "npm run build-ts && npm run build-tailwind",
     "start": "node built/index.js",
     "build-ts": "tsc",
-    "start-ts": "ts-node --esm src/index.ts",
+    "start-ts": "ts-node src/index.ts",
     "build-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --minify",
     "lint": "eslint",
     "fix": "eslint --fix",
