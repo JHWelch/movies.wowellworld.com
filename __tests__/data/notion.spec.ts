@@ -10,48 +10,8 @@ beforeEach(() => {
   jest.clearAllMocks()
 })
 
-describe('notion', () => {
-  describe('constructor', () => {
-    describe('when NOTION_TOKEN and DATABASE_ID are set', () => {
-      beforeEach(() => {
-        process.env = {
-          NOTION_TOKEN: 'NOTION_TOKEN',
-          DATABASE_ID: 'DATABASE_ID',
-        }
-      })
-
-      it('should be created successfully', () => {
-        expect(() => new Notion()).not.toThrow()
-      })
-    })
-
-
-    describe('when NOTION_TOKEN is not set', () => {
-      beforeEach(() => {
-        process.env = {
-          DATABASE_ID: 'DATABASE_ID',
-        }
-      })
-
-      it('should throw an error', () => {
-        expect(() => new Notion()).toThrowError('Missing NOTION_TOKEN environment variable')
-      })
-    })
-
-    describe('when DATABASE_ID is not set', () => {
-      beforeEach(() => {
-        process.env = {
-          NOTION_TOKEN: 'NOTION_TOKEN',
-        }
-      })
-
-      it('should throw an error', () => {
-        expect(() => new Notion()).toThrowError('Missing DATABASE_ID environment variable')
-      })
-    })
-  })
-
-  describe('getMovie', () => {
+describe('constructor', () => {
+  describe('when NOTION_TOKEN and DATABASE_ID are set', () => {
     beforeEach(() => {
       process.env = {
         NOTION_TOKEN: 'NOTION_TOKEN',
@@ -59,116 +19,154 @@ describe('notion', () => {
       }
     })
 
-    describe('when the movie exists', () => {
-      beforeEach(() => {
-        notionMock.isFullPage.mockReturnValue(true)
-      })
-
-      it('should return the movie', async () => {
-        const notion = new Notion()
-        const movie = await notion.getMovie('movieId')
-
-        expect(movie).toEqual({
-          id: 'movieId',
-          title: 'movieTitle',
-          director: 'movieDirector',
-          year: 2021,
-          length: 120,
-          imdbUrl: 'movieImdbUrl',
-          posterUrl: 'moviePosterUrl',
-          theaterName: 'movieTheaterName',
-          showingUrl: 'movieShowingUrl',
-        })
-      })
-    })
-
-    describe('returns not full page', () => {
-      beforeEach(() => {
-        notionMock.isFullPage.mockReturnValue(false)
-      })
-
-      it('should throw an error', async () => {
-        const notion = new Notion()
-
-        await expect(notion.getMovie('movieId'))
-          .rejects.toThrowError('Page was not successfully retrieved')
-      })
+    it('should be created successfully', () => {
+      expect(() => new Notion()).not.toThrow()
     })
   })
 
-  describe('getWeek', () => {
+
+  describe('when NOTION_TOKEN is not set', () => {
     beforeEach(() => {
       process.env = {
-        NOTION_TOKEN: 'NOTION_TOKEN',
         DATABASE_ID: 'DATABASE_ID',
       }
     })
 
-    describe('when the week exists', () => {
-      beforeEach(() => {
-        notionMock.isFullPage.mockReturnValue(true)
+    it('should throw an error', () => {
+      expect(() => new Notion()).toThrowError('Missing NOTION_TOKEN environment variable')
+    })
+  })
+
+  describe('when DATABASE_ID is not set', () => {
+    beforeEach(() => {
+      process.env = {
+        NOTION_TOKEN: 'NOTION_TOKEN',
+      }
+    })
+
+    it('should throw an error', () => {
+      expect(() => new Notion()).toThrowError('Missing DATABASE_ID environment variable')
+    })
+  })
+})
+
+describe('getMovie', () => {
+  beforeEach(() => {
+    process.env = {
+      NOTION_TOKEN: 'NOTION_TOKEN',
+      DATABASE_ID: 'DATABASE_ID',
+    }
+  })
+
+  describe('when the movie exists', () => {
+    beforeEach(() => {
+      notionMock.isFullPage.mockReturnValue(true)
+    })
+
+    it('should return the movie', async () => {
+      const notion = new Notion()
+      const movie = await notion.getMovie('movieId')
+
+      expect(movie).toEqual({
+        id: 'movieId',
+        title: 'movieTitle',
+        director: 'movieDirector',
+        year: 2021,
+        length: 120,
+        imdbUrl: 'movieImdbUrl',
+        posterUrl: 'moviePosterUrl',
+        theaterName: 'movieTheaterName',
+        showingUrl: 'movieShowingUrl',
       })
+    })
+  })
 
-      it('should return the week', async () => {
-        const notion = new Notion()
-        const week = await notion.getWeek('2021-01-01')
+  describe('returns not full page', () => {
+    beforeEach(() => {
+      notionMock.isFullPage.mockReturnValue(false)
+    })
 
-        expect(week).toEqual({
+    it('should throw an error', async () => {
+      const notion = new Notion()
+
+      await expect(notion.getMovie('movieId'))
+        .rejects.toThrowError('Page was not successfully retrieved')
+    })
+  })
+})
+
+describe('getWeek', () => {
+  beforeEach(() => {
+    process.env = {
+      NOTION_TOKEN: 'NOTION_TOKEN',
+      DATABASE_ID: 'DATABASE_ID',
+    }
+  })
+
+  describe('when the week exists', () => {
+    beforeEach(() => {
+      notionMock.isFullPage.mockReturnValue(true)
+    })
+
+    it('should return the week', async () => {
+      const notion = new Notion()
+      const week = await notion.getWeek('2021-01-01')
+
+      expect(week).toEqual({
+        'date': new Date('2021-01-01'),
+        'id': 'weekId',
+        'isSkipped': false,
+        'movies': [],
+        'theme': 'weekTheme',
+      })
+    })
+  })
+
+  describe('when the week does not exist', () => {
+    beforeEach(() => {
+      notionMock.isFullPage.mockReturnValue(false)
+    })
+
+    it('should throw an error', async () => {
+      const notion = new Notion()
+
+      expect(notion.getWeek('2021-01-01'))
+        .rejects.toThrowError('Page was not successfully retrieved')
+    })
+  })
+})
+
+describe('getUpcomingWeeks', () => {
+  describe('when the weeks exist', () => {
+    beforeEach(() => {
+      notionMock.isFullPage.mockReturnValue(true)
+    })
+
+    it('should return the weeks', async () => {
+      const notion = new Notion()
+      const weeks = await notion.getUpcomingWeeks()
+
+      expect(weeks).toEqual([
+        {
+          'id': 'weekId1',
           'date': new Date('2021-01-01'),
-          'id': 'weekId',
           'isSkipped': false,
           'movies': [],
-          'theme': 'weekTheme',
-        })
-      })
-    })
-
-    describe('when the week does not exist', () => {
-      beforeEach(() => {
-        notionMock.isFullPage.mockReturnValue(false)
-      })
-
-      it('should throw an error', async () => {
-        const notion = new Notion()
-
-        expect(notion.getWeek('2021-01-01'))
-          .rejects.toThrowError('Page was not successfully retrieved')
-      })
-    })
-  })
-
-  describe('getUpcomingWeeks', () => {
-    describe('when the weeks exist', () => {
-      beforeEach(() => {
-        notionMock.isFullPage.mockReturnValue(true)
-      })
-
-      it('should return the weeks', async () => {
-        const notion = new Notion()
-        const weeks = await notion.getUpcomingWeeks()
-
-        expect(weeks).toEqual([
-          {
-            'id': 'weekId1',
-            'date': new Date('2021-01-01'),
-            'isSkipped': false,
-            'movies': [],
-            'theme': 'theme1',
-          }, {
-            'id': 'weekId2',
-            'date': new Date('2021-01-08'),
-            'isSkipped': false,
-            'movies': [],
-            'theme': 'theme2',
-          }, {
-            'id': 'weekId3',
-            'date': new Date('2021-01-15'),
-            'isSkipped': false,
-            'movies': [],
-            'theme': 'theme3',
-          },
-        ])
-      })
+          'theme': 'theme1',
+        }, {
+          'id': 'weekId2',
+          'date': new Date('2021-01-08'),
+          'isSkipped': false,
+          'movies': [],
+          'theme': 'theme2',
+        }, {
+          'id': 'weekId3',
+          'date': new Date('2021-01-15'),
+          'isSkipped': false,
+          'movies': [],
+          'theme': 'theme3',
+        },
+      ])
     })
   })
 })
