@@ -1,4 +1,6 @@
+import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import type Movie from './movie'
+import type WeekProperties from '../types/weekProperties'
 
 export default class Week {
   id: string
@@ -7,7 +9,12 @@ export default class Week {
   movies: Movie[]
   isSkipped: boolean
 
-  constructor (id, theme, date, isSkipped = false) {
+  constructor (
+    id: string,
+    theme: string,
+    date: Date,
+    isSkipped = false
+  ) {
     this.id = id
     this.theme = theme
     this.date = date
@@ -15,21 +22,14 @@ export default class Week {
     this.movies = []
   }
 
-  static fromNotion (record): Week {
+  static fromNotion (record: PageObjectResponse): Week {
+    const properties = record.properties as unknown as WeekProperties
+
     return new Week(
       record.id,
-      record.properties.Theme.title[0].plain_text,
-      new Date(record.properties.Date.date.start),
-      record.properties.Skipped.checkbox
-    )
-  }
-
-  static fromObject (obj): Week {
-    return new Week(
-      obj.id,
-      obj.theme,
-      new Date(obj.date),
-      obj.isSkipped
+      properties.Theme.title[0].plain_text,
+      new Date(properties.Date.date.start),
+      properties.Skipped.checkbox
     )
   }
 
@@ -42,7 +42,7 @@ export default class Week {
     })
   }
 
-  setMovies (movies): Week {
+  setMovies (movies: Movie[]): Week {
     this.movies = movies
 
     return this
