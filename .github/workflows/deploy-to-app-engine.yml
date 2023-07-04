@@ -22,18 +22,6 @@ jobs:
     - name: Place .env file
       run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
 
-    - name: Install Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.15.0'
-        cache: npm
-
-    - name: Install Dependencies
-      run: npm ci
-
-    - name: Build
-      run: npm run build
-
     - name: Auth with Google
       uses: google-github-actions/auth@v1
       with:
