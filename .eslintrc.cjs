@@ -11,6 +11,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'no-console': ['error', { allow: ['warn', 'error'] }],
     indent: ['error', 2],
+    'object-curly-spacing': ['error', 'always'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
