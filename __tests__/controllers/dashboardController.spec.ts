@@ -8,14 +8,12 @@ beforeEach(() => {
   mockClear()
 })
 
-describe('DashboardController', () => {
-  describe('index', () => {
-    it('should render index view', async () => {
-      const req = getMockReq()
+describe('index', () => {
+  it('should render index view', async () => {
+    const req = getMockReq()
 
-      await DashboardController.index(req, res)
+    await DashboardController.index(req, res)
 
-      expect(res.render).toHaveBeenCalledWith('index')
-    })
+    expect(res.render).toHaveBeenCalledWith('index')
   })
 })

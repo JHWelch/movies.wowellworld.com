@@ -36,7 +36,7 @@ export default class Notion {
     })
     const record = records.results[0]
 
-    return record == null ? await this.recordToWeek(record) : null
+    return record != null ? await this.recordToWeek(record) : null
   }
 
   async getUpcomingWeeks (): Promise<Week[]> {

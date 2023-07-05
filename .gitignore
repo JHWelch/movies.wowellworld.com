@@ -1,3 +1,4 @@
 .env
-node_modules
 .env.production
+coverage
+node_modules
