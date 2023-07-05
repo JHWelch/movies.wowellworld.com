@@ -19,31 +19,29 @@ export const mockRetrieve = (
   showingUrl = 'movieShowingUrl'
 ) => {
   (Client as unknown as jest.Mock).mockImplementation(() => {
-    return {
-      pages: {
-        retrieve: jest.fn().mockImplementation((idArg: unknown) => {
-          const { page_id } = idArg as { page_id: string }
+    return { pages: {
+      retrieve: jest.fn().mockImplementation((idArg: unknown) => {
+        const { page_id } = idArg as { page_id: string }
 
-          if (page_id !== id) {
-            throw new Error('Page not found')
-          }
+        if (page_id !== id) {
+          throw new Error('Page not found')
+        }
 
-          return {
-            id: id,
-            properties: {
-              Title: nTitle(title),
-              Director: nRichText(director),
-              Year: nNumber(year),
-              'Length (mins)': nNumber(length),
-              IMDb: nUrl(imdbUrl),
-              Poster: nUrl(posterUrl),
-              'Theater Name': nRichText(theaterName),
-              'Showing URL': nUrl(showingUrl),
-            },
-          }
-        }),
-      },
-    }
+        return {
+          id: id,
+          properties: {
+            Title: nTitle(title),
+            Director: nRichText(director),
+            Year: nNumber(year),
+            'Length (mins)': nNumber(length),
+            IMDb: nUrl(imdbUrl),
+            Poster: nUrl(posterUrl),
+            'Theater Name': nRichText(theaterName),
+            'Showing URL': nUrl(showingUrl),
+          },
+        }
+      }),
+    } }
   })
 }
 
