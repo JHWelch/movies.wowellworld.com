@@ -32,7 +32,13 @@ export const mockRetrieve = () => {
           }
         }),
       },
+    }
+  })
+}
 
+export const mockQuery = () => {
+  (Client as unknown as jest.Mock).mockImplementation(() => {
+    return {
       databases: {
         query: jest.fn().mockImplementation((query: unknown) => {
           const { database_id, filter } = query as QueryBody

@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
-import { mockIsFullPage, mockRetrieve } from '../support/notionHelper'
+import { mockIsFullPage, mockQuery, mockRetrieve } from '../support/notionHelper'
 
 beforeAll(() => {
   jest.mock('@notionhq/client')
@@ -8,7 +8,6 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mockRetrieve()
 })
 
 describe('constructor', () => {
@@ -57,6 +56,7 @@ describe('getMovie', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
+    mockRetrieve()
   })
 
   describe('when the movie exists', () => {
@@ -102,6 +102,7 @@ describe('getWeek', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
+    mockQuery()
   })
 
   describe('when the week exists', () => {
