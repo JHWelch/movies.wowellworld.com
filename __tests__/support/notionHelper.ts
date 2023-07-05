@@ -66,7 +66,7 @@ export const mockQuery = (weeks: WeekResponse[] = []) => {
           }
 
           const { equals, on_or_after } = date
-          if (equals === undefined || on_or_after === undefined) {
+          if (equals === undefined && on_or_after === undefined) {
             throw new Error('Comparison not specified')
           }
 
