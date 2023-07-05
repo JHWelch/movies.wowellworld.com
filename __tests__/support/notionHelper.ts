@@ -1,5 +1,4 @@
 import { jest } from '@jest/globals'
-import MovieProperties from '../../src/types/movieProperties'
 import WeekProperties from '../../src/types/weekProperties'
 import { Client, isFullPage } from '@notionhq/client'
 
@@ -125,9 +124,4 @@ type QueryBody = {
 type WeekResponse = {
   id: string
   properties: WeekProperties
-}
-
-type MovieResponse = {
-  id: string
-  properties: MovieProperties
 }
