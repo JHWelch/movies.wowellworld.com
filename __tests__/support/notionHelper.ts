@@ -51,7 +51,6 @@ export const mockQuery = (weeks: WeekResponse[] = []) => {
       databases: {
         query: jest.fn().mockImplementation((query: unknown) => {
           const { database_id, filter } = query as QueryBody
-
           if (database_id !== 'DATABASE_ID') {
             throw new Error('Database not found')
           }
@@ -60,7 +59,6 @@ export const mockQuery = (weeks: WeekResponse[] = []) => {
           }
 
           const { property, date } = filter
-
           if (property !== 'Date') {
             throw new Error('Invalid property')
           }
@@ -69,25 +67,17 @@ export const mockQuery = (weeks: WeekResponse[] = []) => {
           }
 
           const { equals, on_or_after } = date
-
-          if (equals !== undefined || on_or_after !== undefined) {
-            return mockWeeks(weeks)
+          if (equals === undefined || on_or_after === undefined) {
+            throw new Error('Comparison not specified')
           }
+
+          return mockWeeks(weeks)
         }),
       },
     }
   })
 }
 
-
-
-const nCheckbox = (checked: boolean) => ({ checkbox: checked })
-const nDate = (start: string) => ({ date: { start } })
-const nNumber = (number: number) => ({ number })
-const nRichText = (text: string) => ({ rich_text: [{ plain_text: text }] })
-const nTitle = (title: string) => ({ title: [{ plain_text: title }] })
-const nUrl = (url: string) => ({ url })
-const mockWeeks = (weeks: WeekResponse[] ) => ({ results: weeks })
 export const mockWeek = (
   id: string,
   date: string,
@@ -106,6 +96,15 @@ export const mockWeek = (
     },
   },
 })
+
+const mockWeeks = (weeks: WeekResponse[] ) => ({ results: weeks })
+
+const nCheckbox = (checked: boolean) => ({ checkbox: checked })
+const nDate = (start: string) => ({ date: { start } })
+const nNumber = (number: number) => ({ number })
+const nRichText = (text: string) => ({ rich_text: [{ plain_text: text }] })
+const nTitle = (title: string) => ({ title: [{ plain_text: title }] })
+const nUrl = (url: string) => ({ url })
 
 type QueryBody = {
   database_id: string
