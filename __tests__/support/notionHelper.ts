@@ -45,7 +45,7 @@ export const mockRetrieve = (
   })
 }
 
-export const mockQuery = () => {
+export const mockQuery = (weeks: WeekResponse[] = []) => {
   (Client as unknown as jest.Mock).mockImplementation(() => {
     return {
       databases: {
@@ -70,15 +70,8 @@ export const mockQuery = () => {
 
           const { equals, on_or_after } = date
 
-          if (equals !== undefined) {
-            return weeks([week('weekId', equals, 'weekTheme')])
-          }
-          if (on_or_after !== undefined) {
-            return weeks([
-              week('weekId1','2021-01-01', 'theme1'),
-              week('weekId2','2021-01-08', 'theme2'),
-              week('weekId3','2021-01-15', 'theme3'),
-            ])
+          if (equals !== undefined || on_or_after !== undefined) {
+            return mockWeeks(weeks)
           }
         }),
       },
@@ -94,8 +87,8 @@ const nNumber = (number: number) => ({ number })
 const nRichText = (text: string) => ({ rich_text: [{ plain_text: text }] })
 const nTitle = (title: string) => ({ title: [{ plain_text: title }] })
 const nUrl = (url: string) => ({ url })
-const weeks = (weeks: WeekResponse[] ) => ({ results: weeks })
-const week = (
+const mockWeeks = (weeks: WeekResponse[] ) => ({ results: weeks })
+export const mockWeek = (
   id: string,
   date: string,
   theme: string,

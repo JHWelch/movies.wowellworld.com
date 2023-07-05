@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
-import { mockIsFullPage, mockQuery, mockRetrieve } from '../support/notionHelper'
+import { mockIsFullPage, mockQuery, mockRetrieve, mockWeek } from '../support/notionHelper'
 
 beforeAll(() => {
   jest.mock('@notionhq/client')
@@ -102,7 +102,7 @@ describe('getWeek', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    mockQuery()
+    mockQuery([mockWeek('weekId', '2021-01-01', 'weekTheme')])
   })
 
   describe('when the week exists', () => {
@@ -142,6 +142,11 @@ describe('getUpcomingWeeks', () => {
   describe('when the weeks exist', () => {
     beforeEach(() => {
       mockIsFullPage(true)
+      mockQuery([
+        mockWeek('weekId1','2021-01-01', 'theme1'),
+        mockWeek('weekId2','2021-01-08', 'theme2'),
+        mockWeek('weekId3','2021-01-15', 'theme3'),
+      ])
     })
 
     it('should return the weeks', async () => {
