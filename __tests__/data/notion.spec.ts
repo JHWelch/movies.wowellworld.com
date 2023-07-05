@@ -1,13 +1,14 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
+import { mockIsFullPage, mockRetrieve } from '../support/notionHelper'
 
-jest.mock('@notionhq/client')
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const notionMock = require('@notionhq/client')
+beforeAll(() => {
+  jest.mock('@notionhq/client')
+})
 
 beforeEach(() => {
   jest.clearAllMocks()
+  mockRetrieve()
 })
 
 describe('constructor', () => {
@@ -60,7 +61,7 @@ describe('getMovie', () => {
 
   describe('when the movie exists', () => {
     beforeEach(() => {
-      notionMock.isFullPage.mockReturnValue(true)
+      mockIsFullPage(true)
     })
 
     it('should return the movie', async () => {
@@ -83,7 +84,7 @@ describe('getMovie', () => {
 
   describe('returns not full page', () => {
     beforeEach(() => {
-      notionMock.isFullPage.mockReturnValue(false)
+      mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -105,7 +106,7 @@ describe('getWeek', () => {
 
   describe('when the week exists', () => {
     beforeEach(() => {
-      notionMock.isFullPage.mockReturnValue(true)
+      mockIsFullPage(true)
     })
 
     it('should return the week', async () => {
@@ -124,7 +125,7 @@ describe('getWeek', () => {
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      notionMock.isFullPage.mockReturnValue(false)
+      mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -139,7 +140,7 @@ describe('getWeek', () => {
 describe('getUpcomingWeeks', () => {
   describe('when the weeks exist', () => {
     beforeEach(() => {
-      notionMock.isFullPage.mockReturnValue(true)
+      mockIsFullPage(true)
     })
 
     it('should return the weeks', async () => {
