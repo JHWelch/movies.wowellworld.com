@@ -2,6 +2,14 @@ import { jest } from '@jest/globals'
 import WeekProperties from '../../src/types/weekProperties'
 import { Client, isFullPage } from '@notionhq/client'
 
+export const mockNotionEnv = () => {
+  process.env = {
+    NOTION_TOKEN: 'NOTION_TOKEN',
+    DATABASE_ID: 'DATABASE_ID',
+  }
+}
+
+
 export const mockIsFullPage = (response: boolean) => {
   (isFullPage as unknown as jest.Mock).mockReturnValue(response)
 }
