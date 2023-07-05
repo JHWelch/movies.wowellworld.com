@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals'
+import MovieProperties from '../../src/types/movieProperties'
 import WeekProperties from '../../src/types/weekProperties'
 import { Client, isFullPage } from '@notionhq/client'
 
@@ -6,28 +7,38 @@ export const mockIsFullPage = (response: boolean) => {
   (isFullPage as unknown as jest.Mock).mockReturnValue(response)
 }
 
-export const mockRetrieve = () => {
+export const mockRetrieve = (
+  id = 'movieId',
+  title = 'movieTitle',
+  director = 'movieDirector',
+  year = 2021,
+  length = 120,
+  imdbUrl = 'movieImdbUrl',
+  posterUrl = 'moviePosterUrl',
+  theaterName = 'movieTheaterName',
+  showingUrl = 'movieShowingUrl'
+) => {
   (Client as unknown as jest.Mock).mockImplementation(() => {
     return {
       pages: {
-        retrieve: jest.fn().mockImplementation((id: unknown) => {
-          const { page_id } = id as { page_id: string }
+        retrieve: jest.fn().mockImplementation((idArg: unknown) => {
+          const { page_id } = idArg as { page_id: string }
 
-          if (page_id !== 'movieId') {
+          if (page_id !== id) {
             throw new Error('Page not found')
           }
 
           return {
-            id: 'movieId',
+            id: id,
             properties: {
-              Title: nTitle('movieTitle'),
-              Director: nRichText('movieDirector'),
-              Year: nNumber(2021),
-              'Length (mins)': nNumber(120),
-              IMDb: nUrl('movieImdbUrl'),
-              Poster: nUrl('moviePosterUrl'),
-              'Theater Name': nRichText('movieTheaterName'),
-              'Showing URL': nUrl('movieShowingUrl'),
+              Title: nTitle(title),
+              Director: nRichText(director),
+              Year: nNumber(year),
+              'Length (mins)': nNumber(length),
+              IMDb: nUrl(imdbUrl),
+              Poster: nUrl(posterUrl),
+              'Theater Name': nRichText(theaterName),
+              'Showing URL': nUrl(showingUrl),
             },
           }
         }),
@@ -124,4 +135,9 @@ type QueryBody = {
 type WeekResponse = {
   id: string
   properties: WeekProperties
+}
+
+type MovieResponse = {
+  id: string
+  properties: MovieProperties
 }
