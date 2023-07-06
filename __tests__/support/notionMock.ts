@@ -2,7 +2,7 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPage } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
-import { QueryBody, WeekResponse, WithAuth, nCheckbox, nDate, nNumber, nRichText, nTitle, nUrl } from './notionHelpers'
+import { QueryBody, WeekResponse, WithAuth, nCheckbox, nDate, nNumber, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
@@ -40,25 +40,21 @@ export class NotionMock {
             throw new Error('Page not found')
           }
 
-          return {
-            id: id,
-            properties: {
-              Title: nTitle(title),
-              Director: nRichText(director),
-              Year: nNumber(year),
-              'Length (mins)': nNumber(length),
-              // @ts-ignore
-              IMDb: nUrl(imdbUrl),
-              // @ts-ignore
-              Poster: nUrl(posterUrl),
-              // @ts-ignore
-              'Theater Name': nRichText(theaterName),
-              // @ts-ignore
-              'Showing URL': nUrl(showingUrl),
-            },
-          }
+          return pageObjectResponse(id, {
+            Title: nTitle(title),
+            Director: nRichText(director),
+            Year: nNumber(year),
+            'Length (mins)': nNumber(length),
+            // @ts-ignore
+            IMDb: nUrl(imdbUrl),
+            // @ts-ignore
+            Poster: nUrl(posterUrl),
+            // @ts-ignore
+            'Theater Name': nRichText(theaterName),
+            // @ts-ignore
+            'Showing URL': nUrl(showingUrl),
+          })
         })
-
       return { pages: { retrieve: this.retrieve } }
     })
   }

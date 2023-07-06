@@ -1,5 +1,5 @@
 import WeekProperties from '../../src/types/weekProperties'
-import { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import { PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
 export const nCheckbox = (checked: boolean) => ({ checkbox: checked })
 export const nDate = (start: string) => ({ date: { start } })
@@ -52,7 +52,39 @@ export const richTextItem = (text: string): RichTextItemResponse => ({
   href: null,
 })
 
-export const nUrl = (url: string) => ({ url })
+export const nUrl = (url: string): {
+  type: 'url';
+  url: string | null;
+  id: string;
+} => ({
+  url,
+  type: 'url',
+  id: 'mockedId',
+})
+
+export const pageObjectResponse = (
+  id: string,
+  properties: PageObjectResponse['properties']
+): PageObjectResponse => ({
+  id,
+  properties,
+  object: 'page',
+  created_time: '',
+  last_edited_time: '',
+  archived: false,
+  parent: { type: 'database_id', database_id: '' },
+  icon: null,
+  cover: null,
+  last_edited_by: {
+    id: 'string',
+    object: 'user',
+  },
+  created_by: {
+    id: 'string',
+    object: 'user',
+  },
+  url: '',
+})
 
 export type QueryBody = {
   database_id: string
