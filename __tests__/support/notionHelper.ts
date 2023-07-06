@@ -7,7 +7,15 @@ import { GetPageParameters, GetPageResponse, RichTextItemResponse } from '@notio
 const nCheckbox = (checked: boolean) => ({ checkbox: checked })
 const nDate = (start: string) => ({ date: { start } })
 const nNumber = (number: number) => ({ number })
-const nRichText = (text: string) => ({ rich_text: [{ plain_text: text }] })
+const nRichText = (text: string): {
+  type: 'rich_text';
+  rich_text: Array<RichTextItemResponse>;
+  id: string;
+} => ({
+  type: 'rich_text',
+  rich_text: [richTextItem(text)],
+  id: 'some-id',
+})
 const nTitle = (title: string): {
   type: 'title';
   title: Array<RichTextItemResponse>;
@@ -98,7 +106,6 @@ export class NotionMock {
             id: id,
             properties: {
               Title: nTitle(title),
-              // @ts-ignore
               Director: nRichText(director),
               // @ts-ignore
               Year: nNumber(year),
