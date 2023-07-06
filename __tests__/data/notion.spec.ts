@@ -83,6 +83,13 @@ describe('getMovie', () => {
         showingUrl: 'movieShowingUrl',
       })
     })
+
+    it ('calls the retrieve method with page_id', async () => {
+      const notion = new Notion()
+      await notion.getMovie('movieId')
+
+      expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
+    })
   })
 
   describe('returns not full page', () => {
