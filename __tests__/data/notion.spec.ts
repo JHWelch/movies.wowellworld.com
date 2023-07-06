@@ -178,5 +178,20 @@ describe('getUpcomingWeeks', () => {
         },
       ])
     })
+
+    // it('should call query with the correct parameters', async () => {
+    //   const notion = new Notion()
+    //   await notion.getUpcomingWeeks()
+
+    //   expect(Client.databases.query).toHaveBeenCalledWith({
+    //     database_id: 'DATABASE_ID',
+    //     filter: {
+    //       property: 'Date',
+    //       date: {
+    //         on_or_after: '2021-01-01',
+    //       },
+    //     },
+    //   })
+    // })
   })
 })

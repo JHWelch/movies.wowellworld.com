@@ -2,13 +2,35 @@
 import { jest } from '@jest/globals'
 import WeekProperties from '../../src/types/weekProperties'
 import { Client, isFullPage } from '@notionhq/client'
-import { GetPageParameters, GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
+import { GetPageParameters, GetPageResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
 const nCheckbox = (checked: boolean) => ({ checkbox: checked })
 const nDate = (start: string) => ({ date: { start } })
 const nNumber = (number: number) => ({ number })
 const nRichText = (text: string) => ({ rich_text: [{ plain_text: text }] })
-const nTitle = (title: string) => ({ title: [{ plain_text: title }] })
+const nTitle = (title: string): {
+  type: 'title';
+  title: Array<RichTextItemResponse>;
+  id: string;
+} => ({ type: 'title', title: [richTextItem(title)], id: 'some-id' })
+const richTextItem = (text: string): RichTextItemResponse => ({
+  type: 'text',
+  text: {
+    content: text,
+    link: null,
+  },
+  annotations: {
+    bold: false,
+    italic: false,
+    strikethrough: false,
+    underline: false,
+    code: false,
+    color: 'default',
+  },
+  plain_text: text,
+  href: null,
+})
+
 const nUrl = (url: string) => ({ url })
 
 type QueryBody = {
@@ -39,6 +61,7 @@ type WithAuth<P> = P & {
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve> | undefined
+  isFullPage: jest.MockedFunction<typeof isFullPage> | undefined
 
   mockNotionEnv = () => {
     process.env = {
@@ -74,7 +97,6 @@ export class NotionMock {
           return {
             id: id,
             properties: {
-              // @ts-ignore
               Title: nTitle(title),
               // @ts-ignore
               Director: nRichText(director),
