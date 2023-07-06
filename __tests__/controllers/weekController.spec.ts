@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { NotionMock } from '../support/notionHelper'
+import { NotionMock } from '../support/notionMock'
 import Notion from '../../src/data/notion'
 import WeekController from '../../src/controllers/weekController'
 import { Request } from 'express'
