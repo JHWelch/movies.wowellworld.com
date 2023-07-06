@@ -3,7 +3,16 @@ import { RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
 export const nCheckbox = (checked: boolean) => ({ checkbox: checked })
 export const nDate = (start: string) => ({ date: { start } })
-export const nNumber = (number: number) => ({ number })
+
+export const nNumber = (number: number | null): {
+  type: 'number';
+  number: number | null;
+  id: string;
+} => ({
+  type: 'number',
+  number: number,
+  id: 'mockedId',
+})
 
 export const nRichText = (text: string): {
   type: 'rich_text';

@@ -45,9 +45,7 @@ export class NotionMock {
             properties: {
               Title: nTitle(title),
               Director: nRichText(director),
-              // @ts-ignore
               Year: nNumber(year),
-              // @ts-ignore
               'Length (mins)': nNumber(length),
               // @ts-ignore
               IMDb: nUrl(imdbUrl),
