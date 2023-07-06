@@ -1,19 +1,21 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { mockIsFullPage, mockNotionEnv, mockQuery, mockWeek } from '../support/notionHelper'
+import { NotionMock } from '../support/notionHelper'
 import Notion from '../../src/data/notion'
 import WeekController from '../../src/controllers/weekController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 
+let notionMock: NotionMock
 const { res, mockClear } = getMockRes()
 
 beforeAll(() => {
   jest.mock('@notionhq/client')
+  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mockNotionEnv()
+  notionMock.mockNotionEnv()
   mockClear()
 })
 
@@ -23,11 +25,11 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      mockIsFullPage(true)
-      mockQuery([
-        mockWeek('id1', '2021-01-01', 'theme1'),
-        mockWeek('id2', '2021-01-08', 'theme2'),
-        mockWeek('id3', '2021-01-15', 'theme3'),
+      notionMock.mockIsFullPage(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
+        NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
+        NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
       ])
       notion = new Notion()
       req = getMockReq()

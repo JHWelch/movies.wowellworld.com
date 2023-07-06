@@ -1,9 +1,12 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
-import { mockIsFullPage, mockQuery, mockRetrieve, mockWeek } from '../support/notionHelper'
+import { NotionMock } from '../support/notionHelper'
+
+let notionMock: NotionMock
 
 beforeAll(() => {
   jest.mock('@notionhq/client')
+  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
@@ -56,12 +59,12 @@ describe('getMovie', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    mockRetrieve()
+    notionMock.mockRetrieve()
   })
 
   describe('when the movie exists', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
+      notionMock.mockIsFullPage(true)
     })
 
     it('should return the movie', async () => {
@@ -84,7 +87,7 @@ describe('getMovie', () => {
 
   describe('returns not full page', () => {
     beforeEach(() => {
-      mockIsFullPage(false)
+      notionMock.mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -102,12 +105,12 @@ describe('getWeek', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    mockQuery([mockWeek('weekId', '2021-01-01', 'weekTheme')])
+    notionMock.mockQuery([NotionMock.mockWeek('weekId', '2021-01-01', 'weekTheme')])
   })
 
   describe('when the week exists', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
+      notionMock.mockIsFullPage(true)
     })
 
     it('should return the week', async () => {
@@ -126,7 +129,7 @@ describe('getWeek', () => {
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      mockIsFullPage(false)
+      notionMock.mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -141,11 +144,11 @@ describe('getWeek', () => {
 describe('getUpcomingWeeks', () => {
   describe('when the weeks exist', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
-      mockQuery([
-        mockWeek('weekId1','2021-01-01', 'theme1'),
-        mockWeek('weekId2','2021-01-08', 'theme2'),
-        mockWeek('weekId3','2021-01-15', 'theme3'),
+      notionMock.mockIsFullPage(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
+        NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
+        NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
       ])
     })
 
