@@ -68,8 +68,7 @@ describe('getMovie', () => {
     })
 
     it('should return the movie', async () => {
-      const notion = new Notion()
-      const movie = await notion.getMovie('movieId')
+      const movie = await new Notion().getMovie('movieId')
 
       expect(movie).toEqual({
         id: 'movieId',
@@ -85,8 +84,7 @@ describe('getMovie', () => {
     })
 
     it ('calls the retrieve method with page_id', async () => {
-      const notion = new Notion()
-      await notion.getMovie('movieId')
+      await new Notion().getMovie('movieId')
 
       expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
     })
@@ -98,9 +96,7 @@ describe('getMovie', () => {
     })
 
     it('should throw an error', async () => {
-      const notion = new Notion()
-
-      await expect(notion.getMovie('movieId'))
+      await expect(new Notion().getMovie('movieId'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
