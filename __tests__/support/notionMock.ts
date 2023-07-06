@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { jest } from '@jest/globals'
 import { Client, isFullPage } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
@@ -45,13 +44,9 @@ export class NotionMock {
             Director: nRichText(director),
             Year: nNumber(year),
             'Length (mins)': nNumber(length),
-            // @ts-ignore
             IMDb: nUrl(imdbUrl),
-            // @ts-ignore
             Poster: nUrl(posterUrl),
-            // @ts-ignore
             'Theater Name': nRichText(theaterName),
-            // @ts-ignore
             'Showing URL': nUrl(showingUrl),
           })
         })
