@@ -86,6 +86,18 @@ export const nUrl = (url: string): {
   id: 'mockedId',
 })
 
+export const nRelation = (relation: string[]): {
+  type: 'relation';
+  relation: {
+    id: string;
+  }[];
+  id: string;
+} => ({
+  type: 'relation',
+  relation: relation.map((id) => ({ id: id })),
+  id: 'mockedId',
+})
+
 export const pageObjectResponse = (
   id: string,
   properties: PageObjectResponse['properties']
