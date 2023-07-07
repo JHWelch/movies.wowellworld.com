@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPage } from '@notionhq/client'
-import { GetPageParameters, GetPageResponse } from '@notionhq/client/build/src/api-endpoints'
-import { QueryBody, WeekResponse, WithAuth, nCheckbox, nDate, nNumber, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
+import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
+import { QueryBody, WithAuth, nCheckbox, nDate, nNumber, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
@@ -54,36 +54,42 @@ export class NotionMock {
     })
   }
 
-  mockQuery = (weeks: WeekResponse[] = []) => {
+  mockQuery = (weeks: PageObjectResponse[] = []) => {
     (Client as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        databases: {
-          query: jest.fn().mockImplementation((query: unknown) => {
-            const { database_id, filter } = query as QueryBody
-            if (database_id !== 'DATABASE_ID') {
-              throw new Error('Database not found')
-            }
-            if (filter == null){
-              throw new Error('Filter not specified')
-            }
+      this.query = jest.fn<typeof Client.prototype.databases.query>()
+        .mockImplementation(async (args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => {
+          const { database_id, filter } = args as QueryBody
+          if (database_id !== 'DATABASE_ID') {
+            throw new Error('Database not found')
+          }
+          if (filter == null){
+            throw new Error('Filter not specified')
+          }
 
-            const { property, date } = filter
-            if (property !== 'Date') {
-              throw new Error('Invalid property')
-            }
-            if (date == null) {
-              throw new Error('Date not specified')
-            }
+          const { property, date } = filter
+          if (property !== 'Date') {
+            throw new Error('Invalid property')
+          }
+          if (date == null) {
+            throw new Error('Date not specified')
+          }
 
-            const { equals, on_or_after } = date
-            if (equals === undefined && on_or_after === undefined) {
-              throw new Error('Comparison not specified')
-            }
+          const { equals, on_or_after } = date
+          if (equals === undefined && on_or_after === undefined) {
+            throw new Error('Comparison not specified')
+          }
 
-            return NotionMock.mockWeeks(weeks)
-          }),
-        },
-      }
+          return {
+            page: {},
+            type: 'page',
+            object: 'list',
+            next_cursor: null,
+            has_more: false,
+            results: weeks,
+          }
+        })
+
+      return { databases: { query: this.query } }
     })
   }
 
@@ -92,19 +98,14 @@ export class NotionMock {
     date: string,
     theme: string,
     skipped = false
-  ): WeekResponse => ({
-    id: id,
-    properties: {
-      Date: nDate(date),
-      Theme: nTitle(theme),
-      Skipped: nCheckbox(skipped),
-      Movies: {
-        relation: [
-          // { id: 'movieId' },
-        ],
-      },
+  ): PageObjectResponse => pageObjectResponse(id, {
+    Date: nDate(date),
+    Theme: nTitle(theme),
+    Skipped: nCheckbox(skipped),
+    Movies: {
+      relation: [
+        // { id: 'movieId' },
+      ],
     },
   })
-
-  static mockWeeks = (weeks: WeekResponse[] ) => ({ results: weeks })
 }

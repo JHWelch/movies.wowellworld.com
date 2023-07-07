@@ -1,8 +1,32 @@
-import WeekProperties from '../../src/types/weekProperties'
 import { PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
-export const nCheckbox = (checked: boolean) => ({ checkbox: checked })
-export const nDate = (start: string) => ({ date: { start } })
+export const nCheckbox = (checked: boolean): {
+  type: 'checkbox';
+  checkbox: boolean;
+  id: string;
+} => ({
+  checkbox: checked,
+  type: 'checkbox',
+  id: 'mockedId',
+})
+
+export const nDate = (start: string): {
+  type: 'date';
+  date: {
+    start: string,
+    end: null,
+    time_zone: null,
+  };
+  id: string;
+} => ({
+  type: 'date',
+  date: {
+    start,
+    end: null,
+    time_zone: null,
+  },
+  id: 'mockedId',
+})
 
 export const nNumber = (number: number | null): {
   type: 'number';
@@ -100,11 +124,6 @@ export type QueryBody = {
       direction: string
     }[]
   }
-}
-
-export type WeekResponse = {
-  id: string
-  properties: WeekProperties
 }
 
 export type WithAuth<P> = P & {
