@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
 import { NotionMock } from '../support/notionMock'
+import { today } from '../../src/data/dateUtils'
 
 let notionMock: NotionMock
 
@@ -182,19 +183,24 @@ describe('getUpcomingWeeks', () => {
       ])
     })
 
-    // it('should call query with the correct parameters', async () => {
-    //   const notion = new Notion()
-    //   await notion.getUpcomingWeeks()
+    it('should call query with the correct parameters', async () => {
+      const notion = new Notion()
+      await notion.getUpcomingWeeks()
 
-    //   expect(Client.databases.query).toHaveBeenCalledWith({
-    //     database_id: 'DATABASE_ID',
-    //     filter: {
-    //       property: 'Date',
-    //       date: {
-    //         on_or_after: '2021-01-01',
-    //       },
-    //     },
-    //   })
-    // })
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'DATABASE_ID',
+        page_size: 10,
+        filter: {
+          property: 'Date',
+          date: {
+            on_or_after: today(),
+          },
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
+    })
   })
 })
