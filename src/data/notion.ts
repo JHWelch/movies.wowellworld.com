@@ -59,7 +59,7 @@ export default class Notion {
 
   async getPastWeeks (): Promise<Week[]> {
     const records = await this.#notion.databases.query({
-      database_id: 'DATABASE_ID',
+      database_id: this.#databaseId,
       page_size: 10,
       filter: {
         property: 'Date',

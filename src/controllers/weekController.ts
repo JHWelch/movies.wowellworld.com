@@ -9,7 +9,7 @@ class WeekController {
   }
 
   async index (req: Request, res: Response): Promise<void> {
-    const { past } = this.parseIndexFilters(req)
+    const { past } = this.parseIndexQuery(req)
 
     const weeks = past
       ? await this.notion.getPastWeeks()
@@ -18,18 +18,14 @@ class WeekController {
     res.json(weeks.map((week) => week.toDTO()))
   }
 
-  parseIndexFilters(req: Request): { past: boolean } {
-    const { filter } = req.query
+  parseIndexQuery(req: Request): { past: boolean } {
+    const { past } = req.query
 
-    if (filter == null) {
+    if (past == null) {
       return { past: false }
     }
 
-    const filters = Array.isArray(filter) ? filter : [filter]
-
-    return {
-      past: filters.includes('past'),
-    }
+    return { past: past === 'true' }
   }
 
   async show (req: Request, res: Response): Promise<void> {

@@ -1,0 +1,11 @@
+<%- include('../partials/header') %>
+
+<div class="flex flex-col items-center w-full">
+  <h1 class="text-3xl text-center">
+    Past Releases
+  </h1>
+</div>
+
+<%- include('../partials/weeks', { fetchUrl: '/api/weeks?past=true' }) %>
+
+<%- include('../partials/footer') %>

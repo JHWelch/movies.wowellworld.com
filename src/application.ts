@@ -3,6 +3,7 @@ import DashboardController from './controllers/dashboardController.js'
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
 import type Notion from './data/notion'
+import PreviousController from './controllers/previousController.js'
 
 class Application {
   express: Express
@@ -22,6 +23,7 @@ class Application {
 
     return new Map([
       ['/', DashboardController.index],
+      ['/previous', PreviousController.index],
       ['/api/weeks', weekController.index.bind(weekController)],
       ['/api/weeks/:date', weekController.show.bind(weekController)],
     ])
