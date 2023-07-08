@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPage } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { QueryBody, WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
+import { WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
