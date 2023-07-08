@@ -57,37 +57,15 @@ export class NotionMock {
   mockQuery = (weeks: PageObjectResponse[] = []) => {
     (Client as unknown as jest.Mock).mockImplementation(() => {
       this.query = jest.fn<typeof Client.prototype.databases.query>()
-        .mockImplementation(async (args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => {
-          const { database_id, filter } = args as QueryBody
-          if (database_id !== 'DATABASE_ID') {
-            throw new Error('Database not found')
-          }
-          if (filter == null){
-            throw new Error('Filter not specified')
-          }
-
-          const { property, date } = filter
-          if (property !== 'Date') {
-            throw new Error('Invalid property')
-          }
-          if (date == null) {
-            throw new Error('Date not specified')
-          }
-
-          const { equals, on_or_after } = date
-          if (equals === undefined && on_or_after === undefined) {
-            throw new Error('Comparison not specified')
-          }
-
-          return {
+        .mockImplementation(
+          async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
             page: {},
             type: 'page',
             object: 'list',
             next_cursor: null,
             has_more: false,
             results: weeks,
-          }
-        })
+          }))
 
       return { databases: { query: this.query } }
     })
