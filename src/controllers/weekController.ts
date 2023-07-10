@@ -19,9 +19,7 @@ class WeekController {
   }
 
   parseIndexQuery(req: Request): { past: boolean } {
-    const { past } = req.query
-
-    return { past: past === 'true' }
+    return { past: req.query.past === 'true' }
   }
 
   async show (req: Request, res: Response): Promise<void> {
