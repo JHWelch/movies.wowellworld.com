@@ -14,6 +14,6 @@ describe('index', () => {
 
     await DashboardController.index(req, res)
 
-    expect(res.render).toHaveBeenCalledWith('index')
+    expect(res.render).toHaveBeenCalledWith('index', { path: '/' })
   })
 })

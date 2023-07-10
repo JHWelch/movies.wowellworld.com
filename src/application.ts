@@ -22,8 +22,8 @@ class Application {
     const weekController = new WeekController(this.notion)
 
     return new Map([
-      ['/', DashboardController.index],
-      ['/previous', PreviousController.index],
+      [DashboardController.PATHS.index, DashboardController.index],
+      [PreviousController.PATHS.index, PreviousController.index],
       ['/api/weeks', weekController.index.bind(weekController)],
       ['/api/weeks/:date', weekController.show.bind(weekController)],
     ])

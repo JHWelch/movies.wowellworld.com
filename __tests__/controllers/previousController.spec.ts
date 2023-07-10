@@ -14,6 +14,6 @@ describe('index', () => {
 
     await PreviousController.index(req, res)
 
-    expect(res.render).toHaveBeenCalledWith('previous/index')
+    expect(res.render).toHaveBeenCalledWith('previous/index', { path: '/previous' })
   })
 })
