@@ -1,4 +1,4 @@
-import DashboardController from '../../src/controllers/dashboardController'
+import PreviousController from '../../src/controllers/previousController'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 
@@ -9,11 +9,11 @@ beforeEach(() => {
 })
 
 describe('index', () => {
-  it('should render index view', async () => {
+  it('should render previous view', async () => {
     const req = getMockReq()
 
-    await DashboardController.index(req, res)
+    await PreviousController.index(req, res)
 
-    expect(res.render).toHaveBeenCalledWith('index', { path: '/' })
+    expect(res.render).toHaveBeenCalledWith('previous/index', { path: '/previous' })
   })
 })

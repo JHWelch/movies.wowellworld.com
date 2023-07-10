@@ -8,10 +8,18 @@ class WeekController {
     this.notion = notion
   }
 
-  async index (_req: Request, res: Response): Promise<void> {
-    const weeks = await this.notion.getUpcomingWeeks()
+  async index (req: Request, res: Response): Promise<void> {
+    const { past } = this.parseIndexQuery(req)
+
+    const weeks = past
+      ? await this.notion.getPastWeeks()
+      : await this.notion.getUpcomingWeeks()
 
     res.json(weeks.map((week) => week.toDTO()))
+  }
+
+  parseIndexQuery(req: Request): { past: boolean } {
+    return { past: req.query.past === 'true' }
   }
 
   async show (req: Request, res: Response): Promise<void> {

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-extraneous-class */
 import { type Request, type Response } from 'express'
 
-class DashboardController {
+class PreviousController {
   static PATHS = {
-    index: '/',
+    index: '/previous',
   }
 
   static async index (_req: Request, res: Response): Promise<void> {
-    res.render('index', { path: DashboardController.PATHS.index })
+    res.render('previous/index', { path: PreviousController.PATHS.index })
   }
 }
 
-export default DashboardController
+export default PreviousController

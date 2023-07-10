@@ -1,123 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('partials/header') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="flex flex-col items-center w-full">
+  <div class="max-w-4xl px-4 py-6">
+    <h1 class="flex flex-col items-center text-center">
+      <span class="text-xl text-slate-600">
+        Wowell World Studios Presents
+      </span>
 
-  <title>Thursday Night Movie Club</title>
+      <span class="mt-1 text-3xl">
+        Thursday&nbsp;Night Movie&nbsp;Club
+      </span>
+    </h1>
 
-  <link rel="stylesheet" href="/public/app.css">
+    <div class="mt-4 space-y-4 leading-7">
+      <h2 class="text-2xl font-semibold text-violet-600">
+        You’re invited!
+      </h2>
 
-  <link rel="icon" href="https://fav.farm/🎥" />
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-</head>
+      <p>
+        For every week that we are in town, we are opening Wowell World Studios to you to enjoy an evening of
+        laughs, tears, screams, and likely many groans. Every Thursday, starting ~5:30 PM, we’re gonna be watching
+        movies. First, we’ll show something campy, weird, and likely Not Good Cinema. And then, it’s on to the main
+        attraction, which will range from high brow to low brow and anything in between. You are welcome to arrive
+        during the first movie at any point, but just as Hitchcock would intend, once the movie has started we gotta
+        be butts in seats and lights out! Just kidding - but please be kind, rewind, and try to arrive on time.
+      </p>
 
-<body class="flex justify-center bg-slate-100">
-  <div class="flex flex-col justify-center w-full align-middle bg-slate-100">
-    <div class="flex flex-col items-center w-full">
-      <div class="max-w-4xl p-4">
-        <h1 class="flex flex-col items-center text-center">
-          <span class="text-xl text-slate-600">
-            Wowell World Studios Presents
-          </span>
+      <p class="font-semibold text-violet-600">
+        To RSVP, just accept the calendar invite for that week! If you don’t use something compatible with Google
+        Calendar… who are you?
+      </p>
 
-          <span class="mt-1 text-3xl">
-            Thursday&nbsp;Night Movie&nbsp;Club
-          </span>
-        </h1>
-
-        <div class="mt-4 space-y-4 leading-7">
-          <h2 class="text-2xl font-semibold text-violet-600">
-            You’re invited!
-          </h2>
-
-          <p>
-            For every week that we are in town, we are opening Wowell World Studios to you to enjoy an evening of
-            laughs, tears, screams, and likely many groans. Every Thursday, starting ~5:30 PM, we’re gonna be watching
-            movies. First, we’ll show something campy, weird, and likely Not Good Cinema. And then, it’s on to the main
-            attraction, which will range from high brow to low brow and anything in between. You are welcome to arrive
-            during the first movie at any point, but just as Hitchcock would intend, once the movie has started we gotta
-            be butts in seats and lights out! Just kidding - but please be kind, rewind, and try to arrive on time.
-          </p>
-
-          <p class="font-semibold text-violet-600">
-            To RSVP, just accept the calendar invite for that week! If you don’t use something compatible with Google
-            Calendar… who are you?
-          </p>
-
-          <p>
-            From time to time, we’ll have some field trips to special showings at theaters in our neighborhood. We are
-            in one of the best spots in the city for movie lovers, with The Music Box Theatre and Alamo Drafthouse/Video
-            Vortex within walking distance. And there’s food over this way!
-          </p>
-        </div>
-      </div>
-
-      <div
-        x-data="{
-            weeks: [],
-            loading: true,
-            error: false,
-            movieSizeClass: function (week, max) {
-              return 'w-1/' + Math.min(week.movies.length, max);
-            },
-            titleSize: function (movie) {
-              return movie.title.length > 20 ? 'text-xl' : 'text-2xl';
-            },
-            weekTitle: function (week) {
-              return week.isSkipped ? 'No movies this week!' : week.theme;
-            },
-            reload: function () {
-              this.loading = true;
-              this.error = false;
-              this.weeks = fetch('/api/weeks/')
-                .then(response => {
-                  if (!response.ok) {
-                    console.error('Error fetching week data: ', response.status, response.statusText);
-                    this.error = true;
-                    return Promise.resolve([]);
-                  }
-
-                  return response.json();
-                })
-                .then(data => {
-                  this.weeks = data;
-                  this.loading = false;
-                });
-            }
-          }"
-          x-init="reload()"
-      >
-        <template x-if="loading">
-          <%- include('partials/loading') %>
-        </template>
-
-        <template x-if="error">
-          <%- include('partials/error') %>
-        </template>
-
-        <template x-for="[index, week] in Object.entries(weeks)">
-          <div>
-            <template x-if="index == 0">
-              <%- include('partials/section_title', { text: 'Now Playing' }); %>
-            </template>
-
-            <%- include('partials/week'); %>
-
-            <template x-if="index == 0">
-              <%- include('partials/section_title', { text: 'Coming Attractions' }); %>
-            </template>
-          </div>
-        </template>
-      </div>
-    </div>
-
-    <div class="mt-10 sm:p-4">
-      <%- include('partials/calendar'); %>
+      <p>
+        From time to time, we’ll have some field trips to special showings at theaters in our neighborhood. We are
+        in one of the best spots in the city for movie lovers, with The Music Box Theatre and Alamo Drafthouse/Video
+        Vortex within walking distance. And there’s food over this way!
+      </p>
     </div>
   </div>
-</body>
 
-</html>
+  <%- include('partials/weeks', {
+    fetchUrl: '/api/weeks/',
+    sectionTitles: {
+      0: 'Now Playing',
+      1: 'Coming Attractions',
+    },
+  }); %>
+
+</div>
+
+<div class="mt-10 sm:p-4">
+  <%- include('partials/calendar'); %>
+</div>
+
+<%- include('partials/footer') %>
