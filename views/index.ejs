@@ -39,7 +39,13 @@
     </div>
   </div>
 
-  <%- include('partials/weeks', { fetchUrl: '/api/weeks/'}); %>
+  <%- include('partials/weeks', {
+    fetchUrl: '/api/weeks/',
+    sectionTitles: {
+      0: 'Now Playing',
+      1: 'Coming Attractions',
+    },
+  }); %>
 
 </div>
 

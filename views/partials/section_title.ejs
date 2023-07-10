@@ -1,9 +1,11 @@
-<div class="flex justify-center w-full">
-  <h2 class="relative flex items-center justify-between w-full max-w-5xl mt-12 text-2xl italic text-center">
-    <span class="flex-1 ml-4 mr-12 border-2 border-b border-violet-300"></span>
+<template x-if="sectionTitles[index]">
+  <div class="flex justify-center w-full">
+    <h2 class="relative flex items-center justify-between w-full max-w-5xl mt-12 text-2xl italic text-center">
+      <span class="flex-1 ml-4 mr-12 border-2 border-b border-violet-300"></span>
 
-    <span><%= text %></span>
+      <span x-text="sectionTitles[index]"></span>
 
-    <span class="flex-1 ml-12 mr-4 border-2 border-b border-violet-300"></span>
-  </h2>
-</div>
+      <span class="flex-1 ml-12 mr-4 border-2 border-b border-violet-300"></span>
+    </h2>
+  </div>
+</template>

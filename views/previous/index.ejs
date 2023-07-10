@@ -6,6 +6,9 @@
   </h1>
 </div>
 
-<%- include('../partials/weeks', { fetchUrl: '/api/weeks?past=true' }) %>
+<%- include('../partials/weeks', {
+  fetchUrl: '/api/weeks?past=true',
+  sectionTitles: { 0: 'Past Releases' },
+}); %>
 
 <%- include('../partials/footer') %>

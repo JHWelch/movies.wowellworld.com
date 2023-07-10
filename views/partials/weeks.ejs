@@ -3,6 +3,7 @@
       weeks: [],
       loading: true,
       error: false,
+      sectionTitles: <%= JSON.stringify(sectionTitles) ?? {} %>,
       movieSizeClass: function (week, max) {
         return 'w-1/' + Math.min(week.movies.length, max);
       },
@@ -43,15 +44,9 @@
 
   <template x-for="[index, week] in Object.entries(weeks)">
     <div>
-      <template x-if="index == 0">
-        <%- include('section_title', { text: 'Now Playing' }); %>
-      </template>
+      <%- include('section_title') %>
 
       <%- include('week'); %>
-
-      <template x-if="index == 0">
-        <%- include('section_title', { text: 'Coming Attractions' }); %>
-      </template>
     </div>
   </template>
 </div>
