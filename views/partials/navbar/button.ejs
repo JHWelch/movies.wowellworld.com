@@ -1,3 +1,9 @@
-<button class="h-full p-2 font-medium text-gray-800 hover:bg-violet-300">
+<a
+  href="<%= route %>"
+  class="h-full p-2 font-medium flex flex-col justify-center <%= route === path
+      ? 'text-white bg-violet-600'
+      : 'text-gray-800 hover:bg-violet-300'
+    %>"
+>
   <%= text %>
-</button>
+</a>
