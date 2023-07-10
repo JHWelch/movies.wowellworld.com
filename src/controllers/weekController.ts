@@ -21,10 +21,6 @@ class WeekController {
   parseIndexQuery(req: Request): { past: boolean } {
     const { past } = req.query
 
-    if (past == null) {
-      return { past: false }
-    }
-
     return { past: past === 'true' }
   }
 
