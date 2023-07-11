@@ -1,0 +1,52 @@
+<div
+  x-data="{
+      weeks: [],
+      loading: true,
+      error: false,
+      sectionTitles: <%= JSON.stringify(sectionTitles) ?? {} %>,
+      movieSizeClass: function (week, max) {
+        return 'w-1/' + Math.min(week.movies.length, max);
+      },
+      titleSize: function (movie) {
+        return movie.title.length > 20 ? 'text-xl' : 'text-2xl';
+      },
+      weekTitle: function (week) {
+        return week.isSkipped ? 'No movies this week!' : week.theme;
+      },
+      reload: function () {
+        this.loading = true;
+        this.error = false;
+        this.weeks = fetch('<%= fetchUrl %>')
+          .then(response => {
+            if (!response.ok) {
+              console.error('Error fetching week data: ', response.status, response.statusText);
+              this.error = true;
+              return Promise.resolve([]);
+            }
+
+            return response.json();
+          })
+          .then(data => {
+            this.weeks = data;
+            this.loading = false;
+          });
+      }
+    }"
+    x-init="reload()"
+>
+  <template x-if="loading">
+    <%- include('loading') %>
+  </template>
+
+  <template x-if="error">
+    <%- include('error') %>
+  </template>
+
+  <template x-for="[index, week] in Object.entries(weeks)">
+    <div>
+      <%- include('section_title') %>
+
+      <%- include('week'); %>
+    </div>
+  </template>
+</div>

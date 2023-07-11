@@ -1,9 +1,13 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Notion from '../../src/data/notion'
-import { mockIsFullPage, mockQuery, mockRetrieve, mockWeek } from '../support/notionHelper'
+import { NotionMock } from '../support/notionMock'
+import { today } from '../../src/data/dateUtils'
+
+let notionMock: NotionMock
 
 beforeAll(() => {
   jest.mock('@notionhq/client')
+  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
@@ -56,17 +60,16 @@ describe('getMovie', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    mockRetrieve()
+    notionMock.mockRetrieve()
   })
 
   describe('when the movie exists', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
+      notionMock.mockIsFullPage(true)
     })
 
     it('should return the movie', async () => {
-      const notion = new Notion()
-      const movie = await notion.getMovie('movieId')
+      const movie = await new Notion().getMovie('movieId')
 
       expect(movie).toEqual({
         id: 'movieId',
@@ -80,17 +83,21 @@ describe('getMovie', () => {
         showingUrl: 'movieShowingUrl',
       })
     })
+
+    it ('calls the retrieve method with page_id', async () => {
+      await new Notion().getMovie('movieId')
+
+      expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
+    })
   })
 
   describe('returns not full page', () => {
     beforeEach(() => {
-      mockIsFullPage(false)
+      notionMock.mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
-      const notion = new Notion()
-
-      await expect(notion.getMovie('movieId'))
+      await expect(new Notion().getMovie('movieId'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
@@ -102,12 +109,12 @@ describe('getWeek', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    mockQuery([mockWeek('weekId', '2021-01-01', 'weekTheme')])
+    notionMock.mockQuery([NotionMock.mockWeek('weekId', '2021-01-01', 'weekTheme')])
   })
 
   describe('when the week exists', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
+      notionMock.mockIsFullPage(true)
     })
 
     it('should return the week', async () => {
@@ -126,7 +133,7 @@ describe('getWeek', () => {
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      mockIsFullPage(false)
+      notionMock.mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -141,11 +148,11 @@ describe('getWeek', () => {
 describe('getUpcomingWeeks', () => {
   describe('when the weeks exist', () => {
     beforeEach(() => {
-      mockIsFullPage(true)
-      mockQuery([
-        mockWeek('weekId1','2021-01-01', 'theme1'),
-        mockWeek('weekId2','2021-01-08', 'theme2'),
-        mockWeek('weekId3','2021-01-15', 'theme3'),
+      notionMock.mockIsFullPage(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
+        NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
+        NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
       ])
     })
 
@@ -174,6 +181,80 @@ describe('getUpcomingWeeks', () => {
           'theme': 'theme3',
         },
       ])
+    })
+
+    it('should call query with the correct parameters', async () => {
+      const notion = new Notion()
+      await notion.getUpcomingWeeks()
+
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'DATABASE_ID',
+        page_size: 10,
+        filter: {
+          property: 'Date',
+          date: { on_or_after: today() },
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
+    })
+  })
+})
+
+describe ('getPastWeeks', () => {
+  beforeEach(() => {
+    notionMock.mockIsFullPage(true)
+    notionMock.mockQuery([
+      NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
+      NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
+      NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
+    ])
+  })
+
+  it('should return the weeks', async () => {
+    const notion = new Notion()
+    const weeks = await notion.getPastWeeks()
+
+    expect(weeks).toEqual([
+      {
+        'id': 'weekId3',
+        'date': new Date('2021-01-15'),
+        'isSkipped': false,
+        'movies': [],
+        'theme': 'theme3',
+      }, {
+        'id': 'weekId2',
+        'date': new Date('2021-01-08'),
+        'isSkipped': false,
+        'movies': [],
+        'theme': 'theme2',
+      }, {
+        'id': 'weekId1',
+        'date': new Date('2021-01-01'),
+        'isSkipped': false,
+        'movies': [],
+        'theme': 'theme1',
+      },
+    ])
+  })
+
+  it('should call query with the correct parameters', async () => {
+    const notion = new Notion()
+    await notion.getPastWeeks()
+
+    expect(notionMock.query).toHaveBeenCalledWith({
+      database_id: 'DATABASE_ID',
+      page_size: 10,
+      filter: {
+        property: 'Date',
+        date: { before: today() },
+      },
+      sorts: [{
+        property: 'Date',
+        direction: 'descending',
+      }],
     })
   })
 })

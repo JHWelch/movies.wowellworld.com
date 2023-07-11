@@ -1,0 +1,8 @@
+<%- include('../partials/header') %>
+
+<%- include('../partials/weeks', {
+  fetchUrl: '/api/weeks?past=true',
+  sectionTitles: { 0: 'Past Releases' },
+}); %>
+
+<%- include('../partials/footer') %>
