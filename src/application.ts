@@ -4,6 +4,7 @@ import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
 import type Notion from './data/notion'
 import PreviousController from './controllers/previousController.js'
+import CacheController from './controllers/cacheController.js'
 
 class Application {
   express: Express
@@ -19,6 +20,7 @@ class Application {
    * This currently only works for GET requests
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
+    const cacheController = new CacheController(this.notion)
     const weekController = new WeekController(this.notion)
 
     return new Map([
@@ -26,6 +28,7 @@ class Application {
       [PreviousController.PATHS.index, PreviousController.index],
       ['/api/weeks', weekController.index.bind(weekController)],
       ['/api/weeks/:date', weekController.show.bind(weekController)],
+      ['/api/cache', cacheController.cache.bind(cacheController)],
     ])
   }
 
