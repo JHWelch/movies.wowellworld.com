@@ -43,6 +43,10 @@ export default class Notion {
     const records = await this.#notion.databases.query({
       database_id: this.#databaseId,
       page_size: 100,
+      filter: {
+        property: 'Date',
+        date: { is_not_empty: true },
+      },
       sorts: [{
         property: 'Date',
         direction: 'ascending',
@@ -102,6 +106,8 @@ export default class Notion {
       properties.Movies.relation
         .map(async (relation) => await this.getMovie(relation.id))
     )
+
+    console.log(record)
 
     return Week.fromNotion(record).setMovies(movies)
   }

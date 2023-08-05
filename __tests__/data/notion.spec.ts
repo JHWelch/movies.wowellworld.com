@@ -303,6 +303,10 @@ describe('getWeeks', () => {
     expect(notionMock.query).toHaveBeenCalledWith({
       database_id: 'DATABASE_ID',
       page_size: 100,
+      filter: {
+        property: 'Date',
+        date: { is_not_empty: true },
+      },
       sorts: [{
         property: 'Date',
         direction: 'ascending',
