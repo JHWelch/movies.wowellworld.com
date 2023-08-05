@@ -1,8 +1,8 @@
-import { Client, isFullPage } from '@notionhq/client'
+import { Client, isFullPage, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../models/movie.js'
 import Week from '../models/week.js'
 import { today } from './dateUtils.js'
-import { type PageObjectResponse, type PartialPageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { PartialDatabaseObjectResponse, type PageObjectResponse, type PartialPageObjectResponse, DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../types/weekProperties.js'
 
 export default class Notion {
@@ -76,9 +76,9 @@ export default class Notion {
   }
 
   async recordToWeek (
-    record: PageObjectResponse | PartialPageObjectResponse
+    record: PageObjectResponse | PartialPageObjectResponse | PartialDatabaseObjectResponse | DatabaseObjectResponse
   ): Promise<Week> {
-    if (!isFullPage(record)) {
+    if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }
 
