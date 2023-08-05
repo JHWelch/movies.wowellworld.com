@@ -2,7 +2,12 @@ import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../models/movie.js'
 import Week from '../models/week.js'
 import { today } from './dateUtils.js'
-import { PartialDatabaseObjectResponse, type PageObjectResponse, type PartialPageObjectResponse, DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  PartialDatabaseObjectResponse,
+  type PageObjectResponse,
+  type PartialPageObjectResponse,
+  DatabaseObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../types/weekProperties.js'
 
 export default class Notion {
@@ -106,8 +111,6 @@ export default class Notion {
       properties.Movies.relation
         .map(async (relation) => await this.getMovie(relation.id))
     )
-
-    console.log(record)
 
     return Week.fromNotion(record).setMovies(movies)
   }
