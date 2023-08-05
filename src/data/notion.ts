@@ -1,4 +1,4 @@
-import { Client, isFullPage, isFullPageOrDatabase } from '@notionhq/client'
+import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../models/movie.js'
 import Week from '../models/week.js'
 import { today } from './dateUtils.js'
@@ -19,7 +19,7 @@ export default class Notion {
 
   async getMovie (id: string): Promise<Movie> {
     const page = await this.#notion.pages.retrieve({ page_id: id })
-    if (!isFullPage(page)) {
+    if (!isFullPageOrDatabase(page)) {
       throw new Error('Page was not successfully retrieved')
     }
 

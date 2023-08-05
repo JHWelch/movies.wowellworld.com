@@ -25,7 +25,7 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      notionMock.mockIsFullPage(true)
+      notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
         NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
@@ -67,7 +67,7 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      notionMock.mockIsFullPage(true)
+      notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
         NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
