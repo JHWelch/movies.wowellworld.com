@@ -1,6 +1,7 @@
 import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import type Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
+import { dateToString } from '../data/dateUtils.js'
 
 export default class Week {
   id: string
@@ -60,5 +61,9 @@ export default class Week {
       movies: this.movies.map((movie) => movie.toDTO()),
       isSkipped: this.isSkipped,
     }
+  }
+
+  get dateString (): string {
+    return dateToString(this.date)
   }
 }
