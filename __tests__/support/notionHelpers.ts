@@ -111,6 +111,7 @@ export const pageObjectResponse = (
   parent: { type: 'database_id', database_id: '' },
   icon: null,
   cover: null,
+  public_url: '',
   last_edited_by: {
     id: 'string',
     object: 'user',

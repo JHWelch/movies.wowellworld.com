@@ -1,12 +1,12 @@
 import { jest } from '@jest/globals'
-import { Client, isFullPage } from '@notionhq/client'
+import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
 import { WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve> | undefined
-  isFullPage: jest.MockedFunction<typeof isFullPage> | undefined
+  isFullPageOrDatabase: jest.MockedFunction<typeof isFullPageOrDatabase> | undefined
 
   mockNotionEnv = () => {
     process.env = {
@@ -15,8 +15,8 @@ export class NotionMock {
     }
   }
 
-  mockIsFullPage = (response: boolean) => {
-    (isFullPage as unknown as jest.Mock).mockReturnValue(response)
+  mockIsFullPageOrDatabase = (response: boolean) => {
+    (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
   }
 
   mockRetrieve = (
@@ -59,8 +59,8 @@ export class NotionMock {
       this.query = jest.fn<typeof Client.prototype.databases.query>()
         .mockImplementation(
           async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
-            page: {},
-            type: 'page',
+            page_or_database: {},
+            type: 'page_or_database',
             object: 'list',
             next_cursor: null,
             has_more: false,

@@ -1,4 +1,4 @@
-import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import type Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
 
@@ -22,7 +22,7 @@ export default class Week {
     this.movies = []
   }
 
-  static fromNotion (record: PageObjectResponse): Week {
+  static fromNotion (record: PageObjectResponse | DatabaseObjectResponse): Week {
     const properties = record.properties as unknown as WeekProperties
 
     return new Week(
