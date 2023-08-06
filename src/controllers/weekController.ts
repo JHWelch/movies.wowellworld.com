@@ -49,7 +49,7 @@ export default class WeekController {
   }
 
   async getUpcomingWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '>=', this.today()), orderBy('date', 'desc'))
+    return this.getWeeks(where('date', '>=', this.today()), orderBy('date'))
   }
 
   async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
