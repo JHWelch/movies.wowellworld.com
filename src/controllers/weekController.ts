@@ -45,11 +45,11 @@ export default class WeekController {
   // }
 
   async getPastWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '<', Timestamp.now()), orderBy('date', 'desc'))
+    return this.getWeeks(where('date', '<', this.today()), orderBy('date', 'desc'))
   }
 
   async getUpcomingWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '>=', Timestamp.now()), orderBy('date', 'desc'))
+    return this.getWeeks(where('date', '>=', this.today()), orderBy('date', 'desc'))
   }
 
   async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
@@ -59,5 +59,12 @@ export default class WeekController {
 
     return querySnapshot.docs
       .map((doc) => Week.fromFirebase(doc.data()))
+  }
+
+  today(): Timestamp {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    return Timestamp.fromDate(today)
   }
 }
