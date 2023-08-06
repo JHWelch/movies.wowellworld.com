@@ -4,9 +4,8 @@ import Notion from '../data/notion'
 import Week from '../models/week'
 
 export default class CacheController {
-  notion: Notion
-
   firestore: Firestore
+  notion: Notion
 
   constructor (firestore: Firestore, notion: Notion) {
     this.firestore = firestore
