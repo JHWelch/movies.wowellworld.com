@@ -21,6 +21,7 @@ module.exports = {
     collectionPath,
     documentPath,
   }),
+  orderBy: jest.fn(),
   query: jest.fn(),
   transaction: transaction,
   Timestamp: {

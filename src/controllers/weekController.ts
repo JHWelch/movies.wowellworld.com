@@ -3,8 +3,10 @@ import {
   collection,
   Firestore,
   getDocs,
+  orderBy,
   query,
   QueryFieldFilterConstraint,
+  QueryConstraint,
   Timestamp,
   where,
 } from 'firebase/firestore'
@@ -43,16 +45,16 @@ export default class WeekController {
   // }
 
   async getPastWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '<', Timestamp.now()))
+    return this.getWeeks(where('date', '<', Timestamp.now()), orderBy('date', 'desc'))
   }
 
   async getUpcomingWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '>=', Timestamp.now()))
+    return this.getWeeks(where('date', '>=', Timestamp.now()), orderBy('date', 'desc'))
   }
 
-  async getWeeks(where: QueryFieldFilterConstraint): Promise<Week[]> {
+  async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
     const weeks = collection(this.firestore, 'weeks')
-    const q = query(weeks, where)
+    const q = query(weeks, where, constraint)
     const querySnapshot = await getDocs(q)
 
     return querySnapshot.docs
