@@ -24,11 +24,11 @@ export default class CacheController {
   }
 
   async cache (_req: Request, res: Response): Promise<void> {
-    const weeks = await this.notion.getUpcomingWeeks()
+    const weeks = await this.notion.getWeeks()
 
     await runTransaction(this.db, async (transaction) => {
       weeks.forEach((week: Week) => {
-        const ref = doc(this.db, 'weeks', week.date.toDateString())
+        const ref = doc(this.db, 'weeks', week.dateString)
         transaction.set(ref, week.toDTO())
       })
     })
