@@ -15,8 +15,8 @@ class Application {
 
   constructor (notion: Notion) {
     this.express = setupExpress()
-    this.notion = notion
     this.firestore = setupFirestore()
+    this.notion = notion
     this.registerRoutes()
   }
 
@@ -24,7 +24,7 @@ class Application {
    * This currently only works for GET requests
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
-    const cacheController = new CacheController(this.notion, this.firestore)
+    const cacheController = new CacheController(this.firestore, this.notion)
     const weekController = new WeekController(this.notion)
 
     return new Map([

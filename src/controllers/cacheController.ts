@@ -8,9 +8,9 @@ export default class CacheController {
 
   firestore: Firestore
 
-  constructor (notion: Notion, firestore: Firestore) {
-    this.notion = notion
+  constructor (firestore: Firestore, notion: Notion) {
     this.firestore = firestore
+    this.notion = notion
   }
 
   async cache (_req: Request, res: Response): Promise<void> {

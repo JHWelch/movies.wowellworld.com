@@ -47,7 +47,7 @@ describe('cache', () => {
 
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () =>  {
-      const cacheController = new CacheController(notion, firestore)
+      const cacheController = new CacheController(firestore, notion)
 
       await cacheController.cache(req, res)
 
