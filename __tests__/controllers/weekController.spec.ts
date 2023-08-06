@@ -3,11 +3,8 @@ import WeekController from '../../src/controllers/weekController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import setupFirestore from '../../src/config/firestore'
-import {
-  Firestore,
-  getDocs,
-  Timestamp,
-} from 'firebase/firestore'
+import { Firestore } from 'firebase/firestore'
+import { FirebaseMock } from '../support/firebaseMock'
 
 const { res, mockClear } = getMockRes()
 
@@ -28,38 +25,25 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      firestore = setupFirestore();
-      (getDocs as unknown as jest.Mock).mockImplementation(() => {
-        return {
-          docs: [
-            {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-01')),
-                id: 'id1',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme1',
-              }),
-            }, {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-08')),
-                id: 'id2',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme2',
-              }),
-            }, {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-15')),
-                id: 'id3',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme3',
-              }),
-            },
-          ],
-        }
-      })
+      firestore = setupFirestore()
+      FirebaseMock.mockWeeks([
+        {
+          date: new Date('2021-01-01'),
+          id: 'id1',
+          isSkipped: false,
+          theme: 'theme1',
+        }, {
+          date: new Date('2021-01-08'),
+          id: 'id2',
+          isSkipped: false,
+          theme: 'theme2',
+        }, {
+          date: new Date('2021-01-15'),
+          id: 'id3',
+          isSkipped: false,
+          theme: 'theme3',
+        },
+      ])
       req = getMockReq()
     })
 
@@ -95,38 +79,25 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      firestore = setupFirestore();
-      (getDocs as unknown as jest.Mock).mockImplementation(() => {
-        return {
-          docs: [
-            {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-01')),
-                id: 'id1',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme1',
-              }),
-            }, {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-08')),
-                id: 'id2',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme2',
-              }),
-            }, {
-              data: () => ({
-                date: Timestamp.fromDate(new Date('2021-01-15')),
-                id: 'id3',
-                isSkipped: false,
-                movies: [],
-                theme: 'theme3',
-              }),
-            },
-          ],
-        }
-      })
+      firestore = setupFirestore()
+      FirebaseMock.mockWeeks([
+        {
+          date: new Date('2021-01-01'),
+          id: 'id1',
+          isSkipped: false,
+          theme: 'theme1',
+        }, {
+          date: new Date('2021-01-08'),
+          id: 'id2',
+          isSkipped: false,
+          theme: 'theme2',
+        }, {
+          date: new Date('2021-01-15'),
+          id: 'id3',
+          isSkipped: false,
+          theme: 'theme3',
+        },
+      ])
       req = getMockReq()
     })
 
