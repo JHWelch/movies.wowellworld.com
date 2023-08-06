@@ -5,14 +5,18 @@ import { type Express, type Request, type Response } from 'express'
 import type Notion from './data/notion'
 import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
+import { Firestore } from 'firebase/firestore'
+import setupFirestore from './config/firestore.js'
 
 class Application {
   express: Express
+  firestore: Firestore
   notion: Notion
 
   constructor (notion: Notion) {
     this.express = setupExpress()
     this.notion = notion
+    this.firestore = setupFirestore()
     this.registerRoutes()
   }
 
@@ -20,7 +24,7 @@ class Application {
    * This currently only works for GET requests
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
-    const cacheController = new CacheController(this.notion)
+    const cacheController = new CacheController(this.notion, this.firestore)
     const weekController = new WeekController(this.notion)
 
     return new Map([

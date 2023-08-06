@@ -3,12 +3,11 @@ import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import Notion from '../../src/data/notion'
 import CacheController from '../../src/controllers/cacheController'
-import { initializeApp } from 'firebase/app'
-import { applicationDefault } from 'firebase-admin/app'
-import { doc, getFirestore } from 'firebase/firestore'
+import { doc, Firestore } from 'firebase/firestore'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { Request } from 'express'
 import Week from '../../src/models/week'
+import setupFirestore from '../../src/config/firestore'
 
 
 let notionMock: NotionMock
@@ -29,19 +28,8 @@ beforeEach(() => {
   mockClear()
 })
 
-describe('constructor', () => {
-  it('initializes the db', () => {
-    const notion = new Notion()
-    const cacheController = new CacheController(notion)
-
-    expect (applicationDefault).toHaveBeenCalledTimes(1)
-    expect (initializeApp).toHaveBeenCalledTimes(1)
-    expect (getFirestore).toHaveBeenCalledTimes(1)
-    expect(cacheController.db).toBeDefined()
-  })
-})
-
 describe('cache', () => {
+  let firestore: Firestore
   let notion: Notion
   let req: Request
 
@@ -52,13 +40,14 @@ describe('cache', () => {
       NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
       NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
     ])
+    firestore = setupFirestore()
     notion = new Notion()
     req = getMockReq()
   })
 
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () =>  {
-      const cacheController = new CacheController(notion)
+      const cacheController = new CacheController(notion, firestore)
 
       await cacheController.cache(req, res)
 
@@ -66,17 +55,17 @@ describe('cache', () => {
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.db, 'weeks', '2021-01-01'),
+          doc(cacheController.firestore, 'weeks', '2021-01-01'),
           (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.db, 'weeks', '2021-01-08'),
+          doc(cacheController.firestore, 'weeks', '2021-01-08'),
           (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.db, 'weeks', '2021-01-15'),
+          doc(cacheController.firestore, 'weeks', '2021-01-15'),
           (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toDTO()
         )
     })

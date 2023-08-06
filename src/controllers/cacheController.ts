@@ -1,6 +1,4 @@
-import { doc, getFirestore, Firestore, runTransaction } from 'firebase/firestore'
-import { initializeApp } from 'firebase/app'
-import { applicationDefault } from 'firebase-admin/app'
+import { doc, Firestore, runTransaction } from 'firebase/firestore'
 import { Request, Response } from 'express'
 import Notion from '../data/notion'
 import Week from '../models/week'
@@ -8,27 +6,19 @@ import Week from '../models/week'
 export default class CacheController {
   notion: Notion
 
-  db: Firestore
+  firestore: Firestore
 
-  constructor (notion: Notion) {
+  constructor (notion: Notion, firestore: Firestore) {
     this.notion = notion
-
-    const firebaseConfig = {
-      credential: applicationDefault(),
-      projectId: process.env.GOOGLE_CLOUD_PROJECT,
-    }
-
-    const app = initializeApp(firebaseConfig)
-
-    this.db = getFirestore(app)
+    this.firestore = firestore
   }
 
   async cache (_req: Request, res: Response): Promise<void> {
     const weeks = await this.notion.getWeeks()
 
-    await runTransaction(this.db, async (transaction) => {
+    await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
-        const ref = doc(this.db, 'weeks', week.dateString)
+        const ref = doc(this.firestore, 'weeks', week.dateString)
         transaction.set(ref, week.toDTO())
       })
     })
