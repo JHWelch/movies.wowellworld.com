@@ -18,6 +18,7 @@ beforeAll(() => {
   jest.mock('@notionhq/client')
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
+  jest.mock('firebase/firestore')
 
   notionMock = new NotionMock()
 })
@@ -56,17 +57,17 @@ describe('cache', () => {
       expect(transaction.set)
         .toHaveBeenCalledWith(
           doc(cacheController.firestore, 'weeks', '2021-01-01'),
-          (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toDTO()
+          (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toFirebaseDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           doc(cacheController.firestore, 'weeks', '2021-01-08'),
-          (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toDTO()
+          (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toFirebaseDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           doc(cacheController.firestore, 'weeks', '2021-01-15'),
-          (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toDTO()
+          (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toFirebaseDTO()
         )
     })
   })

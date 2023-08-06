@@ -2,6 +2,7 @@ import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/clien
 import type Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
 import { dateToString } from '../data/dateUtils.js'
+import { Timestamp } from 'firebase/firestore'
 
 export default class Week {
   id: string
@@ -34,6 +35,21 @@ export default class Week {
     )
   }
 
+  static fromFirebase (record: {
+    id: string,
+    theme: string,
+    date: Timestamp,
+    movies: Movie[],
+    isSkipped: boolean,
+  }): Week {
+    return new Week(
+      record.id,
+      record.theme,
+      record.date.toDate(),
+      record.isSkipped,
+    ).setMovies(record.movies)
+  }
+
   displayDate (): string {
     return this.date.toLocaleDateString('en-US', {
       timeZone: 'UTC',
@@ -59,6 +75,16 @@ export default class Week {
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),
+      isSkipped: this.isSkipped,
+    }
+  }
+
+  toFirebaseDTO (): object {
+    return {
+      id: this.id,
+      theme: this.theme,
+      date: Timestamp.fromDate(this.date),
+      movies: this.movies.map((movie) => movie.toFirebaseDTO()),
       isSkipped: this.isSkipped,
     }
   }

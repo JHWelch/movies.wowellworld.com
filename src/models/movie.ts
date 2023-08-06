@@ -79,4 +79,18 @@ export default class Movie {
       displayLength: this.displayLength(),
     }
   }
+
+  toFirebaseDTO (): object {
+    return {
+      id: this.id,
+      title: this.title,
+      director: this.director,
+      year: this.year,
+      length: this.length,
+      imdbUrl: this.imdbUrl,
+      posterUrl: this.posterUrl,
+      theaterName: this.theaterName,
+      showingUrl: this.showingUrl,
+    }
+  }
 }

@@ -19,7 +19,7 @@ export default class CacheController {
     await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
         const ref = doc(this.firestore, 'weeks', week.dateString)
-        transaction.set(ref, week.toDTO())
+        transaction.set(ref, week.toFirebaseDTO())
       })
     })
 

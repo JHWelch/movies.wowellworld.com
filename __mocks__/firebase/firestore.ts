@@ -19,4 +19,7 @@ module.exports = {
     documentPath,
   }),
   transaction: transaction,
+  Timestamp: {
+    fromDate: (date: Date) => date.toDateString,
+  },
 }
