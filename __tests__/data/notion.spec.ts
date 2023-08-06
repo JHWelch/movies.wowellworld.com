@@ -261,7 +261,7 @@ describe ('getPastWeeks', () => {
 
 describe('getWeeks', () => {
   beforeEach(() => {
-    notionMock.mockIsFullPage(true)
+    notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([
       NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
       NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
