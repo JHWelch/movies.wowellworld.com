@@ -1,19 +1,30 @@
 import { type Request, type Response } from 'express'
-import type Notion from '../data/notion.js'
+import {
+  collection,
+  Firestore,
+  getDocs,
+  orderBy,
+  query,
+  QueryFieldFilterConstraint,
+  QueryConstraint,
+  Timestamp,
+  where,
+} from 'firebase/firestore'
+import Week from '../models/week.js'
 
-class WeekController {
-  notion: Notion
+export default class WeekController {
+  firestore: Firestore
 
-  constructor (notion: Notion) {
-    this.notion = notion
+  constructor (firestore: Firestore) {
+    this.firestore = firestore
   }
 
   async index (req: Request, res: Response): Promise<void> {
     const { past } = this.parseIndexQuery(req)
 
     const weeks = past
-      ? await this.notion.getPastWeeks()
-      : await this.notion.getUpcomingWeeks()
+      ? await this.getPastWeeks()
+      : await this.getUpcomingWeeks()
 
     res.json(weeks.map((week) => week.toDTO()))
   }
@@ -22,16 +33,38 @@ class WeekController {
     return { past: req.query.past === 'true' }
   }
 
-  async show (req: Request, res: Response): Promise<void> {
-    const week = await this.notion.getWeek(req.params.date)
+  // async show (req: Request, res: Response): Promise<void> {
+  //   const week = await this.getWeek(req.params.date)
 
-    if (week == null) {
-      res.status(404).json({ error: 'Week not found' })
-      return
-    }
+  //   if (week == null) {
+  //     res.status(404).json({ error: 'Week not found' })
+  //     return
+  //   }
 
-    res.json(week.toDTO())
+  //   res.json(week.toDTO())
+  // }
+
+  async getPastWeeks(): Promise<Week[]> {
+    return this.getWeeks(where('date', '<', this.today()), orderBy('date', 'desc'))
+  }
+
+  async getUpcomingWeeks(): Promise<Week[]> {
+    return this.getWeeks(where('date', '>=', this.today()), orderBy('date', 'desc'))
+  }
+
+  async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
+    const weeks = collection(this.firestore, 'weeks')
+    const q = query(weeks, where, constraint)
+    const querySnapshot = await getDocs(q)
+
+    return querySnapshot.docs
+      .map((doc) => Week.fromFirebase(doc.data()))
+  }
+
+  today(): Timestamp {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    return Timestamp.fromDate(today)
   }
 }
-
-export default WeekController

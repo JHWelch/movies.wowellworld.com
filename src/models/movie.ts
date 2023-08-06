@@ -1,5 +1,6 @@
 import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
 import type MovieProperties from '../types/movieProperties.js'
+import { DocumentData } from 'firebase/firestore'
 
 export default class Movie {
   id: string
@@ -50,6 +51,20 @@ export default class Movie {
     )
   }
 
+  static fromFirebase (movie: DocumentData): Movie {
+    return new Movie(
+      movie.id,
+      movie.title,
+      movie.director,
+      movie.year,
+      movie.length,
+      movie.imdbUrl,
+      movie.posterUrl,
+      movie.theaterName,
+      movie.showingUrl,
+    )
+  }
+
   isFieldTrip (): boolean {
     return this.theaterName !== null && this.showingUrl !== null
   }
@@ -77,6 +92,20 @@ export default class Movie {
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
       displayLength: this.displayLength(),
+    }
+  }
+
+  toFirebaseDTO (): object {
+    return {
+      id: this.id,
+      title: this.title,
+      director: this.director,
+      year: this.year,
+      length: this.length,
+      imdbUrl: this.imdbUrl,
+      posterUrl: this.posterUrl,
+      theaterName: this.theaterName,
+      showingUrl: this.showingUrl,
     }
   }
 }

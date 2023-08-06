@@ -2,7 +2,12 @@ import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../models/movie.js'
 import Week from '../models/week.js'
 import { today } from './dateUtils.js'
-import { PartialDatabaseObjectResponse, type PageObjectResponse, type PartialPageObjectResponse, DatabaseObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  PartialDatabaseObjectResponse,
+  type PageObjectResponse,
+  type PartialPageObjectResponse,
+  DatabaseObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../types/weekProperties.js'
 
 export default class Notion {
@@ -37,6 +42,24 @@ export default class Notion {
     const record = records.results[0]
 
     return record != null ? await this.recordToWeek(record) : null
+  }
+
+  async getWeeks (): Promise<Week[]> {
+    const records = await this.#notion.databases.query({
+      database_id: this.#databaseId,
+      page_size: 100,
+      filter: {
+        property: 'Date',
+        date: { is_not_empty: true },
+      },
+      sorts: [{
+        property: 'Date',
+        direction: 'ascending',
+      }],
+    })
+
+    return await Promise.all(records.results
+      .map(async (record) => await this.recordToWeek(record)))
   }
 
   async getUpcomingWeeks (): Promise<Week[]> {

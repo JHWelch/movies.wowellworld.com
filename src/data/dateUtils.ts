@@ -2,9 +2,9 @@ export function today (): string {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
 
-  return _dateToString(today)
+  return dateToString(today)
 }
 
-function _dateToString (date: Date): string {
+export function dateToString (date: Date): string {
   return date.toISOString().substring(0, 10)
 }
