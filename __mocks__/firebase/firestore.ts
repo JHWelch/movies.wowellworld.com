@@ -13,6 +13,10 @@ module.exports = {
   runTransaction: (firestore: any, updateFunction: any, _options: any) => {
     return updateFunction(transaction)
   },
-  doc: jest.fn().mockReturnValue({}),
+  doc: (firestore: any, collectionPath: string, documentPath?: string) => ({
+    firestore,
+    collectionPath,
+    documentPath,
+  }),
   transaction: transaction,
 }
