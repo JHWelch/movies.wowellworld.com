@@ -1,5 +1,6 @@
 import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
 import type MovieProperties from '../types/movieProperties.js'
+import { DocumentData } from 'firebase/firestore'
 
 export default class Movie {
   id: string
@@ -47,6 +48,20 @@ export default class Movie {
       properties.Poster?.url,
       properties['Theater Name']?.rich_text[0]?.plain_text,
       properties['Showing URL']?.url
+    )
+  }
+
+  static fromFirebase (movie: DocumentData): Movie {
+    return new Movie(
+      movie.id,
+      movie.title,
+      movie.director,
+      movie.year,
+      movie.length,
+      movie.imdbUrl,
+      movie.posterUrl,
+      movie.theaterName,
+      movie.showingUrl,
     )
   }
 

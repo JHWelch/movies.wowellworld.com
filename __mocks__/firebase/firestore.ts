@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { jest } from '@jest/globals'
+import { Timestamp } from 'firebase/firestore'
 
 export const transaction = {
   set: jest.fn(),
@@ -9,6 +10,8 @@ export const transaction = {
 }
 
 module.exports = {
+  collection: jest.fn().mockReturnValue({}),
+  getDocs: jest.fn(),
   getFirestore: jest.fn().mockReturnValue({}),
   runTransaction: (firestore: any, updateFunction: any, _options: any) => {
     return updateFunction(transaction)
@@ -18,8 +21,11 @@ module.exports = {
     collectionPath,
     documentPath,
   }),
+  query: jest.fn(),
   transaction: transaction,
   Timestamp: {
-    fromDate: (date: Date) => date.toDateString,
+    fromDate: (date: Date) => Timestamp.fromDate(date),
+    now: () => Timestamp.now(),
   },
+  where: jest.fn(),
 }

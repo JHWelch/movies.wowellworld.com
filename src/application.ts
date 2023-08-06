@@ -25,13 +25,13 @@ class Application {
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
     const cacheController = new CacheController(this.firestore, this.notion)
-    const weekController = new WeekController(this.notion)
+    const weekController = new WeekController(this.firestore)
 
     return new Map([
       [DashboardController.PATHS.index, DashboardController.index],
       [PreviousController.PATHS.index, PreviousController.index],
       ['/api/weeks', weekController.index.bind(weekController)],
-      ['/api/weeks/:date', weekController.show.bind(weekController)],
+      // ['/api/weeks/:date', weekController.show.bind(weekController)],
       ['/api/cache', cacheController.cache.bind(cacheController)],
     ])
   }

@@ -1,42 +1,70 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { NotionMock } from '../support/notionMock'
-import Notion from '../../src/data/notion'
 import WeekController from '../../src/controllers/weekController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
+import setupFirestore from '../../src/config/firestore'
+import {
+  Firestore,
+  getDocs,
+  Timestamp,
+} from 'firebase/firestore'
 
-let notionMock: NotionMock
 const { res, mockClear } = getMockRes()
 
 beforeAll(() => {
-  jest.mock('@notionhq/client')
-  notionMock = new NotionMock()
+  jest.mock('firebase-admin/app')
+  jest.mock('firebase/app')
+  jest.mock('firebase/firestore')
 })
 
 beforeEach(() => {
   jest.clearAllMocks()
-  notionMock.mockNotionEnv()
   mockClear()
 })
 
 describe('index', () => {
   describe('called without filters', () => {
-    let notion: Notion
+    let firestore: Firestore
     let req: Request
 
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
-      notionMock.mockQuery([
-        NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
-        NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
-        NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
-      ])
-      notion = new Notion()
+      firestore = setupFirestore();
+      (getDocs as unknown as jest.Mock).mockImplementation(() => {
+        return {
+          docs: [
+            {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-01')),
+                id: 'id1',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme1',
+              }),
+            }, {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-08')),
+                id: 'id2',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme2',
+              }),
+            }, {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-15')),
+                id: 'id3',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme3',
+              }),
+            },
+          ],
+        }
+      })
       req = getMockReq()
     })
 
     it('should return all future weeks', async () => {
-      await new WeekController(notion).index(req, res)
+      await new WeekController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([
         {
@@ -63,43 +91,68 @@ describe('index', () => {
   })
 
   describe('called with past filter', () => {
-    let notion: Notion
+    let firestore: Firestore
     let req: Request
 
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
-      notionMock.mockQuery([
-        NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
-        NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
-        NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
-      ])
-      notion = new Notion()
+      firestore = setupFirestore();
+      (getDocs as unknown as jest.Mock).mockImplementation(() => {
+        return {
+          docs: [
+            {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-01')),
+                id: 'id1',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme1',
+              }),
+            }, {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-08')),
+                id: 'id2',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme2',
+              }),
+            }, {
+              data: () => ({
+                date: Timestamp.fromDate(new Date('2021-01-15')),
+                id: 'id3',
+                isSkipped: false,
+                movies: [],
+                theme: 'theme3',
+              }),
+            },
+          ],
+        }
+      })
       req = getMockReq()
     })
 
     it ('should return only past weeks', async () => {
       req.query = { past: 'true' }
-      await new WeekController(notion).index(req, res)
+      await new WeekController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([
         {
-          'id': 'weekId3',
-          'date': 'Friday, January 15',
+          'id': 'id1',
+          'date': 'Friday, January 1',
           'isSkipped': false,
           'movies': [],
-          'theme': 'theme3',
+          'theme': 'theme1',
         }, {
-          'id': 'weekId2',
+          'id': 'id2',
           'date': 'Friday, January 8',
           'isSkipped': false,
           'movies': [],
           'theme': 'theme2',
         }, {
-          'id': 'weekId1',
-          'date': 'Friday, January 1',
+          'id': 'id3',
+          'date': 'Friday, January 15',
           'isSkipped': false,
           'movies': [],
-          'theme': 'theme1',
+          'theme': 'theme3',
         },
       ])
     })

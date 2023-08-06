@@ -1,5 +1,5 @@
 import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
-import type Movie from './movie.js'
+import Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
 import { dateToString } from '../data/dateUtils.js'
 import { DocumentData, Timestamp } from 'firebase/firestore'
@@ -15,13 +15,14 @@ export default class Week {
     id: string,
     theme: string,
     date: Date,
-    isSkipped = false
+    isSkipped = false,
+    movies: Movie[] = []
   ) {
     this.id = id
     this.theme = theme
     this.date = date
     this.isSkipped = isSkipped
-    this.movies = []
+    this.movies = movies
   }
 
   static fromNotion (record: PageObjectResponse | DatabaseObjectResponse): Week {
@@ -41,7 +42,8 @@ export default class Week {
       record.theme,
       record.date.toDate(),
       record.isSkipped,
-    ).setMovies(record.movies)
+      record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie))
+    )
   }
 
   displayDate (): string {
