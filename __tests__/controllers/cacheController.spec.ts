@@ -63,6 +63,7 @@ describe('cache', () => {
       await cacheController.cache(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
           doc(cacheController.db, 'weeks', '2021-01-01'),
