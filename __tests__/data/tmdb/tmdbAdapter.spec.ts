@@ -1,10 +1,16 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import TmdbAdapter from '../../../src/data/tmdb/tmdbAdapter'
 import Movie from '../../../src/models/movie'
 
-const mockGetMovie = (movie: Movie, id = 1234) => {
-  new Response()
-  global.fetch = jest.fn(async () => new Response(JSON.stringify({
+let mockFetch: jest.Mock<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>
+
+beforeAll(() => {
+  mockFetch = jest.fn<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>()
+  global.fetch = mockFetch
+})
+
+const mockSearchMovie = (movie: Movie, id = 1234) => {
+  mockFetch.mockImplementationOnce(async () => new Response(JSON.stringify({
     page: 1,
     results: [
       {
@@ -46,7 +52,7 @@ describe('getMovie', () => {
       'https://www.themoviedb.org/movie/1234',
       'http://example.com/movie.jpg',
     )
-    mockGetMovie(expected)
+    mockSearchMovie(expected)
     const movie = await tmdbAdapter.getMovie('movie title')
 
     expect(movie).toEqual(expected)
