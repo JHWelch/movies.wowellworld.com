@@ -10,7 +10,7 @@ import {
 } from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../types/weekProperties.js'
 
-export default class Notion {
+export default class NotionAdapter {
   #notion: Client
   #databaseId: string
 

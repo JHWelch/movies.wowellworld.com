@@ -10,9 +10,12 @@ export const transaction = {
 }
 
 module.exports = {
-  collection: jest.fn().mockReturnValue({}),
+  collection: jest.fn((firestore: any, collectionPath: string) => ({
+    firestore,
+    collectionPath,
+  })),
   getDocs: jest.fn(),
-  getFirestore: jest.fn().mockReturnValue({}),
+  getFirestore: jest.fn().mockReturnValue({ firestore: 'firestore' }),
   runTransaction: (firestore: any, updateFunction: any, _options: any) => {
     return updateFunction(transaction)
   },
@@ -21,12 +24,19 @@ module.exports = {
     collectionPath,
     documentPath,
   }),
-  orderBy: jest.fn(),
+  orderBy: jest.fn((fieldPath: string, directionStr?: string) => ({
+    fieldPath,
+    directionStr,
+  })),
   query: jest.fn(),
   transaction: transaction,
   Timestamp: {
     fromDate: (date: Date) => Timestamp.fromDate(date),
     now: () => Timestamp.now(),
   },
-  where: jest.fn(),
+  where: jest.fn((fieldPath: string, opStr: string, value: any) => ({
+    fieldPath,
+    opStr,
+    value,
+  })),
 }
