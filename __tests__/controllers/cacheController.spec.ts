@@ -3,12 +3,11 @@ import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '../../src/data/notionAdapter'
 import CacheController from '../../src/controllers/cacheController'
-import { Firestore } from 'firebase/firestore'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { Request } from 'express'
 import Week from '../../src/models/week'
-import setupFirestore from '../../src/config/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
+import FirestoreAdapter from '../../src/data/firestoreAdapter'
 
 let notionMock: NotionMock
 
@@ -30,7 +29,7 @@ beforeEach(() => {
 })
 
 describe('cache', () => {
-  let firestore: Firestore
+  let firestore: FirestoreAdapter
   let notion: NotionAdapter
   let req: Request
 
@@ -41,7 +40,7 @@ describe('cache', () => {
       NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
       NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
     ])
-    firestore = setupFirestore()
+    firestore = new FirestoreAdapter()
     notion = new NotionAdapter()
     req = getMockReq()
   })

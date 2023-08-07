@@ -2,9 +2,8 @@ import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals
 import WeekController from '../../src/controllers/weekController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import setupFirestore from '../../src/config/firestore'
-import { Firestore } from 'firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
+import FirestoreAdapter from '../../src/data/firestoreAdapter'
 
 const { res, mockClear } = getMockRes()
 
@@ -21,11 +20,11 @@ beforeEach(() => {
 
 describe('index', () => {
   describe('called without filters', () => {
-    let firestore: Firestore
+    let firestore: FirestoreAdapter
     let req: Request
 
     beforeEach(() => {
-      firestore = setupFirestore()
+      firestore = new FirestoreAdapter()
       FirebaseMock.mockWeeks([
         {
           date: new Date('2021-01-01'),
@@ -75,11 +74,11 @@ describe('index', () => {
   })
 
   describe('called with past filter', () => {
-    let firestore: Firestore
+    let firestore: FirestoreAdapter
     let req: Request
 
     beforeEach(() => {
-      firestore = setupFirestore()
+      firestore = new FirestoreAdapter()
       FirebaseMock.mockWeeks([
         {
           date: new Date('2021-01-01'),
