@@ -109,4 +109,14 @@ describe('getPastWeeks', () => {
       new Week('id3', 'theme3', new Date('2021-01-15')),
     ])
   })
+
+  it('should query with the correct constraints', async () => {
+    await firestore.getPastWeeks()
+
+    expect(query).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { fieldPath: 'date', opStr: '<', value: firestore.today() },
+      { fieldPath: 'date', directionStr: 'desc' }
+    )
+  })
 })
