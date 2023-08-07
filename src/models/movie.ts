@@ -1,6 +1,8 @@
 import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
 import type MovieProperties from '../types/movieProperties.js'
 import { DocumentData } from 'firebase/firestore'
+import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
+import TmdbAdapter from '../data/tmdb/tmdbAdapter.js'
 
 export default class Movie {
   id: string
@@ -64,6 +66,20 @@ export default class Movie {
       movie.showingUrl,
     )
   }
+
+  static fromTmdbResponse (tmdbResponse: MovieResponse): Movie {
+    return new Movie(
+      tmdbResponse.id.toString(),
+      tmdbResponse.title,
+      '',
+      parseInt(tmdbResponse.releaseDate.split('-')[0]),
+      -1,
+      TmdbAdapter.movieUrl(tmdbResponse.id),
+      tmdbResponse.posterPath ?? '',
+    )
+  }
+
+
 
   isFieldTrip (): boolean {
     return this.theaterName !== null && this.showingUrl !== null
