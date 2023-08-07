@@ -3,12 +3,12 @@ import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import Notion from '../../src/data/notion'
 import CacheController from '../../src/controllers/cacheController'
-import { doc, Firestore } from 'firebase/firestore'
+import { Firestore } from 'firebase/firestore'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { Request } from 'express'
 import Week from '../../src/models/week'
 import setupFirestore from '../../src/config/firestore'
-
+import { FirebaseMock } from '../support/firebaseMock'
 
 let notionMock: NotionMock
 
@@ -56,17 +56,17 @@ describe('cache', () => {
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.firestore, 'weeks', '2021-01-01'),
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
           (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toFirebaseDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.firestore, 'weeks', '2021-01-08'),
+          FirebaseMock.mockDoc('weeks', '2021-01-08'),
           (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toFirebaseDTO()
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          doc(cacheController.firestore, 'weeks', '2021-01-15'),
+          FirebaseMock.mockDoc('weeks', '2021-01-15'),
           (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toFirebaseDTO()
         )
     })

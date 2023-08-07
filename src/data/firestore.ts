@@ -1,11 +1,13 @@
 import {
   collection,
+  doc,
   Firestore as FirestoreType,
   getDocs,
   orderBy,
   query,
   QueryFieldFilterConstraint,
   QueryConstraint,
+  runTransaction,
   Timestamp,
   where,
 } from 'firebase/firestore'
@@ -18,6 +20,15 @@ export default class Firestore {
 
   constructor () {
     this.#firestore = setupFirestore()
+  }
+
+  async cacheWeeks(weeks: Week[]): Promise<void> {
+    await runTransaction(this.#firestore, async (transaction) => {
+      weeks.forEach((week: Week) => {
+        const ref = doc(this.#firestore, 'weeks', week.dateString)
+        transaction.set(ref, week.toFirebaseDTO())
+      })
+    })
   }
 
   async getPastWeeks(): Promise<Week[]> {

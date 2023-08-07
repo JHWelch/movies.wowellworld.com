@@ -6,8 +6,11 @@ import {
   getFirestore,
   query,
 } from 'firebase/firestore'
+import { transaction } from '../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
 import Week from '../../src/models/week'
+
+let firestore: Firestore
 
 beforeAll(() => {
   jest.mock('firebase-admin/app')
@@ -16,12 +19,13 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
+  firestore = new Firestore()
   jest.clearAllMocks()
 })
 
 describe('constructor', () => {
   it('initializes the firestore', () => {
-    new Firestore()
+    firestore = new Firestore()
 
     expect (applicationDefault).toHaveBeenCalledTimes(1)
     expect (initializeApp).toHaveBeenCalledTimes(1)
@@ -30,10 +34,7 @@ describe('constructor', () => {
 })
 
 describe('getUpcomingWeeks', () => {
-  let firestore: Firestore
-
   beforeEach(() => {
-    firestore = new Firestore()
     FirebaseMock.mockWeeks([
       {
         date: new Date('2021-01-01'),
@@ -76,10 +77,7 @@ describe('getUpcomingWeeks', () => {
 })
 
 describe('getPastWeeks', () => {
-  let firestore: Firestore
-
   beforeEach(() => {
-    firestore = new Firestore()
     FirebaseMock.mockWeeks([
       {
         date: new Date('2021-01-01'),
@@ -118,5 +116,33 @@ describe('getPastWeeks', () => {
       { fieldPath: 'date', opStr: '<', value: firestore.today() },
       { fieldPath: 'date', directionStr: 'desc' }
     )
+  })
+})
+
+describe('cacheWeeks', () => {
+  describe('when the cache is empty', () => {
+    it('updates all weeks in firestore', async () =>  {
+      await firestore.cacheWeeks([
+        new Week('id1', 'theme1', new Date('2021-01-01')),
+        new Week('id2', 'theme2', new Date('2021-01-08')),
+        new Week('id3', 'theme3', new Date('2021-01-15')),
+      ])
+
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
+          (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toFirebaseDTO()
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-08'),
+          (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toFirebaseDTO()
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-15'),
+          (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toFirebaseDTO()
+        )
+    })
   })
 })
