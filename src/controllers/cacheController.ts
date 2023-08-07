@@ -1,6 +1,6 @@
 import { doc, Firestore, runTransaction } from 'firebase/firestore'
 import { Request, Response } from 'express'
-import Notion from '../data/notion'
+import Notion from '../data/notionAdapter'
 import Week from '../models/week'
 
 export default class CacheController {

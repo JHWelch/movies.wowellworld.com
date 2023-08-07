@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 import Application from './application.js'
-import Notion from './data/notion.js'
+import Notion from './data/notionAdapter.js'
 
 dotenv.config()
 

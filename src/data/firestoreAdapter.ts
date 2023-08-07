@@ -14,7 +14,7 @@ import {
 import Week from '../models/week.js'
 import setupFirestore from '../config/firestore.js'
 
-export default class Firestore {
+export default class FirestoreAdapter {
   static readonly COLLECTION_NAME = 'weeks'
   #firestore: FirestoreType
 
@@ -40,7 +40,7 @@ export default class Firestore {
   }
 
   async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
-    const weeks = collection(this.#firestore, Firestore.COLLECTION_NAME)
+    const weeks = collection(this.#firestore, FirestoreAdapter.COLLECTION_NAME)
     const q = query(weeks, where, constraint)
     const querySnapshot = await getDocs(q)
 

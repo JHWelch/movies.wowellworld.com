@@ -1,5 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import Notion from '../../src/data/notion'
+import NotionAdapter from '../../src/data/notionAdapter'
 import { NotionMock } from '../support/notionMock'
 import { today } from '../../src/data/dateUtils'
 
@@ -24,7 +24,7 @@ describe('constructor', () => {
     })
 
     it('should be created successfully', () => {
-      expect(() => new Notion()).not.toThrow()
+      expect(() => new NotionAdapter()).not.toThrow()
     })
   })
 
@@ -37,7 +37,7 @@ describe('constructor', () => {
     })
 
     it('should throw an error', () => {
-      expect(() => new Notion()).toThrowError('Missing NOTION_TOKEN environment variable')
+      expect(() => new NotionAdapter()).toThrowError('Missing NOTION_TOKEN environment variable')
     })
   })
 
@@ -49,7 +49,7 @@ describe('constructor', () => {
     })
 
     it('should throw an error', () => {
-      expect(() => new Notion()).toThrowError('Missing DATABASE_ID environment variable')
+      expect(() => new NotionAdapter()).toThrowError('Missing DATABASE_ID environment variable')
     })
   })
 })
@@ -69,7 +69,7 @@ describe('getMovie', () => {
     })
 
     it('should return the movie', async () => {
-      const movie = await new Notion().getMovie('movieId')
+      const movie = await new NotionAdapter().getMovie('movieId')
 
       expect(movie).toEqual({
         id: 'movieId',
@@ -85,7 +85,7 @@ describe('getMovie', () => {
     })
 
     it ('calls the retrieve method with page_id', async () => {
-      await new Notion().getMovie('movieId')
+      await new NotionAdapter().getMovie('movieId')
 
       expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
     })
@@ -97,7 +97,7 @@ describe('getMovie', () => {
     })
 
     it('should throw an error', async () => {
-      await expect(new Notion().getMovie('movieId'))
+      await expect(new NotionAdapter().getMovie('movieId'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
@@ -118,7 +118,7 @@ describe('getWeek', () => {
     })
 
     it('should return the week', async () => {
-      const notion = new Notion()
+      const notion = new NotionAdapter()
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toEqual({
@@ -137,7 +137,7 @@ describe('getWeek', () => {
     })
 
     it('should throw an error', async () => {
-      const notion = new Notion()
+      const notion = new NotionAdapter()
 
       expect(notion.getWeek('2021-01-01'))
         .rejects.toThrowError('Page was not successfully retrieved')
@@ -157,7 +157,7 @@ describe('getUpcomingWeeks', () => {
     })
 
     it('should return the weeks', async () => {
-      const notion = new Notion()
+      const notion = new NotionAdapter()
       const weeks = await notion.getUpcomingWeeks()
 
       expect(weeks).toEqual([
@@ -184,7 +184,7 @@ describe('getUpcomingWeeks', () => {
     })
 
     it('should call query with the correct parameters', async () => {
-      const notion = new Notion()
+      const notion = new NotionAdapter()
       await notion.getUpcomingWeeks()
 
       expect(notionMock.query).toHaveBeenCalledWith({
@@ -214,7 +214,7 @@ describe ('getPastWeeks', () => {
   })
 
   it('should return the weeks', async () => {
-    const notion = new Notion()
+    const notion = new NotionAdapter()
     const weeks = await notion.getPastWeeks()
 
     expect(weeks).toEqual([
@@ -241,7 +241,7 @@ describe ('getPastWeeks', () => {
   })
 
   it('should call query with the correct parameters', async () => {
-    const notion = new Notion()
+    const notion = new NotionAdapter()
     await notion.getPastWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({
@@ -270,7 +270,7 @@ describe('getWeeks', () => {
   })
 
   it('should return the weeks', async () => {
-    const notion = new Notion()
+    const notion = new NotionAdapter()
     const weeks = await notion.getWeeks()
 
     expect(weeks).toEqual([
@@ -297,7 +297,7 @@ describe('getWeeks', () => {
   })
 
   it('should call query with the correct parameters', async () => {
-    const notion = new Notion()
+    const notion = new NotionAdapter()
     await notion.getWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({

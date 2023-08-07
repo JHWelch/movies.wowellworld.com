@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import Notion from '../../src/data/notion'
+import NotionAdapter from '../../src/data/notionAdapter'
 import CacheController from '../../src/controllers/cacheController'
 import { Firestore } from 'firebase/firestore'
 import { transaction } from '../../__mocks__/firebase/firestore'
@@ -31,7 +31,7 @@ beforeEach(() => {
 
 describe('cache', () => {
   let firestore: Firestore
-  let notion: Notion
+  let notion: NotionAdapter
   let req: Request
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('cache', () => {
       NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
     ])
     firestore = setupFirestore()
-    notion = new Notion()
+    notion = new NotionAdapter()
     req = getMockReq()
   })
 

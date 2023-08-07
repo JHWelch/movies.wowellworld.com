@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
-import Firestore from '../../src/data/firestore'
+import FirestoreAdapter from '../../src/data/firestoreAdapter'
 import {
   getFirestore,
   query,
@@ -10,7 +10,7 @@ import { transaction } from '../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
 import Week from '../../src/models/week'
 
-let firestore: Firestore
+let firestore: FirestoreAdapter
 
 beforeAll(() => {
   jest.mock('firebase-admin/app')
@@ -19,13 +19,13 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  firestore = new Firestore()
+  firestore = new FirestoreAdapter()
   jest.clearAllMocks()
 })
 
 describe('constructor', () => {
   it('initializes the firestore', () => {
-    firestore = new Firestore()
+    firestore = new FirestoreAdapter()
 
     expect (applicationDefault).toHaveBeenCalledTimes(1)
     expect (initializeApp).toHaveBeenCalledTimes(1)
