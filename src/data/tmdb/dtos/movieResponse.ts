@@ -46,4 +46,10 @@ export default class MovieResponse {
       ?.map((crew: any) => CrewResponse.fromTmdbResponse(crew))
     ?? []
   }
+
+  get director(): string {
+    const director = this.crew.find(crew => crew.job === 'Director')
+
+    return director?.name ?? ''
+  }
 }
