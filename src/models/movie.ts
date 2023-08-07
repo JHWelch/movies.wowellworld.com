@@ -71,15 +71,13 @@ export default class Movie {
     return new Movie(
       tmdbResponse.id.toString(),
       tmdbResponse.title,
-      '',
+      tmdbResponse.director,
       parseInt(tmdbResponse.releaseDate.split('-')[0]),
-      -1,
+      tmdbResponse.runtime ?? -1,
       TmdbAdapter.movieUrl(tmdbResponse.id),
       tmdbResponse.posterPath ?? '',
     )
   }
-
-
 
   isFieldTrip (): boolean {
     return this.theaterName !== null && this.showingUrl !== null
