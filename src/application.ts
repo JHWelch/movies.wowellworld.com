@@ -2,20 +2,22 @@ import setupExpress from './config/express.js'
 import DashboardController from './controllers/dashboardController.js'
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
-import type Notion from './data/notionAdapter.js'
+import type NotionAdapter from './data/notionAdapter.js'
 import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
-import { Firestore } from 'firebase/firestore'
-import setupFirestore from './config/firestore.js'
+import FirestoreAdapter from './data/firestoreAdapter.js'
 
 class Application {
   express: Express
-  firestore: Firestore
-  notion: Notion
+  firestore: FirestoreAdapter
+  notion: NotionAdapter
 
-  constructor (notion: Notion) {
+  constructor (
+    firestore: FirestoreAdapter,
+    notion: NotionAdapter
+  ) {
     this.express = setupExpress()
-    this.firestore = setupFirestore()
+    this.firestore = firestore
     this.notion = notion
     this.registerRoutes()
   }

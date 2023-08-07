@@ -1,21 +1,10 @@
 import { type Request, type Response } from 'express'
-import {
-  collection,
-  Firestore,
-  getDocs,
-  orderBy,
-  query,
-  QueryFieldFilterConstraint,
-  QueryConstraint,
-  Timestamp,
-  where,
-} from 'firebase/firestore'
-import Week from '../models/week.js'
+import FirestoreAdapter from '../data/firestoreAdapter.js'
 
 export default class WeekController {
-  firestore: Firestore
+  firestore: FirestoreAdapter
 
-  constructor (firestore: Firestore) {
+  constructor (firestore: FirestoreAdapter) {
     this.firestore = firestore
   }
 
@@ -23,8 +12,8 @@ export default class WeekController {
     const { past } = this.parseIndexQuery(req)
 
     const weeks = past
-      ? await this.getPastWeeks()
-      : await this.getUpcomingWeeks()
+      ? await this.firestore.getPastWeeks()
+      : await this.firestore.getUpcomingWeeks()
 
     res.json(weeks.map((week) => week.toDTO()))
   }
@@ -43,28 +32,4 @@ export default class WeekController {
 
   //   res.json(week.toDTO())
   // }
-
-  async getPastWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '<', this.today()), orderBy('date', 'desc'))
-  }
-
-  async getUpcomingWeeks(): Promise<Week[]> {
-    return this.getWeeks(where('date', '>=', this.today()), orderBy('date'))
-  }
-
-  async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
-    const weeks = collection(this.firestore, 'weeks')
-    const q = query(weeks, where, constraint)
-    const querySnapshot = await getDocs(q)
-
-    return querySnapshot.docs
-      .map((doc) => Week.fromFirebase(doc.data()))
-  }
-
-  today(): Timestamp {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    return Timestamp.fromDate(today)
-  }
 }
