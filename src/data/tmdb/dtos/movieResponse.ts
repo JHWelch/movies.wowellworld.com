@@ -2,7 +2,6 @@ export default class MovieResponse {
   constructor (
     public adult: boolean,
     public backdropPath: string | null,
-    public genreIds: number[],
     public id: number,
     public originalLanguage: string,
     public originalTitle: string,
@@ -20,7 +19,6 @@ export default class MovieResponse {
     return new MovieResponse(
       tmdbResponse.adult,
       tmdbResponse.backdrop_path,
-      tmdbResponse.genre_ids,
       tmdbResponse.id,
       tmdbResponse.original_language,
       tmdbResponse.original_title,

@@ -74,7 +74,6 @@ describe('fromTmdbResponse', () => {
       new MovieResponse(
         false,
         '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
-        [ 35, 10749 ],
         9603,
         'en',
         'Clueless',
@@ -90,7 +89,6 @@ describe('fromTmdbResponse', () => {
       new MovieResponse(
         false,
         null,
-        [],
         556767,
         'en',
         'Clueless',
@@ -106,7 +104,6 @@ describe('fromTmdbResponse', () => {
       new MovieResponse(
         false,
         '/oRLTORPsK43SfQvLpaLLghmKdhf.jpg',
-        [ 9648, 53, 18 ],
         939992,
         'en',
         'Clueless',
