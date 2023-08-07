@@ -2,7 +2,10 @@ import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import Firestore from '../../src/data/firestore'
-import { getFirestore } from 'firebase/firestore'
+import {
+  getFirestore,
+  query,
+} from 'firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
 import Week from '../../src/models/week'
 
@@ -59,6 +62,16 @@ describe('getUpcomingWeeks', () => {
       new Week('id2', 'theme2', new Date('2021-01-08')),
       new Week('id3', 'theme3', new Date('2021-01-15')),
     ])
+  })
+
+  it('should query with the correct constraints', async () => {
+    await firestore.getUpcomingWeeks()
+
+    expect(query).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+      { fieldPath: 'date' }
+    )
   })
 })
 
