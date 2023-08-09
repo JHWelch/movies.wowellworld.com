@@ -179,13 +179,13 @@ describe('getMovie', () => {
 
   it('should return a movie', async () => {
     const expected = new Movie(
-      '1234',
       'movie title',
       'director',
       2001,
       90,
       'https://www.themoviedb.org/movie/1234',
       'http://example.com/movie.jpg',
+      '1234',
     )
     mockSearchMovie(expected)
     mockMovieDetails(expected)

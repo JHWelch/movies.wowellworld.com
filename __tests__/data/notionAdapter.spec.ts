@@ -72,7 +72,7 @@ describe('getMovie', () => {
       const movie = await new NotionAdapter().getMovie('movieId')
 
       expect(movie).toEqual({
-        id: 'movieId',
+        notionId: 'movieId',
         title: 'movieTitle',
         director: 'movieDirector',
         year: 2021,
@@ -81,6 +81,7 @@ describe('getMovie', () => {
         posterUrl: 'moviePosterUrl',
         theaterName: 'movieTheaterName',
         showingUrl: 'movieShowingUrl',
+        tmdbId: null,
       })
     })
 
