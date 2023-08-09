@@ -1,4 +1,4 @@
-import CrewResponse from './crewResponse'
+import CrewResponse from './crewResponse.js'
 
 export default class MovieResponse {
   constructor (
