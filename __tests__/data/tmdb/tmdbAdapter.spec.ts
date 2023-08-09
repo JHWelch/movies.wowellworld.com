@@ -2,14 +2,12 @@ import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals
 import TmdbAdapter from '../../../src/data/tmdb/tmdbAdapter'
 import Movie from '../../../src/models/movie'
 import { TmdbMock } from '../../support/tmdbMock'
+import { mockFetch } from '../../support/fetchMock'
 
-let mockFetch: jest.Mock<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>
 let tmdbMock: TmdbMock
 
 beforeAll(() => {
-  mockFetch = jest.fn<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>()
-  global.fetch = mockFetch
-  tmdbMock = new TmdbMock(mockFetch)
+  tmdbMock = new TmdbMock(mockFetch())
 })
 
 describe('getMovie', () => {
