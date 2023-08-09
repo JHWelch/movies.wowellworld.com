@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
+import { NotionMovie, WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
@@ -76,10 +76,11 @@ export class NotionMock {
     date: string,
     theme: string,
     skipped = false,
+    movies: NotionMovie[] = [],
   ): PageObjectResponse => pageObjectResponse(id, {
     Date: nDate(date),
     Theme: nTitle(theme),
     Skipped: nCheckbox(skipped),
-    Movies: nRelation([]),
+    Movies: nRelation(movies),
   })
 }

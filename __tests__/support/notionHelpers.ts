@@ -38,13 +38,13 @@ export const nNumber = (number: number | null): {
   id: 'mockedId',
 })
 
-export const nRichText = (text: string): {
+export const nRichText = (text: string | null): {
   type: 'rich_text';
   rich_text: Array<RichTextItemResponse>;
   id: string;
 } => ({
   type: 'rich_text',
-  rich_text: [richTextItem(text)],
+  rich_text: text ? [richTextItem(text)] : [],
   id: 'some-id',
 })
 
@@ -76,7 +76,7 @@ export const richTextItem = (text: string): RichTextItemResponse => ({
   href: null,
 })
 
-export const nUrl = (url: string): {
+export const nUrl = (url: string | null): {
   type: 'url';
   url: string | null;
   id: string;
@@ -86,7 +86,7 @@ export const nUrl = (url: string): {
   id: 'mockedId',
 })
 
-export const nRelation = (relation: string[]): {
+export const nRelation = (relation: NotionMovie[]): {
   type: 'relation';
   relation: {
     id: string;
@@ -94,7 +94,7 @@ export const nRelation = (relation: string[]): {
   id: string;
 } => ({
   type: 'relation',
-  relation: relation.map((id) => ({ id: id })),
+  relation: relation.map(movie => movie.toPageObjectResponse()),
   id: 'mockedId',
 })
 
@@ -142,3 +142,30 @@ export type QueryBody = {
 export type WithAuth<P> = P & {
   auth?: string;
 };
+
+export class NotionMovie {
+  constructor(
+    public id: string,
+    public title: string,
+    public director: string | null,
+    public year: number | null,
+    public length: number | null,
+    public imdbUrl: string | null,
+    public posterUrl: string | null,
+    public theaterName: string | null,
+    public showingUrl: string | null,
+  ) {}
+
+  toPageObjectResponse(): PageObjectResponse {
+    return pageObjectResponse(this.id, {
+      Title: nTitle(this.title),
+      Director: nRichText(this.director),
+      Year: nNumber(this.year),
+      'Length (mins)': nNumber(this.length),
+      IMDb: nUrl(this.imdbUrl),
+      Poster: nUrl(this.posterUrl),
+      'Theater Name': nRichText(this.theaterName),
+      'Showing URL': nUrl(this.showingUrl),
+    })
+  }
+}
