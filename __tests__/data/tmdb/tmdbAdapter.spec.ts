@@ -23,9 +23,9 @@ describe('getMovie', () => {
       'director',
       2001,
       90,
-      'https://www.themoviedb.org/movie/1234',
+      'https://www.themoviedb.org/movie/tmdbId',
       'http://example.com/movie.jpg',
-      '1234',
+      'tmdbId',
     )
     tmdbMock.mockSearchMovie(expected)
     tmdbMock.mockMovieDetails(expected)
