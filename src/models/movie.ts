@@ -7,11 +7,11 @@ import TmdbAdapter from '../data/tmdb/tmdbAdapter.js'
 export default class Movie {
   constructor (
     public title: string,
-    public director: string,
-    public year: number,
-    public length: number,
-    public imdbUrl: string,
-    public posterUrl: string,
+    public director: string | null = null,
+    public year: number | null = null,
+    public length: number | null = null,
+    public imdbUrl: string | null = null,
+    public posterUrl: string | null = null,
     public tmdbId: string | null = null,
     public notionId: string | null = null,
     public theaterName: string | null = null,
@@ -67,6 +67,10 @@ export default class Movie {
   }
 
   displayLength (): string {
+    if (this.length === null) {
+      return ''
+    }
+
     return this.length > 59
       ? `${Math.floor(this.length / 60)}h ${this.length % 60}m`
       : `${this.length}m`
