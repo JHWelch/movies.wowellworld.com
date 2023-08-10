@@ -2,7 +2,6 @@ import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoint
 import type MovieProperties from '../types/movieProperties.js'
 import { DocumentData } from 'firebase/firestore'
 import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
-import TmdbAdapter from '../data/tmdb/tmdbAdapter.js'
 
 export default class Movie {
   constructor (
