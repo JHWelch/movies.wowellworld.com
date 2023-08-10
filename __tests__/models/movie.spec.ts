@@ -1,0 +1,27 @@
+import { describe, expect, test } from '@jest/globals'
+import Movie from '../../src/models/movie'
+
+describe('merge', () => {
+  test('only null/undefined fields are overwritten by merge', () => {
+    const movieA = new Movie('Title', null, 2004, 120)
+    const movieB = new Movie (
+      'Title',
+      'Director',
+      2001,
+      null,
+      'https://www.themoviedb.org/movie/1234',
+      'http://example.com/movie.jpg',
+      '1234',
+    )
+
+    expect(movieA.merge(movieB)).toEqual(new Movie(
+      'Title',
+      'Director',
+      2004,
+      120,
+      'https://www.themoviedb.org/movie/1234',
+      'http://example.com/movie.jpg',
+      '1234',
+    ))
+  })
+})

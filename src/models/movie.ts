@@ -109,4 +109,19 @@ export default class Movie {
       showingUrl: this.showingUrl,
     }
   }
+
+  merge (other: Movie): Movie {
+    return new Movie(
+      this.title ?? other.title,
+      this.director ?? other.director,
+      this.year ?? other.year,
+      this.length ?? other.length,
+      this.imdbUrl ?? other.imdbUrl,
+      this.posterUrl ?? other.posterUrl,
+      this.tmdbId ?? other.tmdbId,
+      this.notionId ?? other.notionId,
+      this.theaterName ?? other.theaterName,
+      this.showingUrl ?? other.showingUrl,
+    )
+  }
 }
