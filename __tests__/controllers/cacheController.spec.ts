@@ -8,6 +8,11 @@ import { Request } from 'express'
 import Week from '../../src/models/week'
 import { FirebaseMock } from '../support/firebaseMock'
 import FirestoreAdapter from '../../src/data/firestoreAdapter'
+import { NotionMovie } from '../support/notionHelpers'
+import { TmdbMock } from '../support/tmdbMock'
+import { mockFetch } from '../support/fetchMock'
+import Movie from '../../src/models/movie'
+import TmdbAdapter from '../../src/data/tmdb/tmdbAdapter'
 
 let notionMock: NotionMock
 
@@ -31,23 +36,25 @@ beforeEach(() => {
 describe('cache', () => {
   let firestore: FirestoreAdapter
   let notion: NotionAdapter
+  let tmdbAdapter: TmdbAdapter
   let req: Request
 
-  beforeEach(() => {
-    notionMock.mockIsFullPageOrDatabase(true)
-    notionMock.mockQuery([
-      NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
-      NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
-      NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
-    ])
-    firestore = new FirestoreAdapter()
-    notion = new NotionAdapter()
-    req = getMockReq()
-  })
-
   describe('when the cache is empty', () => {
+    beforeEach(() => {
+      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
+        NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
+        NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
+      ])
+      firestore = new FirestoreAdapter()
+      notion = new NotionAdapter()
+      tmdbAdapter = new TmdbAdapter()
+      req = getMockReq()
+    })
+
     it('updates all weeks in firestore', async () =>  {
-      const cacheController = new CacheController(firestore, notion)
+      const cacheController = new CacheController(firestore, notion, tmdbAdapter)
 
       await cacheController.cache(req, res)
 
@@ -68,6 +75,60 @@ describe('cache', () => {
           FirebaseMock.mockDoc('weeks', '2021-01-15'),
           (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toFirebaseDTO()
         )
+    })
+  })
+
+  describe('movies without directors', () => {
+    let expected: Movie
+
+    beforeEach(() => {
+      expected = new Movie(
+        'title',
+        'director',
+        2001,
+        90,
+        'https://www.themoviedb.org/movie/tmdbId',
+        'http://example.com/movie.jpg',
+        'tmdbId',
+        'notionId',
+      )
+      const tmdb = new Movie(
+        'title',
+        'director',
+        2001,
+        90,
+        'https://www.themoviedb.org/movie/tmdbId',
+        'http://example.com/movie.jpg',
+        'tmdbId',
+      )
+      const notionResponse = new NotionMovie('notionId', 'title')
+      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek('id1', '2021-01-01', 'theme1', false, [notionResponse]),
+      ])
+      notionMock.mockRetrieve(notionResponse)
+      firestore = new FirestoreAdapter()
+      notion = new NotionAdapter()
+      tmdbAdapter = new TmdbAdapter()
+      req = getMockReq()
+      const tmdbMock = new TmdbMock(mockFetch())
+      tmdbMock.mockSearchMovie(tmdb)
+      tmdbMock.mockMovieDetails(tmdb)
+    })
+
+    it('stores data from tmdb in firestore', async () => {
+      const cacheController = new CacheController(firestore, notion, tmdbAdapter)
+
+      await cacheController.cache(req, res)
+
+      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(transaction.set).toHaveBeenCalledTimes(1)
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-01'),
+        (new Week('id1', 'theme1', new Date('2021-01-01'), false, [
+          expected,
+        ])).toFirebaseDTO()
+      )
     })
   })
 })
