@@ -4,9 +4,18 @@ import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabasePa
 import { NotionMovie, WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
-  query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
-  retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve> | undefined
-  isFullPageOrDatabase: jest.MockedFunction<typeof isFullPageOrDatabase> | undefined
+  query: jest.MockedFunction<typeof Client.prototype.databases.query>
+  retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
+
+  constructor() {
+    this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
+    this.query = jest.fn<typeof Client.prototype.databases.query>();
+
+    (Client as unknown as jest.Mock).mockImplementation(() => ({
+      pages: { retrieve: this.retrieve },
+      databases: { query: this.query },
+    }))
+  }
 
   mockNotionEnv = () => {
     process.env = {
@@ -30,45 +39,39 @@ export class NotionMock {
     theaterName = 'movieTheaterName',
     showingUrl = 'movieShowingUrl'
   ) => {
-    (Client as unknown as jest.Mock).mockImplementation(() => {
-      this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
-        .mockImplementation(async (args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
-          const { page_id } = args as { page_id: string }
+    this.retrieve.mockImplementation(async (args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
+      const { page_id } = args as { page_id: string }
 
-          if (page_id !== id) {
-            throw new Error('Page not found')
-          }
+      if (page_id !== id) {
+        throw new Error('Page not found')
+      }
 
-          return pageObjectResponse(id, {
-            Title: nTitle(title),
-            Director: nRichText(director),
-            Year: nNumber(year),
-            'Length (mins)': nNumber(length),
-            IMDb: nUrl(imdbUrl),
-            Poster: nUrl(posterUrl),
-            'Theater Name': nRichText(theaterName),
-            'Showing URL': nUrl(showingUrl),
-          })
-        })
-      return { pages: { retrieve: this.retrieve } }
+      return pageObjectResponse(id, {
+        Title: nTitle(title),
+        Director: nRichText(director),
+        Year: nNumber(year),
+        'Length (mins)': nNumber(length),
+        IMDb: nUrl(imdbUrl),
+        Poster: nUrl(posterUrl),
+        'Theater Name': nRichText(theaterName),
+        'Showing URL': nUrl(showingUrl),
+      })
     })
+    return { pages: { retrieve: this.retrieve } }
   }
 
   mockQuery = (weeks: PageObjectResponse[] = []) => {
-    (Client as unknown as jest.Mock).mockImplementation(() => {
-      this.query = jest.fn<typeof Client.prototype.databases.query>()
-        .mockImplementation(
-          async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
-            page_or_database: {},
-            type: 'page_or_database',
-            object: 'list',
-            next_cursor: null,
-            has_more: false,
-            results: weeks,
-          }))
+    this.query.mockImplementation(
+      async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
+        page_or_database: {},
+        type: 'page_or_database',
+        object: 'list',
+        next_cursor: null,
+        has_more: false,
+        results: weeks,
+      }))
 
-      return { databases: { query: this.query } }
-    })
+    return { databases: { query: this.query } }
   }
 
   static mockWeek = (
