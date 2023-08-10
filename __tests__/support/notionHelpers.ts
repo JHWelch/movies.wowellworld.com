@@ -147,13 +147,13 @@ export class NotionMovie {
   constructor(
     public id: string,
     public title: string,
-    public director: string | null,
-    public year: number | null,
-    public length: number | null,
-    public imdbUrl: string | null,
-    public posterUrl: string | null,
-    public theaterName: string | null,
-    public showingUrl: string | null,
+    public director: string | null = null,
+    public year: number | null = null,
+    public length: number | null = null,
+    public imdbUrl: string | null = null,
+    public posterUrl: string | null = null,
+    public theaterName: string | null = null,
+    public showingUrl: string | null = null,
   ) {}
 
   toPageObjectResponse(): PageObjectResponse {
@@ -167,5 +167,19 @@ export class NotionMovie {
       'Theater Name': nRichText(this.theaterName),
       'Showing URL': nUrl(this.showingUrl),
     })
+  }
+
+  static demo(): NotionMovie {
+    return new NotionMovie(
+      'movieId',
+      'movieTitle',
+      'movieDirector',
+      2021,
+      120,
+      'movieImdbUrl',
+      'moviePosterUrl',
+      'movieTheaterName',
+      'movieShowingUrl'
+    )
   }
 }

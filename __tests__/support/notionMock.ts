@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { NotionMovie, WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
+import { NotionMovie, WithAuth, nCheckbox, nDate, nRelation, nTitle, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query>
@@ -28,34 +28,17 @@ export class NotionMock {
     (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
   }
 
-  mockRetrieve = (
-    id = 'movieId',
-    title = 'movieTitle',
-    director = 'movieDirector',
-    year = 2021,
-    length = 120,
-    imdbUrl = 'movieImdbUrl',
-    posterUrl = 'moviePosterUrl',
-    theaterName = 'movieTheaterName',
-    showingUrl = 'movieShowingUrl'
-  ) => {
+  mockRetrieve = (movie: NotionMovie | undefined = undefined) => {
+    const notionMovie = movie ?? NotionMovie.demo()
+
     this.retrieve.mockImplementation(async (args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
       const { page_id } = args as { page_id: string }
 
-      if (page_id !== id) {
+      if (page_id !== notionMovie.id) {
         throw new Error('Page not found')
       }
 
-      return pageObjectResponse(id, {
-        Title: nTitle(title),
-        Director: nRichText(director),
-        Year: nNumber(year),
-        'Length (mins)': nNumber(length),
-        IMDb: nUrl(imdbUrl),
-        Poster: nUrl(posterUrl),
-        'Theater Name': nRichText(theaterName),
-        'Showing URL': nUrl(showingUrl),
-      })
+      return notionMovie.toPageObjectResponse()
     })
     return { pages: { retrieve: this.retrieve } }
   }
