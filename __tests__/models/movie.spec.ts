@@ -14,7 +14,9 @@ describe('merge', () => {
       '1234',
     )
 
-    expect(movieA.merge(movieB)).toEqual(new Movie(
+    movieA.merge(movieB)
+
+    expect(movieA).toEqual(new Movie(
       'Title',
       'Director',
       2004,
