@@ -10,7 +10,7 @@ describe('merge', () => {
       2001,
       null,
       'https://www.themoviedb.org/movie/1234',
-      'http://example.com/movie.jpg',
+      'https://image.tmdb.org/t/p/original/poster.jpg',
       '1234',
     )
 
@@ -22,7 +22,7 @@ describe('merge', () => {
       2004,
       120,
       'https://www.themoviedb.org/movie/1234',
-      'http://example.com/movie.jpg',
+      'https://image.tmdb.org/t/p/original/poster.jpg',
       '1234',
     ))
   })

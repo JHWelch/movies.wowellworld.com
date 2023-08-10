@@ -1,3 +1,4 @@
+import { TMDB_MOVIE_URL, TMDB_POSTER_URL } from '../constants.js'
 import CrewResponse from './crewResponse.js'
 
 export default class MovieResponse {
@@ -51,5 +52,15 @@ export default class MovieResponse {
     const director = this.crew.find(crew => crew.job === 'Director')
 
     return director?.name ?? ''
+  }
+
+  get fullMovieUrl(): string {
+    return `${TMDB_MOVIE_URL}/${this.id}`
+  }
+
+  get fullPosterPath(): string {
+    if (this.posterPath === null) return ''
+
+    return `${TMDB_POSTER_URL}${this.posterPath}`
   }
 }

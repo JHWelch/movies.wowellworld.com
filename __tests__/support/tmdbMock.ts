@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals'
 import Movie from '../../src/models/movie'
+import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 export class TmdbMock {
   constructor(
@@ -13,7 +14,7 @@ export class TmdbMock {
         {
           id: id,
           original_title: movie.title,
-          poster_path: movie.posterUrl,
+          poster_path: movie.posterUrl?.replace(TMDB_POSTER_URL, ''),
           release_date: `${movie.year}-07-19`,
           title: movie.title,
           adult: false,
@@ -36,7 +37,7 @@ export class TmdbMock {
     this.mockFetch.mockImplementationOnce(async () => new Response(JSON.stringify({
       id: id,
       original_title: movie.title,
-      poster_path: movie.posterUrl,
+      poster_path: movie.posterUrl?.replace(TMDB_POSTER_URL, ''),
       release_date: `${movie.year}-07-19`,
       title: movie.title,
       adult: false,

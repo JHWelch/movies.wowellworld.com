@@ -1,11 +1,9 @@
 import Movie from '../../models/movie.js'
+import { TMDB_BASE_URL } from './constants.js'
 import MovieResponse from './dtos/movieResponse.js'
 import SearchResponse from './dtos/searchResponse.js'
 
 export default class TmdbAdapter {
-  static readonly BASE_URL = 'https://api.themoviedb.org/3'
-  static readonly MOVIE_URL = 'https://www.themoviedb.org/movie'
-
   async getMovie(name: string): Promise<Movie> {
     const search = await this.searchMovie(name)
 
@@ -14,7 +12,7 @@ export default class TmdbAdapter {
 
   async searchMovie(name: string): Promise<SearchResponse> {
     const response = await fetch(
-      `${TmdbAdapter.BASE_URL}/search/movie?query=${name}`,
+      `${TMDB_BASE_URL}/search/movie?query=${name}`,
       this.options,
     )
 
@@ -23,7 +21,7 @@ export default class TmdbAdapter {
 
   async movieDetails(id: number): Promise<Movie> {
     const response = await fetch(
-      `${TmdbAdapter.BASE_URL}/movie/${id}?append_to_response=credits`,
+      `${TMDB_BASE_URL}/movie/${id}?append_to_response=credits`,
       this.options,
     )
 
@@ -40,9 +38,5 @@ export default class TmdbAdapter {
         Authorization: `Bearer ${process.env.TMDB_READ_KEY}`,
       },
     }
-  }
-
-  static movieUrl(id: number): string {
-    return `${TmdbAdapter.MOVIE_URL}/${id}`
   }
 }
