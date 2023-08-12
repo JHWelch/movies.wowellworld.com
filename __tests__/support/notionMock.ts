@@ -4,15 +4,20 @@ import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabasePa
 import { NotionMovie, WithAuth, nCheckbox, nDate, nRelation, nTitle, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
+  update: jest.MockedFunction<typeof Client.prototype.pages.update>
   query: jest.MockedFunction<typeof Client.prototype.databases.query>
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
 
   constructor () {
+    this.update = jest.fn<typeof Client.prototype.pages.update>()
     this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
     this.query = jest.fn<typeof Client.prototype.databases.query>();
 
     (Client as unknown as jest.Mock).mockImplementation(() => ({
-      pages: { retrieve: this.retrieve },
+      pages: {
+        update: this.update,
+        retrieve: this.retrieve,
+      },
       databases: { query: this.query },
     }))
   }

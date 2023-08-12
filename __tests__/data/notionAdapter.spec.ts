@@ -1,6 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import NotionAdapter from '../../src/data/notionAdapter'
 import { NotionMock } from '../support/notionMock'
+import Movie from '../../src/models/movie'
 
 let notionMock: NotionMock
 
@@ -202,6 +203,37 @@ describe('getWeeks', () => {
 })
 
 describe('setMovie', () => {
+  it('should call the update method with the correct parameters', async () => {
+    const movie = new Movie(
+      'Movie Title',
+      'Movie Director',
+      2021,
+      120,
+      'Movie Imdb Url',
+      'Movie Poster Url',
+      1234,
+      'notionId',
+      'Theater',
+      'Showing Url',
+    )
+    const notion = new NotionAdapter()
+    await notion.setMovie(movie)
+
+    expect(notionMock.update).toHaveBeenCalledWith({
+      page_id: movie.notionId,
+      properties: {
+        Title: { title: [{ text: { content: movie.title } }] },
+        Director: { rich_text: [{ text: { content: movie.director } }] },
+        Year: { number: movie.year },
+        Length: { number: movie.length },
+        IMDb: { url: movie.imdbUrl },
+        Poster: { url: movie.posterUrl },
+        'Theater Name': { rich_text: [{ text: { content: movie.theaterName } }] },
+        'Showing URL': { url: movie.showingUrl },
+      },
+    })
+  })
+
   describe('movie does not have notionId', () => {
     it('should throw an error', async () => {
       const notion = new NotionAdapter()
