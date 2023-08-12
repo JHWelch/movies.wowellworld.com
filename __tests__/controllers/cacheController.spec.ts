@@ -128,5 +128,14 @@ describe('cache', () => {
         ])).toFirebaseDTO()
       )
     })
+
+    it('updates the movie in notion', async () => {
+      const cacheController = newCacheController()
+
+      await cacheController.cache(req, res)
+
+      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
+    })
   })
 })
