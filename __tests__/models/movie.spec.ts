@@ -11,7 +11,7 @@ describe('merge', () => {
       null,
       'https://www.themoviedb.org/movie/1234',
       'https://image.tmdb.org/t/p/original/poster.jpg',
-      '1234',
+      1234,
     )
 
     movieA.merge(movieB)
@@ -23,7 +23,7 @@ describe('merge', () => {
       120,
       'https://www.themoviedb.org/movie/1234',
       'https://image.tmdb.org/t/p/original/poster.jpg',
-      '1234',
+      1234,
     ))
   })
 })

@@ -87,9 +87,9 @@ describe('cache', () => {
         'director',
         2001,
         90,
-        'https://www.themoviedb.org/movie/tmdbId',
+        'https://www.themoviedb.org/movie/1234',
         'https://image.tmdb.org/t/p/original/poster.jpg',
-        'tmdbId',
+        1234,
         'notionId',
       )
       const tmdb = new Movie(
@@ -97,9 +97,9 @@ describe('cache', () => {
         'director',
         2001,
         90,
-        'https://www.themoviedb.org/movie/tmdbId',
+        'https://www.themoviedb.org/movie/1234',
         'https://image.tmdb.org/t/p/original/poster.jpg',
-        'tmdbId',
+        1234,
       )
       const notionResponse = new NotionMovie('notionId', 'title')
       notionMock.mockIsFullPageOrDatabase(true)

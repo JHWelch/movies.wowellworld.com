@@ -7,7 +7,7 @@ export class TmdbMock {
     private mockFetch: jest.Mock<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>
   ) {}
 
-  mockSearchMovie (movie: Movie, id = 'tmdbId')  {
+  mockSearchMovie (movie: Movie, id = 1234)  {
     this.mockFetch.mockImplementationOnce(async () => new Response(JSON.stringify({
       page: 1,
       results: [
@@ -33,7 +33,7 @@ export class TmdbMock {
     })))
   }
 
-  mockMovieDetails = (movie: Movie, id = 'tmdbId') => {
+  mockMovieDetails = (movie: Movie, id = 1234) => {
     this.mockFetch.mockImplementationOnce(async () => new Response(JSON.stringify({
       id: id,
       original_title: movie.title,

@@ -11,7 +11,7 @@ export default class Movie {
     public length: number | null = null,
     public imdbUrl: string | null = null,
     public posterUrl: string | null = null,
-    public tmdbId: string | null = null,
+    public tmdbId: number | null = null,
     public notionId: string | null = null,
     public theaterName: string | null = null,
     public showingUrl: string | null = null
@@ -57,7 +57,7 @@ export default class Movie {
       tmdbResponse.runtime ?? -1,
       tmdbResponse.fullMovieUrl,
       tmdbResponse.fullPosterPath,
-      tmdbResponse.id.toString(),
+      tmdbResponse.id,
     )
   }
 
