@@ -2,11 +2,9 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestoreAdapter.js'
 
 export default class WeekController {
-  firestore: FirestoreAdapter
-
-  constructor (firestore: FirestoreAdapter) {
-    this.firestore = firestore
-  }
+  constructor (
+    public firestore: FirestoreAdapter
+  ) {}
 
   async index (req: Request, res: Response): Promise<void> {
     const { past } = this.parseIndexQuery(req)
