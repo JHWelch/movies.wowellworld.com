@@ -29,6 +29,8 @@ export default class CacheController {
   async fillMovieDetails (movies: Movie[]): Promise<void> {
     await Promise.all(movies.map<Promise<void>>(async movie => {
       const tmdbMovie = await this.tmdbAdapter.getMovie(movie.title)
+      if (!tmdbMovie) return
+
       movie.merge(tmdbMovie)
     }))
   }
