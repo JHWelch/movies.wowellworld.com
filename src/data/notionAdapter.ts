@@ -61,9 +61,7 @@ export default class NotionAdapter {
       .map(async (record) => await this.recordToWeek(record)))
   }
 
-  async recordToWeek (
-    record: PageObjectResponse | PartialPageObjectResponse | PartialDatabaseObjectResponse | DatabaseObjectResponse
-  ): Promise<Week> {
+  async recordToWeek (record: NotionQueryResponse): Promise<Week> {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }
@@ -92,3 +90,9 @@ export default class NotionAdapter {
     return { NOTION_TOKEN, DATABASE_ID }
   }
 }
+
+type NotionQueryResponse =
+  PageObjectResponse |
+  PartialPageObjectResponse |
+  PartialDatabaseObjectResponse |
+  DatabaseObjectResponse

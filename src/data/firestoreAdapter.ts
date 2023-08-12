@@ -39,7 +39,10 @@ export default class FirestoreAdapter {
     return this.getWeeks(where('date', '>=', this.today()), orderBy('date'))
   }
 
-  async getWeeks (where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
+  async getWeeks (
+    where: QueryFieldFilterConstraint,
+    constraint: QueryConstraint,
+  ): Promise<Week[]> {
     const weeks = collection(this.#firestore, FirestoreAdapter.COLLECTION_NAME)
     const q = query(weeks, where, constraint)
     const querySnapshot = await getDocs(q)
