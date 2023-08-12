@@ -1,12 +1,21 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { WithAuth, nCheckbox, nDate, nNumber, nRelation, nRichText, nTitle, nUrl, pageObjectResponse } from './notionHelpers'
+import { NotionMovie, WithAuth, nCheckbox, nDate, nRelation, nTitle, pageObjectResponse } from './notionHelpers'
 
 export class NotionMock {
-  query: jest.MockedFunction<typeof Client.prototype.databases.query> | undefined
-  retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve> | undefined
-  isFullPageOrDatabase: jest.MockedFunction<typeof isFullPageOrDatabase> | undefined
+  query: jest.MockedFunction<typeof Client.prototype.databases.query>
+  retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
+
+  constructor() {
+    this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
+    this.query = jest.fn<typeof Client.prototype.databases.query>();
+
+    (Client as unknown as jest.Mock).mockImplementation(() => ({
+      pages: { retrieve: this.retrieve },
+      databases: { query: this.query },
+    }))
+  }
 
   mockNotionEnv = () => {
     process.env = {
@@ -19,56 +28,33 @@ export class NotionMock {
     (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
   }
 
-  mockRetrieve = (
-    id = 'movieId',
-    title = 'movieTitle',
-    director = 'movieDirector',
-    year = 2021,
-    length = 120,
-    imdbUrl = 'movieImdbUrl',
-    posterUrl = 'moviePosterUrl',
-    theaterName = 'movieTheaterName',
-    showingUrl = 'movieShowingUrl'
-  ) => {
-    (Client as unknown as jest.Mock).mockImplementation(() => {
-      this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
-        .mockImplementation(async (args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
-          const { page_id } = args as { page_id: string }
+  mockRetrieve = (movie: NotionMovie | undefined = undefined) => {
+    const notionMovie = movie ?? NotionMovie.demo()
 
-          if (page_id !== id) {
-            throw new Error('Page not found')
-          }
+    this.retrieve.mockImplementation(async (args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
+      const { page_id } = args as { page_id: string }
 
-          return pageObjectResponse(id, {
-            Title: nTitle(title),
-            Director: nRichText(director),
-            Year: nNumber(year),
-            'Length (mins)': nNumber(length),
-            IMDb: nUrl(imdbUrl),
-            Poster: nUrl(posterUrl),
-            'Theater Name': nRichText(theaterName),
-            'Showing URL': nUrl(showingUrl),
-          })
-        })
-      return { pages: { retrieve: this.retrieve } }
+      if (page_id !== notionMovie.id) {
+        throw new Error('Page not found')
+      }
+
+      return notionMovie.toPageObjectResponse()
     })
+    return { pages: { retrieve: this.retrieve } }
   }
 
   mockQuery = (weeks: PageObjectResponse[] = []) => {
-    (Client as unknown as jest.Mock).mockImplementation(() => {
-      this.query = jest.fn<typeof Client.prototype.databases.query>()
-        .mockImplementation(
-          async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
-            page_or_database: {},
-            type: 'page_or_database',
-            object: 'list',
-            next_cursor: null,
-            has_more: false,
-            results: weeks,
-          }))
+    this.query.mockImplementation(
+      async (_args: WithAuth<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => ({
+        page_or_database: {},
+        type: 'page_or_database',
+        object: 'list',
+        next_cursor: null,
+        has_more: false,
+        results: weeks,
+      }))
 
-      return { databases: { query: this.query } }
-    })
+    return { databases: { query: this.query } }
   }
 
   static mockWeek = (
@@ -76,10 +62,11 @@ export class NotionMock {
     date: string,
     theme: string,
     skipped = false,
+    movies: NotionMovie[] = [],
   ): PageObjectResponse => pageObjectResponse(id, {
     Date: nDate(date),
     Theme: nTitle(theme),
     Skipped: nCheckbox(skipped),
-    Movies: nRelation([]),
+    Movies: nRelation(movies),
   })
 }

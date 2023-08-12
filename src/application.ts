@@ -1,4 +1,3 @@
-import setupExpress from './config/express.js'
 import DashboardController from './controllers/dashboardController.js'
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
@@ -6,19 +5,15 @@ import type NotionAdapter from './data/notionAdapter.js'
 import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
 import FirestoreAdapter from './data/firestoreAdapter.js'
+import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 
 class Application {
-  express: Express
-  firestore: FirestoreAdapter
-  notion: NotionAdapter
-
   constructor (
-    firestore: FirestoreAdapter,
-    notion: NotionAdapter
+    private express: Express,
+    private firestore: FirestoreAdapter,
+    private notion: NotionAdapter,
+    private tmdb: TmdbAdapter,
   ) {
-    this.express = setupExpress()
-    this.firestore = firestore
-    this.notion = notion
     this.registerRoutes()
   }
 
@@ -26,7 +21,7 @@ class Application {
    * This currently only works for GET requests
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
-    const cacheController = new CacheController(this.firestore, this.notion)
+    const cacheController = new CacheController(this.firestore, this.notion, this.tmdb)
     const weekController = new WeekController(this.firestore)
 
     return new Map([

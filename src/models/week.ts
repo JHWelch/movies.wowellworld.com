@@ -5,25 +5,13 @@ import { dateToString } from '../data/dateUtils.js'
 import { DocumentData, Timestamp } from 'firebase/firestore'
 
 export default class Week {
-  id: string
-  theme: string
-  date: Date
-  movies: Movie[]
-  isSkipped: boolean
-
   constructor (
-    id: string,
-    theme: string,
-    date: Date,
-    isSkipped = false,
-    movies: Movie[] = []
-  ) {
-    this.id = id
-    this.theme = theme
-    this.date = date
-    this.isSkipped = isSkipped
-    this.movies = movies
-  }
+    public id: string,
+    public theme: string,
+    public date: Date,
+    public isSkipped: boolean = false,
+    public movies: Movie[] = [],
+  ) {}
 
   static fromNotion (record: PageObjectResponse | DatabaseObjectResponse): Week {
     const properties = record.properties as unknown as WeekProperties
