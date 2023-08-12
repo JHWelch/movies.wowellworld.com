@@ -7,11 +7,11 @@ export class TmdbMock {
     private mockFetch: MockFetch
   ) {}
 
-  mockSearchMovie (movie: Movie, id = 1234)  {
+  mockSearchMovie (movie: Movie | undefined, id = 1234)  {
     this.mockFetch
       .mockImplementationOnce(async () => new Response(JSON.stringify({
         page: 1,
-        results: [
+        results: movie ? [
           {
             id: id,
             original_title: movie.title,
@@ -28,9 +28,9 @@ export class TmdbMock {
             vote_average: 7.282,
             vote_count: 3953,
           },
-        ],
+        ] : [],
         total_pages: 1,
-        total_results: 9,
+        total_results: movie ? 1 : 0,
       })))
   }
 
