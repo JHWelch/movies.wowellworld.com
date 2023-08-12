@@ -1,10 +1,10 @@
-import { jest } from '@jest/globals'
 import Movie from '../../src/models/movie'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
+import { MockFetch } from './fetchMock'
 
 export class TmdbMock {
   constructor (
-    private mockFetch: jest.Mock<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>
+    private mockFetch: MockFetch
   ) {}
 
   mockSearchMovie (movie: Movie, id = 1234)  {
