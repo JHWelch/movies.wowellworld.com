@@ -2,14 +2,14 @@ import MovieResponse from './movieResponse.js'
 import { isSearchResponseTmdb } from './responseTypes.js'
 
 export default class SearchResponse {
-  constructor(
+  constructor (
     public page: number,
     public results: MovieResponse[],
     public totalPages: number,
     public totalResults: number,
   ) {}
 
-  static fromTmdbResponse(tmdbResponse: unknown): SearchResponse {
+  static fromTmdbResponse (tmdbResponse: unknown): SearchResponse {
     if (!(isSearchResponseTmdb(tmdbResponse))) {
       throw new Error('Invalid response')
     }

@@ -22,7 +22,7 @@ export default class FirestoreAdapter {
     this.#firestore = setupFirestore()
   }
 
-  async cacheWeeks(weeks: Week[]): Promise<void> {
+  async cacheWeeks (weeks: Week[]): Promise<void> {
     await runTransaction(this.#firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
         const ref = doc(this.#firestore, 'weeks', week.dateString)
@@ -31,15 +31,15 @@ export default class FirestoreAdapter {
     })
   }
 
-  async getPastWeeks(): Promise<Week[]> {
+  async getPastWeeks (): Promise<Week[]> {
     return this.getWeeks(where('date', '<', this.today()), orderBy('date', 'desc'))
   }
 
-  async getUpcomingWeeks(): Promise<Week[]> {
+  async getUpcomingWeeks (): Promise<Week[]> {
     return this.getWeeks(where('date', '>=', this.today()), orderBy('date'))
   }
 
-  async getWeeks(where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
+  async getWeeks (where: QueryFieldFilterConstraint, constraint: QueryConstraint): Promise<Week[]> {
     const weeks = collection(this.#firestore, FirestoreAdapter.COLLECTION_NAME)
     const q = query(weeks, where, constraint)
     const querySnapshot = await getDocs(q)
@@ -48,7 +48,7 @@ export default class FirestoreAdapter {
       .map((doc) => Week.fromFirebase(doc.data()))
   }
 
-  today(): Timestamp {
+  today (): Timestamp {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 

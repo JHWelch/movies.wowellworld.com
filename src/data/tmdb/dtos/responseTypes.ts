@@ -34,7 +34,7 @@ export type SearchResponseTmdb = {
   total_results: number,
 }
 
-export function isMovieResponseTmdb(movie: unknown): movie is MovieResponseTmdb {
+export function isMovieResponseTmdb (movie: unknown): movie is MovieResponseTmdb {
   return (
     !!movie &&
     typeof movie === 'object' &&
@@ -69,7 +69,7 @@ export function isMovieResponseTmdb(movie: unknown): movie is MovieResponseTmdb 
   )
 }
 
-function isCreditsTmdb(credits: unknown): credits is CreditsTmdb {
+function isCreditsTmdb (credits: unknown): credits is CreditsTmdb {
   return (
     !!credits &&
     typeof credits === 'object' &&
@@ -79,7 +79,7 @@ function isCreditsTmdb(credits: unknown): credits is CreditsTmdb {
   )
 }
 
-export function isCrewResponseTmdb(crew: unknown): crew is CrewResponseTmdb {
+export function isCrewResponseTmdb (crew: unknown): crew is CrewResponseTmdb {
   return (
     !!crew &&
     typeof crew === 'object' &&
@@ -90,7 +90,7 @@ export function isCrewResponseTmdb(crew: unknown): crew is CrewResponseTmdb {
   )
 }
 
-export function isSearchResponseTmdb(response: unknown): response is SearchResponseTmdb {
+export function isSearchResponseTmdb (response: unknown): response is SearchResponseTmdb {
   return (
     !!response &&
     typeof response === 'object' &&

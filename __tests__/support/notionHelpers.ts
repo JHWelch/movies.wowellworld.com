@@ -144,7 +144,7 @@ export type WithAuth<P> = P & {
 };
 
 export class NotionMovie {
-  constructor(
+  constructor (
     public id: string,
     public title: string,
     public director: string | null = null,
@@ -156,7 +156,7 @@ export class NotionMovie {
     public showingUrl: string | null = null,
   ) {}
 
-  toPageObjectResponse(): PageObjectResponse {
+  toPageObjectResponse (): PageObjectResponse {
     return pageObjectResponse(this.id, {
       Title: nTitle(this.title),
       Director: nRichText(this.director),
@@ -169,7 +169,7 @@ export class NotionMovie {
     })
   }
 
-  static demo(): NotionMovie {
+  static demo (): NotionMovie {
     return new NotionMovie(
       'movieId',
       'movieTitle',

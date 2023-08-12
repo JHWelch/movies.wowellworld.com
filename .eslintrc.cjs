@@ -14,6 +14,7 @@ module.exports = {
     'object-curly-spacing': ['error', 'always'],
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
+    'space-before-function-paren': ['error', 'always'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
 };
