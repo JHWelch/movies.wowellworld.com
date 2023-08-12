@@ -62,42 +62,6 @@ export default class NotionAdapter {
       .map(async (record) => await this.recordToWeek(record)))
   }
 
-  async getUpcomingWeeks (): Promise<Week[]> {
-    const records = await this.#notion.databases.query({
-      database_id: this.#databaseId,
-      page_size: 10,
-      filter: {
-        property: 'Date',
-        date: { on_or_after: today() },
-      },
-      sorts: [{
-        property: 'Date',
-        direction: 'ascending',
-      }],
-    })
-
-    return await Promise.all(records.results
-      .map(async (record) => await this.recordToWeek(record)))
-  }
-
-  async getPastWeeks (): Promise<Week[]> {
-    const records = await this.#notion.databases.query({
-      database_id: this.#databaseId,
-      page_size: 10,
-      filter: {
-        property: 'Date',
-        date: { before: today() },
-      },
-      sorts: [{
-        property: 'Date',
-        direction: 'descending',
-      }],
-    })
-
-    return await Promise.all(records.results
-      .map(async (record) => await this.recordToWeek(record)))
-  }
-
   async recordToWeek (
     record: PageObjectResponse | PartialPageObjectResponse | PartialDatabaseObjectResponse | DatabaseObjectResponse
   ): Promise<Week> {
@@ -115,10 +79,8 @@ export default class NotionAdapter {
     return Week.fromNotion(record).setMovies(movies)
   }
 
-  _envVariables (): {
-    NOTION_TOKEN: string
-    DATABASE_ID: string
-    } {
+  _envVariables (): { NOTION_TOKEN: string, DATABASE_ID: string }
+  {
     const { NOTION_TOKEN, DATABASE_ID } = process.env
 
     if (typeof NOTION_TOKEN !== 'string') {
