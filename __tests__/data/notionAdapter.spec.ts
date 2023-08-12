@@ -1,7 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import NotionAdapter from '../../src/data/notionAdapter'
 import { NotionMock } from '../support/notionMock'
-import { today } from '../../src/data/dateUtils'
 
 let notionMock: NotionMock
 

@@ -1,7 +1,6 @@
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../models/movie.js'
 import Week from '../models/week.js'
-import { today } from './dateUtils.js'
 import {
   PartialDatabaseObjectResponse,
   type PageObjectResponse,
