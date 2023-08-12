@@ -49,7 +49,7 @@ describe('toNotion', () => {
         Title: { title: [{ text: { content: movie.title } }] },
         Director: { rich_text: [{ text: { content: movie.director } }] },
         Year: { number: movie.year },
-        Length: { number: movie.length },
+        'Length (mins)': { number: movie.length },
         IMDb: { url: movie.imdbUrl },
         Poster: { url: movie.posterUrl },
         'Theater Name': { rich_text: [{ text: { content: movie.theaterName } }] },

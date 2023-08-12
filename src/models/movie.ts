@@ -118,7 +118,7 @@ export default class Movie {
         Title: { title: [{ text: { content: this.title } }] },
         Director: { rich_text: [{ text: { content: this.director ?? '' } }] },
         Year: { number: this.year },
-        Length: { number: this.length },
+        'Length (mins)': { number: this.length },
         IMDb: { url: this.imdbUrl },
         Poster: { url: this.posterUrl },
         'Theater Name': { rich_text: [{ text: { content: this.theaterName ?? '' } }] },
