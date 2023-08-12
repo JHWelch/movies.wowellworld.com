@@ -27,6 +27,13 @@ type CreditsTmdb = {
   crew: CrewResponseTmdb[]
 }
 
+export type SearchResponseTmdb = {
+  page: number,
+  results: MovieResponseTmdb[],
+  total_pages: number,
+  total_results: number,
+}
+
 export function isMovieResponseTmdb(movie: unknown): movie is MovieResponseTmdb {
   return (
     !!movie &&
@@ -80,5 +87,21 @@ export function isCrewResponseTmdb(crew: unknown): crew is CrewResponseTmdb {
     'job' in crew &&
     typeof crew.name === 'string' &&
     typeof crew.job === 'string'
+  )
+}
+
+export function isSearchResponseTmdb(response: unknown): response is SearchResponseTmdb {
+  return (
+    !!response &&
+    typeof response === 'object' &&
+    'page' in response &&
+    'results' in response &&
+    'total_pages' in response &&
+    'total_results' in response &&
+    typeof response.page === 'number' &&
+    Array.isArray(response.results) &&
+    response.results.reduce((acc: boolean, movie: unknown) => acc && isMovieResponseTmdb(movie), true) &&
+    typeof response.total_pages === 'number' &&
+    typeof response.total_results === 'number'
   )
 }

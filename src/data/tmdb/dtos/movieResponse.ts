@@ -40,7 +40,7 @@ export default class MovieResponse {
       tmdbResponse.video,
       tmdbResponse.vote_average,
       tmdbResponse.vote_count,
-      this.mapCrew(tmdbResponse),
+      MovieResponse.mapCrew(tmdbResponse),
       tmdbResponse.runtime,
     )
   }

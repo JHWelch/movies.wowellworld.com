@@ -1,4 +1,5 @@
 import MovieResponse from './movieResponse.js'
+import { isSearchResponseTmdb } from './responseTypes.js'
 
 export default class SearchResponse {
   constructor(
@@ -8,10 +9,14 @@ export default class SearchResponse {
     public totalResults: number,
   ) {}
 
-  static fromTmdbResponse(tmdbResponse: any): SearchResponse {
+  static fromTmdbResponse(tmdbResponse: unknown): SearchResponse {
+    if (!(isSearchResponseTmdb(tmdbResponse))) {
+      throw new Error('Invalid response')
+    }
+
     return new SearchResponse(
       tmdbResponse.page,
-      tmdbResponse.results.map((movie: any) => MovieResponse.fromTmdbResponse(movie)),
+      tmdbResponse.results.map( MovieResponse.fromTmdbResponse),
       tmdbResponse.total_pages,
       tmdbResponse.total_results,
     )
