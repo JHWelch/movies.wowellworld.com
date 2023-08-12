@@ -21,7 +21,11 @@ class Application {
    * This currently only works for GET requests
    */
   routes (): Map<string, (req: Request, res: Response) => void> {
-    const cacheController = new CacheController(this.firestore, this.notion, this.tmdb)
+    const cacheController = new CacheController(
+      this.firestore,
+      this.notion,
+      this.tmdb
+    )
     const weekController = new WeekController(this.firestore)
 
     return new Map([

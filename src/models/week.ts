@@ -13,7 +13,9 @@ export default class Week {
     public movies: Movie[] = [],
   ) {}
 
-  static fromNotion (record: PageObjectResponse | DatabaseObjectResponse): Week {
+  static fromNotion (
+    record: PageObjectResponse | DatabaseObjectResponse
+  ): Week {
     const properties = record.properties as unknown as WeekProperties
 
     return new Week(

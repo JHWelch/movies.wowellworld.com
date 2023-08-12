@@ -18,6 +18,13 @@ let notionMock: NotionMock
 
 const { res, mockClear } = getMockRes()
 
+const newCacheController = () => {
+  const firestore = new FirestoreAdapter()
+  const notion = new NotionAdapter()
+  const tmdbAdapter = new TmdbAdapter()
+  return new CacheController(firestore, notion, tmdbAdapter)
+}
+
 beforeAll(() => {
   jest.mock('@notionhq/client')
   jest.mock('firebase-admin/app')
@@ -34,9 +41,6 @@ beforeEach(() => {
 })
 
 describe('cache', () => {
-  let firestore: FirestoreAdapter
-  let notion: NotionAdapter
-  let tmdbAdapter: TmdbAdapter
   let req: Request
 
   describe('when the cache is empty', () => {
@@ -47,14 +51,11 @@ describe('cache', () => {
         NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
         NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
       ])
-      firestore = new FirestoreAdapter()
-      notion = new NotionAdapter()
-      tmdbAdapter = new TmdbAdapter()
       req = getMockReq()
     })
 
     it('updates all weeks in firestore', async () =>  {
-      const cacheController = new CacheController(firestore, notion, tmdbAdapter)
+      const cacheController = newCacheController()
 
       await cacheController.cache(req, res)
 
@@ -107,9 +108,6 @@ describe('cache', () => {
         NotionMock.mockWeek('id1', '2021-01-01', 'theme1', false, [notionResponse]),
       ])
       notionMock.mockRetrieve(notionResponse)
-      firestore = new FirestoreAdapter()
-      notion = new NotionAdapter()
-      tmdbAdapter = new TmdbAdapter()
       req = getMockReq()
       const tmdbMock = new TmdbMock(mockFetch())
       tmdbMock.mockSearchMovie(tmdb)
@@ -117,7 +115,7 @@ describe('cache', () => {
     })
 
     it('stores data from tmdb in firestore', async () => {
-      const cacheController = new CacheController(firestore, notion, tmdbAdapter)
+      const cacheController = newCacheController()
 
       await cacheController.cache(req, res)
 

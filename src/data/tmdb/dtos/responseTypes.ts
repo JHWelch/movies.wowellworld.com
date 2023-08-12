@@ -34,7 +34,9 @@ export type SearchResponseTmdb = {
   total_results: number,
 }
 
-export function isMovieResponseTmdb (movie: unknown): movie is MovieResponseTmdb {
+export function isMovieResponseTmdb (
+  movie: unknown
+): movie is MovieResponseTmdb {
   return (
     !!movie &&
     typeof movie === 'object' &&
@@ -75,7 +77,8 @@ function isCreditsTmdb (credits: unknown): credits is CreditsTmdb {
     typeof credits === 'object' &&
     'crew' in credits &&
     Array.isArray(credits.crew) &&
-    credits.crew.reduce((acc: boolean, crew: unknown) => acc && isCrewResponseTmdb(crew), true)
+    credits.crew.reduce(
+      (acc: boolean, crew: unknown) => acc && isCrewResponseTmdb(crew), true)
   )
 }
 
@@ -90,7 +93,9 @@ export function isCrewResponseTmdb (crew: unknown): crew is CrewResponseTmdb {
   )
 }
 
-export function isSearchResponseTmdb (response: unknown): response is SearchResponseTmdb {
+export function isSearchResponseTmdb (
+  response: unknown
+): response is SearchResponseTmdb {
   return (
     !!response &&
     typeof response === 'object' &&
@@ -100,7 +105,10 @@ export function isSearchResponseTmdb (response: unknown): response is SearchResp
     'total_results' in response &&
     typeof response.page === 'number' &&
     Array.isArray(response.results) &&
-    response.results.reduce((acc: boolean, movie: unknown) => acc && isMovieResponseTmdb(movie), true) &&
+    response.results.reduce(
+      (acc: boolean, movie: unknown) => acc && isMovieResponseTmdb(movie),
+      true
+    ) &&
     typeof response.total_pages === 'number' &&
     typeof response.total_results === 'number'
   )
