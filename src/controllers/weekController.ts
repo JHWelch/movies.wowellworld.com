@@ -18,7 +18,7 @@ export default class WeekController {
     res.json(weeks.map((week) => week.toDTO()))
   }
 
-  parseIndexQuery(req: Request): { past: boolean } {
+  parseIndexQuery (req: Request): { past: boolean } {
     return { past: req.query.past === 'true' }
   }
 

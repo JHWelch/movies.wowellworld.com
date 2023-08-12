@@ -21,7 +21,7 @@ export default class MovieResponse {
     public readonly runtime: number | null | undefined = null,
   ) {}
 
-  static fromTmdbResponse(tmdbResponse: unknown): MovieResponse {
+  static fromTmdbResponse (tmdbResponse: unknown): MovieResponse {
     if (!isMovieResponseTmdb(tmdbResponse)) {
       throw new Error('Invalid response')
     }
@@ -45,24 +45,24 @@ export default class MovieResponse {
     )
   }
 
-  static mapCrew(tmdbResponse: MovieResponseTmdb): CrewResponse[] {
+  static mapCrew (tmdbResponse: MovieResponseTmdb): CrewResponse[] {
     if (!tmdbResponse.credits) return []
 
     return tmdbResponse.credits.crew
       .map(CrewResponse.fromTmdbResponse)
   }
 
-  get director(): string {
+  get director (): string {
     const director = this.crew.find(crew => crew.job === 'Director')
 
     return director?.name ?? ''
   }
 
-  get fullMovieUrl(): string {
+  get fullMovieUrl (): string {
     return `${TMDB_MOVIE_URL}/${this.id}`
   }
 
-  get fullPosterPath(): string {
+  get fullPosterPath (): string {
     if (this.posterPath === null) return ''
 
     return `${TMDB_POSTER_URL}${this.posterPath}`

@@ -3,7 +3,7 @@ import Movie from '../../src/models/movie'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 export class TmdbMock {
-  constructor(
+  constructor (
     private mockFetch: jest.Mock<(input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>>
   ) {}
 

@@ -7,7 +7,7 @@ export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query>
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
 
-  constructor() {
+  constructor () {
     this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
     this.query = jest.fn<typeof Client.prototype.databases.query>();
 
