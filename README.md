@@ -49,4 +49,5 @@ npm run fix
 - [Google Firebase Firestore](https://firebase.google.com/docs/firestore)
 - [Notion JS SDK](https://github.com/makenotion/notion-sdk-js)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [TMDB](https://developer.themoviedb.org/docs)
 - [TypeScript](https://www.typescriptlang.org/)
