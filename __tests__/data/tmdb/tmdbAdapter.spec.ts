@@ -34,4 +34,14 @@ describe('getMovie', () => {
 
     expect(movie).toEqual(expected)
   })
+
+  describe('when movie is not found', () => {
+    it('should return undefined', async () => {
+      tmdbMock.mockSearchMovie(undefined)
+
+      const movie = await tmdbAdapter.getMovie('movie title')
+
+      expect(movie).toBeUndefined()
+    })
+  })
 })

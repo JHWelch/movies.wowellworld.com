@@ -4,8 +4,10 @@ import MovieResponse from './dtos/movieResponse.js'
 import SearchResponse from './dtos/searchResponse.js'
 
 export default class TmdbAdapter {
-  async getMovie (name: string): Promise<Movie> {
+  async getMovie (name: string): Promise<Movie | undefined> {
     const search = await this.searchMovie(name)
+
+    if (search.results.length === 0) return undefined
 
     return await this.movieDetails(search.results[0].id)
   }
