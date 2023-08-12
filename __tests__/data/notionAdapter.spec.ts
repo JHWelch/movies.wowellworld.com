@@ -200,3 +200,26 @@ describe('getWeeks', () => {
     })
   })
 })
+
+describe('setMovie', () => {
+  describe('movie does not have notionId', () => {
+    it('should throw an error', async () => {
+      const notion = new NotionAdapter()
+      const movie = new Movie(
+        'Movie Title',
+        'Movie Director',
+        2021,
+        120,
+        'Movie Imdb Url',
+        'Movie Poster Url',
+        1234,
+        null,
+        'Theater',
+        'Showing Url',
+      )
+
+      await expect(notion.setMovie(movie))
+        .rejects.toThrowError('Movie does not have notionId')
+    })
+  })
+})

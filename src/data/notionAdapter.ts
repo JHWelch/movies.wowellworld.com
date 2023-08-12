@@ -61,6 +61,18 @@ export default class NotionAdapter {
       .map(async (record) => await this.recordToWeek(record)))
   }
 
+  async setMovie (movie: Movie): Promise<void> {
+    if (movie.notionId == null) throw new Error('Movie does not have notionId')
+
+    const record = await this.#notion.pages.update({
+      page_id: movie.notionId,
+      properties: {
+        Title: { title: [{ text: { content: movie.title } }] },
+      },
+    })
+  }
+
+
   async recordToWeek (record: NotionQueryResponse): Promise<Week> {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
