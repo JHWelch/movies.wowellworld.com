@@ -4,7 +4,7 @@ import MovieResponse from '../../../../src/data/tmdb/dtos/movieResponse'
 
 describe('fromTmdbResponse', () => {
   it('should assign all fields correctly', () => {
-    const response = SearchResponse.fromTmdbResponse({
+    const input = {
       page: 1,
       results: [
         {
@@ -65,7 +65,8 @@ describe('fromTmdbResponse', () => {
       ],
       total_pages: 2,
       total_results: 3,
-    })
+    }
+    const response = SearchResponse.fromTmdbResponse(input)
 
     expect(response.page).toBe(1)
     expect(response.totalPages).toBe(2)

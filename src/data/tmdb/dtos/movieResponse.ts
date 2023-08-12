@@ -1,5 +1,6 @@
 import { TMDB_MOVIE_URL, TMDB_POSTER_URL } from '../constants.js'
 import CrewResponse from './crewResponse.js'
+import { MovieResponseTmdb, isMovieResponseTmdb } from './responseTypes.js'
 
 export default class MovieResponse {
   constructor (
@@ -20,7 +21,11 @@ export default class MovieResponse {
     public readonly runtime: number | null | undefined = null,
   ) {}
 
-  static fromTmdbResponse(tmdbResponse: any): MovieResponse {
+  static fromTmdbResponse(tmdbResponse: unknown): MovieResponse {
+    if (!isMovieResponseTmdb(tmdbResponse)) {
+      throw new Error('Invalid response')
+    }
+
     return new MovieResponse(
       tmdbResponse.adult,
       tmdbResponse.backdrop_path,
@@ -40,12 +45,11 @@ export default class MovieResponse {
     )
   }
 
-  static mapCrew(tmdbResponse: any): CrewResponse[] {
-    return tmdbResponse
-      .credits
-      ?.crew
-      ?.map((crew: any) => CrewResponse.fromTmdbResponse(crew))
-    ?? []
+  static mapCrew(tmdbResponse: MovieResponseTmdb): CrewResponse[] {
+    if (!tmdbResponse.credits) return []
+
+    return tmdbResponse.credits.crew
+      .map(CrewResponse.fromTmdbResponse)
   }
 
   get director(): string {
