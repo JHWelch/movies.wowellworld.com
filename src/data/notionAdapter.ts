@@ -62,23 +62,8 @@ export default class NotionAdapter {
   }
 
   async setMovie (movie: Movie): Promise<void> {
-    if (movie.notionId == null) throw new Error('Movie does not have notionId')
-
-    await this.#notion.pages.update({
-      page_id: movie.notionId,
-      properties: {
-        Title: { title: [{ text: { content: movie.title } }] },
-        Director: { rich_text: [{ text: { content: movie.director ?? '' } }] },
-        Year: { number: movie.year },
-        Length: { number: movie.length },
-        IMDb: { url: movie.imdbUrl },
-        Poster: { url: movie.posterUrl },
-        'Theater Name': { rich_text: [{ text: { content: movie.theaterName ?? '' } }] },
-        'Showing URL': { url: movie.showingUrl },
-      },
-    })
+    await this.#notion.pages.update(movie.toNotion())
   }
-
 
   async recordToWeek (record: NotionQueryResponse): Promise<Week> {
     if (!isFullPageOrDatabase(record)) {

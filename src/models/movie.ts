@@ -1,4 +1,4 @@
-import { type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
+import { UpdatePageParameters, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
 import type MovieProperties from '../types/movieProperties.js'
 import { DocumentData } from 'firebase/firestore'
 import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
@@ -106,6 +106,24 @@ export default class Movie {
       posterUrl: this.posterUrl,
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
+    }
+  }
+
+  toNotion (): UpdatePageParameters {
+    if (this.notionId == null) throw new Error('Movie does not have notionId')
+
+    return {
+      page_id: this.notionId,
+      properties: {
+        Title: { title: [{ text: { content: this.title } }] },
+        Director: { rich_text: [{ text: { content: this.director ?? '' } }] },
+        Year: { number: this.year },
+        Length: { number: this.length },
+        IMDb: { url: this.imdbUrl },
+        Poster: { url: this.posterUrl },
+        'Theater Name': { rich_text: [{ text: { content: this.theaterName ?? '' } }] },
+        'Showing URL': { url: this.showingUrl },
+      },
     }
   }
 

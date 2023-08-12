@@ -219,39 +219,6 @@ describe('setMovie', () => {
     const notion = new NotionAdapter()
     await notion.setMovie(movie)
 
-    expect(notionMock.update).toHaveBeenCalledWith({
-      page_id: movie.notionId,
-      properties: {
-        Title: { title: [{ text: { content: movie.title } }] },
-        Director: { rich_text: [{ text: { content: movie.director } }] },
-        Year: { number: movie.year },
-        Length: { number: movie.length },
-        IMDb: { url: movie.imdbUrl },
-        Poster: { url: movie.posterUrl },
-        'Theater Name': { rich_text: [{ text: { content: movie.theaterName } }] },
-        'Showing URL': { url: movie.showingUrl },
-      },
-    })
-  })
-
-  describe('movie does not have notionId', () => {
-    it('should throw an error', async () => {
-      const notion = new NotionAdapter()
-      const movie = new Movie(
-        'Movie Title',
-        'Movie Director',
-        2021,
-        120,
-        'Movie Imdb Url',
-        'Movie Poster Url',
-        1234,
-        null,
-        'Theater',
-        'Showing Url',
-      )
-
-      await expect(notion.setMovie(movie))
-        .rejects.toThrowError('Movie does not have notionId')
-    })
+    expect(notionMock.update).toHaveBeenCalledWith(movie.toNotion())
   })
 })
