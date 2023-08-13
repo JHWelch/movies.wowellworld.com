@@ -1,7 +1,6 @@
 import { getDocs, Timestamp } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 
-
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => {
