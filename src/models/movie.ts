@@ -9,7 +9,7 @@ export default class Movie {
     public director: string | null = null,
     public year: number | null = null,
     public length: number | null = null,
-    public imdbUrl: string | null = null,
+    public url: string | null = null,
     public posterUrl: string | null = null,
     public tmdbId: number | null = null,
     public notionId: string | null = null,
@@ -25,7 +25,7 @@ export default class Movie {
       properties.Director?.rich_text[0]?.plain_text,
       properties.Year?.number,
       properties['Length (mins)']?.number,
-      properties.IMDb?.url,
+      properties.URL?.url,
       properties.Poster?.url,
       null,
       movie.id,
@@ -40,7 +40,7 @@ export default class Movie {
       movie.director,
       movie.year,
       movie.length,
-      movie.imdbUrl,
+      movie.url,
       movie.posterUrl,
       movie.tmdbId,
       movie.notionId,
@@ -85,7 +85,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
-      imdbUrl: this.imdbUrl,
+      url: this.url,
       posterUrl: this.posterUrl,
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
@@ -100,7 +100,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
-      imdbUrl: this.imdbUrl,
+      url: this.url,
       tmdbId: this.tmdbId,
       notionId: this.notionId,
       posterUrl: this.posterUrl,
@@ -119,7 +119,7 @@ export default class Movie {
         Director: { rich_text: [{ text: { content: this.director ?? '' } }] },
         Year: { number: this.year },
         'Length (mins)': { number: this.length },
-        IMDb: { url: this.imdbUrl },
+        URL: { url: this.url },
         Poster: { url: this.posterUrl },
         'Theater Name': { rich_text: [{ text: { content: this.theaterName ?? '' } }] },
         'Showing URL': { url: this.showingUrl },
@@ -132,7 +132,7 @@ export default class Movie {
     this.director ??= other.director
     this.year ??= other.year
     this.length ??= other.length
-    this.imdbUrl ??= other.imdbUrl
+    this.url ??= other.url
     this.posterUrl ??= other.posterUrl
     this.tmdbId ??= other.tmdbId
     this.notionId ??= other.notionId

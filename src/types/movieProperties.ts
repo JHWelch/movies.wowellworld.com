@@ -15,7 +15,7 @@ export default interface MovieProperties {
   'Length (mins)': {
     number: number
   }
-  IMDb: {
+  URL: {
     url: string
   }
   Poster: {
