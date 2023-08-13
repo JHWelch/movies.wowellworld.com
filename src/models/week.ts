@@ -2,7 +2,7 @@ import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/clien
 import Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
 import { dateToString } from '../data/dateUtils.js'
-import { DocumentData, Timestamp } from 'firebase/firestore'
+import { FirestoreWeek } from '../data/firestore/firestoreTypes.js'
 
 export default class Week {
   constructor (
@@ -65,7 +65,7 @@ export default class Week {
     }
   }
 
-  toFirebaseDTO (): object {
+  toFirebaseDTO (): WithFieldValue<FirestoreWeek> {
     return {
       id: this.id,
       theme: this.theme,

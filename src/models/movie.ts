@@ -2,6 +2,7 @@ import { UpdatePageParameters, type PageObjectResponse } from '@notionhq/client/
 import type MovieProperties from '../types/movieProperties.js'
 import { DocumentData } from 'firebase/firestore'
 import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
+import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
 
 export default class Movie {
   constructor (
@@ -94,7 +95,7 @@ export default class Movie {
     }
   }
 
-  toFirebaseDTO (): object {
+  toFirebaseDTO (): WithFieldValue<FirestoreMovie> {
     return {
       title: this.title,
       director: this.director,
