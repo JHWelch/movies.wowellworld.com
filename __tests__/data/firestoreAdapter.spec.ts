@@ -113,7 +113,10 @@ describe('getPastWeeks', () => {
 
     expect(query).toHaveBeenCalledWith(
       { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
-      { fieldPath: 'date', opStr: '<', value: firestore.today() },
+      { and: [
+        { fieldPath: 'date', opStr: '<', value: firestore.today() },
+        { fieldPath: 'isSkipped', opStr: '==', value: false },
+      ] },
       { fieldPath: 'date', directionStr: 'desc' }
     )
   })

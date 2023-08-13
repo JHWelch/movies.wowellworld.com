@@ -10,6 +10,7 @@ export const transaction = {
 }
 
 module.exports = {
+  and: jest.fn((...filters: any[]) => ({ and: filters })),
   collection: jest.fn((firestore: any, collectionPath: string) => ({
     firestore,
     collectionPath,
