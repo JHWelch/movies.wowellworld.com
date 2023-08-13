@@ -6,9 +6,9 @@ import {
   getFirestore,
   query,
 } from 'firebase/firestore'
-import { transaction } from '../../__mocks__/firebase/firestore'
-import { FirebaseMock } from '../support/firebaseMock'
-import Week from '../../src/models/week'
+import { transaction } from '../../../__mocks__/firebase/firestore'
+import { FirebaseMock } from '../../support/firebaseMock'
+import Week from '../../../src/models/week'
 
 let firestore: FirestoreAdapter
 

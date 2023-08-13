@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import NotionAdapter from '../../src/data/notionAdapter'
-import { NotionMock } from '../support/notionMock'
-import Movie from '../../src/models/movie'
+import NotionAdapter from '../../../src/data/notion/notionAdapter'
+import { NotionMock } from '../../support/notionMock'
+import Movie from '../../../src/models/movie'
 
 let notionMock: NotionMock
 

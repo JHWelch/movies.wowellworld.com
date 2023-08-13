@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import NotionAdapter from '../data/notionAdapter'
-import FirestoreAdapter from '../data/firestoreAdapter'
+import NotionAdapter from '../data/notion/notionAdapter'
+import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import Movie from '../models/movie'
 import TmdbAdapter from '../data/tmdb/tmdbAdapter'
 

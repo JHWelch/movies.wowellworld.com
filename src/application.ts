@@ -1,10 +1,10 @@
 import DashboardController from './controllers/dashboardController.js'
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
-import type NotionAdapter from './data/notionAdapter.js'
+import type NotionAdapter from './data/notion/notionAdapter.js'
 import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
-import FirestoreAdapter from './data/firestoreAdapter.js'
+import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 
 class Application {
