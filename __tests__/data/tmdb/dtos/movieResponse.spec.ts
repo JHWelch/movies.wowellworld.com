@@ -10,7 +10,7 @@ describe('fromTmdbResponse', () => {
       id: 9603,
       original_language: 'en',
       original_title: 'Clueless',
-      overview: 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school\'s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother was right about how misguided she was -- and falls for him.',
+      overview: 'Shallow, rich and socially successful Cher is at the top...',
       popularity: 32.244,
       poster_path: '/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg',
       release_date: '1995-07-19',
@@ -25,7 +25,8 @@ describe('fromTmdbResponse', () => {
     expect(response.id).toEqual(9603)
     expect(response.originalLanguage).toEqual('en')
     expect(response.originalTitle).toEqual('Clueless')
-    expect(response.overview).toEqual('Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school\'s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother was right about how misguided she was -- and falls for him.')
+    expect(response.overview)
+      .toEqual('Shallow, rich and socially successful Cher is at the top...')
     expect(response.popularity).toEqual(32.244)
     expect(response.posterPath).toEqual('/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg')
     expect(response.releaseDate).toEqual('1995-07-19')
@@ -60,7 +61,7 @@ describe('fromTmdbResponse', () => {
         imdb_id: 'tt0112697',
         original_language: 'en',
         original_title: 'Clueless',
-        overview: 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school\'s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother was right about how misguided she was -- and falls for him.',
+        overview: 'Shallow, rich and socially successful Cher is at the top...',
         popularity: 32.244,
         poster_path: '/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg',
         production_companies: [

@@ -1,4 +1,7 @@
-import { PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  PageObjectResponse,
+  RichTextItemResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 
 export const nCheckbox = (checked: boolean): {
   type: 'checkbox';

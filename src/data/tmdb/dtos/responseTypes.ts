@@ -67,7 +67,11 @@ export function isMovieResponseTmdb (
     typeof movie.video === 'boolean' &&
     typeof movie.vote_average === 'number' &&
     typeof movie.vote_count === 'number' &&
-    (!('runtime' in movie) || typeof movie.runtime === 'number' || movie.runtime === null)
+    (
+      !('runtime' in movie) ||
+      typeof movie.runtime === 'number' ||
+      movie.runtime === null
+    )
   )
 }
 

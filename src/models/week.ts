@@ -1,7 +1,11 @@
-import { DatabaseObjectResponse, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints'
+import {
+  DatabaseObjectResponse,
+  type PageObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints'
 import Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
 import { dateToString } from '../data/dateUtils.js'
+import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '../data/firestore/firestoreTypes.js'
 
 export default class Week {

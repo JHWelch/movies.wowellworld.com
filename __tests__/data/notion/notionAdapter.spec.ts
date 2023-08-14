@@ -1,4 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from '@jest/globals'
 import NotionAdapter from '../../../src/data/notion/notionAdapter'
 import { NotionMock } from '../../support/notionMock'
 import Movie from '../../../src/models/movie'
@@ -37,7 +44,8 @@ describe('constructor', () => {
     })
 
     it('should throw an error', () => {
-      expect(() => new NotionAdapter()).toThrowError('Missing NOTION_TOKEN environment variable')
+      expect(() => new NotionAdapter())
+        .toThrowError('Missing NOTION_TOKEN environment variable')
     })
   })
 
@@ -49,7 +57,8 @@ describe('constructor', () => {
     })
 
     it('should throw an error', () => {
-      expect(() => new NotionAdapter()).toThrowError('Missing DATABASE_ID environment variable')
+      expect(() => new NotionAdapter())
+        .toThrowError('Missing DATABASE_ID environment variable')
     })
   })
 })
@@ -110,7 +119,9 @@ describe('getWeek', () => {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
-    notionMock.mockQuery([NotionMock.mockWeek('weekId', '2021-01-01', 'weekTheme')])
+    notionMock.mockQuery([
+      NotionMock.mockWeek('weekId', '2021-01-01', 'weekTheme'),
+    ])
   })
 
   describe('when the week exists', () => {

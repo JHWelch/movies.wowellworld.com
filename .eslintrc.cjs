@@ -12,7 +12,6 @@ module.exports = {
     'no-console': ['error', { allow: ['warn', 'error'] }],
     indent: ['error', 2],
     'max-len': ['error', {
-      ignoreStrings: true,
       ignoreTrailingComments: true,
       ignoreUrls: true,
       tabWidth: 2,

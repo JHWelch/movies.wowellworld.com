@@ -1,4 +1,11 @@
-import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from '@jest/globals'
 import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '../../src/data/notion/notionAdapter'
@@ -105,7 +112,9 @@ describe('cache', () => {
       const notionResponse = new NotionMovie('notionId', 'title')
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek('id1', '2021-01-01', 'theme1', false, [notionResponse]),
+        NotionMock.mockWeek(
+          'id1', '2021-01-01', 'theme1', false, [notionResponse]
+        ),
       ])
       notionMock.mockRetrieve(notionResponse)
       req = getMockReq()

@@ -1,7 +1,16 @@
-import { UpdatePageParameters, type PageObjectResponse } from '@notionhq/client/build/src/api-endpoints.js'
+import {
+  UpdatePageParameters,
+  type PageObjectResponse,
+} from '@notionhq/client/build/src/api-endpoints.js'
 import type MovieProperties from '../types/movieProperties.js'
-import { DocumentData } from 'firebase/firestore'
+import { DocumentData, WithFieldValue } from 'firebase/firestore'
 import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
+import {
+  notionNumber,
+  notionRichText,
+  notionTitle,
+  notionUrl,
+} from '../data/notion/notionFormatters.js'
 import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
 
 export default class Movie {

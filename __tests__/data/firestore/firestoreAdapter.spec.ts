@@ -1,7 +1,14 @@
-import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from '@jest/globals'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
-import FirestoreAdapter from '../../src/data/firestoreAdapter'
+import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
 import {
   getFirestore,
   query,

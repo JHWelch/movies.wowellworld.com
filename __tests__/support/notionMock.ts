@@ -1,7 +1,21 @@
 import { jest } from '@jest/globals'
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
-import { GetPageParameters, GetPageResponse, PageObjectResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints'
-import { NotionMovie, WithAuth, nCheckbox, nDate, nRelation, nTitle, pageObjectResponse } from './notionHelpers'
+import {
+  GetPageParameters,
+  GetPageResponse,
+  PageObjectResponse,
+  QueryDatabaseParameters,
+  QueryDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import {
+  NotionMovie,
+  WithAuth,
+  nCheckbox,
+  nDate,
+  nRelation,
+  nTitle,
+  pageObjectResponse,
+} from './notionHelpers'
 
 export class NotionMock {
   update: jest.MockedFunction<typeof Client.prototype.pages.update>

@@ -22,7 +22,7 @@ export class TmdbMock {
             backdrop_path: '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
             genre_ids: [ 35, 10749 ],
             original_language: 'en',
-            overview: 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school\'s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother was right about how misguided she was -- and falls for him.',
+            overview: 'Shallow, rich and socially successful Cher is at the...',
             popularity: 32.244,
             video: false,
             vote_average: 7.282,
@@ -59,7 +59,7 @@ export class TmdbMock {
         homepage: '',
         imdb_id: 'tt0112697',
         original_language: 'en',
-        overview: 'Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school\'s pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother was right about how misguided she was -- and falls for him.',
+        overview: 'Shallow, rich and socially successful Cher is at the...',
         popularity: 32.244,
         production_companies: [
           {
