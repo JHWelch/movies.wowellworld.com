@@ -2,6 +2,7 @@
 module.exports = {
   transform: {
     '\\.[jt]sx?$': ['ts-jest', {
+      isolatedModules: true,
       useESM: true,
     }],
   },
