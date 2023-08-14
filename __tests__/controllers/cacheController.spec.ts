@@ -1,13 +1,20 @@
-import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
+import {
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from '@jest/globals'
 import { NotionMock } from '../support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import NotionAdapter from '../../src/data/notionAdapter'
+import NotionAdapter from '../../src/data/notion/notionAdapter'
 import CacheController from '../../src/controllers/cacheController'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { Request } from 'express'
 import Week from '../../src/models/week'
 import { FirebaseMock } from '../support/firebaseMock'
-import FirestoreAdapter from '../../src/data/firestoreAdapter'
+import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { NotionMovie } from '../support/notionHelpers'
 import { TmdbMock } from '../support/tmdbMock'
 import { mockFetch } from '../support/fetchMock'
@@ -64,17 +71,17 @@ describe('cache', () => {
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          (new Week('id1', 'theme1', new Date('2021-01-01'), false)).toFirebaseDTO()
+          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          (new Week('id2', 'theme2', new Date('2021-01-08'), false)).toFirebaseDTO()
+          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          (new Week('id3', 'theme3', new Date('2021-01-15'), false)).toFirebaseDTO()
+          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
         )
     })
   })
@@ -105,7 +112,9 @@ describe('cache', () => {
       const notionResponse = new NotionMovie('notionId', 'title')
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek('id1', '2021-01-01', 'theme1', false, [notionResponse]),
+        NotionMock.mockWeek(
+          'id1', '2021-01-01', 'theme1', false, [notionResponse]
+        ),
       ])
       notionMock.mockRetrieve(notionResponse)
       req = getMockReq()

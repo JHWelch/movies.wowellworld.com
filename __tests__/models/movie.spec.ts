@@ -52,7 +52,9 @@ describe('toNotion', () => {
         'Length (mins)': { number: movie.length },
         URL: { url: movie.url },
         Poster: { url: movie.posterUrl },
-        'Theater Name': { rich_text: [{ text: { content: movie.theaterName } }] },
+        'Theater Name': { rich_text: [
+          { text: { content: movie.theaterName } },
+        ] },
         'Showing URL': { url: movie.showingUrl },
       },
     })
@@ -73,7 +75,8 @@ describe('toNotion', () => {
         'Showing Url',
       )
 
-      expect(() => movie.toNotion()).toThrowError('Movie does not have notionId')
+      expect(() => movie.toNotion())
+        .toThrowError('Movie does not have notionId')
     })
   })
 })

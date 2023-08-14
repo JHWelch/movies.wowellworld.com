@@ -13,8 +13,8 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore'
-import Week from '../models/week.js'
-import setupFirestore from '../config/firestore.js'
+import Week from '../../models/week.js'
+import setupFirestore from '../../config/firestore.js'
 
 export default class FirestoreAdapter {
   static readonly COLLECTION_NAME = 'weeks'
