@@ -116,14 +116,14 @@ export default class Movie {
     return {
       page_id: this.notionId,
       properties: {
-        Title: { title: [{ text: { content: this.title } }] },
-        Director: { rich_text: [{ text: { content: this.director ?? '' } }] },
-        Year: { number: this.year },
-        'Length (mins)': { number: this.length },
-        URL: { url: this.url },
-        Poster: { url: this.posterUrl },
-        'Theater Name': { rich_text: [{ text: { content: this.theaterName ?? '' } }] },
-        'Showing URL': { url: this.showingUrl },
+        Title: notionTitle(this.title),
+        Director: notionRichText(this.director),
+        Year: notionNumber(this.year),
+        'Length (mins)': notionNumber(this.length),
+        URL: notionUrl(this.url),
+        Poster: notionUrl(this.posterUrl),
+        'Theater Name': notionRichText(this.theaterName),
+        'Showing URL': notionUrl(this.showingUrl),
       },
     }
   }
