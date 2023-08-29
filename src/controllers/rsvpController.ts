@@ -17,6 +17,14 @@ class RsvpController {
     const { weekId } = req.params
     const { name, email, plusOne } = req.body
 
+    const week = await this.firestore.getWeek(weekId)
+
+    if (!week) {
+      res.status(404).json({ message: `Week ${weekId} not found` })
+
+      return
+    }
+
     await this.firestore.createRsvp(weekId, name, email, plusOne)
 
     res.status(201).json({ message: 'Successfully RSVP\'d' })
