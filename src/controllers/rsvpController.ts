@@ -12,6 +12,17 @@ class RsvpController {
   ) {}
 
   async store (req: Request, res: Response): Promise<void> {
+    if (!this.validate(req, res)) return
+
+    const { weekId } = req.params
+    const { name, email, plusOne } = req.body
+
+    await this.firestore.createRsvp(weekId, name, email, plusOne)
+
+    res.status(201).json({ message: 'Successfully RSVP\'d' })
+  }
+
+  private validate (req: Request, res: Response): boolean {
     try {
       const dataSchema = z.object({
         name: z.string().min(1, { message: 'Required' }),
@@ -22,27 +33,37 @@ class RsvpController {
       dataSchema.parse(req.body)
     } catch (error) {
       if (error instanceof z.ZodError) {
-        let errors = {}
+        const errors = this.mapErrors(error.issues)
+        res.status(422).json(errors)
 
-        error.errors.forEach((error) => {
-          errors = {
-            ...errors,
-            [error.path[0]]: error.message,
-          }
-        })
-        res.status(422).json({ errors })
+        return false
       }
 
       res.status(500).json({ message: 'Something went wrong' })
+
+      return false
     }
 
+    return true
+  }
 
-    const { weekId } = req.params
-    const { name, email, plusOne } = req.body
+  private mapErrors (errors: Array<z.ZodIssue>): ErrorResponse {
+    let mappedErrors = {}
 
-    await this.firestore.createRsvp(weekId, name, email, plusOne)
+    errors.forEach((error) => {
+      mappedErrors = {
+        ...mappedErrors,
+        [error.path[0]]: error.message,
+      }
+    })
 
-    res.status(201).json({ message: 'successfully RSVP\'d' })
+    return { errors: mappedErrors }
+  }
+}
+
+type ErrorResponse = {
+  errors: {
+    [key: string]: string,
   }
 }
 
