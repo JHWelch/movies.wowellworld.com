@@ -11,6 +11,12 @@ beforeEach(() => {
   mockClear()
 })
 
+const mockBody = ({
+  name = 'test name',
+  email = 'test@example.com',
+  plusOne = true,
+} = {}) => ({ name, email, plusOne })
+
 describe('store', () => {
   let  firestoreAdapter: FirestoreAdapter
 
@@ -21,11 +27,8 @@ describe('store', () => {
   it('should save the rsvp', async () => {
     const req = getMockReq({
       params: { weekId: '2023-01-01' },
-      body: {
-        name: 'test',
-        email: 'test@example.com',
-        plusOne: true,
-      } })
+      body: mockBody(),
+    })
 
     await new RsvpController(firestoreAdapter).store(req, res)
 
@@ -34,10 +37,62 @@ describe('store', () => {
       FirebaseMock.mockCollection('rsvps'),
       {
         week: '2023-01-01',
-        name: 'test',
+        name: 'test name',
         email: 'test@example.com',
         plusOne: true,
       }
     )
+  })
+
+  describe('when email is missing', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        params: { weekId: '2023-01-01' },
+        body: {
+          name: 'test',
+          plusOne: true,
+        } })
+
+      await new RsvpController(firestoreAdapter).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { email: 'Required' },
+      })
+    })
+  })
+
+  describe('when email is invalid', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        params: { weekId: '2023-01-01' },
+        body: mockBody({ email: 'invalid' }),
+      })
+
+      await new RsvpController(firestoreAdapter).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { email: 'Invalid email' },
+      })
+    })
+  })
+
+  describe('when name is missing', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        params: { weekId: '2023-01-01' },
+        body: {
+          email: 'test@example.com',
+          plusOne: true,
+        } })
+
+      await new RsvpController(firestoreAdapter).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { name: 'Required' },
+      })
+    })
   })
 })
