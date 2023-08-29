@@ -107,41 +107,16 @@
         </div>
 
         <form class="space-y-4">
-          <div>
-            <label
-              for="name"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >Name</label>
+          <%- include('input', {
+            name: 'name',
+            placeholder: 'Ghostface',
+          })  %>
 
-            <input
-              x-model="rsvpBody.name"
-              type="text"
-              name="name"
-              id="name"
-              required
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6"
-              placeholder="Ghostface"
-            >
-          </div>
-
-          <div>
-            <label
-              for="email"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >Email</label>
-
-            <div class="mt-2">
-              <input
-                x-model="rsvpBody.email"
-                type="email"
-                name="email"
-                id="email"
-                required
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-600 sm:text-sm sm:leading-6"
-                placeholder="ghostface@woodsboroca.gov"
-              >
-            </div>
-          </div>
+          <%- include('input', {
+            name: 'email',
+            type: 'email',
+            placeholder: 'ghostface@woodsboroca.gov',
+          })  %>
 
           <div>
             <label
