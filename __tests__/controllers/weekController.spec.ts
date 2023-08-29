@@ -59,18 +59,21 @@ describe('index', () => {
       expect(res.json).toHaveBeenCalledWith([
         {
           'id': 'id1',
+          'weekId': '2021-01-01',
           'date': 'Friday, January 1',
           'isSkipped': false,
           'movies': [],
           'theme': 'theme1',
         }, {
           'id': 'id2',
+          'weekId': '2021-01-08',
           'date': 'Friday, January 8',
           'isSkipped': false,
           'movies': [],
           'theme': 'theme2',
         }, {
           'id': 'id3',
+          'weekId': '2021-01-15',
           'date': 'Friday, January 15',
           'isSkipped': false,
           'movies': [],
@@ -114,18 +117,21 @@ describe('index', () => {
       expect(res.json).toHaveBeenCalledWith([
         {
           'id': 'id1',
+          'weekId': '2021-01-01',
           'date': 'Friday, January 1',
           'isSkipped': false,
           'movies': [],
           'theme': 'theme1',
         }, {
           'id': 'id2',
+          'weekId': '2021-01-08',
           'date': 'Friday, January 8',
           'isSkipped': false,
           'movies': [],
           'theme': 'theme2',
         }, {
           'id': 'id3',
+          'weekId': '2021-01-15',
           'date': 'Friday, January 15',
           'isSkipped': false,
           'movies': [],
