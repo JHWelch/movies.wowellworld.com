@@ -7,7 +7,6 @@
       email: '',
       plusOne: '',
     },
-    message: null,
     rsvpBody: {
       name: '',
       email: '',
@@ -18,7 +17,7 @@
         this.errors = data.errors
       }
       if (data.message) {
-        this.message = data.message
+        alert(data.message)
       }
     },
     rsvp: async function() {
