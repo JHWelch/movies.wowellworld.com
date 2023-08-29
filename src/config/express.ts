@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -8,6 +9,7 @@ export default function setupExpress (): express.Express {
   const filename = fileURLToPath(import.meta.url)
   const dirname = path.dirname(filename)
   app.use('/public', express.static(`${dirname}/../../public`))
+  app.use(bodyParser.json())
 
   return app
 }
