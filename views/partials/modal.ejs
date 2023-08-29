@@ -6,6 +6,24 @@
       name: '',
       email: '',
       plusOne: false,
+    },
+    rsvp: function() {
+      fetch('/api/weeks/' + this.week.weekId + '/rsvp' , {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.rsvpBody),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        this.open = false
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     }
   }"
   x-cloak
@@ -125,6 +143,7 @@
 
         <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
           <button
+            @click="rsvp()"
             type="button"
             class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-violet-600 hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
           >RSVP!</button>
