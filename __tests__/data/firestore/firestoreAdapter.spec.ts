@@ -160,10 +160,8 @@ describe('getWeek', () => {
       }, false)
     })
 
-    it('throws an error', async () => {
-      await expect(firestore.getWeek('2021-01-01'))
-        .rejects
-        .toThrow('Week 2021-01-01 does not exist')
+    it('returns null', async () => {
+      expect(await firestore.getWeek('2021-01-01')).toBeNull()
     })
   })
 })

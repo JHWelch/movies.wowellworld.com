@@ -63,11 +63,11 @@ export default class FirestoreAdapter {
       .map((doc) => Week.fromFirebase(doc.data()))
   }
 
-  async getWeek (dateString: string): Promise<Week> {
+  async getWeek (dateString: string): Promise<Week|null> {
     const document = await getDoc(doc(this.weekCollection, dateString))
 
     if (!document.exists()) {
-      throw new Error(`Week ${dateString} does not exist`)
+      return null
     }
 
     return Week.fromFirebase(document.data())
