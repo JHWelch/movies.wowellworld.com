@@ -10,6 +10,7 @@ import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
 import {
+  addDoc,
   getFirestore,
   query,
 } from 'firebase/firestore'
@@ -154,5 +155,26 @@ describe('cacheWeeks', () => {
           FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15')
         )
     })
+  })
+})
+
+describe('createRsvp', () => {
+  it('creates an rsvp in firestore', async () => {
+    await firestore.createRsvp(
+      '2023-01-01',
+      'test name',
+      'test@example.com',
+      true
+    )
+
+    expect(addDoc).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'rsvps' },
+      {
+        week: '2023-01-01',
+        name: 'test name',
+        email: 'test@example.com',
+        plusOne: true,
+      }
+    )
   })
 })
