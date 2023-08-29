@@ -19,7 +19,7 @@
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        this.open = false
+        $dispatch('close-modal')
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -34,7 +34,8 @@
   x-transition:leave="ease-in duration-200"
   x-transition:leave-start="opacity-100"
   x-transition:leave-end="opacity-0"
-  x-on:open-modal.window="week = $event.detail.week; open = true;"
+  x-on:open-modal.window="week = $event.detail.week; open = true"
+  x-on:close-modal.window="open = false"
   x-id="['modal-title']"
   :aria-labelledby="$id('modal-title')"
   class="relative z-10"
