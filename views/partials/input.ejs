@@ -9,6 +9,7 @@
   >
     <input
       x-model="rsvpBody.<%= name %>"
+      x-on:change="errors.<%= name %> = null"
       type="<%= locals.type ?? 'text' %>"
       name="<%= name %>"
       id="<%= name %>"
