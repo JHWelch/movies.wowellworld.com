@@ -14,7 +14,7 @@ class RsvpController {
   async store (req: Request, res: Response): Promise<void> {
     try {
       const dataSchema = z.object({
-        name: z.string(),
+        name: z.string().min(1, { message: 'Required' }),
         email: z.string().email(),
         plusOne: z.boolean(),
       })
