@@ -6,7 +6,7 @@ import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
-// import RsvpController from './controllers/rsvpController.js'
+import RsvpController from './controllers/rsvpController.js'
 
 export function registerRoutes (
   express: Express,
@@ -16,7 +16,16 @@ export function registerRoutes (
 ): void {
   routes(firestore, notion,tmdb)
     .forEach((route) => {
-      express.get(route.path, route.handler)
+      switch (route.method) {
+      case HttpMethod.GET:
+        express.get(route.path, route.handler); break
+      case HttpMethod.POST:
+        express.post(route.path, route.handler); break
+      case HttpMethod.PUT:
+        express.put(route.path, route.handler); break
+      case HttpMethod.DELETE:
+        express.delete(route.path, route.handler); break
+      }
     })
 }
 
@@ -31,12 +40,17 @@ function routes (
     tmdb
   )
   const weekController = new WeekController(firestore)
-  // const rsvpController = new RsvpController(firestore)
+  const rsvpController = new RsvpController(firestore)
 
   return [
     new Route(DashboardController.PATHS.index, DashboardController.index),
     new Route(PreviousController.PATHS.index, PreviousController.index),
     new Route('/api/weeks', weekController.index.bind(weekController)),
+    new Route(
+      RsvpController.PATHS.store,
+      rsvpController.store.bind(rsvpController),
+      HttpMethod.POST,
+    ),
     new Route('/api/cache', cacheController.cache.bind(cacheController)),
   ]
 }
@@ -44,7 +58,7 @@ function routes (
 class Route {
   constructor (
     public path: string,
-    public handler: (req: Request, res: Response) => void,
+    public handler: RouteHandler,
     public method: HttpMethod = HttpMethod.GET,
   ) {}
 }
@@ -55,3 +69,5 @@ enum HttpMethod {
   PUT,
   DELETE,
 }
+
+type RouteHandler = (req: Request, res: Response) => void

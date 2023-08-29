@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 class RsvpController {
   static PATHS = {
-    index: '/week/:weekId/rsvp',
+    store: '/api/weeks/:weekId/rsvp',
   }
 
   constructor (
@@ -61,7 +61,7 @@ class RsvpController {
     errors.forEach((error) => {
       mappedErrors = {
         ...mappedErrors,
-        [error.path[0]]: error.message,
+        [error.path[0] ?? 'Request Body']: error.message,
       }
     })
 
