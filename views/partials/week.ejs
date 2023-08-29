@@ -13,7 +13,12 @@
         ></span>
       </h3>
 
-      <button x-data @click="$dispatch('open-modal', { week })">
+      <button
+        x-data
+        x-cloak
+        x-show="!week.isSkipped"
+        @click="$dispatch('open-modal', { week })"
+      >
         <%- include('icons/rsvp', { htmlClass: 'w-8 h-8 text-violet-600' }) %>
       </button>
     </div>
