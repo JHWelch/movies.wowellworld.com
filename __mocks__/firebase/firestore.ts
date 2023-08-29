@@ -10,11 +10,13 @@ export const transaction = {
 }
 
 module.exports = {
+  addDoc: jest.fn(),
   and: jest.fn((...filters: any[]) => ({ and: filters })),
   collection: jest.fn((firestore: any, collectionPath: string) => ({
-    firestore,
     collectionPath,
+    firestore,
   })),
+  getDoc: jest.fn(),
   getDocs: jest.fn(),
   getFirestore: jest.fn().mockReturnValue({ firestore: 'firestore' }),
   runTransaction: (firestore: any, updateFunction: any, _options: any) => {

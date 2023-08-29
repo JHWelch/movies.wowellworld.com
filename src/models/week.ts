@@ -62,6 +62,7 @@ export default class Week {
   toDTO (): object {
     return {
       id: this.id,
+      weekId: this.dateString,
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),

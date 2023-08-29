@@ -1,0 +1,13 @@
+<div
+  x-data="{
+    confetti: function () {
+      const jsConfetti = new JSConfetti()
+
+      jsConfetti.addConfetti({
+        emojis: ['🎥', '🎞️', '🎬', '🍿', '🍕', '📺', '🎫', '🎉']
+      })
+    }
+  }"
+  class="hidden"
+  x-on:fire-confetti.window="confetti()"
+></div>

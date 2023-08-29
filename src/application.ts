@@ -1,11 +1,8 @@
-import DashboardController from './controllers/dashboardController.js'
-import WeekController from './controllers/weekController.js'
-import { type Express, type Request, type Response } from 'express'
+import { type Express } from 'express'
 import type NotionAdapter from './data/notion/notionAdapter.js'
-import PreviousController from './controllers/previousController.js'
-import CacheController from './controllers/cacheController.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
+import { registerRoutes } from './routes.js'
 
 class Application {
   constructor (
@@ -14,33 +11,7 @@ class Application {
     private notion: NotionAdapter,
     private tmdb: TmdbAdapter,
   ) {
-    this.registerRoutes()
-  }
-
-  /**
-   * This currently only works for GET requests
-   */
-  routes (): Map<string, (req: Request, res: Response) => void> {
-    const cacheController = new CacheController(
-      this.firestore,
-      this.notion,
-      this.tmdb
-    )
-    const weekController = new WeekController(this.firestore)
-
-    return new Map([
-      [DashboardController.PATHS.index, DashboardController.index],
-      [PreviousController.PATHS.index, PreviousController.index],
-      ['/api/weeks', weekController.index.bind(weekController)],
-      // ['/api/weeks/:date', weekController.show.bind(weekController)],
-      ['/api/cache', cacheController.cache.bind(cacheController)],
-    ])
-  }
-
-  registerRoutes (): void {
-    this.routes().forEach((handler, route) => {
-      this.express.get(route, handler)
-    })
+    registerRoutes(express, firestore, notion, tmdb)
   }
 
   listen (): void {

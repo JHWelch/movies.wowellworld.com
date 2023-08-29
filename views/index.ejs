@@ -37,12 +37,16 @@
 
   <%- include('partials/weeks', {
     fetchUrl: '/api/weeks/',
+    showRSVP: true,
     sectionTitles: {
       0: 'Now Playing',
       1: 'Coming Attractions',
     },
   }); %>
 
+  <%- include('partials/modal'); %>
+
+  <%- include('partials/confetti'); %>
 </div>
 
 <div class="mt-10 sm:p-4">

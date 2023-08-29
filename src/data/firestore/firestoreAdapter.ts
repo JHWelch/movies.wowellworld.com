@@ -1,10 +1,12 @@
 import {
+  addDoc,
   and,
   collection,
   CollectionReference,
   doc,
   DocumentData,
   Firestore as FirestoreType,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -17,7 +19,9 @@ import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
 
 export default class FirestoreAdapter {
-  static readonly COLLECTION_NAME = 'weeks'
+  static readonly WEEKS_COLLECTION_NAME = 'weeks'
+  static readonly RSVPS_COLLECTION_NAME = 'rsvps'
+
   #firestore: FirestoreType
 
   constructor () {
@@ -35,7 +39,7 @@ export default class FirestoreAdapter {
 
   async getPastWeeks (): Promise<Week[]> {
     return this.getWeeks(query(
-      this.collection,
+      this.weekCollection,
       and(
         where('date', '<', this.today()),
         where('isSkipped', '==', false),
@@ -46,7 +50,7 @@ export default class FirestoreAdapter {
 
   async getUpcomingWeeks (): Promise<Week[]> {
     return this.getWeeks(query(
-      this.collection,
+      this.weekCollection,
       where('date', '>=', this.today()),
       orderBy('date')
     ))
@@ -59,6 +63,30 @@ export default class FirestoreAdapter {
       .map((doc) => Week.fromFirebase(doc.data()))
   }
 
+  async getWeek (dateString: string): Promise<Week|null> {
+    const document = await getDoc(doc(this.weekCollection, dateString))
+
+    if (!document.exists()) {
+      return null
+    }
+
+    return Week.fromFirebase(document.data())
+  }
+
+  async createRsvp (
+    week: string,
+    name: string,
+    email: string,
+    plusOne: boolean,
+  ): Promise<void> {
+    await addDoc(this.rsvpCollection, {
+      week,
+      name,
+      email,
+      plusOne,
+    })
+  }
+
   today (): Timestamp {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -66,7 +94,15 @@ export default class FirestoreAdapter {
     return Timestamp.fromDate(today)
   }
 
-  private get collection (): CollectionReference<DocumentData, DocumentData> {
-    return collection(this.#firestore, FirestoreAdapter.COLLECTION_NAME)
+  private get weekCollection ():
+    CollectionReference<DocumentData,DocumentData>
+  {
+    return collection(this.#firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
+  }
+
+  private get rsvpCollection ():
+    CollectionReference<DocumentData,DocumentData>
+  {
+    return collection(this.#firestore, FirestoreAdapter.RSVPS_COLLECTION_NAME)
   }
 }
