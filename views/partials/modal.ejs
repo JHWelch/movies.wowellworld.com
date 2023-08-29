@@ -1,7 +1,12 @@
 <div
   x-data="{
     open: false,
-    week: {}
+    week: {},
+    rsvpBody: {
+      name: '',
+      email: '',
+      plusOne: false,
+    }
   }"
   x-cloak
   x-show="open"
@@ -18,11 +23,6 @@
   aria-labelledby="modal-title"
   role="dialog"
   aria-modal="true"
-  rsvp-body="{
-    name='',
-    email='',
-    plusOne=false,
-  }"
 >
   <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
 
@@ -78,7 +78,7 @@
             >Name</label>
 
             <input
-              x-bind:="rsvpBody.name"
+              x-model="rsvpBody.name"
               type="text"
               name="name"
               id="name"
@@ -95,7 +95,7 @@
 
             <div class="mt-2">
               <input
-                x-bind:="rsvpBody.email"
+                x-model="rsvpBody.email"
                 type="email"
                 name="email"
                 id="email"
@@ -113,7 +113,7 @@
 
             <div class="mt-2">
               <input
-                x-bind:="rsvpBody.plusOne"
+                x-model="rsvpBody.plusOne"
                 type="checkbox"
                 name="plus-one"
                 id="plus-one"
