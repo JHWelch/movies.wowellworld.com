@@ -1,16 +1,22 @@
 <div class="flex flex-col items-center mt-10 mb-5">
   <div class="w-full max-w-4xl px-4">
-    <h3 class="flex flex-col">
-      <span
-        class="text-lg font-light text-violet-700"
-        x-text="week.date"
-      ></span>
+    <div class="flex justify-between">
+      <h3 class="flex flex-col">
+        <span
+          class="text-lg font-light text-violet-700"
+          x-text="week.date"
+        ></span>
 
-      <span
-        class="text-3xl font-semibold"
-        x-text="weekTitle(week)"
-      ></span>
-    </h3>
+        <span
+          class="text-3xl font-semibold"
+          x-text="weekTitle(week)"
+        ></span>
+      </h3>
+
+      <button x-data @click="$dispatch('open-modal', { week })">
+        <%- include('icons/rsvp', { htmlClass: 'w-8 h-8 text-violet-600' }) %>
+      </button>
+    </div>
   </div>
 
   <template x-if="week.isSkipped">
