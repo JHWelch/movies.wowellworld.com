@@ -168,7 +168,7 @@ describe('createRsvp', () => {
     )
 
     expect(addDoc).toHaveBeenCalledWith(
-      { firestore: { firestore: 'firestore' }, collectionPath: 'rsvps' },
+      FirebaseMock.mockCollection('rsvps'),
       {
         week: '2023-01-01',
         name: 'test name',

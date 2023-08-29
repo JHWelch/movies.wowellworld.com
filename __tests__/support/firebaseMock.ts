@@ -34,6 +34,14 @@ export class FirebaseMock {
     date: string
   ): WithFieldValue<FirestoreWeek> =>
     new Week(id, theme, new Date(date), false).toFirebaseDTO()
+
+  static mockCollection = (collectionPath: string): {
+    firestore: { firestore: 'firestore' },
+    collectionPath: string,
+  } => ({
+    firestore: { firestore: 'firestore' },
+    collectionPath,
+  })
 }
 
 type FirebaseWeek = {
