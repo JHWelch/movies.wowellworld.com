@@ -118,23 +118,11 @@
             placeholder: 'ghostface@woodsboroca.gov',
           })  %>
 
-          <div>
-            <label
-              for="plus-one"
-              class="block text-sm font-medium leading-6 text-gray-900"
-            >Plus One?</label>
-
-            <div class="mt-2">
-              <input
-                x-model="rsvpBody.plusOne"
-                type="checkbox"
-                name="plus-one"
-                id="plus-one"
-                required
-                class="block mt-2"
-              >
-            </div>
-          </div>
+          <%- include('checkbox', {
+            property: 'rsvpBody.plusOne',
+            label: 'Plus One?',
+            description: 'The more the merrier',
+          })  %>
         </form>
 
         <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
