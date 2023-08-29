@@ -130,6 +130,28 @@ describe('getPastWeeks', () => {
   })
 })
 
+describe('getWeek', () => {
+  describe('when the week exists', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetWeek({
+        date: new Date('2021-01-01'),
+        id: 'id1',
+        isSkipped: false,
+        theme: 'theme1',
+      })
+    })
+
+    it('returns the week', async () => {
+      const week = await firestore.getWeek('2021-01-01')
+
+      expect(week).toEqual(
+        new Week('id1', 'theme1', new Date('2021-01-01'))
+      )
+    })
+  })
+})
+
+
 describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () =>  {

@@ -1,4 +1,4 @@
-import { getDocs, Timestamp, WithFieldValue } from 'firebase/firestore'
+import { getDocs, getDoc, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '../../src/data/firestore/firestoreTypes'
 import Week from '../../src/models/week'
@@ -18,6 +18,19 @@ export class FirebaseMock {
         })),
       }
     })
+  }
+
+  static mockGetWeek (week: FirebaseWeek) {
+    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+      data: () => ({
+        id: week.id,
+        theme: week.theme,
+        date: Timestamp.fromDate(week.date),
+        isSkipped: week.isSkipped,
+        movies: [],
+      }),
+      exists: () => true,
+    }))
   }
 
   static mockDoc (collectionPath: string, documentPath: string) {
