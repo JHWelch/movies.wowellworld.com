@@ -7,7 +7,6 @@
       email: '',
       plusOne: '',
     },
-    message: null,
     rsvpBody: {
       name: '',
       email: '',
@@ -18,7 +17,7 @@
         this.errors = data.errors
       }
       if (data.message) {
-        this.message = data.message
+        alert(data.message)
       }
     },
     rsvp: async function() {
@@ -100,7 +99,11 @@
 
             <div class="mt-2">
               <p class="text-sm text-gray-500">
-                Let us know you are coming! Bring a friend if you like. We usually order or make some food, let us know if you're interested in getting in on that. Hope to see you soon.
+                Let us know you are coming! Bring a friend if you like.
+              </p>
+
+              <p class="text-sm text-violet-500">
+                Hope to see you soon!
               </p>
             </div>
           </div>

@@ -50,6 +50,7 @@ describe('store', () => {
           name: 'test name',
           email: 'test@example.com',
           plusOne: true,
+          createdAt: expect.anything(), // Timestamp is off
         }
       )
     })

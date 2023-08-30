@@ -10,6 +10,7 @@ import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
 import {
+  Timestamp,
   addDoc,
   getFirestore,
   query,
@@ -210,6 +211,7 @@ describe('createRsvp', () => {
         name: 'test name',
         email: 'test@example.com',
         plusOne: true,
+        createdAt: Timestamp.now(),
       }
     )
   })

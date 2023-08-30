@@ -84,6 +84,7 @@ export default class FirestoreAdapter {
       name,
       email,
       plusOne,
+      createdAt: Timestamp.now(),
     })
   }
 
