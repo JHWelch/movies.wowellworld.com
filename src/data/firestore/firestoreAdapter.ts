@@ -19,8 +19,9 @@ import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
 
 export default class FirestoreAdapter {
-  static readonly WEEKS_COLLECTION_NAME = 'weeks'
+  static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
+  static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
   #firestore: FirestoreType
 
@@ -88,6 +89,13 @@ export default class FirestoreAdapter {
     })
   }
 
+  async sendEmail (to: string, message: EmailMessage): Promise<void> {
+    await addDoc(this.mailCollection, {
+      to,
+      message,
+    })
+  }
+
   today (): Timestamp {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
@@ -95,15 +103,23 @@ export default class FirestoreAdapter {
     return Timestamp.fromDate(today)
   }
 
-  private get weekCollection ():
-    CollectionReference<DocumentData,DocumentData>
-  {
-    return collection(this.#firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
+  private get mailCollection (): Collection {
+    return collection(this.#firestore, FirestoreAdapter.MAIL_COLLECTION_NAME)
   }
 
-  private get rsvpCollection ():
-    CollectionReference<DocumentData,DocumentData>
-  {
+  private get rsvpCollection (): Collection {
     return collection(this.#firestore, FirestoreAdapter.RSVPS_COLLECTION_NAME)
   }
+
+  private get weekCollection (): Collection {
+    return collection(this.#firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
+  }
 }
+
+export type EmailMessage = {
+  subject: string,
+  text: string,
+  html: string,
+}
+
+type Collection = CollectionReference<DocumentData,DocumentData>

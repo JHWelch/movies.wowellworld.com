@@ -216,3 +216,25 @@ describe('createRsvp', () => {
     )
   })
 })
+
+describe ('sendEmail', () => {
+  it('sends an email', async () => {
+    await firestore.sendEmail('jsmith@example.com', {
+      subject: 'test subject',
+      text: 'test text',
+      html: 'test <p>html</p>',
+    })
+
+    expect(addDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockCollection('mail'),
+      {
+        to: 'jsmith@example.com',
+        message: {
+          subject: 'test subject',
+          text: 'test text',
+          html: 'test <p>html</p>',
+        },
+      }
+    )
+  })
+})
