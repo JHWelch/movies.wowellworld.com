@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
 import { type Request, type Response } from 'express'
 
 class DashboardController {
