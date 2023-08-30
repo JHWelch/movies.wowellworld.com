@@ -1,11 +1,22 @@
-<template x-if="sectionTitles[index]">
-  <div class="flex justify-center w-full">
-    <h2 class="relative flex items-center justify-between w-full max-w-5xl mt-12 text-2xl italic text-center">
-      <span class="flex-1 ml-4 mr-12 border-2 border-b border-violet-300"></span>
+<div>
+  <template x-if="sectionTitles[index]">
+    <div class="flex justify-center w-full">
+      <h2
+        :id="convertToKebabCase(sectionTitles[index])"
+        class="relative flex items-center justify-between w-full max-w-5xl text-2xl italic text-center"
+      >
+        <span class="flex-1 ml-4 mr-12 border-2 border-b border-violet-300"></span>
 
-      <span x-text="sectionTitles[index]"></span>
+        <span x-text="sectionTitles[index]"></span>
 
-      <span class="flex-1 ml-12 mr-4 border-2 border-b border-violet-300"></span>
-    </h2>
-  </div>
-</template>
+        <span class="flex-1 ml-12 mr-4 border-2 border-b border-violet-300"></span>
+      </h2>
+    </div>
+  </template>
+
+  <template x-if="!sectionTitles[index]">
+    <div class="flex justify-center w-full">
+      <span class="relative w-full max-w-5xl mx-4 text-2xl text-center border-2 border-b border-violet-300"></span>
+    </div>
+  </template>
+</div>
