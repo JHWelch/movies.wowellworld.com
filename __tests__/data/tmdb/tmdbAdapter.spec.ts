@@ -3,6 +3,7 @@ import TmdbAdapter from '../../../src/data/tmdb/tmdbAdapter'
 import Movie from '../../../src/models/movie'
 import { TmdbMock } from '../../support/tmdbMock'
 import { mockFetch } from '../../support/fetchMock'
+import { mockConfig } from '../../support/mockConfig'
 
 let tmdbMock: TmdbMock
 
@@ -14,7 +15,7 @@ describe('getMovie', () => {
   let tmdbAdapter: TmdbAdapter
 
   beforeEach(() => {
-    tmdbAdapter = new TmdbAdapter()
+    tmdbAdapter = new TmdbAdapter(mockConfig())
   })
 
   it('should return a movie', async () => {

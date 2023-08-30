@@ -11,6 +11,7 @@ import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { FirebaseMock } from '../support/firebaseMock'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
+import { mockConfig } from '../support/mockConfig'
 
 const { res, mockClear } = getMockRes()
 
@@ -31,7 +32,7 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      firestore = new FirestoreAdapter()
+      firestore = new FirestoreAdapter(mockConfig())
       FirebaseMock.mockWeeks([
         {
           date: new Date('2021-01-01'),
@@ -88,7 +89,7 @@ describe('index', () => {
     let req: Request
 
     beforeEach(() => {
-      firestore = new FirestoreAdapter()
+      firestore = new FirestoreAdapter(mockConfig())
       FirebaseMock.mockWeeks([
         {
           date: new Date('2021-01-01'),

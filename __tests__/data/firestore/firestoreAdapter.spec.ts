@@ -18,6 +18,7 @@ import {
 import { transaction } from '../../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../../support/firebaseMock'
 import Week from '../../../src/models/week'
+import { mockConfig } from '../../support/mockConfig'
 
 let firestore: FirestoreAdapter
 
@@ -28,13 +29,13 @@ beforeAll(() => {
 })
 
 beforeEach(() => {
-  firestore = new FirestoreAdapter()
+  firestore = new FirestoreAdapter(mockConfig())
   jest.clearAllMocks()
 })
 
 describe('constructor', () => {
   it('initializes the firestore', () => {
-    firestore = new FirestoreAdapter()
+    firestore = new FirestoreAdapter(mockConfig())
 
     expect (applicationDefault).toHaveBeenCalledTimes(1)
     expect (initializeApp).toHaveBeenCalledTimes(1)

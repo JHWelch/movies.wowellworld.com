@@ -1,11 +1,3 @@
-/*
-
-Authorization: `Bearer ${process.env.TMDB_READ_KEY}`,
-
-src="<%= process.env.CALENDAR_URL %>"
-
-*/
-
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import Config from '../../src/config/config'
 

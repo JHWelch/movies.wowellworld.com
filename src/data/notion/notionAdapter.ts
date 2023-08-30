@@ -8,17 +8,15 @@ import {
   DatabaseObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../../types/weekProperties.js'
+import Config from '../../config/config.js'
 
 export default class NotionAdapter {
   #notion: Client
   #databaseId: string
 
-  constructor () {
-    const { NOTION_TOKEN, DATABASE_ID } = this._envVariables()
-    this.#databaseId = DATABASE_ID
-    this.#notion = new Client({
-      auth: NOTION_TOKEN,
-    })
+  constructor (config: Config) {
+    this.#databaseId = config.notionDatabaseId
+    this.#notion = new Client({ auth: config.notionToken })
   }
 
   async getMovie (id: string): Promise<Movie> {
@@ -78,20 +76,6 @@ export default class NotionAdapter {
     )
 
     return Week.fromNotion(record).setMovies(movies)
-  }
-
-  _envVariables (): { NOTION_TOKEN: string, DATABASE_ID: string }
-  {
-    const { NOTION_TOKEN, DATABASE_ID } = process.env
-
-    if (typeof NOTION_TOKEN !== 'string') {
-      throw new Error('Missing NOTION_TOKEN environment variable')
-    }
-    if (typeof DATABASE_ID !== 'string') {
-      throw new Error('Missing DATABASE_ID environment variable')
-    }
-
-    return { NOTION_TOKEN, DATABASE_ID }
   }
 }
 
