@@ -211,7 +211,7 @@ describe('createRsvp', () => {
         name: 'test name',
         email: 'test@example.com',
         plusOne: true,
-        createdAt: Timestamp.now(),
+        createdAt: expect.any(Timestamp.constructor),
       }
     )
   })

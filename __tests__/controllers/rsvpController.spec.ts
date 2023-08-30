@@ -1,7 +1,7 @@
 import RsvpController from '../../src/controllers/rsvpController'
 import { beforeEach, describe, expect, it } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { addDoc } from 'firebase/firestore'
+import { Timestamp, addDoc } from 'firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 
@@ -50,7 +50,7 @@ describe('store', () => {
           name: 'test name',
           email: 'test@example.com',
           plusOne: true,
-          createdAt: expect.anything(), // Timestamp is off
+          createdAt: expect.any(Timestamp.constructor),
         }
       )
     })
