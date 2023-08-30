@@ -30,6 +30,11 @@
             this.weeks = data;
             this.loading = false;
           });
+      },
+      convertToKebabCase: function (titleCase) {
+        return titleCase
+          .replace(/\s+/g, '-')
+          .toLowerCase();
       }
     }"
     x-init="reload()"
