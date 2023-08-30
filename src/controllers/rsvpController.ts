@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import { z } from 'zod'
+import { adminEmail } from '../config/mail'
 
 class RsvpController {
   static PATHS = {
@@ -28,6 +29,15 @@ class RsvpController {
     await this.firestore.createRsvp(weekId, name, email, plusOne)
 
     res.status(201).json({ message: 'Successfully RSVP\'d' })
+
+    await this.firestore.sendEmail(adminEmail(), {
+      subject: `TNMC RSVP: ${name}`,
+      // eslint-disable-next-line max-len
+      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`,
+      // eslint-disable-next-line max-len
+      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email}</li><li>Plus one: ${plusOne}</li></ul>`,
+    })
+
   }
 
   private validate (req: Request, res: Response): boolean {

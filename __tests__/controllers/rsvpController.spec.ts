@@ -1,5 +1,5 @@
 import RsvpController from '../../src/controllers/rsvpController'
-import { beforeEach, describe, expect, it } from '@jest/globals'
+import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { Timestamp, addDoc } from 'firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
@@ -8,6 +8,8 @@ import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
+  process.env.ADMIN_EMAIL = 'admin@example.com'
+  jest.clearAllMocks()
   mockClear()
 })
 
@@ -51,6 +53,30 @@ describe('store', () => {
           email: 'test@example.com',
           plusOne: true,
           createdAt: expect.any(Timestamp.constructor),
+        }
+      )
+    })
+
+    it('sends an email to admins', async () => {
+      const req = getMockReq({
+        params: { weekId: '2023-01-01' },
+        body: mockBody(),
+      })
+
+      await new RsvpController(firestoreAdapter).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(201)
+      expect(addDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockCollection('mail'),
+        {
+          to: 'admin@example.com',
+          message: {
+            subject: 'TNMC RSVP: test name',
+            // eslint-disable-next-line max-len
+            text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com\nPlus one: true',
+            // eslint-disable-next-line max-len
+            html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
+          },
         }
       )
     })
