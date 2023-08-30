@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
-import FirestoreAdapter from '../data/firestore/firestoreAdapter'
+import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 import { z } from 'zod'
-import { adminEmail } from '../config/mail'
+import { adminEmail } from '../config/mail.js'
 
 class RsvpController {
   static PATHS = {
