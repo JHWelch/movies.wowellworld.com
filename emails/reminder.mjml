@@ -7,6 +7,16 @@
 
       <mj-text font-size="16px" color="#111827" line-height="16px"/>
     </mj-attributes>
+
+    <mj-html-attributes>
+      <mj-selector path=".list table table">
+        <mj-html-attribute name="role">list</mj-html-attribute>
+      </mj-selector>
+
+      <mj-selector path=".list table table > tbody">
+        <mj-html-attribute name="role">presentation</mj-html-attribute>
+      </mj-selector>
+    </mj-html-attributes>
   </mj-head>
   <mj-body>
     <mj-section full-width="full-width" background-color="#F9FAFB">
@@ -44,6 +54,7 @@
           font-size="12px"
           font-weight="bold"
           align="center"
+          width="120px"
           href="https://www.themoviedb.org/movie/105?language=en-US"
         >RSVP</mj-button>
       </mj-column>
@@ -83,5 +94,30 @@
           width="220px"
         />
       </mj-column>
+    </mj-section>
+
+    <mj-section full-width="full-width" background-color="#e9d5ff">
+      <mj-column width="400px">
+        <mj-text font-size="16px" padding="20px 25px">
+          <b>6:00pm</b> - <i>She's All That (1999)</i>
+        </mj-text>
+
+        <mj-text font-size="16px">
+          <b>8:00pm</b> - <i>Clueless (1995)</i>
+        </mj-text>
+
+
+        <mj-button
+          padding="30px 0px"
+          background-color="#7c3aed"
+          color="#ffffff"
+          font-size="12px"
+          font-weight="bold"
+          align="center"
+          width="120px"
+          href="https://www.themoviedb.org/movie/105?language=en-US"
+        >RSVP</mj-button>
+      </mj-column>
+    </mj-section>
   </mj-body>
 </mjml>
