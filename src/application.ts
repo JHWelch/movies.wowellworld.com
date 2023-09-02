@@ -4,7 +4,7 @@ import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import { registerRoutes } from './routes.js'
 
-class Application {
+export default class Application {
   constructor (
     private express: Express,
     private firestore: FirestoreAdapter,
@@ -22,5 +22,3 @@ class Application {
     })
   }
 }
-
-export default Application

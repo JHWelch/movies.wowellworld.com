@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
 import { type Request, type Response } from 'express'
 
-class DashboardController {
+export default class DashboardController {
   static PATHS = {
     index: '/',
   }
@@ -10,5 +9,3 @@ class DashboardController {
     res.render('index', { path: DashboardController.PATHS.index })
   }
 }
-
-export default DashboardController

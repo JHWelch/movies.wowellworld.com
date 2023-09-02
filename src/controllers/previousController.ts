@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
 import { type Request, type Response } from 'express'
 
-class PreviousController {
+export default class PreviousController {
   static PATHS = {
     index: '/previous',
   }
@@ -10,5 +9,3 @@ class PreviousController {
     res.render('previous/index', { path: PreviousController.PATHS.index })
   }
 }
-
-export default PreviousController
