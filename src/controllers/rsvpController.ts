@@ -3,7 +3,7 @@ import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 import { z } from 'zod'
 import { adminEmail } from '../config/mail.js'
 
-class RsvpController {
+export default class RsvpController {
   static PATHS = {
     store: '/api/weeks/:weekId/rsvp',
   }
@@ -84,5 +84,3 @@ type ErrorResponse = {
     [key: string]: string,
   }
 }
-
-export default RsvpController
