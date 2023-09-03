@@ -123,14 +123,14 @@ export default class FirestoreAdapter {
     subject: string,
     html: string,
   }[]): Promise<void> {
-    await runTransaction(this.#firestore, async (transaction) => {
+    await runTransaction(this.firestore, async (transaction) => {
       templates.forEach((template: {
         name: string,
         subject: string,
         html: string,
       }) => {
         transaction.set(doc(
-          this.#firestore,
+          this.firestore,
           FirestoreAdapter.TEMPLATES_COLLECTION_NAME,
           template.name
         ), {
