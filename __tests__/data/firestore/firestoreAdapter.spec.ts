@@ -239,3 +239,47 @@ describe ('sendEmail', () => {
     )
   })
 })
+
+describe('sendEmailTemplate', () => {
+  describe('rsvpConfirmation template', () => {
+    it('sends an email', async () => {
+      await firestore.sendEmailTemplate(
+        'jsmith@example.com',
+        'rsvpConfirmation',
+        {
+          date: 'Thursday, January 1st',
+          theme: 'test theme',
+          movies: [
+            {
+              title: 'test title',
+              year: '2021',
+              time: '6:00pm',
+              posterUrl: 'https://example.com/poster.jpg',
+            },
+          ],
+        })
+
+      expect(addDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockCollection('mail'),
+        {
+          to: 'jsmith@example.com',
+          template: {
+            name: 'rsvpConfirmation',
+            data: {
+              date: 'Thursday, January 1st',
+              theme: 'test theme',
+              movies: [
+                {
+                  title: 'test title',
+                  year: '2021',
+                  time: '6:00pm',
+                  posterUrl: 'https://example.com/poster.jpg',
+                },
+              ],
+            },
+          },
+        }
+      )
+    })
+  })
+})

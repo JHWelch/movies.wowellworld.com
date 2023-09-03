@@ -99,6 +99,20 @@ export default class FirestoreAdapter {
     })
   }
 
+  async sendEmailTemplate (
+    to: string,
+    templateName: string,
+    templateData: Record<string, unknown>,
+  ): Promise<void> {
+    await addDoc(this.mailCollection, {
+      to,
+      template: {
+        name: templateName,
+        data: templateData,
+      },
+    })
+  }
+
   today (): Timestamp {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
