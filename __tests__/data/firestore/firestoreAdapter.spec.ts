@@ -283,3 +283,34 @@ describe('sendEmailTemplate', () => {
     })
   })
 })
+
+describe('updateTemplates', () => {
+  it('should update the templates with new data', async () => {
+    await firestore.updateTemplates([
+      {
+        name: 'templateId',
+        subject: 'new subject',
+        html: 'new html',
+      }, {
+        name: 'templateId2',
+        subject: 'new subject 2',
+        html: 'new html 2',
+      },
+    ])
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('templates', 'templateId'),
+      {
+        subject: 'new subject',
+        html: 'new html',
+      }
+    )
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('templates', 'templateId2'),
+      {
+        subject: 'new subject 2',
+        html: 'new html 2',
+      }
+    )
+  })
+})

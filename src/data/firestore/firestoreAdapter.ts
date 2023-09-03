@@ -22,6 +22,7 @@ import Config from '../../config/config.js'
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
+  static readonly TEMPLATES_COLLECTION_NAME = 'templates'
   static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
   private config: Config
@@ -35,7 +36,11 @@ export default class FirestoreAdapter {
   async cacheWeeks (weeks: Week[]): Promise<void> {
     await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
-        const ref = doc(this.firestore, 'weeks', week.dateString)
+        const ref = doc(
+          this.firestore,
+          FirestoreAdapter.WEEKS_COLLECTION_NAME,
+          week.dateString
+        )
         transaction.set(ref, week.toFirebaseDTO())
       })
     })
@@ -110,6 +115,29 @@ export default class FirestoreAdapter {
         name: templateName,
         data: templateData,
       },
+    })
+  }
+
+  async updateTemplates (templates: {
+    name: string,
+    subject: string,
+    html: string,
+  }[]): Promise<void> {
+    await runTransaction(this.#firestore, async (transaction) => {
+      templates.forEach((template: {
+        name: string,
+        subject: string,
+        html: string,
+      }) => {
+        transaction.set(doc(
+          this.#firestore,
+          FirestoreAdapter.TEMPLATES_COLLECTION_NAME,
+          template.name
+        ), {
+          subject: template.subject,
+          html: template.html,
+        })
+      })
     })
   }
 
