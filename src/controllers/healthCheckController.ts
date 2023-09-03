@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express'
 
-class HealthCheckController {
+export default class HealthCheckController {
   static PATHS = {
     index: '/health_check',
   }
@@ -9,5 +9,3 @@ class HealthCheckController {
     res.status(200).send('ok')
   }
 }
-
-export default HealthCheckController
