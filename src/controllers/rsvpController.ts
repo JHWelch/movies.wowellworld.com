@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 import { z } from 'zod'
 
-class RsvpController {
+export default class RsvpController {
   static PATHS = {
     store: '/api/weeks/:weekId/rsvp',
   }
@@ -83,5 +83,3 @@ type ErrorResponse = {
     [key: string]: string,
   }
 }
-
-export default RsvpController
