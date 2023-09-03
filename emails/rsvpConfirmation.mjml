@@ -17,6 +17,20 @@
         <mj-html-attribute name="role">presentation</mj-html-attribute>
       </mj-selector>
     </mj-html-attributes>
+
+    <mj-style>
+      a {
+        color: #7c3aed;
+      }
+
+      a:hover {
+        color: #a56eff;
+      }
+
+      a:visited {
+        color: #5200a3;
+      }
+    </mj-style>
   </mj-head>
   <mj-body>
     <mj-section full-width="full-width" background-color="#F9FAFB">
@@ -25,13 +39,28 @@
           padding="0px"
           align="center"
           font-size="12px"
-          color="#7c3aed"
-        >Wowell World Studios Presents: Thursday&nbsp;Night&nbsp;Movie&nbsp;Club</mj-text>
+        >
+          <a href="https://movies.wowellworld.com/">
+            Wowell World Studios Presents: Thursday&nbsp;Night&nbsp;Movie&nbsp;Club
+          </a>
+        </mj-text>
+
+        <mj-text
+          align="center"
+          font-size="18px"
+          font-weight="bold"
+        >Thanks for RSVPing</mj-text>
       </mj-column>
     </mj-section>
 
     <mj-section full-width="full-width" background-color="#e9d5ff">
       <mj-column width="100%">
+        <mj-text
+          align="center"
+          font-weight="bold"
+          line-height="8px"
+        >See you Soon!</mj-text>
+
         <mj-text
           align="center"
           font-size="12px"
@@ -44,16 +73,6 @@
           font-weight="bold"
           line-height="8px"
         >{{ theme }}</mj-text>
-
-        <mj-button
-          background-color="#7c3aed"
-          color="#ffffff"
-          font-size="12px"
-          font-weight="bold"
-          align="center"
-          width="120px"
-          href="https://movies.wowellworld.com/"
-        >RSVP</mj-button>
       </mj-column>
     </mj-section>
 
@@ -85,18 +104,20 @@
             <b>{{ movie.time }}</b> - <i>{{ movie.title }} ({{ movie.year }})</i>
           </mj-text>
         {{ /each }}
-
-        <mj-button
-          padding="30px 0px"
-          background-color="#7c3aed"
-          color="#ffffff"
-          font-size="12px"
-          font-weight="bold"
-          align="center"
-          width="120px"
-          href="https://movies.wowellworld.com/"
-        >RSVP</mj-button>
       </mj-column>
     </mj-section>
+
+    <mj-section full-width="full-width" background-color="#F9FAFB">
+      <mj-column width="100%">
+        <mj-text
+          padding="0px"
+          align="center"
+          font-size="12px"
+        >
+          <a href="https://movies.wowellworld.com">
+            Wowell World Studios Presents: Thursday&nbsp;Night&nbsp;Movie&nbsp;Club
+          </a>
+        </mj-text>
+      </mj-column>
   </mj-body>
 </mjml>
