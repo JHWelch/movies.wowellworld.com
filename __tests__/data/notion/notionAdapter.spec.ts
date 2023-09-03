@@ -9,6 +9,7 @@ import {
 import NotionAdapter from '../../../src/data/notion/notionAdapter'
 import { NotionMock } from '../../support/notionMock'
 import Movie from '../../../src/models/movie'
+import { mockConfig } from '../../support/mockConfig'
 
 let notionMock: NotionMock
 
@@ -19,48 +20,6 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.clearAllMocks()
-})
-
-describe('constructor', () => {
-  describe('when NOTION_TOKEN and DATABASE_ID are set', () => {
-    beforeEach(() => {
-      process.env = {
-        NOTION_TOKEN: 'NOTION_TOKEN',
-        DATABASE_ID: 'DATABASE_ID',
-      }
-    })
-
-    it('should be created successfully', () => {
-      expect(() => new NotionAdapter()).not.toThrow()
-    })
-  })
-
-
-  describe('when NOTION_TOKEN is not set', () => {
-    beforeEach(() => {
-      process.env = {
-        DATABASE_ID: 'DATABASE_ID',
-      }
-    })
-
-    it('should throw an error', () => {
-      expect(() => new NotionAdapter())
-        .toThrowError('Missing NOTION_TOKEN environment variable')
-    })
-  })
-
-  describe('when DATABASE_ID is not set', () => {
-    beforeEach(() => {
-      process.env = {
-        NOTION_TOKEN: 'NOTION_TOKEN',
-      }
-    })
-
-    it('should throw an error', () => {
-      expect(() => new NotionAdapter())
-        .toThrowError('Missing DATABASE_ID environment variable')
-    })
-  })
 })
 
 describe('getMovie', () => {
@@ -78,7 +37,7 @@ describe('getMovie', () => {
     })
 
     it('should return the movie', async () => {
-      const movie = await new NotionAdapter().getMovie('movieId')
+      const movie = await new NotionAdapter(mockConfig()).getMovie('movieId')
 
       expect(movie).toEqual({
         notionId: 'movieId',
@@ -95,7 +54,7 @@ describe('getMovie', () => {
     })
 
     it ('calls the retrieve method with page_id', async () => {
-      await new NotionAdapter().getMovie('movieId')
+      await new NotionAdapter(mockConfig()).getMovie('movieId')
 
       expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
     })
@@ -107,7 +66,7 @@ describe('getMovie', () => {
     })
 
     it('should throw an error', async () => {
-      await expect(new NotionAdapter().getMovie('movieId'))
+      await expect(new NotionAdapter(mockConfig()).getMovie('movieId'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
@@ -130,7 +89,7 @@ describe('getWeek', () => {
     })
 
     it('should return the week', async () => {
-      const notion = new NotionAdapter()
+      const notion = new NotionAdapter(mockConfig())
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toEqual({
@@ -149,7 +108,7 @@ describe('getWeek', () => {
     })
 
     it('should throw an error', async () => {
-      const notion = new NotionAdapter()
+      const notion = new NotionAdapter(mockConfig())
 
       expect(notion.getWeek('2021-01-01'))
         .rejects.toThrowError('Page was not successfully retrieved')
@@ -168,7 +127,7 @@ describe('getWeeks', () => {
   })
 
   it('should return the weeks', async () => {
-    const notion = new NotionAdapter()
+    const notion = new NotionAdapter(mockConfig())
     const weeks = await notion.getWeeks()
 
     expect(weeks).toEqual([
@@ -195,7 +154,7 @@ describe('getWeeks', () => {
   })
 
   it('should call query with the correct parameters', async () => {
-    const notion = new NotionAdapter()
+    const notion = new NotionAdapter(mockConfig())
     await notion.getWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({
@@ -227,7 +186,7 @@ describe('setMovie', () => {
       'Theater',
       'Showing Url',
     )
-    const notion = new NotionAdapter()
+    const notion = new NotionAdapter(mockConfig())
     await notion.setMovie(movie)
 
     expect(notionMock.update).toHaveBeenCalledWith(movie.toNotion())

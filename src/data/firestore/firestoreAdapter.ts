@@ -17,22 +17,25 @@ import {
 } from 'firebase/firestore'
 import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
+import Config from '../../config/config.js'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
   static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
-  #firestore: FirestoreType
+  private config: Config
+  private firestore: FirestoreType
 
-  constructor () {
-    this.#firestore = setupFirestore()
+  constructor (config: Config) {
+    this.config = config
+    this.firestore = setupFirestore(config)
   }
 
   async cacheWeeks (weeks: Week[]): Promise<void> {
-    await runTransaction(this.#firestore, async (transaction) => {
+    await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
-        const ref = doc(this.#firestore, 'weeks', week.dateString)
+        const ref = doc(this.firestore, 'weeks', week.dateString)
         transaction.set(ref, week.toFirebaseDTO())
       })
     })
@@ -103,16 +106,20 @@ export default class FirestoreAdapter {
     return Timestamp.fromDate(today)
   }
 
+  get adminEmail (): string {
+    return this.config.adminEmail
+  }
+
   private get mailCollection (): Collection {
-    return collection(this.#firestore, FirestoreAdapter.MAIL_COLLECTION_NAME)
+    return collection(this.firestore, FirestoreAdapter.MAIL_COLLECTION_NAME)
   }
 
   private get rsvpCollection (): Collection {
-    return collection(this.#firestore, FirestoreAdapter.RSVPS_COLLECTION_NAME)
+    return collection(this.firestore, FirestoreAdapter.RSVPS_COLLECTION_NAME)
   }
 
   private get weekCollection (): Collection {
-    return collection(this.#firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
+    return collection(this.firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
   }
 }
 

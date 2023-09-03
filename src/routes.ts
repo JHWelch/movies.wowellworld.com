@@ -7,6 +7,7 @@ import CacheController from './controllers/cacheController.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import RsvpController from './controllers/rsvpController.js'
+import HealthCheckController from './controllers/healthCheckController.js'
 
 export function registerRoutes (
   express: Express,
@@ -39,10 +40,11 @@ function routes (
     notion,
     tmdb
   )
-  const weekController = new WeekController(firestore)
   const rsvpController = new RsvpController(firestore)
+  const weekController = new WeekController(firestore)
 
   return [
+    new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
     new Route(DashboardController.PATHS.index, DashboardController.index),
     new Route(PreviousController.PATHS.index, PreviousController.index),
     new Route('/api/weeks', weekController.index.bind(weekController)),

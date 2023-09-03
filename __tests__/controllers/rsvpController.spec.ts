@@ -4,11 +4,11 @@ import { getMockReq, getMockRes } from '@jest-mock/express'
 import { Timestamp, addDoc } from 'firebase/firestore'
 import { FirebaseMock } from '../support/firebaseMock'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
+import { mockConfig } from '../support/mockConfig'
 
 const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
-  process.env.ADMIN_EMAIL = 'admin@example.com'
   jest.clearAllMocks()
   mockClear()
 })
@@ -23,7 +23,7 @@ describe('store', () => {
   let  firestoreAdapter: FirestoreAdapter
 
   beforeEach(() => {
-    firestoreAdapter = new FirestoreAdapter()
+    firestoreAdapter = new FirestoreAdapter(mockConfig())
   })
 
   describe('has correct week', () => {
@@ -69,7 +69,7 @@ describe('store', () => {
       expect(addDoc).toHaveBeenCalledWith(
         FirebaseMock.mockCollection('mail'),
         {
-          to: 'admin@example.com',
+          to: 'ADMIN_EMAIL@example.com',
           message: {
             subject: 'TNMC RSVP: test name',
             // eslint-disable-next-line max-len

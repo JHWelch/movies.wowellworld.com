@@ -20,15 +20,17 @@ import { TmdbMock } from '../support/tmdbMock'
 import { mockFetch } from '../support/fetchMock'
 import Movie from '../../src/models/movie'
 import TmdbAdapter from '../../src/data/tmdb/tmdbAdapter'
+import { mockConfig } from '../support/mockConfig'
 
 let notionMock: NotionMock
 
 const { res, mockClear } = getMockRes()
 
 const newCacheController = () => {
-  const firestore = new FirestoreAdapter()
-  const notion = new NotionAdapter()
-  const tmdbAdapter = new TmdbAdapter()
+  const config = mockConfig()
+  const firestore = new FirestoreAdapter(config)
+  const notion = new NotionAdapter(config)
+  const tmdbAdapter = new TmdbAdapter(config)
   return new CacheController(firestore, notion, tmdbAdapter)
 }
 

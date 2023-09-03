@@ -1,7 +1,6 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 import { z } from 'zod'
-import { adminEmail } from '../config/mail.js'
 
 export default class RsvpController {
   static PATHS = {
@@ -30,7 +29,7 @@ export default class RsvpController {
 
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
-    await this.firestore.sendEmail(adminEmail(), {
+    await this.firestore.sendEmail(this.firestore.adminEmail, {
       subject: `TNMC RSVP: ${name}`,
       // eslint-disable-next-line max-len
       text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`,
