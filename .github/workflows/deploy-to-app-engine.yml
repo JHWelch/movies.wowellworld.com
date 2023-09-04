@@ -22,11 +22,26 @@ jobs:
     - name: Place .env file
       run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
 
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.15.0'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
     - name: Auth with Google
       uses: google-github-actions/auth@v1
       with:
         workload_identity_provider: ${{ secrets.GOOGLE_WORKFLOW_IDENTITY_PROVIDER }}
         service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
+    - name: Build email templates
+      run: npm run build-emails
+
     - name: Deploy to Google
       uses: google-github-actions/deploy-appengine@v1
+
+    - name: Upload email templates
+      run: npm run upload-emails

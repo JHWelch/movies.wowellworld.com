@@ -239,3 +239,78 @@ describe ('sendEmail', () => {
     )
   })
 })
+
+describe('sendEmailTemplate', () => {
+  describe('rsvpConfirmation template', () => {
+    it('sends an email', async () => {
+      await firestore.sendEmailTemplate(
+        'jsmith@example.com',
+        'rsvpConfirmation',
+        {
+          date: 'Thursday, January 1st',
+          theme: 'test theme',
+          movies: [
+            {
+              title: 'test title',
+              year: '2021',
+              time: '6:00pm',
+              posterUrl: 'https://example.com/poster.jpg',
+            },
+          ],
+        })
+
+      expect(addDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockCollection('mail'),
+        {
+          to: 'jsmith@example.com',
+          template: {
+            name: 'rsvpConfirmation',
+            data: {
+              date: 'Thursday, January 1st',
+              theme: 'test theme',
+              movies: [
+                {
+                  title: 'test title',
+                  year: '2021',
+                  time: '6:00pm',
+                  posterUrl: 'https://example.com/poster.jpg',
+                },
+              ],
+            },
+          },
+        }
+      )
+    })
+  })
+})
+
+describe('updateTemplates', () => {
+  it('should update the templates with new data', async () => {
+    await firestore.updateTemplates([
+      {
+        name: 'templateId',
+        subject: 'new subject',
+        html: 'new html',
+      }, {
+        name: 'templateId2',
+        subject: 'new subject 2',
+        html: 'new html 2',
+      },
+    ])
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail-templates', 'templateId'),
+      {
+        subject: 'new subject',
+        html: 'new html',
+      }
+    )
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail-templates', 'templateId2'),
+      {
+        subject: 'new subject 2',
+        html: 'new html 2',
+      }
+    )
+  })
+})
