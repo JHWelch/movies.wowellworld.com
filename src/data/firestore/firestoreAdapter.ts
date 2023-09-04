@@ -22,7 +22,7 @@ import Config from '../../config/config.js'
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
-  static readonly TEMPLATES_COLLECTION_NAME = 'templates'
+  static readonly TEMPLATES_COLLECTION_NAME = 'mail-templates'
   static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
   private config: Config

@@ -299,14 +299,14 @@ describe('updateTemplates', () => {
     ])
 
     expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('templates', 'templateId'),
+      FirebaseMock.mockDoc('mail-templates', 'templateId'),
       {
         subject: 'new subject',
         html: 'new html',
       }
     )
     expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('templates', 'templateId2'),
+      FirebaseMock.mockDoc('mail-templates', 'templateId2'),
       {
         subject: 'new subject 2',
         html: 'new html 2',
