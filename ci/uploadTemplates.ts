@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as dotenv from 'dotenv'
 import fs from 'fs'
 import Config from '../src/config/config.js'
@@ -8,18 +9,16 @@ dotenv.config()
 
 const adapter = new FirestoreAdapter(new Config())
 
-const getHtml = (name: string | null) => {
-  const path = `./emails/built/${name}.html`
+const getHtml = (name: string | null) =>
+  fs.readFileSync(`./emails/built/${name}.html`, 'utf8')
 
-  return fs.readFileSync(path, 'utf8')
-}
+console.log('Templates to update:')
+console.table(emails.templates)
 
-adapter.updateTemplates(emails.templates.map(email => {
-  const html = getHtml(email.name)
+console.log('Updating templates...')
+adapter.updateTemplates(emails.templates.map(email => ({
+  ...email,
+  html: getHtml(email.name),
+})))
 
-  return {
-    name: email.name,
-    subject: email.subject,
-    html: html,
-  }
-}))
+console.log('Templates successfully updated!')
