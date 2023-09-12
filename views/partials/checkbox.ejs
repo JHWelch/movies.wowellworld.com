@@ -9,14 +9,18 @@
     >
   </div>
 
-  <div class="ml-3 text-sm leading-6">
+  <div class="ml-3 text-sm leading-6 cursor-default">
     <label
       for="<%= property %>"
       class="font-medium text-gray-900"
       aria-describedby="<%= property %>-description"
     ><%= label %></label>
 
-    <span id="<%= property %>-description" class="text-gray-500">
+    <span
+      @click="<%= property %> = !<%= property %>"
+      id="<%= property %>-description"
+      class="text-gray-500"
+    >
       <span class="sr-only"><%= label %> </span>
 
       <%= description %>
