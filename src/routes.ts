@@ -8,6 +8,7 @@ import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import RsvpController from './controllers/rsvpController.js'
 import HealthCheckController from './controllers/healthCheckController.js'
+import RedirectController from './controllers/redirectController.js'
 
 export function registerRoutes (
   express: Express,
@@ -54,6 +55,7 @@ function routes (
       HttpMethod.POST,
     ),
     new Route('/api/cache', cacheController.cache.bind(cacheController)),
+    new Route(RedirectController.PATHS.sept21, RedirectController.sept21),
   ]
 }
 
