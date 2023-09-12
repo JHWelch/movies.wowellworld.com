@@ -12,9 +12,9 @@ describe('sep21', () => {
   it('should return a redirect to notion', async () => {
     const req = getMockReq()
 
-    await RedirectController.sept21(req, res)
+    await RedirectController.sep21(req, res)
 
     expect(res.redirect)
-      .toHaveBeenCalledWith(RedirectController.sept21Url)
+      .toHaveBeenCalledWith(RedirectController.sep21Url)
   })
 })
