@@ -55,7 +55,7 @@ function routes (
       HttpMethod.POST,
     ),
     new Route('/api/cache', cacheController.cache.bind(cacheController)),
-    new Route(RedirectController.PATHS.sept21, RedirectController.sept21),
+    new Route(RedirectController.PATHS.sep21, RedirectController.sep21),
   ]
 }
 
