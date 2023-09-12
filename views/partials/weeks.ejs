@@ -29,7 +29,16 @@
           .then(data => {
             this.weeks = data;
             this.loading = false;
+            const rsvpWeek = this.rsvpWeek();
+            if (!rsvpWeek) { return; }
+            const week = this.weeks.find(week => week.weekId === rsvpWeek);
+            if (!week) { return; }
+
+            $dispatch('open-modal', { week });
           });
+      },
+      rsvpWeek: function () {
+        return new URLSearchParams(window.location.search).get('rsvp');
       },
       convertToKebabCase: function (titleCase) {
         return titleCase
