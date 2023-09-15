@@ -1,5 +1,6 @@
 # movies.wowellworld.com
 ![App Engine Build](https://github.com/JHWelch/movies.wowellworld.com/actions/workflows/deploy-to-app-engine.yml/badge.svg)
+![Quality Checks](https://github.com/JHWelch/movies.wowellworld.com/actions/workflows/qc-check.yml/badge.svg)
 
 An integration with [Notion](https://notion.so) to display weekly movie nights using a Notion database as the source of truth.
 
