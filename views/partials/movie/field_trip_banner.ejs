@@ -3,9 +3,7 @@
     :href="movie.showingUrl"
     class="absolute inset-0 flex items-center justify-between w-full h-12 p-3 font-medium text-center text-white text-md opacity-80 bg-fuchsia-500"
   >
-    <span
-      x-text="`Field Trip to ${movie.theaterName}!`"
-    ></span>
+    <span x-text="movie.theaterName"></span>
 
     <%- include('../icons/ticket', { htmlClass: 'w-6 h-6 ml-2 -rotate-45' }); %>
   </a>
