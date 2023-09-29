@@ -66,7 +66,7 @@ export default class Movie {
       parseInt(tmdbResponse.releaseDate.split('-')[0]),
       tmdbResponse.runtime ?? -1,
       tmdbResponse.fullMovieUrl,
-      tmdbResponse.fullPosterPath,
+      tmdbResponse.posterPath,
       tmdbResponse.id,
     )
   }

@@ -1,5 +1,4 @@
 import Movie from '../../src/models/movie'
-import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 import { MockFetch } from './fetchMock'
 
 export class TmdbMock {
@@ -15,7 +14,7 @@ export class TmdbMock {
           {
             id: id,
             original_title: movie.title,
-            poster_path: movie.posterUrl?.replace(TMDB_POSTER_URL, ''),
+            poster_path: movie.posterUrl,
             release_date: `${movie.year}-07-19`,
             title: movie.title,
             adult: false,
@@ -39,7 +38,7 @@ export class TmdbMock {
       .mockImplementationOnce(async () => new Response(JSON.stringify({
         id: id,
         original_title: movie.title,
-        poster_path: movie.posterUrl?.replace(TMDB_POSTER_URL, ''),
+        poster_path: movie.posterUrl,
         release_date: `${movie.year}-07-19`,
         title: movie.title,
         adult: false,
