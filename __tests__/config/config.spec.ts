@@ -111,3 +111,25 @@ describe('env missing NODE_ENV', () => {
     expect(new Config().nodeEnv).toBe('development')
   })
 })
+
+describe('isProduction', () => {
+  describe('when NODE_ENV is production', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'production'
+    })
+
+    it('returns true', () => {
+      expect(new Config().isProduction).toBe(true)
+    })
+  })
+
+  describe('when NODE_ENV is development', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'development'
+    })
+
+    it('returns false', () => {
+      expect(new Config().isProduction).toBe(false)
+    })
+  })
+})

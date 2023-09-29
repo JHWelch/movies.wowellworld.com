@@ -19,6 +19,10 @@ export default class Config {
     this.nodeEnv = this.optionalVariable('NODE_ENV', 'development')
   }
 
+  get isProduction (): boolean {
+    return this.nodeEnv === 'production'
+  }
+
   requiredVariable (name: string): string {
     const value = process.env[name]
     if (value == null) {
