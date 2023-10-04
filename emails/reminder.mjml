@@ -69,7 +69,7 @@
           >{{ movie.title }}</mj-text>
 
           <mj-image
-            src="{{ movie.posterUrl }}"
+            src="{{ movie.posterPath }}"
             alt="{{ movie.title }} Poster"
             align="center"
             width="220px"

@@ -282,7 +282,7 @@ describe('sendEmailTemplate', () => {
               title: 'test title',
               year: '2021',
               time: '6:00pm',
-              posterUrl: 'https://example.com/poster.jpg',
+              posterPath: 'https://example.com/poster.jpg',
             },
           ],
         })
@@ -301,7 +301,7 @@ describe('sendEmailTemplate', () => {
                   title: 'test title',
                   year: '2021',
                   time: '6:00pm',
-                  posterUrl: 'https://example.com/poster.jpg',
+                  posterPath: 'https://example.com/poster.jpg',
                 },
               ],
             },

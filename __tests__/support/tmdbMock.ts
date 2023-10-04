@@ -14,7 +14,7 @@ export class TmdbMock {
           {
             id: id,
             original_title: movie.title,
-            poster_path: movie.posterUrl,
+            poster_path: movie.posterPath,
             release_date: `${movie.year}-07-19`,
             title: movie.title,
             adult: false,
@@ -38,7 +38,7 @@ export class TmdbMock {
       .mockImplementationOnce(async () => new Response(JSON.stringify({
         id: id,
         original_title: movie.title,
-        poster_path: movie.posterUrl,
+        poster_path: movie.posterPath,
         release_date: `${movie.year}-07-19`,
         title: movie.title,
         adult: false,

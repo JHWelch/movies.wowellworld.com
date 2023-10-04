@@ -52,7 +52,7 @@ describe('toNotion', () => {
         Year: { number: movie.year },
         'Length (mins)': { number: movie.length },
         URL: { url: movie.url },
-        Poster: { url: movie.posterUrl },
+        Poster: { url: movie.posterPath },
         'Theater Name': { rich_text: [
           { text: { content: movie.theaterName } },
         ] },
@@ -92,7 +92,7 @@ describe('toDTO', () => {
       year: movie.year,
       length: movie.length,
       url: movie.url,
-      posterUrl: movie.posterUrl,
+      posterPath: movie.posterPath,
       theaterName: movie.theaterName,
       showingUrl: movie.showingUrl,
       isFieldTrip: true,
@@ -103,7 +103,7 @@ describe('toDTO', () => {
   describe('No poster or theaterName', () => {
     it('marks isFieldTrip as false', () => {
       const movie = new MovieFactory().state({
-        posterUrl: null,
+        posterPath: null,
         theaterName: null,
       }).make()
 
@@ -113,7 +113,7 @@ describe('toDTO', () => {
         year: movie.year,
         length: movie.length,
         url: movie.url,
-        posterUrl: null,
+        posterPath: null,
         theaterName: null,
         showingUrl: movie.showingUrl,
         isFieldTrip: false,

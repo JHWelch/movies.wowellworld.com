@@ -46,7 +46,7 @@ describe('getMovie', () => {
         year: 2021,
         length: 120,
         url: 'movieUrl',
-        posterUrl: 'moviePosterUrl',
+        posterPath: 'moviePosterPath',
         theaterName: 'movieTheaterName',
         showingUrl: 'movieShowingUrl',
         tmdbId: null,

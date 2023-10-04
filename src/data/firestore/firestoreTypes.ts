@@ -14,7 +14,7 @@ export type FirestoreMovie = {
   year: number | null;
   length: number | null;
   url: string | null;
-  posterUrl: string | null;
+  posterPath: string | null;
   tmdbId: number | null;
   notionId: string | null;
   theaterName: string | null;

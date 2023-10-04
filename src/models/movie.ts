@@ -20,7 +20,7 @@ export default class Movie {
     public year: number | null = null,
     public length: number | null = null,
     public url: string | null = null,
-    public posterUrl: string | null = null,
+    public posterPath: string | null = null,
     public tmdbId: number | null = null,
     public notionId: string | null = null,
     public theaterName: string | null = null,
@@ -51,7 +51,7 @@ export default class Movie {
       movie.year,
       movie.length,
       movie.url,
-      movie.posterUrl,
+      movie.posterPath,
       movie.tmdbId,
       movie.notionId,
       movie.theaterName,
@@ -96,7 +96,7 @@ export default class Movie {
       year: this.year,
       length: this.length,
       url: this.url,
-      posterUrl: this.posterUrl,
+      posterPath: this.posterPath,
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
@@ -113,7 +113,7 @@ export default class Movie {
       url: this.url,
       tmdbId: this.tmdbId,
       notionId: this.notionId,
-      posterUrl: this.posterUrl,
+      posterPath: this.posterPath,
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
     }
@@ -130,7 +130,7 @@ export default class Movie {
         Year: notionNumber(this.year),
         'Length (mins)': notionNumber(this.length),
         URL: notionUrl(this.url),
-        Poster: notionUrl(this.posterUrl),
+        Poster: notionUrl(this.posterPath),
         'Theater Name': notionRichText(this.theaterName),
         'Showing URL': notionUrl(this.showingUrl),
       },
@@ -143,7 +143,7 @@ export default class Movie {
     this.year ??= other.year
     this.length ??= other.length
     this.url ??= other.url
-    this.posterUrl ??= other.posterUrl
+    this.posterPath ??= other.posterPath
     this.tmdbId ??= other.tmdbId
     this.notionId ??= other.notionId
     this.theaterName ??= other.theaterName
