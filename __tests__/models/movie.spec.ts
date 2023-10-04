@@ -1,6 +1,7 @@
 import { describe, expect, it, test } from '@jest/globals'
 import Movie from '../../src/models/movie'
 import { MovieFactory } from '../support/factories/movieFactory'
+import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
@@ -119,6 +120,24 @@ describe('toDTO', () => {
         isFieldTrip: false,
         displayLength: '1h 30m',
       })
+    })
+  })
+})
+
+describe('posterUrl', () => {
+  it('appends the posterPath to the base url', () => {
+    const movie = new MovieFactory().make()
+
+    expect(movie.posterUrl()).toEqual(
+      `${TMDB_POSTER_URL}${movie.posterPath}`
+    )
+  })
+
+  describe('posterPath is null', () => {
+    it('returns an empty string', () => {
+      const movie = new MovieFactory().state({ posterPath: null }).make()
+
+      expect(movie.posterUrl()).toEqual('')
     })
   })
 })

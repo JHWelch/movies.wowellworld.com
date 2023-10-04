@@ -12,6 +12,7 @@ import {
   notionUrl,
 } from '../data/notion/notionFormatters.js'
 import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
+import { TMDB_POSTER_URL } from '../data/tmdb/constants.js'
 
 export default class Movie {
   constructor (
@@ -83,6 +84,12 @@ export default class Movie {
     return this.length > 59
       ? `${Math.floor(this.length / 60)}h ${this.length % 60}m`
       : `${this.length}m`
+  }
+
+  posterUrl (): string {
+    return this.posterPath
+      ? `${TMDB_POSTER_URL}${this.posterPath}`
+      : ''
   }
 
   toString (): string {
