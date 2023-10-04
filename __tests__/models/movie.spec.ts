@@ -1,5 +1,6 @@
 import { describe, expect, it, test } from '@jest/globals'
 import Movie from '../../src/models/movie'
+import { MovieFactory } from '../support/factories/movieFactory'
 
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
@@ -83,18 +84,7 @@ describe('toNotion', () => {
 
 describe('toDTO', () => {
   it('should return a DTO', () => {
-    const movie = new Movie(
-      'Movie Title',
-      'Movie Director',
-      2021,
-      90,
-      'Movie Url',
-      'Movie Poster Url',
-      1234,
-      'notionId',
-      'Theater',
-      'Showing Url',
-    )
+    const movie = new MovieFactory().make()
 
     expect(movie.toDTO()).toEqual({
       title: movie.title,
