@@ -180,6 +180,7 @@ describe('setMovie', () => {
       'Movie Director',
       2021,
       120,
+      '8:00 PM',
       'Movie Url',
       'Movie Poster Url',
       1234,
