@@ -99,4 +99,26 @@ describe('toDTO', () => {
       displayLength: '1h 30m',
     })
   })
+
+  describe('No poster or theaterName', () => {
+    it('marks isFieldTrip as false', () => {
+      const movie = new MovieFactory().state({
+        posterUrl: null,
+        theaterName: null,
+      }).make()
+
+      expect(movie.toDTO()).toEqual({
+        title: movie.title,
+        director: movie.director,
+        year: movie.year,
+        length: movie.length,
+        url: movie.url,
+        posterUrl: null,
+        theaterName: null,
+        showingUrl: movie.showingUrl,
+        isFieldTrip: false,
+        displayLength: '1h 30m',
+      })
+    })
+  })
 })
