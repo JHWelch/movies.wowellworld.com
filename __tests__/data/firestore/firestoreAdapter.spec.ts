@@ -194,6 +194,34 @@ describe('cacheWeeks', () => {
         )
     })
   })
+
+  describe('when mode is development', () => {
+    it('uses the development collection', async () => {
+      firestore = new FirestoreAdapter(mockConfig({ nodeEnv: 'development' }))
+
+      await firestore.cacheWeeks([
+        new Week('id1', 'theme1', new Date('2021-01-01')),
+        new Week('id2', 'theme2', new Date('2021-01-08')),
+        new Week('id3', 'theme3', new Date('2021-01-15')),
+      ])
+
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks-dev', '2021-01-01'),
+          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01')
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks-dev', '2021-01-08'),
+          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08')
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks-dev', '2021-01-15'),
+          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15')
+        )
+    })
+  })
 })
 
 describe('createRsvp', () => {
@@ -254,7 +282,7 @@ describe('sendEmailTemplate', () => {
               title: 'test title',
               year: '2021',
               time: '6:00pm',
-              posterUrl: 'https://example.com/poster.jpg',
+              posterPath: 'https://example.com/poster.jpg',
             },
           ],
         })
@@ -273,7 +301,7 @@ describe('sendEmailTemplate', () => {
                   title: 'test title',
                   year: '2021',
                   time: '6:00pm',
-                  posterUrl: 'https://example.com/poster.jpg',
+                  posterPath: 'https://example.com/poster.jpg',
                 },
               ],
             },

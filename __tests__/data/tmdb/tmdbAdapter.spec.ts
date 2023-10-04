@@ -25,7 +25,7 @@ describe('getMovie', () => {
       2001,
       90,
       'https://www.themoviedb.org/movie/1234',
-      'https://image.tmdb.org/t/p/original/posterPath.jpg',
+      '/posterPath.jpg',
       1234,
     )
     tmdbMock.mockSearchMovie(expected)

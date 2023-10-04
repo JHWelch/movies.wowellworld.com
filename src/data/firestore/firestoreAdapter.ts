@@ -38,7 +38,7 @@ export default class FirestoreAdapter {
       weeks.forEach((week: Week) => {
         const ref = doc(
           this.firestore,
-          FirestoreAdapter.WEEKS_COLLECTION_NAME,
+          this.weeksCollectionName,
           week.dateString
         )
         transaction.set(ref, week.toFirebaseDTO())
@@ -131,7 +131,7 @@ export default class FirestoreAdapter {
       }) => {
         transaction.set(doc(
           this.firestore,
-          FirestoreAdapter.TEMPLATES_COLLECTION_NAME,
+          this.templatesCollectionName,
           template.name
         ), {
           subject: template.subject,
@@ -152,16 +152,36 @@ export default class FirestoreAdapter {
     return this.config.adminEmail
   }
 
+  private get mailCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.MAIL_COLLECTION_NAME)
+  }
+
+  private get rsvpsCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.RSVPS_COLLECTION_NAME)
+  }
+
+  private get templatesCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.TEMPLATES_COLLECTION_NAME)
+  }
+
+  private get weeksCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.WEEKS_COLLECTION_NAME)
+  }
+
   private get mailCollection (): Collection {
-    return collection(this.firestore, FirestoreAdapter.MAIL_COLLECTION_NAME)
+    return collection(this.firestore, this.mailCollectionName)
   }
 
   private get rsvpCollection (): Collection {
-    return collection(this.firestore, FirestoreAdapter.RSVPS_COLLECTION_NAME)
+    return collection(this.firestore, this.rsvpsCollectionName)
   }
 
   private get weekCollection (): Collection {
-    return collection(this.firestore, FirestoreAdapter.WEEKS_COLLECTION_NAME)
+    return collection(this.firestore, this.weeksCollectionName)
+  }
+
+  private collectionName (name: string): string {
+    return this.config.isProduction ? name : `${name}-dev`
   }
 }
 

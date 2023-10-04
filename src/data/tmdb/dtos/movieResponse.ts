@@ -1,4 +1,4 @@
-import { TMDB_MOVIE_URL, TMDB_POSTER_URL } from '../constants.js'
+import { TMDB_MOVIE_URL } from '../constants.js'
 import CrewResponse from './crewResponse.js'
 import { MovieResponseTmdb, isMovieResponseTmdb } from './responseTypes.js'
 
@@ -60,11 +60,5 @@ export default class MovieResponse {
 
   get fullMovieUrl (): string {
     return `${TMDB_MOVIE_URL}/${this.id}`
-  }
-
-  get fullPosterPath (): string {
-    if (this.posterPath === null) return ''
-
-    return `${TMDB_POSTER_URL}${this.posterPath}`
   }
 }

@@ -1,7 +1,10 @@
 import Config from '../../src/config/config.js'
 
-export function mockConfig (): Config {
+export function mockConfig ({
+  nodeEnv = 'production',
+} = {}): Config {
   process.env = {
+    NODE_ENV: nodeEnv,
     NOTION_TOKEN: 'NOTION_TOKEN',
     DATABASE_ID: 'DATABASE_ID',
     PORT: '3000',

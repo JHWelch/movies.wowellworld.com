@@ -98,7 +98,7 @@ describe('cache', () => {
         2001,
         90,
         'https://www.themoviedb.org/movie/1234',
-        'https://image.tmdb.org/t/p/original/poster.jpg',
+        '/poster.jpg',
         1234,
         'notionId',
       )
@@ -108,7 +108,7 @@ describe('cache', () => {
         2001,
         90,
         'https://www.themoviedb.org/movie/1234',
-        'https://image.tmdb.org/t/p/original/poster.jpg',
+        '/poster.jpg',
         1234,
       )
       const notionResponse = new NotionMovie('notionId', 'title')

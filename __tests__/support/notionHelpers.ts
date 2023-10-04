@@ -154,7 +154,7 @@ export class NotionMovie {
     public year: number | null = null,
     public length: number | null = null,
     public url: string | null = null,
-    public posterUrl: string | null = null,
+    public posterPath: string | null = null,
     public theaterName: string | null = null,
     public showingUrl: string | null = null,
   ) {}
@@ -166,7 +166,7 @@ export class NotionMovie {
       Year: nNumber(this.year),
       'Length (mins)': nNumber(this.length),
       URL: nUrl(this.url),
-      Poster: nUrl(this.posterUrl),
+      Poster: nUrl(this.posterPath),
       'Theater Name': nRichText(this.theaterName),
       'Showing URL': nUrl(this.showingUrl),
     })
@@ -180,7 +180,7 @@ export class NotionMovie {
       2021,
       120,
       'movieUrl',
-      'moviePosterUrl',
+      'moviePosterPath',
       'movieTheaterName',
       'movieShowingUrl'
     )

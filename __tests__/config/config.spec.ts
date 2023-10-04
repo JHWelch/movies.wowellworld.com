@@ -4,6 +4,7 @@ import Config from '../../src/config/config'
 beforeEach(() => {
   jest.resetModules()
   process.env = {
+    NODE_ENV: 'production',
     NOTION_TOKEN: 'NOTION_TOKEN',
     DATABASE_ID: 'DATABASE_ID',
     PORT: '3000',
@@ -19,6 +20,7 @@ describe('env variables all present', () => {
   it('returns the config', () => {
     const config = new Config()
 
+    expect(config.nodeEnv).toBe('production')
     expect(config.notionToken).toBe('NOTION_TOKEN')
     expect(config.notionDatabaseId).toBe('DATABASE_ID')
     expect(config.port).toBe(3000)
@@ -97,5 +99,37 @@ describe('env missing CALENDAR_URL', () => {
 
   it('throws an error', () => {
     expect(() => new Config()).toThrowError('CALENDAR_URL is missing')
+  })
+})
+
+describe('env missing NODE_ENV', () => {
+  beforeEach(() => {
+    delete process.env.NODE_ENV
+  })
+
+  it('defaults to development', () => {
+    expect(new Config().nodeEnv).toBe('development')
+  })
+})
+
+describe('isProduction', () => {
+  describe('when NODE_ENV is production', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'production'
+    })
+
+    it('returns true', () => {
+      expect(new Config().isProduction).toBe(true)
+    })
+  })
+
+  describe('when NODE_ENV is development', () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = 'development'
+    })
+
+    it('returns false', () => {
+      expect(new Config().isProduction).toBe(false)
+    })
   })
 })

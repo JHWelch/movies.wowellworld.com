@@ -12,6 +12,7 @@ import {
   notionUrl,
 } from '../data/notion/notionFormatters.js'
 import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
+import { TMDB_POSTER_URL } from '../data/tmdb/constants.js'
 
 export default class Movie {
   constructor (
@@ -20,7 +21,7 @@ export default class Movie {
     public year: number | null = null,
     public length: number | null = null,
     public url: string | null = null,
-    public posterUrl: string | null = null,
+    public posterPath: string | null = null,
     public tmdbId: number | null = null,
     public notionId: string | null = null,
     public theaterName: string | null = null,
@@ -51,7 +52,7 @@ export default class Movie {
       movie.year,
       movie.length,
       movie.url,
-      movie.posterUrl,
+      movie.posterPath,
       movie.tmdbId,
       movie.notionId,
       movie.theaterName,
@@ -66,7 +67,7 @@ export default class Movie {
       parseInt(tmdbResponse.releaseDate.split('-')[0]),
       tmdbResponse.runtime ?? -1,
       tmdbResponse.fullMovieUrl,
-      tmdbResponse.fullPosterPath,
+      tmdbResponse.posterPath,
       tmdbResponse.id,
     )
   }
@@ -85,6 +86,12 @@ export default class Movie {
       : `${this.length}m`
   }
 
+  posterUrl (): string {
+    return this.posterPath
+      ? `${TMDB_POSTER_URL}${this.posterPath}`
+      : ''
+  }
+
   toString (): string {
     return `${this.title} (${this.year})`
   }
@@ -96,7 +103,7 @@ export default class Movie {
       year: this.year,
       length: this.length,
       url: this.url,
-      posterUrl: this.posterUrl,
+      posterUrl: this.posterUrl(),
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
@@ -113,7 +120,7 @@ export default class Movie {
       url: this.url,
       tmdbId: this.tmdbId,
       notionId: this.notionId,
-      posterUrl: this.posterUrl,
+      posterPath: this.posterPath,
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
     }
@@ -130,7 +137,7 @@ export default class Movie {
         Year: notionNumber(this.year),
         'Length (mins)': notionNumber(this.length),
         URL: notionUrl(this.url),
-        Poster: notionUrl(this.posterUrl),
+        Poster: notionUrl(this.posterPath),
         'Theater Name': notionRichText(this.theaterName),
         'Showing URL': notionUrl(this.showingUrl),
       },
@@ -143,7 +150,7 @@ export default class Movie {
     this.year ??= other.year
     this.length ??= other.length
     this.url ??= other.url
-    this.posterUrl ??= other.posterUrl
+    this.posterPath ??= other.posterPath
     this.tmdbId ??= other.tmdbId
     this.notionId ??= other.notionId
     this.theaterName ??= other.theaterName
