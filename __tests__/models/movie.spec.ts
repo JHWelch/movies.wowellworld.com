@@ -80,3 +80,33 @@ describe('toNotion', () => {
     })
   })
 })
+
+describe('toDTO', () => {
+  it('should return a DTO', () => {
+    const movie = new Movie(
+      'Movie Title',
+      'Movie Director',
+      2021,
+      90,
+      'Movie Url',
+      'Movie Poster Url',
+      1234,
+      'notionId',
+      'Theater',
+      'Showing Url',
+    )
+
+    expect(movie.toDTO()).toEqual({
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      url: movie.url,
+      posterUrl: movie.posterUrl,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
+      isFieldTrip: true,
+      displayLength: '1h 30m',
+    })
+  })
+})
