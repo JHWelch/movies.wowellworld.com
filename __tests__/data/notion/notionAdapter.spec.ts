@@ -45,6 +45,7 @@ describe('getMovie', () => {
         director: 'movieDirector',
         year: 2021,
         length: 120,
+        time: '8:00 PM',
         url: 'movieUrl',
         posterPath: 'moviePosterPath',
         theaterName: 'movieTheaterName',
