@@ -101,10 +101,10 @@ describe('toDTO', () => {
     })
   })
 
-  describe('No poster or theaterName', () => {
+  describe('No showingUrl or theaterName', () => {
     it('marks isFieldTrip as false', () => {
       const movie = new MovieFactory().state({
-        posterPath: null,
+        showingUrl: null,
         theaterName: null,
       }).make()
 
@@ -114,7 +114,7 @@ describe('toDTO', () => {
         year: movie.year,
         length: movie.length,
         url: movie.url,
-        posterPath: null,
+        posterPath: movie.posterPath,
         theaterName: null,
         showingUrl: movie.showingUrl,
         isFieldTrip: false,
