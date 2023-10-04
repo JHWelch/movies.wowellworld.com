@@ -93,11 +93,11 @@ describe('toDTO', () => {
       year: movie.year,
       length: movie.length,
       url: movie.url,
-      posterPath: movie.posterPath,
+      posterUrl: movie.posterUrl(),
       theaterName: movie.theaterName,
       showingUrl: movie.showingUrl,
       isFieldTrip: true,
-      displayLength: '1h 30m',
+      displayLength: movie.displayLength(),
     })
   })
 
@@ -114,11 +114,11 @@ describe('toDTO', () => {
         year: movie.year,
         length: movie.length,
         url: movie.url,
-        posterPath: movie.posterPath,
-        theaterName: null,
+        posterUrl: movie.posterUrl(),
+        theaterName: movie.theaterName,
         showingUrl: movie.showingUrl,
         isFieldTrip: false,
-        displayLength: '1h 30m',
+        displayLength: movie.displayLength(),
       })
     })
   })

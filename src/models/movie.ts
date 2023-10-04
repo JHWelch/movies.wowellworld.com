@@ -103,7 +103,7 @@ export default class Movie {
       year: this.year,
       length: this.length,
       url: this.url,
-      posterPath: this.posterPath,
+      posterUrl: this.posterUrl(),
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
