@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from '@jest/globals'
 import Movie from '../../src/models/movie'
-import { MovieFactory } from '../support/factories/movieFactory'
+import MovieFactory from '../support/factories/movieFactory'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 describe('merge', () => {

@@ -1,6 +1,6 @@
 import Movie from '../../../src/models/movie'
 
-export class MovieFactory {
+export default class MovieFactory {
   private _state = {
     title: 'Movie Title',
     director: 'Movie Director',
