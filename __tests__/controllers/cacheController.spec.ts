@@ -97,7 +97,7 @@ describe('cache', () => {
         'director',
         2001,
         90,
-        '8:00pm',
+        null,
         'https://www.themoviedb.org/movie/1234',
         '/poster.jpg',
         1234,

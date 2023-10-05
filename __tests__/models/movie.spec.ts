@@ -137,6 +137,7 @@ describe('toFirebaseDTO', () => {
       director: movie.director,
       year: movie.year,
       length: movie.length,
+      time: movie.time,
       url: movie.url,
       posterPath: movie.posterPath,
       tmdbId: movie.tmdbId,

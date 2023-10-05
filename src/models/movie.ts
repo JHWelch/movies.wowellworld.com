@@ -121,6 +121,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
+      time: this.time,
       url: this.url,
       tmdbId: this.tmdbId,
       notionId: this.notionId,
