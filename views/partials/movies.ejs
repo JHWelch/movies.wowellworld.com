@@ -1,5 +1,5 @@
 <div class="flex flex-wrap justify-center mt-2 space-y-4 max-w-9xl">
   <template x-for="movie in week.movies">
-    <%- include('movie.ejs'); %>
+    <%- include('movie.ejs', { showEventDetails }); %>
   </template>
 </div>
