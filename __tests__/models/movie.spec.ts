@@ -128,6 +128,25 @@ describe('toDTO', () => {
   })
 })
 
+describe('toFirebaseDTO', () => {
+  it('should return a DTO', () => {
+    const movie = new MovieFactory().make()
+
+    expect(movie.toFirebaseDTO()).toEqual({
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      url: movie.url,
+      posterPath: movie.posterPath,
+      tmdbId: movie.tmdbId,
+      notionId: movie.notionId,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
+    })
+  })
+})
+
 describe('posterUrl', () => {
   it('appends the posterPath to the base url', () => {
     const movie = new MovieFactory().make()
