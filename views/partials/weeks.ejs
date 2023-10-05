@@ -19,8 +19,8 @@
         return 'w-1/' + Math.min(week.movies.length, max);
       },
       movieSizeClasses: function (week) {
-        const sm = movieSizeClass(week, 2);
-        const lg = movieSizeClass(week, 3);
+        const sm = this.movieSizeClass(week, 2);
+        const lg = this.movieSizeClass(week, 3);
         const xl = week.movies.length == 1 ? 'w-full' : 'w-1/3';
         const xxl = week.movies.length == 1 ? 'w-full' : 'w-1/4';
 
