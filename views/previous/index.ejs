@@ -1,9 +1,11 @@
 <%- include('../partials/header') %>
 
-<%- include('../partials/weeks', {
-  fetchUrl: '/api/weeks?past=true',
-  showRSVP: false,
-  sectionTitles: { 0: 'Past Releases' },
-}); %>
+<div class="mt-10">
+  <%- include('../partials/weeks', {
+    fetchUrl: '/api/weeks?past=true',
+    showEventDetails: false,
+    sectionTitles: { 0: 'Past Releases' },
+  }); %>
+</div>
 
 <%- include('../partials/footer') %>

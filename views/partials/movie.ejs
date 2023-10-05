@@ -1,21 +1,28 @@
 <div :class="`px-3 sm:${movieSizeClasses(week)}`">
   <div class="flex flex-col px-4 py-2 rounded-md bg-violet-200 ">
-    <h4 class="flex items-center justify-between h-12 px-2">
+    <h4 class="flex items-center justify-between h-12 md:px-2">
       <span
         x-text="movie.title"
-        :class="titleSize(movie) + ' overflow-hidden font-medium text-center  overflow-ellipsis'"
+        :class="titleSize(movie) + ' overflow-hidden font-medium text-center overflow-ellipsis'"
       ></span>
 
-      <span
-        x-show="movie.time"
-        x-text="movie.time"
-        class="text-md overflow-hidden font-medium text-center overflow-ellipsis bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
-      ></span>
+
+      <% if (showEventDetails) { %>
+        <span
+          x-show="movie.time"
+          x-text="movie.time.replace(/ /g, '\u00a0')"
+          class="text-md overflow-hidden font-medium text-center bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
+        ></span>
+      <% } else { %>
+        <span><!-- Empty span to Retain formatting --></span>
+      <% } %>
     </h4>
 
     <div class="flex flex-col justify-between flex-1">
       <div class="relative mt-2">
-        <%- include('movie/field_trip_banner'); %>
+        <% if (showEventDetails) { %>
+          <%- include('movie/field_trip_banner'); %>
+        <% } %>
 
         <a
           :href="movie.url"
