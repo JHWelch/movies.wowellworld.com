@@ -19,6 +19,7 @@ import { transaction } from '../../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../../support/firebaseMock'
 import Week from '../../../src/models/week'
 import { mockConfig } from '../../support/mockConfig'
+import MovieFactory from '../../support/factories/movieFactory'
 
 let firestore: FirestoreAdapter
 
@@ -193,6 +194,27 @@ describe('cacheWeeks', () => {
           FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15')
         )
     })
+  })
+
+  it('can update a week with movies', async () => {
+    const movie = new MovieFactory().make()
+    const weekWithMovie = new Week(
+      'id1',
+      'theme1',
+      new Date('2021-01-01'),
+      false,
+      [movie],
+    )
+
+    await firestore.cacheWeeks([
+      weekWithMovie,
+    ])
+
+    expect(transaction.set)
+      .toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-01'),
+        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01', [movie])
+      )
   })
 
   describe('when mode is development', () => {
