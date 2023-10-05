@@ -1,9 +1,15 @@
 <div :class="`px-3 sm:${movieSizeClasses(week)}`">
   <div class="flex flex-col px-4 py-2 rounded-md bg-violet-200 ">
-    <h4 class="flex items-center justify-center h-12">
+    <h4 class="flex items-center justify-between h-12 px-2">
       <span
         x-text="movie.title"
         :class="titleSize(movie) + ' overflow-hidden font-medium text-center  overflow-ellipsis'"
+      ></span>
+
+      <span
+        x-show="movie.time"
+        x-text="movie.time"
+        class="text-md overflow-hidden font-medium text-center overflow-ellipsis bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
       ></span>
     </h4>
 
