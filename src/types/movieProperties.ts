@@ -15,6 +15,11 @@ export default interface MovieProperties {
   'Length (mins)': {
     number: number
   }
+  Time: {
+    rich_text: Array<{
+      plain_text: string
+    }>
+  }
   URL: {
     url: string
   }

@@ -1,6 +1,6 @@
 import { describe, expect, it, test } from '@jest/globals'
 import Movie from '../../src/models/movie'
-import { MovieFactory } from '../support/factories/movieFactory'
+import MovieFactory from '../support/factories/movieFactory'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 describe('merge', () => {
@@ -11,6 +11,7 @@ describe('merge', () => {
       'Director',
       2001,
       null,
+      '8:00 PM',
       'https://www.themoviedb.org/movie/1234',
       'https://image.tmdb.org/t/p/original/poster.jpg',
       1234,
@@ -23,6 +24,7 @@ describe('merge', () => {
       'Director',
       2004,
       120,
+      '8:00 PM',
       'https://www.themoviedb.org/movie/1234',
       'https://image.tmdb.org/t/p/original/poster.jpg',
       1234,
@@ -37,6 +39,7 @@ describe('toNotion', () => {
       'Movie Director',
       2021,
       120,
+      '8:00 PM',
       'Movie Url',
       'Movie Poster Url',
       1234,
@@ -69,6 +72,7 @@ describe('toNotion', () => {
         'Movie Director',
         2021,
         120,
+        '8:00 PM',
         'Movie Url',
         'Movie Poster Url',
         1234,
@@ -92,6 +96,7 @@ describe('toDTO', () => {
       director: movie.director,
       year: movie.year,
       length: movie.length,
+      time: movie.time,
       url: movie.url,
       posterUrl: movie.posterUrl(),
       theaterName: movie.theaterName,
@@ -113,6 +118,7 @@ describe('toDTO', () => {
         director: movie.director,
         year: movie.year,
         length: movie.length,
+        time: movie.time,
         url: movie.url,
         posterUrl: movie.posterUrl(),
         theaterName: movie.theaterName,
@@ -120,6 +126,26 @@ describe('toDTO', () => {
         isFieldTrip: false,
         displayLength: movie.displayLength(),
       })
+    })
+  })
+})
+
+describe('toFirebaseDTO', () => {
+  it('should return a DTO', () => {
+    const movie = new MovieFactory().make()
+
+    expect(movie.toFirebaseDTO()).toEqual({
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      time: movie.time,
+      url: movie.url,
+      posterPath: movie.posterPath,
+      tmdbId: movie.tmdbId,
+      notionId: movie.notionId,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
     })
   })
 })

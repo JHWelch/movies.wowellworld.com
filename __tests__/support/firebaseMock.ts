@@ -2,6 +2,7 @@ import { getDocs, getDoc, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '../../src/data/firestore/firestoreTypes'
 import Week from '../../src/models/week'
+import Movie from '../../src/models/movie'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
@@ -44,9 +45,10 @@ export class FirebaseMock {
   static mockWeek = (
     id: string,
     theme: string,
-    date: string
+    date: string,
+    movies: Movie[] = [],
   ): WithFieldValue<FirestoreWeek> =>
-    new Week(id, theme, new Date(date), false).toFirebaseDTO()
+    new Week(id, theme, new Date(date), false, movies).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
     firestore: { firestore: 'firestore' },

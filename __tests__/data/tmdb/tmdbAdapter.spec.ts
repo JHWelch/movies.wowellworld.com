@@ -24,6 +24,7 @@ describe('getMovie', () => {
       'director',
       2001,
       90,
+      null,
       'https://www.themoviedb.org/movie/1234',
       '/posterPath.jpg',
       1234,

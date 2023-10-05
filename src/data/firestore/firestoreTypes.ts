@@ -13,6 +13,7 @@ export type FirestoreMovie = {
   director: string | null;
   year: number | null;
   length: number | null;
+  time: string | null;
   url: string | null;
   posterPath: string | null;
   tmdbId: number | null;

@@ -20,6 +20,7 @@ export default class Movie {
     public director: string | null = null,
     public year: number | null = null,
     public length: number | null = null,
+    public time: string | null = null,
     public url: string | null = null,
     public posterPath: string | null = null,
     public tmdbId: number | null = null,
@@ -36,6 +37,7 @@ export default class Movie {
       properties.Director?.rich_text[0]?.plain_text,
       properties.Year?.number,
       properties['Length (mins)']?.number,
+      properties.Time?.rich_text[0]?.plain_text,
       properties.URL?.url,
       properties.Poster?.url,
       null,
@@ -51,6 +53,7 @@ export default class Movie {
       movie.director,
       movie.year,
       movie.length,
+      movie.time,
       movie.url,
       movie.posterPath,
       movie.tmdbId,
@@ -66,6 +69,7 @@ export default class Movie {
       tmdbResponse.director,
       parseInt(tmdbResponse.releaseDate.split('-')[0]),
       tmdbResponse.runtime ?? -1,
+      null,
       tmdbResponse.fullMovieUrl,
       tmdbResponse.posterPath,
       tmdbResponse.id,
@@ -102,6 +106,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
+      time: this.time,
       url: this.url,
       posterUrl: this.posterUrl(),
       theaterName: this.theaterName,
@@ -117,6 +122,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
+      time: this.time,
       url: this.url,
       tmdbId: this.tmdbId,
       notionId: this.notionId,
@@ -149,6 +155,7 @@ export default class Movie {
     this.director ??= other.director
     this.year ??= other.year
     this.length ??= other.length
+    this.time ??= other.time
     this.url ??= other.url
     this.posterPath ??= other.posterPath
     this.tmdbId ??= other.tmdbId

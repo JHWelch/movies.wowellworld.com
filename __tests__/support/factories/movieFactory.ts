@@ -1,11 +1,12 @@
 import Movie from '../../../src/models/movie'
 
-export class MovieFactory {
+export default class MovieFactory {
   private _state = {
     title: 'Movie Title',
     director: 'Movie Director',
     year: 2021,
     length: 90,
+    time: '8:00 PM',
     url: 'https://example.com/movie1234',
     tmdbId: 1234,
     posterPath: '/path/to/poster.jpg',
@@ -20,6 +21,7 @@ export class MovieFactory {
       this._state.director,
       this._state.year,
       this._state.length,
+      this._state.time,
       this._state.url,
       this._state.posterPath,
       this._state.tmdbId,

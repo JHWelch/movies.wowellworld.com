@@ -15,6 +15,8 @@
     "lint": "eslint . --ext .ts",
     "fix": "eslint . --ext .ts --fix",
     "test": "jest",
+    "test-watch": "jest --watch",
+    "coverage": "jest --coverage",
     "watch": "concurrently \"npm run watch-express\" \"npm run watch-tailwind\"",
     "watch-express": "nodemon src/index.ts",
     "watch-tailwind": "npx tailwindcss -i ./css/app.css -o ./public/app.css --watch"

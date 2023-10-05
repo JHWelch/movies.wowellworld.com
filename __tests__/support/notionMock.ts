@@ -51,16 +51,10 @@ export class NotionMock {
     const notionMovie = movie ?? NotionMovie.demo()
 
     this.retrieve.mockImplementation(async (
-      args: WithAuth<GetPageParameters>
-    ): Promise<GetPageResponse> => {
-      const { page_id } = args as { page_id: string }
+      _args: WithAuth<GetPageParameters>
+    ): Promise<GetPageResponse> =>
+      notionMovie.toPageObjectResponse())
 
-      if (page_id !== notionMovie.id) {
-        throw new Error('Page not found')
-      }
-
-      return notionMovie.toPageObjectResponse()
-    })
     return { pages: { retrieve: this.retrieve } }
   }
 
