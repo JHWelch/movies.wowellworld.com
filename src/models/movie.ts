@@ -106,6 +106,7 @@ export default class Movie {
       director: this.director,
       year: this.year,
       length: this.length,
+      time: this.time,
       url: this.url,
       posterUrl: this.posterUrl(),
       theaterName: this.theaterName,
