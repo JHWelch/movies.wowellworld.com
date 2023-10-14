@@ -64,9 +64,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates all weeks in firestore', async () =>  {
-      const cacheController = newCacheController()
-
-      await cacheController.cacheWeeks(req, res)
+      await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(3)
@@ -128,9 +126,7 @@ describe('cacheWeeks', () => {
     })
 
     it('stores data from tmdb in firestore', async () => {
-      const cacheController = newCacheController()
-
-      await cacheController.cacheWeeks(req, res)
+      await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(1)
@@ -143,9 +139,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates the movie in notion', async () => {
-      const cacheController = newCacheController()
-
-      await cacheController.cacheWeeks(req, res)
+      await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
