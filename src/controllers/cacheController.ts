@@ -3,6 +3,8 @@ import NotionAdapter from '../data/notion/notionAdapter'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import Movie from '../models/movie'
 import TmdbAdapter from '../data/tmdb/tmdbAdapter'
+import fs from 'fs'
+import emails from '../emails/emails'
 
 export default class CacheController {
   static PATHS = {
@@ -29,6 +31,18 @@ export default class CacheController {
 
     res.sendStatus(200)
   }
+
+  async cacheEmailTemplates (_req: Request, res: Response): Promise<void> {
+    this.firestore.updateTemplates(emails.templates.map(email => ({
+      ...email,
+      html: this.getHtml(email.name),
+    })))
+
+    res.sendStatus(200)
+  }
+
+  private getHtml = (name: string | null) =>
+    fs.readFileSync(`./emails/built/${name}.html`, 'utf8')
 
   private async fillMovieDetails (movies: Movie[]): Promise<void> {
     await Promise.all(movies.map<Promise<void>>(async movie => {

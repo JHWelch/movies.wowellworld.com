@@ -21,10 +21,12 @@ import { mockFetch } from '../support/fetchMock'
 import Movie from '../../src/models/movie'
 import TmdbAdapter from '../../src/data/tmdb/tmdbAdapter'
 import { mockConfig } from '../support/mockConfig'
+import fs from 'fs'
 
 let notionMock: NotionMock
 
 const { res, mockClear } = getMockRes()
+let req: Request
 
 const newCacheController = () => {
   const config = mockConfig()
@@ -35,12 +37,9 @@ const newCacheController = () => {
 }
 
 beforeAll(() => {
-  jest.mock('@notionhq/client')
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
-
-  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
@@ -50,7 +49,10 @@ beforeEach(() => {
 })
 
 describe('cacheWeeks', () => {
-  let req: Request
+  beforeAll(() => {
+    jest.mock('@notionhq/client')
+    notionMock = new NotionMock()
+  })
 
   describe('when the cache is empty', () => {
     beforeEach(() => {
@@ -144,5 +146,25 @@ describe('cacheWeeks', () => {
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
     })
+  })
+})
+
+describe('cacheEmailTemplates', () => {
+  beforeAll(() => {
+    jest.mock('fs')
+  })
+
+  it('uploads email templates to firestore', async () => {
+    fs.readFileSync = jest.fn().mockReturnValue('html')
+    await newCacheController().cacheEmailTemplates(req, res)
+
+    expect(res.sendStatus).toHaveBeenCalledWith(200)
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail-templates', 'reminder'),
+      {
+        subject: 'Reminder: {{ theme }} is Tomorrow',
+        html: 'html',
+      }
+    )
   })
 })
