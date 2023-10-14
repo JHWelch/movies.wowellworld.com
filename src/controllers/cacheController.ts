@@ -15,7 +15,7 @@ export default class CacheController {
     private tmdbAdapter: TmdbAdapter,
   ) {}
 
-  async cache (_req: Request, res: Response): Promise<void> {
+  async cacheWeeks (_req: Request, res: Response): Promise<void> {
     const weeks = await this.notionAdapter.getWeeks()
 
     const moviesWithoutDirectors = weeks.flatMap<Movie>(week => {

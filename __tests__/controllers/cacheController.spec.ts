@@ -49,7 +49,7 @@ beforeEach(() => {
   mockClear()
 })
 
-describe('cache', () => {
+describe('cacheWeeks', () => {
   let req: Request
 
   describe('when the cache is empty', () => {
@@ -66,7 +66,7 @@ describe('cache', () => {
     it('updates all weeks in firestore', async () =>  {
       const cacheController = newCacheController()
 
-      await cacheController.cache(req, res)
+      await cacheController.cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(3)
@@ -130,7 +130,7 @@ describe('cache', () => {
     it('stores data from tmdb in firestore', async () => {
       const cacheController = newCacheController()
 
-      await cacheController.cache(req, res)
+      await cacheController.cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(1)
@@ -145,7 +145,7 @@ describe('cache', () => {
     it('updates the movie in notion', async () => {
       const cacheController = newCacheController()
 
-      await cacheController.cache(req, res)
+      await cacheController.cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())

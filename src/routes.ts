@@ -56,7 +56,7 @@ function routes (
     ),
     new Route(
       CacheController.PATHS.weeks,
-      cacheController.cache.bind(cacheController)
+      cacheController.cacheWeeks.bind(cacheController)
     ),
     new Route(RedirectController.PATHS.sep21, RedirectController.sep21),
   ]
