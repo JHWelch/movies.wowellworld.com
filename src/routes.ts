@@ -54,7 +54,14 @@ function routes (
       rsvpController.store.bind(rsvpController),
       HttpMethod.POST,
     ),
-    new Route('/api/cache', cacheController.cache.bind(cacheController)),
+    new Route(
+      CacheController.PATHS.weeks,
+      cacheController.cacheWeeks.bind(cacheController)
+    ),
+    new Route(
+      CacheController.PATHS.emailTemplates,
+      cacheController.cacheEmailTemplates.bind(cacheController)
+    ),
     new Route(RedirectController.PATHS.sep21, RedirectController.sep21),
   ]
 }
