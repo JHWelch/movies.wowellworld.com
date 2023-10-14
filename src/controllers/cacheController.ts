@@ -26,7 +26,7 @@ export default class CacheController {
     res.sendStatus(200)
   }
 
-  async fillMovieDetails (movies: Movie[]): Promise<void> {
+  private async fillMovieDetails (movies: Movie[]): Promise<void> {
     await Promise.all(movies.map<Promise<void>>(async movie => {
       const tmdbMovie = await this.tmdbAdapter.getMovie(movie.title)
       if (!tmdbMovie) return
@@ -35,7 +35,7 @@ export default class CacheController {
     }))
   }
 
-  async updateNotionMovies (movies: Movie[]): Promise<void> {
+  private async updateNotionMovies (movies: Movie[]): Promise<void> {
     await Promise.all(movies.map<Promise<void>>(async movie => {
       await this.notionAdapter.setMovie(movie)
     }))
