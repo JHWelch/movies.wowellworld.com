@@ -150,12 +150,8 @@ describe('cacheWeeks', () => {
 })
 
 describe('cacheEmailTemplates', () => {
-  beforeAll(() => {
-    jest.mock('fs')
-  })
-
   it('uploads email templates to firestore', async () => {
-    fs.readFileSync = jest.fn().mockReturnValue('html')
+    jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
     await newCacheController().cacheEmailTemplates(req, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(200)
