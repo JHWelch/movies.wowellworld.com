@@ -4,11 +4,12 @@ import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import Movie from '../models/movie'
 import TmdbAdapter from '../data/tmdb/tmdbAdapter'
 import fs from 'fs'
-import emails from '../emails/emails'
+import emails from '../emails/emails.js'
 
 export default class CacheController {
   static PATHS = {
     weeks: '/api/cache/weeks',
+    emailTemplates: '/api/cache/email-templates',
   }
 
   constructor (
