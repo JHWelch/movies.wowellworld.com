@@ -5,6 +5,10 @@ import Movie from '../models/movie'
 import TmdbAdapter from '../data/tmdb/tmdbAdapter'
 
 export default class CacheController {
+  static PATHS = {
+    weeks: '/api/cache/weeks',
+  }
+
   constructor (
     private firestore: FirestoreAdapter,
     private notionAdapter: NotionAdapter,
