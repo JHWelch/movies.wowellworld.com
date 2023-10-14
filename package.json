@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "build": "npm run build-ts && npm run build-tailwind",
+    "build": "npm run build-ts && npm run build-tailwind && npm run build-emails",
     "start": "node built/index.js",
     "build-ts": "tsc",
     "start-ts": "ts-node-esm src/index.ts",
