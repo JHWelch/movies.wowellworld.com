@@ -2,3 +2,6 @@
 .env.production
 coverage
 node_modules
+
+built
+emails/built
