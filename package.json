@@ -5,6 +5,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
+    "clean": "rm -rf built && rm -rf emails/built && rm -rf public/app.css",
     "build": "npm run build-ts && npm run build-tailwind && npm run build-emails",
     "start": "node built/index.js",
     "build-ts": "tsc",
