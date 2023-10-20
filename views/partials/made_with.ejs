@@ -1,7 +1,7 @@
 <div
   x-data="{
-    firstEmoji: '❤',
     emojis: [
+      '❤',
       '🍜',
       '🍕',
       '🍔',
@@ -15,10 +15,14 @@
       '🚀',
       '👾',
     ],
+    firstEmoji: '❤',
     init: function (firstInit = true, groups = 1, duration = 1) {
       const spinner = document.querySelector('#spinner');
       const emojis = spinner.querySelector('#emojis');
       const emojisClone = emojis.cloneNode(false);
+      if (firstInit) {
+        this.firstEmoji = this.randomEmoji();
+      }
       const pool = [this.firstEmoji];
 
       if (!firstInit) {
@@ -51,6 +55,10 @@
       emojisClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
       emojisClone.style.transform = `translateY(-${spinner.clientHeight * (pool.length - 1)}px)`;
       spinner.replaceChild(emojisClone, emojis);
+    },
+
+    randomEmoji: function () {
+      return this.emojis[Math.floor(Math.random() * this.emojis.length)];
     },
 
     spin: async function() {
