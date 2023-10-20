@@ -1,13 +1,5 @@
 <style>
-  body {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-
-  .spinner {
-    background: #fafafa;
+  #spinner {
     width: 100px;
     height: 110px;
     overflow: hidden;
@@ -15,7 +7,7 @@
     margin: 5px;
   }
 
-  .emojis {
+  #emojis {
     transition: transform 1s ease-in-out;
   }
 
@@ -50,7 +42,7 @@
 
 <div
   x-data="{
-    emoji: '❤',
+    firstEmoji: '❤',
     emojis: [
       '🍜',
       '🍕',
@@ -69,7 +61,7 @@
       return this.emojis[Math.floor(Math.random() * this.emojis.length)];
     },
     init: function (firstInit = true, groups = 1, duration = 1) {
-      const spinner = document.querySelector('.spinner');
+      const spinner = document.querySelector('#spinner');
 
       if (firstInit) {
         spinner.dataset.spinned = '0';
@@ -77,9 +69,9 @@
         return;
       }
 
-      const emojis = spinner.querySelector('.emojis');
+      const emojis = spinner.querySelector('#emojis');
       const emojisClone = emojis.cloneNode(false);
-      const pool = [this.emoji];
+      const pool = [this.firstEmoji];
 
       if (!firstInit) {
         const arr = [];
@@ -127,8 +119,8 @@
     spin: async function() {
       this.init(false, 1, 2);
 
-      const spinner  = document.querySelector('.spinner');
-      const emojis = spinner.querySelector('.emojis');
+      const spinner  = document.querySelector('#spinner');
+      const emojis = spinner.querySelector('#emojis');
 
       await new Promise((resolve) => setTimeout(resolve, 1));
 
@@ -147,22 +139,24 @@
   x-init="init()"
   class="flex items-center my-20 space-x-1"
 >
-
-<div class="spinner">
-  <div class="emojis">
+  <div class="buttons">
+    <button id="reseter" @click="init">Reset</button>
   </div>
-</div>
 
-<div class="buttons">
-  <button id="spinner" @click="spin">Play</button>
-  <button id="reseter" @click="init">Reset</button>
-</div>
-  <!-- <span>Made with </span>
+  <span>Made with </span>
 
-  <button x-text="emoji" class="text-xl hover:grayscale focus:grayscale"></button>
+  <button
+    id="spinner" @click="spin"
+    class="text-xl spinner hover:grayscale focus:grayscale"
+  >
+    <div
+      id="emojis"
+      class="flex flex-col items-center justify-center"
+    ></div>
+  </button>
 
   <span>
     in Chicago by
     <a class="text-violet-800 hover:text-violet-600" href="https://www.jordanwelch.com">Jordan Welch</a>
-  </span> -->
+  </span>
 </div>
