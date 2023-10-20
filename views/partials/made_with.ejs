@@ -101,10 +101,14 @@
 >
   <span>Made with </span>
 
-  <button id="spinner" @click="spin" class="text-xl">
+  <button
+    id="spinner"
+    @click="spin"
+    class="w-12 h-32 overflow-hidden text-xl"
+  >
     <div
       id="emojis"
-      class="flex flex-col items-center justify-center"
+      class="flex flex-col items-center justify-center transition-transform duration-1000 ease-in-out"
     ></div>
   </button>
 

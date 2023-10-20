@@ -51,21 +51,9 @@ html {
   }
 }
 
-#spinner {
-  width: 100px;
-  height: 110px;
-  overflow: hidden;
-  border-radius: 5px;
-  margin: 5px;
-}
-
-#emojis {
-  transition: transform 1s ease-in-out;
-}
-
 .emoji {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
