@@ -79,6 +79,7 @@
           arr.push(...this.emojis);
         }
         pool.push(...this.shuffle(arr));
+        this.firstEmoji = pool[pool.length - 1];
 
         emojisClone.addEventListener(
           'transitionstart',
@@ -117,6 +118,7 @@
     },
 
     spin: async function() {
+      this.init();
       this.init(false, 1, 2);
 
       const spinner  = document.querySelector('#spinner');
@@ -139,16 +141,9 @@
   x-init="init()"
   class="flex items-center my-20 space-x-1"
 >
-  <div class="buttons">
-    <button id="reseter" @click="init">Reset</button>
-  </div>
-
   <span>Made with </span>
 
-  <button
-    id="spinner" @click="spin"
-    class="text-xl spinner hover:grayscale focus:grayscale"
-  >
+  <button id="spinner" @click="spin" class="text-xl">
     <div
       id="emojis"
       class="flex flex-col items-center justify-center"
