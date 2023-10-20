@@ -1,0 +1,168 @@
+<style>
+  body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .spinner {
+    background: #fafafa;
+    width: 100px;
+    height: 110px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin: 5px;
+  }
+
+  .emojis {
+    transition: transform 1s ease-in-out;
+  }
+
+  .emoji {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+  }
+
+  .buttons {
+    margin: 1rem 0 2rem 0;
+  }
+
+  button {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0 0.2rem;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+  }
+
+  .info {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+
+
+<div
+  x-data="{
+    emoji: '❤',
+    emojis: [
+      '🍜',
+      '🍕',
+      '🍔',
+      '🦇',
+      '🎃',
+      '👻',
+      '🍬',
+      '🐱',
+      '🐶',
+      '👽',
+      '🚀',
+      '👾',
+    ],
+    randomEmoji() {
+      return this.emojis[Math.floor(Math.random() * this.emojis.length)];
+    },
+    init: function (firstInit = true, groups = 1, duration = 1) {
+      const spinner = document.querySelector('.spinner');
+
+      if (firstInit) {
+        spinner.dataset.spinned = '0';
+      } else if (spinner.dataset.spinned === '1') {
+        return;
+      }
+
+      const emojis = spinner.querySelector('.emojis');
+      const emojisClone = emojis.cloneNode(false);
+      const pool = [this.emoji];
+
+      if (!firstInit) {
+        const arr = [];
+        for (let n = 0; n < (groups > 0 ? groups : 1); n++) {
+          arr.push(...this.emojis);
+        }
+        pool.push(...this.shuffle(arr));
+
+        emojisClone.addEventListener(
+          'transitionstart',
+          function () {
+            spinner.dataset.spinned = '1';
+            this.querySelectorAll('.emoji').forEach((emoji) => {
+              emoji.style.filter = 'blur(1px)';
+            });
+          },
+          { once: true }
+        );
+
+        emojisClone.addEventListener(
+          'transitionend',
+          function () {
+            this.querySelectorAll('.emoji').forEach((emoji, index) => {
+              emoji.style.filter = 'blur(0)';
+              if (index > 0) this.removeChild(emoji);
+            });
+          },
+          { once: true }
+        );
+      }
+
+      for (let i = pool.length - 1; i >= 0; i--) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.style.width = spinner.clientWidth + 'px';
+        emoji.style.height = spinner.clientHeight + 'px';
+        emoji.textContent = pool[i];
+        emojisClone.appendChild(emoji);
+      }
+      emojisClone.style.transitionDuration = `${duration > 0 ? duration : 1}s`;
+      emojisClone.style.transform = `translateY(-${spinner.clientHeight * (pool.length - 1)}px)`;
+      spinner.replaceChild(emojisClone, emojis);
+    },
+
+    spin: async function() {
+      this.init(false, 1, 2);
+
+      const spinner  = document.querySelector('.spinner');
+      const emojis = spinner.querySelector('.emojis');
+
+      await new Promise((resolve) => setTimeout(resolve, 1));
+
+      emojis.style.transform = 'translateY(0)';
+    },
+
+    shuffle: function ([...arr]) {
+      let m = arr.length;
+      while (m) {
+        const i = Math.floor(Math.random() * m--);
+        [arr[m], arr[i]] = [arr[i], arr[m]];
+      }
+      return arr;
+    }
+  }"
+  x-init="init()"
+  class="flex items-center my-20 space-x-1"
+>
+
+<div class="spinner">
+  <div class="emojis">
+  </div>
+</div>
+
+<div class="buttons">
+  <button id="spinner" @click="spin">Play</button>
+  <button id="reseter" @click="init">Reset</button>
+</div>
+  <!-- <span>Made with </span>
+
+  <button x-text="emoji" class="text-xl hover:grayscale focus:grayscale"></button>
+
+  <span>
+    in Chicago by
+    <a class="text-violet-800 hover:text-violet-600" href="https://www.jordanwelch.com">Jordan Welch</a>
+  </span> -->
+</div>
