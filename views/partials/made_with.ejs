@@ -15,18 +15,8 @@
       '🚀',
       '👾',
     ],
-    randomEmoji() {
-      return this.emojis[Math.floor(Math.random() * this.emojis.length)];
-    },
     init: function (firstInit = true, groups = 1, duration = 1) {
       const spinner = document.querySelector('#spinner');
-
-      if (firstInit) {
-        spinner.dataset.spinned = '0';
-      } else if (spinner.dataset.spinned === '1') {
-        return;
-      }
-
       const emojis = spinner.querySelector('#emojis');
       const emojisClone = emojis.cloneNode(false);
       const pool = [this.firstEmoji];
@@ -40,21 +30,9 @@
         this.firstEmoji = pool[pool.length - 1];
 
         emojisClone.addEventListener(
-          'transitionstart',
-          function () {
-            spinner.dataset.spinned = '1';
-            this.querySelectorAll('.emoji').forEach((emoji) => {
-              emoji.style.filter = 'blur(1px)';
-            });
-          },
-          { once: true }
-        );
-
-        emojisClone.addEventListener(
           'transitionend',
           function () {
             this.querySelectorAll('.emoji').forEach((emoji, index) => {
-              emoji.style.filter = 'blur(0)';
               if (index > 0) this.removeChild(emoji);
             });
           },
@@ -76,14 +54,11 @@
     },
 
     spin: async function() {
-      this.init();
       this.init(false, 1, 2);
-
-      const spinner  = document.querySelector('#spinner');
-      const emojis = spinner.querySelector('#emojis');
 
       await new Promise((resolve) => setTimeout(resolve, 1));
 
+      const emojis = document.getElementById('emojis');
       emojis.style.transform = 'translateY(0)';
     },
 
