@@ -143,9 +143,13 @@ export default class FirestoreAdapter {
 
   today (): Timestamp {
     const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const todayUtc = new Date(Date.UTC(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    ))
 
-    return Timestamp.fromDate(today)
+    return Timestamp.fromDate(todayUtc)
   }
 
   get adminEmail (): string {
