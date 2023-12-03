@@ -72,13 +72,15 @@ export default class NotionAdapter {
     })
   }
 
-  async createMovie (title: string): Promise<void> {
-    this.#notion.pages.create({
+  async createMovie (title: string): Promise<string> {
+    const movie = await this.#notion.pages.create({
       parent: { database_id: this.#databaseId },
       properties: {
         Title: { title: [{ text: { content: title } }] },
       },
     })
+
+    return movie.id
   }
 
   async recordToWeek (record: NotionQueryResponse): Promise<Week> {

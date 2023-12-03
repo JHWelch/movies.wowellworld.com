@@ -196,6 +196,13 @@ describe('setMovie', () => {
 })
 
 describe('createMovie', () => {
+  beforeEach(() => {
+    notionMock.create.mockReturnValue(Promise.resolve({
+      id: 'movieId',
+      object: 'page',
+    }))
+  })
+
   it('should call the create method with the correct parameters', async () => {
     const notion = new NotionAdapter(mockConfig())
     await notion.createMovie('Movie Title')
@@ -206,6 +213,14 @@ describe('createMovie', () => {
         Title: { title: [{ text: { content: 'Movie Title' } }] },
       },
     })
+  })
+
+  it('should return the movie id', async () => {
+    const notion = new NotionAdapter(mockConfig())
+
+    const movieId = await notion.createMovie('Movie Title')
+
+    expect(movieId).toEqual('movieId')
   })
 })
 
