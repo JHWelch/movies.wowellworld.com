@@ -18,17 +18,20 @@ import {
 } from './notionHelpers'
 
 export class NotionMock {
+  create: jest.MockedFunction<typeof Client.prototype.pages.create>
   update: jest.MockedFunction<typeof Client.prototype.pages.update>
   query: jest.MockedFunction<typeof Client.prototype.databases.query>
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
 
   constructor () {
+    this.create = jest.fn<typeof Client.prototype.pages.create>()
     this.update = jest.fn<typeof Client.prototype.pages.update>()
     this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
     this.query = jest.fn<typeof Client.prototype.databases.query>();
 
     (Client as unknown as jest.Mock).mockImplementation(() => ({
       pages: {
+        create: this.create,
         update: this.update,
         retrieve: this.retrieve,
       },

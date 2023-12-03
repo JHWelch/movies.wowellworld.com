@@ -194,3 +194,17 @@ describe('setMovie', () => {
     expect(notionMock.update).toHaveBeenCalledWith(movie.toNotion())
   })
 })
+
+describe('createWeek', () => {
+  it('should call the create method with the correct parameters', async () => {
+    const notion = new NotionAdapter(mockConfig())
+    await notion.createWeek('Theme')
+
+    expect(notionMock.create).toHaveBeenCalledWith({
+      parent: { database_id: 'DATABASE_ID' },
+      properties: {
+        Theme: { title: [{ text: { content: 'Theme' } }] },
+      },
+    })
+  })
+})
