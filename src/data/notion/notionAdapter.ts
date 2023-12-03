@@ -72,6 +72,15 @@ export default class NotionAdapter {
     })
   }
 
+  async createMovie (title: string): Promise<void> {
+    this.#notion.pages.create({
+      parent: { database_id: this.#databaseId },
+      properties: {
+        Title: { title: [{ text: { content: title } }] },
+      },
+    })
+  }
+
   async recordToWeek (record: NotionQueryResponse): Promise<Week> {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
