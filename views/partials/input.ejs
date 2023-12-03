@@ -8,7 +8,7 @@
     class="relative mt-2"
   >
     <input
-      x-model="rsvpBody.<%= name %>"
+      x-model="formData.<%= name %>"
       x-on:change="errors.<%= name %> = null"
       type="<%= locals.type ?? 'text' %>"
       name="<%= name %>"
