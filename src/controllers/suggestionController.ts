@@ -8,6 +8,7 @@ export default class SuggestionController {
 
   static PATHS = {
     create: '/suggestions/create',
+    store: '/suggestions',
   }
 
   async create (_req: Request, res: Response): Promise<void> {

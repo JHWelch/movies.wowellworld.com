@@ -65,7 +65,12 @@ function routes (
     ),
     new Route(
       SuggestionController.PATHS.create,
-      suggestionController.create.bind(SuggestionController)
+      suggestionController.create.bind(suggestionController)
+    ),
+    new Route(
+      SuggestionController.PATHS.store,
+      suggestionController.store.bind(suggestionController),
+      HttpMethod.POST,
     ),
   ]
 }
