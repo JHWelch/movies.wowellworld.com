@@ -159,7 +159,7 @@ describe('getWeeks', () => {
     await notion.getWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({
-      database_id: 'DATABASE_ID',
+      database_id: 'NOTION_WEEK_DATABASE_ID',
       page_size: 100,
       filter: {
         property: 'Date',
@@ -208,7 +208,7 @@ describe('createMovie', () => {
     await notion.createMovie('Movie Title')
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'DATABASE_ID' },
+      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
       properties: {
         Title: { title: [{ text: { content: 'Movie Title' } }] },
       },
@@ -230,7 +230,7 @@ describe('createWeek', () => {
     await notion.createWeek('Theme', ['movieId1', 'movieId2'])
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'DATABASE_ID' },
+      parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'Theme' } }] },
         Movies: { relation: [

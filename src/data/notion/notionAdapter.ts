@@ -12,9 +12,11 @@ import Config from '../../config/config.js'
 
 export default class NotionAdapter {
   #notion: Client
+  #movieDatabaseId: string
   #weekDatabaseId: string
 
   constructor (config: Config) {
+    this.#movieDatabaseId = config.notionMovieDatabaseId
     this.#weekDatabaseId = config.notionWeekDatabaseId
     this.#notion = new Client({ auth: config.notionToken })
   }
@@ -75,7 +77,7 @@ export default class NotionAdapter {
 
   async createMovie (title: string): Promise<string> {
     const movie = await this.#notion.pages.create({
-      parent: { database_id: this.#weekDatabaseId },
+      parent: { database_id: this.#movieDatabaseId },
       properties: {
         Title: { title: [{ text: { content: title } }] },
       },

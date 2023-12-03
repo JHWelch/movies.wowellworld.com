@@ -7,6 +7,7 @@ beforeEach(() => {
     NODE_ENV: 'production',
     NOTION_TOKEN: 'NOTION_TOKEN',
     NOTION_WEEK_DATABASE_ID: 'NOTION_WEEK_DATABASE_ID',
+    NOTION_MOVIE_DATABASE_ID: 'NOTION_MOVIE_DATABASE_ID',
     PORT: '3000',
     GOOGLE_CLOUD_PROJECT: 'GOOGLE_CLOUD_PROJECT',
     ADMIN_EMAIL: 'ADMIN_EMAIL@example.com',
@@ -15,7 +16,6 @@ beforeEach(() => {
   }
 })
 
-
 describe('env variables all present', () => {
   it('returns the config', () => {
     const config = new Config()
@@ -23,6 +23,7 @@ describe('env variables all present', () => {
     expect(config.nodeEnv).toBe('production')
     expect(config.notionToken).toBe('NOTION_TOKEN')
     expect(config.notionWeekDatabaseId).toBe('NOTION_WEEK_DATABASE_ID')
+    expect(config.notionMovieDatabaseId).toBe('NOTION_MOVIE_DATABASE_ID')
     expect(config.port).toBe(3000)
     expect(config.googleCloudProject).toBe('GOOGLE_CLOUD_PROJECT')
     expect(config.adminEmail).toBe('ADMIN_EMAIL@example.com')
@@ -41,13 +42,25 @@ describe('env missing NOTION_TOKEN', () => {
   })
 })
 
-describe('env missing DATABASE_ID', () => {
+describe('env missing NOTION_MOVIE_DATABASE_ID', () => {
+  beforeEach(() => {
+    delete process.env.NOTION_MOVIE_DATABASE_ID
+  })
+
+  it('throws an error', () => {
+    expect(() => new Config())
+      .toThrowError('NOTION_MOVIE_DATABASE_ID is missing')
+  })
+})
+
+describe('env missing NOTION_WEEK_DATABASE_ID', () => {
   beforeEach(() => {
     delete process.env.NOTION_WEEK_DATABASE_ID
   })
 
   it('throws an error', () => {
-    expect(() => new Config()).toThrowError('DATABASE_ID is missing')
+    expect(() => new Config())
+      .toThrowError('NOTION_WEEK_DATABASE_ID is missing')
   })
 })
 
