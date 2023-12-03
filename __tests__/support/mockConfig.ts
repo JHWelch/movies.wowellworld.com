@@ -6,7 +6,7 @@ export function mockConfig ({
   process.env = {
     NODE_ENV: nodeEnv,
     NOTION_TOKEN: 'NOTION_TOKEN',
-    DATABASE_ID: 'DATABASE_ID',
+    NOTION_WEEK_DATABASE_ID: 'DATABASE_ID',
     PORT: '3000',
     GOOGLE_CLOUD_PROJECT: 'GOOGLE_CLOUD_PROJECT',
     ADMIN_EMAIL: 'ADMIN_EMAIL@example.com',
