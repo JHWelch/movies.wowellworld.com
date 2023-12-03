@@ -77,6 +77,13 @@ export class NotionMock {
     return { databases: { query: this.query } }
   }
 
+  mockCreate = (id: string) => {
+    this.create.mockResolvedValue({
+      id: id,
+      object: 'page',
+    })
+  }
+
   static mockWeek = (
     id: string,
     date: string,

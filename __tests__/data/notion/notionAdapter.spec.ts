@@ -193,10 +193,7 @@ describe('setMovie', () => {
 
 describe('createMovie', () => {
   beforeEach(() => {
-    notionMock.create.mockReturnValue(Promise.resolve({
-      id: 'movieId',
-      object: 'page',
-    }))
+    notionMock.mockCreate('movieId')
   })
 
   it('should call the create method with the correct parameters', async () => {
