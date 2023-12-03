@@ -16,7 +16,7 @@ export default class SuggestionController {
     })
   }
 
-  async store (req: Request, _res: Response): Promise<void> {
+  async store (req: Request, res: Response): Promise<void> {
     const { theme, movies } = req.body
 
     const notionMovies = await Promise.all(
@@ -24,5 +24,7 @@ export default class SuggestionController {
     )
 
     await this.notion.createWeek(theme, notionMovies)
+
+    res.redirect('/')
   }
 }

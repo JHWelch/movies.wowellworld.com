@@ -86,4 +86,21 @@ describe('store', () => {
       },
     })
   })
+
+  it('should redirect to /', async () => {
+    const req = getMockReq({
+      body: {
+        theme: 'theme',
+        movies: [
+          'movie1',
+          'movie2',
+        ],
+      },
+    })
+    notionMock.mockCreate('movieId1', 'movieId2')
+
+    await newSuggestionController().store(req, res)
+
+    expect(res.redirect).toHaveBeenCalledWith('/')
+  })
 })
