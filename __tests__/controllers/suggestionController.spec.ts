@@ -87,7 +87,7 @@ describe('store', () => {
     })
   })
 
-  it('should redirect to /', async () => {
+  it('should return a 200 OK', async () => {
     const req = getMockReq({
       body: {
         theme: 'theme',
@@ -101,6 +101,6 @@ describe('store', () => {
 
     await newSuggestionController().store(req, res)
 
-    expect(res.redirect).toHaveBeenCalledWith('/')
+    expect(res.sendStatus).toHaveBeenCalledWith(201)
   })
 })

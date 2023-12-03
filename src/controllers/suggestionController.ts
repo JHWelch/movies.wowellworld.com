@@ -26,6 +26,6 @@ export default class SuggestionController {
 
     await this.notion.createWeek(theme, notionMovies)
 
-    res.redirect('/')
+    res.sendStatus(201)
   }
 }
