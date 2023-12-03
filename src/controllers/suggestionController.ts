@@ -15,4 +15,14 @@ export default class SuggestionController {
       path: SuggestionController.PATHS.create,
     })
   }
+
+  async store (req: Request, _res: Response): Promise<void> {
+    const { theme, movies } = req.body
+
+    const notionMovies = await Promise.all(
+      movies.map((movie: string) => this.notion.createMovie(movie)),
+    )
+
+    await this.notion.createWeek(theme, notionMovies)
+  }
 }
