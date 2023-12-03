@@ -227,12 +227,16 @@ describe('createMovie', () => {
 describe('createWeek', () => {
   it('should call the create method with the correct parameters', async () => {
     const notion = new NotionAdapter(mockConfig())
-    await notion.createWeek('Theme')
+    await notion.createWeek('Theme', ['movieId1', 'movieId2'])
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'DATABASE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'Theme' } }] },
+        Movies: { relation: [
+          { id: 'movieId1' },
+          { id: 'movieId2' },
+        ] },
       },
     })
   })

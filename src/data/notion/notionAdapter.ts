@@ -63,11 +63,12 @@ export default class NotionAdapter {
     await this.#notion.pages.update(movie.toNotion())
   }
 
-  async createWeek (theme: string): Promise<void> {
+  async createWeek (theme: string, movies: string[]): Promise<void> {
     this.#notion.pages.create({
       parent: { database_id: this.#databaseId },
       properties: {
         Theme: { title: [{ text: { content: theme } }] },
+        Movies: { relation: movies.map((movie) => ({ id: movie })) },
       },
     })
   }
