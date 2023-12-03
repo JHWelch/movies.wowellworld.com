@@ -24,10 +24,6 @@ beforeEach(() => {
 
 describe('getMovie', () => {
   beforeEach(() => {
-    process.env = {
-      NOTION_TOKEN: 'NOTION_TOKEN',
-      DATABASE_ID: 'DATABASE_ID',
-    }
     notionMock.mockRetrieve()
   })
 
