@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 
-<div class="flex flex-col items-center w-full min-h-[70vh] px-5 py-10 sm:py-10">
+<div class="flex flex-col items-center w-full min-h-[70vh] px-5 py-10 sm:py-10 sm:pb-16">
   <h1 class="mt-1 text-3xl leading-10 text-center">
     Suggest a Movie Night&nbsp;Theme!
   </h1>
@@ -56,7 +56,7 @@
         alert('Thanks for the suggestion!');
       }
     }"
-    class="w-full p-4 mt-5 space-y-5 rounded-lg bg-violet-200"
+    class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8"
   >
     <%- include('../partials/input', {
       name: 'theme',
@@ -65,11 +65,13 @@
 
     <%- include('../partials/input', {
       name: 'movie1',
+      label: 'First Movie',
       placeholder: 'Triangle',
     })  %>
 
     <%- include('../partials/input', {
       name: 'movie2',
+      label: 'Second Movie',
       placeholder: 'Triangle',
     })  %>
 
