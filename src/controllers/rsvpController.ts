@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 import { z } from 'zod'
+import { validate } from '../helpers/validation.js'
 
 export default class RsvpController {
   static PATHS = {
@@ -31,55 +32,16 @@ export default class RsvpController {
 
     await this.firestore.sendEmail(this.firestore.adminEmail, {
       subject: `TNMC RSVP: ${name}`,
-      // eslint-disable-next-line max-len
-      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`,
-      // eslint-disable-next-line max-len
-      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email}</li><li>Plus one: ${plusOne}</li></ul>`,
+      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`, // eslint-disable-line max-len
+      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email}</li><li>Plus one: ${plusOne}</li></ul>`, // eslint-disable-line max-len
     })
 
   }
 
-  private validate (req: Request, res: Response): boolean {
-    try {
-      const dataSchema = z.object({
-        name: z.string().min(1, { message: 'Required' }),
-        email: z.string().email(),
-        plusOne: z.boolean(),
-      })
-
-      dataSchema.parse(req.body)
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const errors = this.mapErrors(error.issues)
-        res.status(422).json(errors)
-
-        return false
-      }
-
-      res.status(500).json({ message: 'Something went wrong' })
-
-      return false
-    }
-
-    return true
-  }
-
-  private mapErrors (errors: Array<z.ZodIssue>): ErrorResponse {
-    let mappedErrors = {}
-
-    errors.forEach((error) => {
-      mappedErrors = {
-        ...mappedErrors,
-        [error.path[0] ?? 'Request Body']: error.message,
-      }
-    })
-
-    return { errors: mappedErrors }
-  }
-}
-
-type ErrorResponse = {
-  errors: {
-    [key: string]: string,
-  }
+  private validate = (req: Request, res: Response): boolean =>
+    validate(req, res, z.object({
+      name: z.string().min(1, { message: 'Required' }),
+      email: z.string().email(),
+      plusOne: z.boolean(),
+    }))
 }
