@@ -12,10 +12,12 @@ import Config from '../../config/config.js'
 
 export default class NotionAdapter {
   #notion: Client
-  #databaseId: string
+  #movieDatabaseId: string
+  #weekDatabaseId: string
 
   constructor (config: Config) {
-    this.#databaseId = config.notionDatabaseId
+    this.#movieDatabaseId = config.notionMovieDatabaseId
+    this.#weekDatabaseId = config.notionWeekDatabaseId
     this.#notion = new Client({ auth: config.notionToken })
   }
 
@@ -30,7 +32,7 @@ export default class NotionAdapter {
 
   async getWeek (date: string): Promise<Week | null> {
     const records = await this.#notion.databases.query({
-      database_id: this.#databaseId,
+      database_id: this.#weekDatabaseId,
       filter: {
         property: 'Date',
         date: { equals: date },
@@ -43,7 +45,7 @@ export default class NotionAdapter {
 
   async getWeeks (): Promise<Week[]> {
     const records = await this.#notion.databases.query({
-      database_id: this.#databaseId,
+      database_id: this.#weekDatabaseId,
       page_size: 100,
       filter: {
         property: 'Date',
@@ -61,6 +63,32 @@ export default class NotionAdapter {
 
   async setMovie (movie: Movie): Promise<void> {
     await this.#notion.pages.update(movie.toNotion())
+  }
+
+  async createWeek (
+    theme: string,
+    movies: string[],
+    submittedBy: string,
+  ): Promise<void> {
+    this.#notion.pages.create({
+      parent: { database_id: this.#weekDatabaseId },
+      properties: {
+        Theme: { title: [{ text: { content: theme } }] },
+        'Submitted By': { rich_text: [{ text: { content: submittedBy } }] },
+        Movies: { relation: movies.map((movie) => ({ id: movie })) },
+      },
+    })
+  }
+
+  async createMovie (title: string): Promise<string> {
+    const movie = await this.#notion.pages.create({
+      parent: { database_id: this.#movieDatabaseId },
+      properties: {
+        Title: { title: [{ text: { content: title } }] },
+      },
+    })
+
+    return movie.id
   }
 
   async recordToWeek (record: NotionQueryResponse): Promise<Week> {

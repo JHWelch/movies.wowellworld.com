@@ -2,13 +2,15 @@
   <label
     for="<%= name %>"
     class="block text-sm font-medium leading-6 text-gray-900"
-  ><%= name.charAt(0).toUpperCase() + name.slice(1) %></label>
+  >
+    <%= locals.label ?? name.charAt(0).toUpperCase() + name.slice(1) %>
+  </label>
 
   <div
     class="relative mt-2"
   >
     <input
-      x-model="rsvpBody.<%= name %>"
+      x-model="formData.<%= name %>"
       x-on:change="errors.<%= name %> = null"
       type="<%= locals.type ?? 'text' %>"
       name="<%= name %>"

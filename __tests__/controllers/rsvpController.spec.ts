@@ -13,11 +13,17 @@ beforeEach(() => {
   mockClear()
 })
 
+interface MockBodyArgs {
+  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
 const mockBody = ({
   name = 'test name',
   email = 'test@example.com',
   plusOne = true,
-} = {}) => ({ name, email, plusOne })
+}: MockBodyArgs = {}) => ({ name, email, plusOne })
 
 describe('store', () => {
   let  firestoreAdapter: FirestoreAdapter
@@ -83,12 +89,12 @@ describe('store', () => {
 
     describe('when email is missing', () => {
       it('should return a 422', async () => {
+        const body = mockBody()
+        delete body.email
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
-          body: {
-            name: 'test',
-            plusOne: true,
-          } })
+          body: body,
+        })
 
         await new RsvpController(firestoreAdapter).store(req, res)
 
@@ -117,12 +123,12 @@ describe('store', () => {
 
     describe('when name is missing', () => {
       it('should return a 422', async () => {
+        const body = mockBody()
+        delete body.name
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
-          body: {
-            email: 'test@example.com',
-            plusOne: true,
-          } })
+          body: body,
+        })
 
         await new RsvpController(firestoreAdapter).store(req, res)
 
@@ -151,12 +157,12 @@ describe('store', () => {
 
     describe('when plusOne is missing', () => {
       it('should return a 422', async () => {
+        const body = mockBody()
+        delete body.plusOne
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
-          body: {
-            name: 'test',
-            email: 'test@example.com',
-          } })
+          body: body,
+        })
 
         await new RsvpController(firestoreAdapter).store(req, res)
 
@@ -171,11 +177,7 @@ describe('store', () => {
       it('should return a 422', async () => {
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
-          body: {
-            name: 'test',
-            email: 'test@example.com',
-            plusOne: 'invalid',
-          },
+          body: mockBody({ plusOne: 'invalid' }),
         })
 
         await new RsvpController(firestoreAdapter).store(req, res)

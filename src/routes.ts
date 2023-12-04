@@ -8,6 +8,7 @@ import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import RsvpController from './controllers/rsvpController.js'
 import HealthCheckController from './controllers/healthCheckController.js'
+import SuggestionController from './controllers/suggestionController.js'
 
 export function registerRoutes (
   express: Express,
@@ -42,6 +43,7 @@ function routes (
   )
   const rsvpController = new RsvpController(firestore)
   const weekController = new WeekController(firestore)
+  const suggestionController = new SuggestionController(notion)
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
@@ -60,6 +62,15 @@ function routes (
     new Route(
       CacheController.PATHS.emailTemplates,
       cacheController.cacheEmailTemplates.bind(cacheController)
+    ),
+    new Route(
+      SuggestionController.PATHS.create,
+      suggestionController.create.bind(suggestionController)
+    ),
+    new Route(
+      SuggestionController.PATHS.store,
+      suggestionController.store.bind(suggestionController),
+      HttpMethod.POST,
     ),
   ]
 }

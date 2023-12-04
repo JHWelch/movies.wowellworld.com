@@ -24,10 +24,6 @@ beforeEach(() => {
 
 describe('getMovie', () => {
   beforeEach(() => {
-    process.env = {
-      NOTION_TOKEN: 'NOTION_TOKEN',
-      DATABASE_ID: 'DATABASE_ID',
-    }
     notionMock.mockRetrieve()
   })
 
@@ -159,7 +155,7 @@ describe('getWeeks', () => {
     await notion.getWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({
-      database_id: 'DATABASE_ID',
+      database_id: 'NOTION_WEEK_DATABASE_ID',
       page_size: 100,
       filter: {
         property: 'Date',
@@ -192,5 +188,50 @@ describe('setMovie', () => {
     await notion.setMovie(movie)
 
     expect(notionMock.update).toHaveBeenCalledWith(movie.toNotion())
+  })
+})
+
+describe('createMovie', () => {
+  beforeEach(() => {
+    notionMock.mockCreate('movieId')
+  })
+
+  it('should call the create method with the correct parameters', async () => {
+    const notion = new NotionAdapter(mockConfig())
+    await notion.createMovie('Movie Title')
+
+    expect(notionMock.create).toHaveBeenCalledWith({
+      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      properties: {
+        Title: { title: [{ text: { content: 'Movie Title' } }] },
+      },
+    })
+  })
+
+  it('should return the movie id', async () => {
+    const notion = new NotionAdapter(mockConfig())
+
+    const movieId = await notion.createMovie('Movie Title')
+
+    expect(movieId).toEqual('movieId')
+  })
+})
+
+describe('createWeek', () => {
+  it('should call the create method with the correct parameters', async () => {
+    const notion = new NotionAdapter(mockConfig())
+    await notion.createWeek('Theme', ['movieId1', 'movieId2'], 'Anonymous')
+
+    expect(notionMock.create).toHaveBeenCalledWith({
+      parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
+      properties: {
+        Theme: { title: [{ text: { content: 'Theme' } }] },
+        'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },
+        Movies: { relation: [
+          { id: 'movieId1' },
+          { id: 'movieId2' },
+        ] },
+      },
+    })
   })
 })
