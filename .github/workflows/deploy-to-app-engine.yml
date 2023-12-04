@@ -1,10 +1,8 @@
 name: Deploy to App Engine
 on:
-  pull_request:
-    types:
-    - closed
+  push:
     branches:
-    - main
+      - main
 
 concurrency:
   group: prod-deploy
