@@ -45,17 +45,25 @@ describe('create', () => {
   })
 })
 
+interface MockBodyArgs {
+  theme?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  submitted_by?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  movies?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+}
+
+const mockBody = ({
+  theme = 'theme',
+  submitted_by = 'submitted_by',
+  movies = [
+    'movie1',
+    'movie2',
+  ],
+}: MockBodyArgs = {}) => ({ theme, submitted_by, movies })
+
 describe('store', () => {
   it('should create a new week and movies', async () => {
     const req = getMockReq({
-      body: {
-        theme: 'theme',
-        submitted_by: 'submitted_by',
-        movies: [
-          'movie1',
-          'movie2',
-        ],
-      },
+      body: mockBody(),
     })
 
     notionMock.mockCreate('movieId1', 'movieId2')
@@ -90,15 +98,7 @@ describe('store', () => {
   })
 
   it('should return a 201 Created', async () => {
-    const req = getMockReq({
-      body: {
-        theme: 'theme',
-        movies: [
-          'movie1',
-          'movie2',
-        ],
-      },
-    })
+    const req = getMockReq({ body: mockBody() })
     notionMock.mockCreate('movieId1', 'movieId2')
 
     await newSuggestionController().store(req, res)
@@ -111,14 +111,9 @@ describe('store', () => {
 
   describe('theme is missing', () => {
     it('should return a 422', async () => {
-      const req = getMockReq({
-        body: {
-          movies: [
-            'movie1',
-            'movie2',
-          ],
-        },
-      })
+      const body = mockBody()
+      delete body.theme
+      const req = getMockReq({ body })
 
       await newSuggestionController().store(req, res)
 
@@ -131,11 +126,9 @@ describe('store', () => {
 
   describe('movies is missing', () => {
     it('should return a 422', async () => {
-      const req = getMockReq({
-        body: {
-          theme: 'theme',
-        },
-      })
+      const body = mockBody()
+      delete body.movies
+      const req = getMockReq({ body })
 
       await newSuggestionController().store(req, res)
 
@@ -149,10 +142,9 @@ describe('store', () => {
   describe('movies is empty', () => {
     it('should return a 422', async () => {
       const req = getMockReq({
-        body: {
-          theme: 'theme',
+        body: mockBody({
           movies: [],
-        },
+        }),
       })
 
       await newSuggestionController().store(req, res)
@@ -164,15 +156,14 @@ describe('store', () => {
     })
   })
 
-  describe('movie is missing', () => {
+  describe('movie is empty string', () => {
     it('should return a 422', async () => {
       const req = getMockReq({
-        body: {
-          theme: 'theme',
+        body: mockBody({
           movies: [
             '',
           ],
-        },
+        }),
       })
 
       await newSuggestionController().store(req, res)
@@ -180,6 +171,21 @@ describe('store', () => {
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
         errors: { movies: 'Required' },
+      })
+    })
+  })
+
+  describe('submitted_by is missing', () => {
+    it('should return a 422', async () => {
+      const body = mockBody()
+      delete body.submitted_by
+      const req = getMockReq({ body })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { submitted_by: 'Required' },
       })
     })
   })

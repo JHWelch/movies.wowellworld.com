@@ -36,6 +36,7 @@ export default class SuggestionController {
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
       theme: z.string().min(1, { message: 'Required' }),
+      submitted_by: z.string().min(1, { message: 'Required' }),
       movies: z.array(z.string().min(1, { message: 'Required' }))
         .min(1, { message: 'Required' }),
     }))

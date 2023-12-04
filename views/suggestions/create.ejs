@@ -59,6 +59,12 @@
     class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8"
   >
     <%- include('../partials/input', {
+      name: 'submitted_by',
+      label: 'Your Name',
+      placeholder: 'Who are you?',
+    })  %>
+
+    <%- include('../partials/input', {
       name: 'theme',
       placeholder: 'Something punny...',
     })  %>
