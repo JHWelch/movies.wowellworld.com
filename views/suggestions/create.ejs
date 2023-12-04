@@ -14,6 +14,7 @@
       },
       formData: {
         theme: '',
+        submitted_by: '',
         movie1: '',
         movie2: '',
       },
@@ -21,6 +22,7 @@
         if (data.errors) {
           this.errors = {
             theme: data.errors.theme,
+            submitted_by: data.errors.submitted_by,
             movie1: data.errors.movies,
             movie2: data.errors.movies,
           }
@@ -38,6 +40,7 @@
           },
           body: JSON.stringify({
             theme: this.formData.theme,
+            submitted_by: this.formData.submitted_by,
             movies: [
               this.formData.movie1,
               this.formData.movie2,
