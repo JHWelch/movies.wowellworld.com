@@ -10,7 +10,7 @@
       <% if (showEventDetails) { %>
         <span
           x-show="movie.time"
-          x-text="movie.time.replace(/ /g, '\u00a0')"
+          x-text="movie.time?.replace(/ /g, '\u00a0')"
           class="text-md overflow-hidden font-medium text-center bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
         ></span>
       <% } else { %>
