@@ -19,7 +19,11 @@
       },
       handleErrors: function(data) {
         if (data.errors) {
-          this.errors = data.errors
+          this.errors = {
+            theme: data.errors.theme,
+            movie1: data.errors.movies,
+            movie2: data.errors.movies,
+          }
         }
         if (data.message) {
           alert(data.message)

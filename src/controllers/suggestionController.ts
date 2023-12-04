@@ -32,6 +32,7 @@ export default class SuggestionController {
 
     res.sendStatus(201)
   }
+
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
       theme: z.string().min(1, { message: 'Required' }),
