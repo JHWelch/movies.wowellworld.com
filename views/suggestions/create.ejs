@@ -18,7 +18,8 @@
         movie1: '',
         movie2: '',
       },
-      handleErrors: function(data) {
+      submitting: false,
+      handleErrors: (data) => {
         if (data.errors) {
           this.errors = {
             theme: data.errors.theme,
@@ -31,7 +32,15 @@
           alert(data.message)
         }
       },
-      submit: async function() {
+      disabled: function () {
+        return this.submitting
+          || !this.formData.theme
+          || !this.formData.movie1
+          || !this.formData.movie2
+          || !this.formData.submitted_by
+      },
+      submit: async function () {
+        this.submitting = true;
         const response = await fetch('/suggestions' , {
           method: 'POST',
           headers: {
@@ -51,6 +60,7 @@
         const data = await response.json();
 
         if (!response.ok) {
+          this.submitting = false;
           this.handleErrors(data);
 
           return
@@ -86,11 +96,23 @@
 
     <button
       @click="submit()"
-      :disabled="!formData.theme || !formData.movie1 || !formData.movie2 "
       type="button"
       class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-violet-600 hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
-      :class="!formData.theme || !formData.movie1 || !formData.movie2 ? 'opacity-50 cursor-not-allowed' : ''"
-    >Submit Suggestion!</button>
+      :disabled="disabled()"
+      :class="disabled() ? 'opacity-50 cursor-not-allowed' : ''"
+    >
+      <template x-if="!submitting">
+        <span>Submit Suggestion!</span>
+      </template>
+
+      <template x-if="submitting">
+        <span class="flex space-x-2">
+          <%- include('../partials/icons/loading') %>
+
+          <span class="ml-2">Submitting...</span>
+        </span>
+      </template>
+    </button>
   </form>
 </div>
 
