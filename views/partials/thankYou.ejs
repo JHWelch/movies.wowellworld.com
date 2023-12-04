@@ -9,12 +9,12 @@
       open = true;
       setTimeout(() => {
         open = false;
-      }, 1000);
+      }, 2000);
     }
   "
   x-show="open"
   x-cloak
-  x-transition:leave="transition ease-in duration-700"
+  x-transition:leave="transition duration-1000"
   x-transition:leave-start="opacity-100 transform"
   x-transition:leave-end="opacity-0 transform"
   @keydown.escape="open = false"
