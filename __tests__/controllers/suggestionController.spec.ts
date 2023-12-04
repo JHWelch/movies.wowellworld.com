@@ -87,7 +87,7 @@ describe('store', () => {
     })
   })
 
-  it('should return a 200 OK', async () => {
+  it('should return a 201 Created', async () => {
     const req = getMockReq({
       body: {
         theme: 'theme',
@@ -101,7 +101,10 @@ describe('store', () => {
 
     await newSuggestionController().store(req, res)
 
-    expect(res.sendStatus).toHaveBeenCalledWith(201)
+    expect(res.status).toHaveBeenCalledWith(201)
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Successfully created suggestion.',
+    })
   })
 
   describe('theme is missing', () => {

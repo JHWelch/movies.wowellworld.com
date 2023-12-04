@@ -30,7 +30,7 @@ export default class SuggestionController {
 
     await this.notion.createWeek(theme, notionMovies)
 
-    res.sendStatus(201)
+    res.status(201).json({ message: 'Successfully created suggestion.' })
   }
 
   private validate = (req: Request, res: Response): boolean =>
