@@ -1,5 +1,7 @@
 import { type Request, type Response } from 'express'
-import NotionAdapter from '../data/notion/notionAdapter'
+import NotionAdapter from '../data/notion/notionAdapter.js'
+import { z } from 'zod'
+import { validate } from '../helpers/validation.js'
 
 export default class SuggestionController {
   constructor (
@@ -18,6 +20,8 @@ export default class SuggestionController {
   }
 
   async store (req: Request, res: Response): Promise<void> {
+    if (!this.validate(req, res)) return
+
     const { theme, movies } = req.body
 
     const notionMovies = await Promise.all(
@@ -28,4 +32,10 @@ export default class SuggestionController {
 
     res.sendStatus(201)
   }
+  private validate = (req: Request, res: Response): boolean =>
+    validate(req, res, z.object({
+      theme: z.string().min(1, { message: 'Required' }),
+      movies: z.array(z.string().min(1, { message: 'Required' }))
+        .min(1, { message: 'Required' }),
+    }))
 }

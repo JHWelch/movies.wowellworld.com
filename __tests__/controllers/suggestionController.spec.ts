@@ -103,4 +103,79 @@ describe('store', () => {
 
     expect(res.sendStatus).toHaveBeenCalledWith(201)
   })
+
+  describe('theme is missing', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        body: {
+          movies: [
+            'movie1',
+            'movie2',
+          ],
+        },
+      })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { theme: 'Required' },
+      })
+    })
+  })
+
+  describe('movies is missing', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        body: {
+          theme: 'theme',
+        },
+      })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { movies: 'Required' },
+      })
+    })
+  })
+
+  describe('movies is empty', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        body: {
+          theme: 'theme',
+          movies: [],
+        },
+      })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { movies: 'Required' },
+      })
+    })
+  })
+
+  describe('movie is missing', () => {
+    it('should return a 422', async () => {
+      const req = getMockReq({
+        body: {
+          theme: 'theme',
+          movies: [
+            '',
+          ],
+        },
+      })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { movies: 'Required' },
+      })
+    })
+  })
 })
