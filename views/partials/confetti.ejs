@@ -1,4 +1,10 @@
 <div
+  x-init="() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('suggest_success')) {
+      confetti();
+    }
+  }"
   x-data="{
     confetti: function () {
       const jsConfetti = new JSConfetti()
