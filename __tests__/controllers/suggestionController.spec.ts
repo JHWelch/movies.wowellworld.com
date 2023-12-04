@@ -50,6 +50,7 @@ describe('store', () => {
     const req = getMockReq({
       body: {
         theme: 'theme',
+        submitted_by: 'submitted_by',
         movies: [
           'movie1',
           'movie2',
@@ -77,6 +78,7 @@ describe('store', () => {
       parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'theme' } }] },
+        'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
         Movies: {
           relation: [
             { id: 'movieId1' },

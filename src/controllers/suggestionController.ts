@@ -22,13 +22,13 @@ export default class SuggestionController {
   async store (req: Request, res: Response): Promise<void> {
     if (!this.validate(req, res)) return
 
-    const { theme, movies } = req.body
+    const { theme, movies, submitted_by } = req.body
 
     const notionMovies = await Promise.all(
       movies.map((movie: string) => this.notion.createMovie(movie)),
     )
 
-    await this.notion.createWeek(theme, notionMovies)
+    await this.notion.createWeek(theme, notionMovies, submitted_by)
 
     res.status(201).json({ message: 'Successfully created suggestion.' })
   }
