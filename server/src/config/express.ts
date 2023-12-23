@@ -2,6 +2,7 @@ import bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import assetRouter from '../routers/assetRouter.js'
 
 export default function setupExpress (): express.Express {
   const app = express()
@@ -14,6 +15,7 @@ export default function setupExpress (): express.Express {
     express.static(`${dirname}/../../node_modules/@jhwelch/made-with`)
   )
   app.use(bodyParser.json())
+  app.use('/src', assetRouter)
 
   return app
 }
