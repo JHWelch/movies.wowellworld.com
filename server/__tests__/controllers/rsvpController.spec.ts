@@ -59,7 +59,7 @@ describe('store', () => {
           email: 'test@example.com',
           plusOne: true,
           createdAt: expect.any(Timestamp.constructor),
-        }
+        },
       )
     })
 
@@ -83,7 +83,7 @@ describe('store', () => {
             // eslint-disable-next-line max-len
             html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
           },
-        }
+        },
       )
     })
 

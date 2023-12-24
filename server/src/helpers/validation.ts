@@ -4,7 +4,7 @@ import { z } from 'zod'
 const validate = (
   req: Request,
   res: Response,
-  dataSchema: z.ZodObject<any, any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  dataSchema: z.ZodObject<any, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
 ): boolean => {
   try {
     dataSchema.parse(req.body)

@@ -155,7 +155,7 @@ describe('posterUrl', () => {
     const movie = new MovieFactory().make()
 
     expect(movie.posterUrl()).toEqual(
-      `${TMDB_POSTER_URL}${movie.posterPath}`
+      `${TMDB_POSTER_URL}${movie.posterPath}`,
     )
   })
 

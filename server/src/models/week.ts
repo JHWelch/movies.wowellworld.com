@@ -18,7 +18,7 @@ export default class Week {
   ) {}
 
   static fromNotion (
-    record: PageObjectResponse | DatabaseObjectResponse
+    record: PageObjectResponse | DatabaseObjectResponse,
   ): Week {
     const properties = record.properties as unknown as WeekProperties
 
@@ -26,7 +26,7 @@ export default class Week {
       record.id,
       properties.Theme.title[0].plain_text,
       new Date(properties.Date.date.start),
-      properties.Skipped.checkbox
+      properties.Skipped.checkbox,
     )
   }
 
@@ -36,7 +36,7 @@ export default class Week {
       record.theme,
       record.date.toDate(),
       record.isSkipped,
-      record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie))
+      record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie)),
     )
   }
 

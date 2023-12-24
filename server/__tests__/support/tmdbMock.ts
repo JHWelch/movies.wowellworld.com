@@ -3,7 +3,7 @@ import { MockFetch } from './fetchMock'
 
 export class TmdbMock {
   constructor (
-    private mockFetch: MockFetch
+    private mockFetch: MockFetch,
   ) {}
 
   mockSearchMovie (movie: Movie | undefined, id = 1234)  {

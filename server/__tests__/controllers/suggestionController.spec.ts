@@ -40,7 +40,7 @@ describe('create', () => {
 
     expect(res.render).toHaveBeenCalledWith(
       'suggestions/create',
-      { path: '/suggestions/create' }
+      { path: '/suggestions/create' },
     )
   })
 })

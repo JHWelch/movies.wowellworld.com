@@ -39,7 +39,7 @@ export default class FirestoreAdapter {
         const ref = doc(
           this.firestore,
           this.weeksCollectionName,
-          week.dateString
+          week.dateString,
         )
         transaction.set(ref, week.toFirebaseDTO())
       })
@@ -53,7 +53,7 @@ export default class FirestoreAdapter {
         where('date', '<', this.today()),
         where('isSkipped', '==', false),
       ),
-      orderBy('date', 'desc')
+      orderBy('date', 'desc'),
     ))
   }
 
@@ -61,7 +61,7 @@ export default class FirestoreAdapter {
     return this.getWeeks(query(
       this.weekCollection,
       where('date', '>=', this.today()),
-      orderBy('date')
+      orderBy('date'),
     ))
   }
 
@@ -132,7 +132,7 @@ export default class FirestoreAdapter {
         transaction.set(doc(
           this.firestore,
           this.templatesCollectionName,
-          template.name
+          template.name,
         ), {
           subject: template.subject,
           html: template.html,
@@ -146,7 +146,7 @@ export default class FirestoreAdapter {
     const todayUtc = new Date(Date.UTC(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate()
+      today.getDate(),
     ))
 
     return Timestamp.fromDate(todayUtc)

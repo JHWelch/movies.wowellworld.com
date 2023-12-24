@@ -9,7 +9,7 @@ describe('dateString', () => {
       'id',
       'theme',
       new Date('2021-09-13'),
-      false
+      false,
     )
   })
 

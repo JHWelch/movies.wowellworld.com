@@ -35,7 +35,7 @@ export type SearchResponseTmdb = {
 }
 
 export function isMovieResponseTmdb (
-  movie: unknown
+  movie: unknown,
 ): movie is MovieResponseTmdb {
   return (
     !!movie &&
@@ -98,7 +98,7 @@ export function isCrewResponseTmdb (crew: unknown): crew is CrewResponseTmdb {
 }
 
 export function isSearchResponseTmdb (
-  response: unknown
+  response: unknown,
 ): response is SearchResponseTmdb {
   return (
     !!response &&
@@ -111,7 +111,7 @@ export function isSearchResponseTmdb (
     Array.isArray(response.results) &&
     response.results.reduce(
       (acc: boolean, movie: unknown) => acc && isMovieResponseTmdb(movie),
-      true
+      true,
     ) &&
     typeof response.total_pages === 'number' &&
     typeof response.total_results === 'number'

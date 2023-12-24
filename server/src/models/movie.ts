@@ -26,7 +26,7 @@ export default class Movie {
     public tmdbId: number | null = null,
     public notionId: string | null = null,
     public theaterName: string | null = null,
-    public showingUrl: string | null = null
+    public showingUrl: string | null = null,
   ) {}
 
   static fromNotion (movie: PageObjectResponse): Movie {

@@ -4,7 +4,7 @@ export default class RedirectController {
   static async redirect (
     _req: Request,
     res: Response,
-    url: string
+    url: string,
   ): Promise<void> {
     res.redirect(url)
   }

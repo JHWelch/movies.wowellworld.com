@@ -39,7 +39,7 @@ function routes (
   const cacheController = new CacheController(
     firestore,
     notion,
-    tmdb
+    tmdb,
   )
   const rsvpController = new RsvpController(firestore)
   const weekController = new WeekController(firestore)
@@ -57,15 +57,15 @@ function routes (
     ),
     new Route(
       CacheController.PATHS.weeks,
-      cacheController.cacheWeeks.bind(cacheController)
+      cacheController.cacheWeeks.bind(cacheController),
     ),
     new Route(
       CacheController.PATHS.emailTemplates,
-      cacheController.cacheEmailTemplates.bind(cacheController)
+      cacheController.cacheEmailTemplates.bind(cacheController),
     ),
     new Route(
       SuggestionController.PATHS.create,
-      suggestionController.create.bind(suggestionController)
+      suggestionController.create.bind(suggestionController),
     ),
     new Route(
       SuggestionController.PATHS.store,

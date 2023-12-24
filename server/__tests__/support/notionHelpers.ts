@@ -103,7 +103,7 @@ export const nRelation = (relation: NotionMovie[]): {
 
 export const pageObjectResponse = (
   id: string,
-  properties: PageObjectResponse['properties']
+  properties: PageObjectResponse['properties'],
 ): PageObjectResponse => ({
   id,
   properties,
@@ -185,7 +185,7 @@ export class NotionMovie {
       'movieUrl',
       'moviePosterPath',
       'movieTheaterName',
-      'movieShowingUrl'
+      'movieShowingUrl',
     )
   }
 }

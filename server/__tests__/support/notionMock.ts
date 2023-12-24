@@ -54,7 +54,7 @@ export class NotionMock {
     const notionMovie = movie ?? NotionMovie.demo()
 
     this.retrieve.mockImplementation(async (
-      _args: WithAuth<GetPageParameters>
+      _args: WithAuth<GetPageParameters>,
     ): Promise<GetPageResponse> =>
       notionMovie.toPageObjectResponse())
 
@@ -64,7 +64,7 @@ export class NotionMock {
   mockQuery = (weeks: PageObjectResponse[] = []) => {
     this.query.mockImplementation(
       async (
-        _args: WithAuth<QueryDatabaseParameters>
+        _args: WithAuth<QueryDatabaseParameters>,
       ): Promise<QueryDatabaseResponse> => ({
         page_or_database: {},
         type: 'page_or_database',
