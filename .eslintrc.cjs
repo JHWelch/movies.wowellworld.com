@@ -6,6 +6,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
   ],
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
