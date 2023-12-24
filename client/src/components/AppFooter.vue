@@ -1,7 +1,6 @@
-  </main>
-
+<template>
   <footer class="flex flex-col items-center w-full space-y-3 bg-violet-300">
-    <%- include('made_with') %>
+    <div id="made-with" />
 
     <a href="https://www.themoviedb.org/">
       <img
@@ -15,8 +14,4 @@
       This product uses the TMDb API but is not endorsed or certified by TMDb.
     </p>
   </footer>
-
-  <script src="/made-with/made-with.js"></script>
-</body>
-
-</html>
+</template>
