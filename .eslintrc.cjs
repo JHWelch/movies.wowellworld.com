@@ -1,6 +1,9 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+  },
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
@@ -23,4 +26,12 @@ module.exports = {
     'space-before-function-paren': ['error', 'always'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        'max-len': 'off',
+      },
+    },
+  ],
 };
