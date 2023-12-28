@@ -1,4 +1,3 @@
-import DashboardController from './controllers/dashboardController.js'
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
 import type NotionAdapter from './data/notion/notionAdapter.js'
@@ -29,6 +28,14 @@ export function registerRoutes (
         express.delete(route.path, route.handler); break
       }
     })
+
+  express.all('*', (_req, res) => {
+    try {
+      res.render('index.html.ejs')
+    } catch (error) {
+      res.json({ success: false, message: 'Something went wrong' })
+    }
+  })
 }
 
 function routes (
@@ -47,7 +54,6 @@ function routes (
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
-    new Route(DashboardController.PATHS.index, DashboardController.index),
     new Route(PreviousController.PATHS.index, PreviousController.index),
     new Route('/api/weeks', weekController.index.bind(weekController)),
     new Route(
