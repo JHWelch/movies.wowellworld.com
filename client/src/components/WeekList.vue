@@ -65,6 +65,7 @@ reload()
     <div
       v-for="[index, week] in Object.entries(weeks)"
       :key="index"
+      @reload="reload"
     >
       <div>
         <SectionTitle :section-title="sectionTitles[index]" />
