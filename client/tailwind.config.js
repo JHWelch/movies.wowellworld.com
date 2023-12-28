@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./views/**/*.ejs'],
+  content: [
+    './src/**/*.vue',
+    './src/**/*.ts',
+  ],
   theme: {
     extend: {
       maxWidth: {
