@@ -7,6 +7,7 @@ import type WeekProperties from '../types/weekProperties.js'
 import { dateToString } from '../data/dateUtils.js'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '../data/firestore/firestoreTypes.js'
+import { WeekDto } from '../../../shared/dtos.js'
 
 export default class Week {
   constructor (
@@ -59,7 +60,7 @@ export default class Week {
     return `${this.theme}`
   }
 
-  toDTO (): object {
+  toDTO (): WeekDto {
     return {
       id: this.id,
       weekId: this.dateString,

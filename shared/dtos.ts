@@ -11,3 +11,12 @@ export type MovieDto = {
   isFieldTrip: boolean,
   displayLength: string | null,
 }
+
+export type WeekDto = {
+  id: string,
+  weekId: string,
+  theme: string,
+  date: string,
+  isSkipped: boolean,
+  movies: MovieDto[],
+}
