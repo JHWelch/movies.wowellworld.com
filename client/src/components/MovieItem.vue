@@ -80,13 +80,13 @@ const movieSizeClasses = (week: WeekDto) => {
           <div class="flex space-x-2">
             <IconLabel
               v-if="movie.year"
-              icon="calendar"
+              icon="Calendar"
               :label="movie.year.toString()"
             />
 
             <IconLabel
               v-if="movie.displayLength"
-              icon="clock"
+              icon="Clock"
               :label="movie.displayLength"
             />
           </div>
