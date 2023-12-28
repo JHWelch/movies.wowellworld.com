@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue'
-import { MovieDto } from '../../../shared/dtos'
 
 const props = withDefaults(defineProps<{
-  field: keyof MovieDto
+  label: string
   icon: string
-  movie: MovieDto
   iconClass?: string
 }>(), {
   iconClass: 'h-4 w-4 text-slate-500',
@@ -23,7 +21,7 @@ const Icon = defineAsyncComponent({
 
     <span
       class="text-sm text-slate-700"
-      v-text="movie[field]"
+      v-text="label"
     />
   </span>
 </template>
