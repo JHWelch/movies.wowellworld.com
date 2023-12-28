@@ -13,6 +13,7 @@ import {
 } from '../data/notion/notionFormatters.js'
 import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
 import { TMDB_POSTER_URL } from '../data/tmdb/constants.js'
+import { MovieDto } from '../../../shared/dtos.js'
 
 export default class Movie {
   constructor (
@@ -100,7 +101,7 @@ export default class Movie {
     return `${this.title} (${this.year})`
   }
 
-  toDTO (): object {
+  toDTO (): MovieDto {
     return {
       title: this.title,
       director: this.director,
