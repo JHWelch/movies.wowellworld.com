@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import SectionTitle from './SectionTitle.vue'
 import WeekItem from './WeekItem.vue'
+import Error from './Error.vue'
 import { WeekDto } from '../../../shared/dtos'
 
 const props = defineProps<{
@@ -58,14 +59,14 @@ reload()
   <div>
     <LoadingAnimation v-if="loading" />
 
-    <!-- <template x-if="error">
-      <%- include('error') %>
-    </template> -->
+    <Error
+      v-if="error"
+      @reload="reload"
+    />
 
     <div
       v-for="[index, week] in Object.entries(weeks)"
       :key="index"
-      @reload="reload"
     >
       <div>
         <SectionTitle
