@@ -71,8 +71,8 @@ reload()
     >
       <div>
         <SectionTitle
-          v-if="sectionTitles[index]"
-          :section-title="sectionTitles[index]"
+          v-if="sectionTitles[Number(index)]"
+          :section-title="sectionTitles[Number(index)]"
         />
 
         <WeekItem
