@@ -49,7 +49,7 @@ import WeekList from '../components/WeekList.vue'
     </div>
 
     <WeekList
-      :fetch-url="'/api/weeks/'"
+      fetch-url="/api/weeks/"
       :show-event-details="true"
       :section-titles="{
         0: 'Now Playing',

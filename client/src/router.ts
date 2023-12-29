@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import UpcomingPage from './pages/UpcomingPage.vue'
+import PreviousPage from './pages/PreviousPage.vue'
 
 const routes = [
   {
@@ -7,11 +8,11 @@ const routes = [
     name: 'Upcoming',
     component: UpcomingPage,
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   component: About,
-  // },
+  {
+    path: '/previous',
+    name: 'Previous',
+    component: PreviousPage,
+  },
 ]
 
 const router = createRouter({

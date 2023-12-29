@@ -1,7 +1,6 @@
 import WeekController from './controllers/weekController.js'
 import { type Express, type Request, type Response } from 'express'
 import type NotionAdapter from './data/notion/notionAdapter.js'
-import PreviousController from './controllers/previousController.js'
 import CacheController from './controllers/cacheController.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
@@ -54,7 +53,6 @@ function routes (
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
-    new Route(PreviousController.PATHS.index, PreviousController.index),
     new Route('/api/weeks', weekController.index.bind(weekController)),
     new Route(
       RsvpController.PATHS.store,
