@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import FormInput from '../components/form/FormInput.vue'
-import IconLoading from '../icons/IconLoading.vue';
+import IconLoading from '../icons/IconLoading.vue'
+import { ErrorBag } from '../types'
 
 type SuggestionFormData = {
   theme?: string,
@@ -22,7 +23,7 @@ const formData = ref<SuggestionFormData>({
 
 const submitting = ref<boolean>(false)
 
-const handleErrors = (data) => {
+const handleErrors = (data: ErrorBag) => {
   if (data.errors) {
     errors.value = {
       theme: data.errors.theme,
