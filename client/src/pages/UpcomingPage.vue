@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Calendar from '../components/Calendar.vue'
+import ThankYou from '../components/ThankYou.vue';
 import WeekList from '../components/WeekList.vue'
 </script>
 
@@ -59,9 +60,9 @@ import WeekList from '../components/WeekList.vue'
 
     <!-- <%- include('partials/rsvpModal'); %>
 
-    <%- include('partials/confetti'); %>
+    <%- include('partials/confetti'); %> -->
 
-    <%- include('partials/thankYou'); %> -->
+    <ThankYou />
   </div>
 
   <div class="mt-10 sm:p-4">
