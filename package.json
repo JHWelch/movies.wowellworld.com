@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "lint": "eslint . --ext .ts --ext .vue",
-    "fix": "npm run lint -- --fix"
+    "fix": "npm run lint -- --fix",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev"
   },
   "keywords": [
     "notion",

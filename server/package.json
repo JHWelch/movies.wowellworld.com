@@ -16,8 +16,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "coverage": "jest --coverage",
-    "watch": "npm run watch:express",
-    "watch:express": "nodemon src/index.ts"
+    "dev": "npm run dev:express",
+    "dev:express": "nodemon src/index.ts"
   },
   "keywords": [
     "notion",
