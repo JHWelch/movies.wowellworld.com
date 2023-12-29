@@ -42,7 +42,7 @@ defineEmits([
       >
 
       <div
-        x-show="errors.<%= name %>"
+        v-show="error"
         class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
       >
         <svg

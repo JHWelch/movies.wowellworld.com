@@ -4,17 +4,13 @@ import FormInput from '../components/form/FormInput.vue'
 import IconLoading from '../icons/IconLoading.vue';
 
 type SuggestionFormData = {
-  theme: string,
-  submitted_by: string,
-  movie1: string,
-  movie2: string,
+  theme?: string,
+  submitted_by?: string,
+  movie1?: string,
+  movie2?: string,
 }
 
 const errors = ref<SuggestionFormData>({
-  theme: '',
-  submitted_by: '',
-  movie1: '',
-  movie2: '',
 })
 
 const formData = ref<SuggestionFormData>({
