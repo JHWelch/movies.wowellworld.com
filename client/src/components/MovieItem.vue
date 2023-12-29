@@ -9,10 +9,6 @@ defineProps<{
   week: WeekDto
 }>()
 
-const titleSize = (movie: MovieDto) => {
-  return movie.title.length > 20 ? 'text-xl' : 'text-2xl'
-}
-
 const movieSizeClass = (week: WeekDto, max: number) => {
   if (week.movies.length == 1) {
     return 'w-full'
@@ -33,11 +29,19 @@ const movieSizeClasses = (week: WeekDto) => {
 </script>
 
 <template>
-  <div :class="`px-3 max-w-lg lg:px-5 sm:${movieSizeClasses(week)}`">
+  <div
+    :class="[
+      'px-3 max-w-lg lg:px-5',
+      movieSizeClasses(week)
+    ]"
+  >
     <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-violet-200">
       <h4 class="flex items-center justify-between h-12 md:px-2">
         <span
-          :class="titleSize(movie) + ' overflow-hidden font-medium text-center overflow-ellipsis'"
+          :class="[
+            'overflow-hidden font-medium text-center overflow-ellipsis',
+            movie.title.length > 20 ? 'text-xl' : 'text-2xl'
+          ]"
           v-text="movie.title"
         />
 
