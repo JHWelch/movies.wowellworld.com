@@ -29,14 +29,15 @@ const handleErrors = (data: ErrorBag) => {
 const rsvp = async () => {
   if (!rsvpModal.week) { return }
 
-  const response = await fetch('/api/weeks/' + rsvpModal.week.weekId + '/rsvp' , {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(formData),
-  })
+  const response = await fetch(
+    '/api/weeks/' + rsvpModal.week.weekId + '/rsvp', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData.value),
+    })
 
   const data = await response.json()
 
@@ -47,6 +48,7 @@ const rsvp = async () => {
   }
 
   // $dispatch('fire-confetti')
+  rsvpModal.close()
 }
 </script>
 
