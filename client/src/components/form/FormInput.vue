@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 defineProps<{
-  modelValue: string,
+  modelValue?: string,
   name: string,
   label?: string,
   type?: string,
@@ -38,7 +38,7 @@ defineEmits([
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600': !error,
         }"
         @change="$emit('clear-error', name)"
-        @input="$emit('update:modelValue', $event.target?.value)"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
       >
 
       <div
