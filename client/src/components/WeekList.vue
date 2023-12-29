@@ -5,6 +5,7 @@ import SectionTitle from './SectionTitle.vue'
 import WeekItem from './WeekItem.vue'
 import Error from './Error.vue'
 import { WeekDto } from '../../../shared/dtos'
+import { rsvpModal } from '../state/modalState'
 
 const props = defineProps<{
   sectionTitles: {[key: number]: string}
@@ -16,9 +17,7 @@ const weeks = ref<WeekDto[]>([])
 const loading = ref<boolean>(true)
 const error = ref<boolean>(false)
 
-const rsvpWeek = () => {
-  return new URLSearchParams(window.location.search).get('rsvp')
-}
+const rsvpWeek = () =>  new URLSearchParams(window.location.search).get('rsvp')
 
 const reload =  () => {
   loading.value = true
@@ -37,12 +36,14 @@ const reload =  () => {
     .then(data => {
       weeks.value = data
       loading.value = false
+
       const rsvp_week = rsvpWeek()
       if (!rsvp_week) { return }
-      const week = weeks.value.find(week => week.weekId === week)
+
+      const week = weeks.value.find(week => week.weekId === rsvp_week)
       if (!week) { return }
 
-      // $dispatch('open-modal', { week });
+      rsvpModal.open(week)
     })
 }
 
