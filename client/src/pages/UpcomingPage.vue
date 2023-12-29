@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import Calendar from '../components/Calendar.vue'
 import WeekList from '../components/WeekList.vue'
-
 </script>
 
 <template>
@@ -65,6 +65,6 @@ import WeekList from '../components/WeekList.vue'
   </div>
 
   <div class="mt-10 sm:p-4">
-    <!-- <%- include('partials/calendar'); %> -->
+    <Calendar />
   </div>
 </template>

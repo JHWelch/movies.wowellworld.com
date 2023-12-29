@@ -7,14 +7,17 @@ import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import RsvpController from './controllers/rsvpController.js'
 import HealthCheckController from './controllers/healthCheckController.js'
 import SuggestionController from './controllers/suggestionController.js'
+import Config from './config/config.js'
+import CalendarController from './controllers/calendarController.js'
 
 export function registerRoutes (
+  config: Config,
   express: Express,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): void {
-  routes(firestore, notion,tmdb)
+  routes(config, firestore, notion, tmdb)
     .forEach((route) => {
       switch (route.method) {
       case HttpMethod.GET:
@@ -38,6 +41,7 @@ export function registerRoutes (
 }
 
 function routes (
+  config: Config,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
@@ -50,6 +54,7 @@ function routes (
   const rsvpController = new RsvpController(firestore)
   const weekController = new WeekController(firestore)
   const suggestionController = new SuggestionController(notion)
+  const calendarController = new CalendarController(config)
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
@@ -75,6 +80,10 @@ function routes (
       SuggestionController.PATHS.store,
       suggestionController.store.bind(suggestionController),
       HttpMethod.POST,
+    ),
+    new Route(
+      CalendarController.PATH,
+      calendarController.index.bind(calendarController),
     ),
   ]
 }

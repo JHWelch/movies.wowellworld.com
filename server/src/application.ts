@@ -3,15 +3,17 @@ import type NotionAdapter from './data/notion/notionAdapter.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
 import { registerRoutes } from './routes.js'
+import Config from './config/config.js'
 
 export default class Application {
   constructor (
+    private config: Config,
     private express: Express,
     private firestore: FirestoreAdapter,
     private notion: NotionAdapter,
     private tmdb: TmdbAdapter,
   ) {
-    registerRoutes(express, firestore, notion, tmdb)
+    registerRoutes(config, express, firestore, notion, tmdb)
   }
 
   listen (): void {

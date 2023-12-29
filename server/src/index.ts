@@ -11,6 +11,7 @@ dotenv.config()
 const config = new Config()
 
 const app = new Application(
+  config,
   setupExpress(),
   new FirestoreAdapter(config),
   new NotionAdapter(config),
