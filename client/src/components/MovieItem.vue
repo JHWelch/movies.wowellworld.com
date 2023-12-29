@@ -32,7 +32,7 @@ const movieSizeClasses = (week: WeekDto) => {
   <div
     :class="[
       'px-3 max-w-lg lg:px-5',
-      movieSizeClasses(week)
+      movieSizeClasses(week),
     ]"
   >
     <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-violet-200">
