@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { WeekDto } from '../../../shared/dtos'
+import IconRsvp from '../icons/IconRsvp.vue';
+import { rsvpModal } from '../state/modalState'
 import MovieList from './MovieList.vue'
 import SkippedBanner from './SkippedBanner.vue'
 
@@ -29,18 +31,16 @@ const weekTitle = (week: WeekDto) => {
           />
         </h3>
 
-        <!-- <button
+        <button
           v-if="showEventDetails"
-          x-data
-          x-cloak
-          x-show="!week.isSkipped"
-          @click="$dispatch('open-modal', { week })"
+          v-show="!week.isSkipped"
           class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500"
+          @click="rsvpModal.open(week)"
         >
           <span>RSVP</span>
 
-          <%- include('icons/rsvp', { htmlClass: 'w-6 h-6 text-white' }) %>
-        </button> -->
+          <IconRsvp class="w-6 h-6 text-white" />
+        </button>
       </div>
     </div>
 

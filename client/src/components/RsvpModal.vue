@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { WeekDto } from '../../../shared/dtos'
 import { Errors, ErrorBag } from '../types'
 import FormInput from './form/FormInput.vue'
 import FormCheckbox from './form/FormCheckbox.vue'
 import IconRsvp from '../icons/IconRsvp.vue'
+import { rsvpModal } from '../state/modalState'
 
 type RsvpForm = {
   name: string,
@@ -12,8 +12,6 @@ type RsvpForm = {
   plusOne: boolean,
 }
 
-const open = ref<boolean>(false)
-const week = ref<WeekDto | null>(null)
 const errors = ref<Errors>({})
 const formData = ref<RsvpForm>({
   name: '',
@@ -29,9 +27,9 @@ const handleErrors = (data: ErrorBag) => {
   }
 }
 const rsvp = async () => {
-  if (!week.value) { return }
+  if (!rsvpModal.week) { return }
 
-  const response = await fetch('/api/weeks/' + week.value.weekId + '/rsvp' , {
+  const response = await fetch('/api/weeks/' + rsvpModal.week.weekId + '/rsvp' , {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -54,7 +52,7 @@ const rsvp = async () => {
 
 <template>
   <div
-    v-show="open"
+    v-show="rsvpModal.show"
     id="rsvp-modal"
     x-transition:enter="ease-out duration-300"
     x-transition:enter-start="opacity-0"
@@ -66,20 +64,19 @@ const rsvp = async () => {
     aria-labelledby="rsvp-modal-title"
     role="dialog"
     aria-modal="true"
-    @open-modal="week = $event.detail.week; open = true"
-    @close-modal="open = false"
+    @close-modal="rsvpModal.close()"
   >
     <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
 
     <div
       class="fixed inset-0 z-10 overflow-y-auto"
-      @click="open = false"
-      @keyup.escape="open = false"
+      @click="rsvpModal.close()"
+      @keyup.escape="rsvpModal.close()"
     >
       <div class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
         <div
+          v-show="rsvpModal.show"
           id="rsvp-modal-title"
-          x-show="open"
           x-transition:enter="ease-out duration-300"
           x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
@@ -102,9 +99,9 @@ const rsvp = async () => {
                 id="modal-title"
                 class="text-base font-semibold leading-6 text-gray-900"
               >
-                <span class="text-violet-500">RSVP to:</span>
+                <span class="text-violet-500">RSVP to: </span>
 
-                <span v-text="week?.theme" />
+                <span v-text="rsvpModal.week?.theme" />
               </h3>
 
               <div class="mt-2">
@@ -159,7 +156,7 @@ const rsvp = async () => {
             <button
               type="button"
               class="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-              @click="open = false"
+              @click="rsvpModal.close()"
             >
               Cancel
             </button>
