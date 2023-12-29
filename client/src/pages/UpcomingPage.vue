@@ -61,8 +61,6 @@ import WeekList from '../components/WeekList.vue'
 
     <RsvpModal />
 
-    <!-- <%- include('partials/confetti'); %> -->
-
     <ThankYou />
   </div>
 
