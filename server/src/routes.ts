@@ -73,10 +73,6 @@ function routes (
       cacheController.cacheEmailTemplates.bind(cacheController),
     ),
     new Route(
-      SuggestionController.PATHS.create,
-      suggestionController.create.bind(suggestionController),
-    ),
-    new Route(
       SuggestionController.PATHS.store,
       suggestionController.store.bind(suggestionController),
       HttpMethod.POST,

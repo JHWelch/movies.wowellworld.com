@@ -32,19 +32,6 @@ const newSuggestionController = () => {
   return new SuggestionController(notion)
 }
 
-describe('create', () => {
-  it('should render create view', async () => {
-    const req = getMockReq()
-
-    await newSuggestionController().create(req, res)
-
-    expect(res.render).toHaveBeenCalledWith(
-      'suggestions/create',
-      { path: '/suggestions/create' },
-    )
-  })
-})
-
 interface MockBodyArgs {
   theme?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   submitted_by?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
