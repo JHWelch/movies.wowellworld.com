@@ -5,6 +5,7 @@ import FormInput from './form/FormInput.vue'
 import FormCheckbox from './form/FormCheckbox.vue'
 import IconRsvp from '../icons/IconRsvp.vue'
 import { rsvpModal } from '../state/modalState'
+import { fireConfetti } from '../utilities/confetti'
 
 type RsvpForm = {
   name: string,
@@ -47,7 +48,7 @@ const rsvp = async () => {
     return
   }
 
-  // $dispatch('fire-confetti')
+  fireConfetti()
   rsvpModal.close()
 }
 </script>
@@ -174,3 +175,4 @@ const rsvp = async () => {
     </div>
   </Transition>
 </template>
+../utilities/dddconfetti

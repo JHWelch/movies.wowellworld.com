@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
+import { fireConfetti } from '../utilities/confetti'
 
 const open = ref(false)
 
@@ -8,6 +9,7 @@ onMounted(() => {
 
   if (params.has('suggest_success')) {
     open.value = true
+    fireConfetti()
     setTimeout(() => {
       open.value = false
     }, 2000)
@@ -46,3 +48,4 @@ onMounted(() => {
   opacity: 1;
 }
 </style>
+../utilities/dddconfetti
