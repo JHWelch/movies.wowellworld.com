@@ -68,7 +68,10 @@ reload()
       @reload="reload"
     >
       <div>
-        <SectionTitle :section-title="sectionTitles[index]" />
+        <SectionTitle
+          v-if="sectionTitles[index]"
+          :section-title="sectionTitles[index]"
+        />
 
         <WeekItem
           :week="week"
