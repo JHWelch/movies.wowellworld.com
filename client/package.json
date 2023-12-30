@@ -18,6 +18,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.10",
     "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/test-utils": "^2.4.3",
     "autoprefixer": "^10.4.16",
     "jsdom": "^23.0.1",
     "postcss": "^8.4.32",
