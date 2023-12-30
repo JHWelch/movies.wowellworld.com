@@ -12,7 +12,7 @@ export default function setupExpress (): express.Express {
   app.use('/public', express.static(`${dirname}/../../../public`))
   app.use(
     '/made-with',
-    express.static(`${dirname}/../../node_modules/@jhwelch/made-with`),
+    express.static(`${dirname}/../../../node_modules/@jhwelch/made-with`),
   )
   app.use(bodyParser.json())
   app.use('/src', assetRouter)
