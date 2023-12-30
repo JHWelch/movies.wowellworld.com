@@ -5,7 +5,6 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "clean": "rm -rf built && rm -rf emails/built && rm -rf public/app.css",
     "build": "npm run build:ts",
     "postbuild": "cp -R node_modules ../built/node_modules",
     "build:ts": "tsc",
