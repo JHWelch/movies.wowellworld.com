@@ -1,8 +1,9 @@
 {
-  "name": "client",
+  "name": "movies.wowellworld.com-client",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.0.0",
   "type": "module",
+  "main": "src/main.ts",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
