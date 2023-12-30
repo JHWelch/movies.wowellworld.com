@@ -51,12 +51,6 @@ reload()
 </script>
 
 <template>
-  <!--
-    Tailwind CSS Safelist for movieSizeClass
-    sm:w-1/2
-    lg:w-1/3
-    lg:w-1/2
-  -->
   <div>
     <LoadingAnimation v-if="loading" />
 
