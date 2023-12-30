@@ -29,10 +29,11 @@ cp .env.example .env
 Update `.env` to match Notion database.
 
 ### Build for Development
+
 To build assets for development and serve on port `PORT`.
 
 ```sh
-npm run watch
+npm run dev
 ```
 
 ### Linting & Fixing
