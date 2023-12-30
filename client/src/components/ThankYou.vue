@@ -48,4 +48,3 @@ onMounted(() => {
   opacity: 1;
 }
 </style>
-../utilities/dddconfetti

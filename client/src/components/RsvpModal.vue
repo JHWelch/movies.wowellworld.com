@@ -175,4 +175,3 @@ const rsvp = async () => {
     </div>
   </Transition>
 </template>
-../utilities/dddconfetti
