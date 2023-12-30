@@ -1,12 +1,18 @@
 import Config from './config'
-import fs from 'fs/promises'
+import fs from 'fs'
 import path from 'path'
 
-export const parseManifest = async (config: Config) => {
+export const parseManifest = (config: Config) => {
   if (config.nodeEnv !== 'production') return {}
 
-  const manifestPath = path.join(path.resolve(), 'dist', 'manifest.json')
-  const manifestFile = await fs.readFile(manifestPath)
+  const manifestPath = path.join(
+    path.resolve(),
+    'built',
+    'public',
+    '.vite',
+    'manifest.json',
+  )
+  const manifestFile = fs.readFileSync(manifestPath)
 
   return JSON.parse(manifestFile.toString())
 }

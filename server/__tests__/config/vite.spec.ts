@@ -3,7 +3,7 @@ import { mockConfig } from '../support/mockConfig'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { parseManifest } from '../../src/config/vite'
 import path from 'path'
-import fs from 'fs/promises'
+import fs from 'fs'
 
 let config: Config
 
@@ -22,12 +22,12 @@ describe('local nodeEnv', () => {
 describe('production nodeEnv', () => {
   beforeEach(() => {
     jest.mock('path')
-    jest.mock('fs/promises')
+    jest.mock('fs')
     config = mockConfig({ nodeEnv: 'production' })
     jest.spyOn(path, 'resolve').mockReturnValue('/path/to/project')
     jest.spyOn(path, 'join')
       .mockReturnValue('/path/to/project/dist/manifest.json')
-    jest.spyOn(fs, 'readFile').mockResolvedValue('{"key": "value"}')
+    jest.spyOn(fs, 'readFileSync').mockReturnValue('{"key": "value"}')
   })
 
   it('should parse manifest', async () => {
