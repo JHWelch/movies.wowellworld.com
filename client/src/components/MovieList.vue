@@ -9,7 +9,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex justify-center mt-2 space-y-4 max-w-9xl md:space-y-8">
+  <div class="flex flex-wrap justify-center mt-2 space-y-4 max-w-9xl md:space-y-8">
     <MovieItem
       v-for="(movie, index) in week.movies"
       :key="movie.title"
