@@ -11,8 +11,7 @@ type SuggestionFormData = {
   movie2?: string,
 }
 
-const errors = ref<SuggestionFormData>({
-})
+const errors = ref<SuggestionFormData>({})
 
 const formData = ref<SuggestionFormData>({
   theme: '',
@@ -79,12 +78,7 @@ const submit = async () => {
       Suggest a Movie Night&nbsp;Theme!
     </h1>
 
-    <form
-      x-data="{
-
-      }"
-      class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8"
-    >
+    <form class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8">
       <FormInput
         v-model="formData.submitted_by"
         name="submitted_by"
