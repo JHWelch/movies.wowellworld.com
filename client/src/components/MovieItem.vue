@@ -31,10 +31,9 @@ xl:w-full
 const movieSizeClasses = (week: WeekDto) => {
   const sm = movieSizeClass(week, 2)
   const lg = movieSizeClass(week, 3)
-  const xl = week.movies.length == 1 ? 'w-full' : 'w-1/3'
-  const xxl = week.movies.length == 1 ? 'w-full' : 'w-1/4'
+  const xxl = movieSizeClass(week, 4)
 
-  return `w-full sm:${sm} lg:${lg} xl:${xl} 2xl:${xxl}`
+  return `w-full sm:${sm} lg:${lg} 2xl:${xxl}`
 }
 
 </script>
