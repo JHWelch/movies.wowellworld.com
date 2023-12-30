@@ -4,20 +4,6 @@
 
 An integration with [Notion](https://notion.so) to display weekly movie nights using a Notion database as the source of truth.
 
-## Deploy to App Engine
-
-This app is deployed to Google App Engine. It will automatically deploy on all merges to `main.` This is the preferred method of deployment.
-
-App engine will build the application with `npm run build` and serve the application with `npm run start`.
-
-Manual deployments can be performed with the built in script.
-
-You must first have a copy of `.env.production` in the root directory. Then run:
-
-```sh
-sh scripts/deploy.sh
-```
-
 ## Development
 
 ### .env
@@ -40,8 +26,33 @@ npm run dev
 
 ```sh
 npm run lint
+```
 
+```sh
 npm run fix
+```
+
+### Repository Structure
+
+This application is split into two parts:
+
+- `server` - The Express server that serves the application and handles API requests.
+- `client` - The Vue application served by the Express server that handles the UI.
+
+Each part has its own `package.json` and `node_modules` directory, however both can be installed with a single `npm install` command.
+
+## Deploy to App Engine
+
+This app is deployed to Google App Engine. It will automatically deploy on all merges to `main.` This is the preferred method of deployment.
+
+App engine will build the application with `npm run build` and serve the application with `npm run start`.
+
+Manual deployments can be performed with the built in script.
+
+You must first have a copy of `.env.production` in the root directory. Then run:
+
+```sh
+sh scripts/deploy.sh
 ```
 
 ## Technologies
