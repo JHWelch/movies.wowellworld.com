@@ -1,11 +1,15 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+  },
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
   ],
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
@@ -21,5 +25,14 @@ module.exports = {
     semi: ['error', 'never'],
     'space-before-function-paren': ['error', 'always'],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'vue/multi-word-component-names': 'off',
   },
+  overrides: [
+    {
+      files: ['*.vue'],
+      rules: {
+        'max-len': 'off',
+      },
+    },
+  ],
 };

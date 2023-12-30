@@ -1,0 +1,35 @@
+{
+  "name": "movies.wowellworld.com-client",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "js-confetti": "^0.12.0",
+    "vue": "^3.3.11",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/test-utils": "^2.4.3",
+    "autoprefixer": "^10.4.16",
+    "jsdom": "^23.0.1",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vitest": "^1.1.0",
+    "vue-tsc": "^1.8.25"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.9.1"
+  }
+}
