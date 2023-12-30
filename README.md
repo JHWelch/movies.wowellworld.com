@@ -29,10 +29,11 @@ cp .env.example .env
 Update `.env` to match Notion database.
 
 ### Build for Development
+
 To build assets for development and serve on port `PORT`.
 
 ```sh
-npm run watch
+npm run dev
 ```
 
 ### Linting & Fixing
@@ -44,7 +45,7 @@ npm run fix
 ```
 
 ## Technologies
-- [AlpineJS](https://alpinejs.dev/)
+
 - [EJS](https://ejs.co/)
 - [Express](https://expressjs.com/)
 - [Google App Engine](https://cloud.google.com/appengine)
@@ -53,3 +54,4 @@ npm run fix
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TMDB](https://developer.themoviedb.org/docs)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Vue](https://vuejs.org/)
