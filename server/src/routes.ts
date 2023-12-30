@@ -9,6 +9,7 @@ import HealthCheckController from './controllers/healthCheckController.js'
 import SuggestionController from './controllers/suggestionController.js'
 import Config from './config/config.js'
 import CalendarController from './controllers/calendarController.js'
+import { parseManifest } from './config/vite.js'
 
 export function registerRoutes (
   config: Config,
@@ -33,7 +34,10 @@ export function registerRoutes (
 
   express.all('*', (_req, res) => {
     try {
-      res.render('index.html.ejs')
+      res.render('index.html.ejs', {
+        environment: config.nodeEnv,
+        manifest: parseManifest(config),
+      })
     } catch (error) {
       res.json({ success: false, message: 'Something went wrong' })
     }

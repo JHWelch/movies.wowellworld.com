@@ -6,8 +6,8 @@
   "main": "src/index.ts",
   "scripts": {
     "clean": "rm -rf built && rm -rf emails/built && rm -rf public/app.css",
-    "build": "npm run build:ts && npm run build:emails",
-    "start": "node built/index.js",
+    "build": "npm run build:ts",
+    "postbuild": "cp -R node_modules ../built/node_modules",
     "build:ts": "tsc",
     "start:ts": "ts-node-esm src/index.ts",
     "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
