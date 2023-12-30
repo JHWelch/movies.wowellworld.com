@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { WeekDto } from '../../../shared/dtos'
-import IconRsvp from '../icons/IconRsvp.vue';
+import IconRsvp from '../icons/IconRsvp.vue'
 import { rsvpModal } from '../state/modalState'
 import MovieList from './MovieList.vue'
 import SkippedBanner from './SkippedBanner.vue'
