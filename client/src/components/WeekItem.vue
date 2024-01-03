@@ -19,7 +19,10 @@ const weekTitle = (week: WeekDto) => {
   <div class="flex flex-col items-center mt-12 mb-12">
     <div class="w-full max-w-4xl px-4 sm:px-8">
       <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-center">
-        <h3 class="flex flex-col">
+        <h3
+          :id="week.slug ?? undefined"
+          class="flex flex-col"
+        >
           <span
             class="text-lg font-light text-violet-700"
             v-text="week.date"

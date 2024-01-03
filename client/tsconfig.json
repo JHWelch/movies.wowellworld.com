@@ -27,7 +27,7 @@
     "../shared/**/*.ts",
   ],
   "exclude": [
-    "src/**/*.spec.ts"
+    "src/**/__tests__/*",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
