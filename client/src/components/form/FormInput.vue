@@ -33,7 +33,7 @@ defineEmits(['clear-error', 'update:modelValue'])
         :class="{
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500':
             error,
-          'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600':
+          'text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-violet-600':
             !error,
         }"
         @change="$emit('clear-error', name)"
@@ -44,10 +44,10 @@ defineEmits(['clear-error', 'update:modelValue'])
 
       <div
         v-show="error"
-        class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
+        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
       >
         <svg
-          class="w-5 h-5 text-red-500"
+          class="h-5 w-5 text-red-500"
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"

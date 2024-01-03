@@ -12,10 +12,10 @@ defineProps<{
   <a
     v-if="movie.isFieldTrip"
     :href="movie.showingUrl ?? undefined"
-    class="absolute inset-0 flex items-center justify-between w-full h-12 p-3 font-medium text-center text-white text-md bg-opacity-80 bg-violet-500"
+    class="text-md absolute inset-0 flex h-12 w-full items-center justify-between bg-violet-500 bg-opacity-80 p-3 text-center font-medium text-white"
   >
     <span v-text="movie.theaterName" />
 
-    <IconTicket class="w-6 h-6 ml-2 -rotate-45" />
+    <IconTicket class="ml-2 h-6 w-6 -rotate-45" />
   </a>
 </template>

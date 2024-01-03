@@ -75,7 +75,7 @@ const rsvp = async () => {
       aria-modal="true"
       @close-modal="rsvpModal.close()"
     >
-      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 
       <div
         class="fixed inset-0 z-10 overflow-y-auto"
@@ -83,7 +83,7 @@ const rsvp = async () => {
         @keyup.escape="rsvpModal.close()"
       >
         <div
-          class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0"
+          class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
         >
           <Transition
             enter-active-class="ease-out duration-400"
@@ -99,14 +99,14 @@ const rsvp = async () => {
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
-              class="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
               @click.stop
             >
               <div>
                 <div
-                  class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-violet-100"
+                  class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-violet-100"
                 >
-                  <IconRsvp class="w-6 h-6 text-violet-600" />
+                  <IconRsvp class="h-6 w-6 text-violet-600" />
                 </div>
 
                 <div class="mt-3 text-center sm:mt-5">
@@ -160,9 +160,9 @@ const rsvp = async () => {
                 <button
                   :disabled="!formData.name || !formData.email"
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-violet-600 hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
+                  class="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
                   :class="{
-                    'opacity-50 cursor-not-allowed':
+                    'cursor-not-allowed opacity-50':
                       !formData.name || !formData.email,
                   }"
                   @click="rsvp()"
@@ -172,7 +172,7 @@ const rsvp = async () => {
 
                 <button
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
                   @click="rsvpModal.close()"
                 >
                   Cancel

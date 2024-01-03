@@ -6,7 +6,7 @@ import WeekList from '../components/WeekList.vue'
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full">
+  <div class="flex w-full flex-col items-center">
     <div class="max-w-4xl px-4 py-10 md:px-8">
       <h1 class="flex flex-col items-center text-center">
         <span class="text-xl text-violet-600">
@@ -17,11 +17,11 @@ import WeekList from '../components/WeekList.vue'
       </h1>
 
       <div
-        class="flex flex-col items-center justify-center mt-6 space-y-4 text-center"
+        class="mt-6 flex flex-col items-center justify-center space-y-4 text-center"
       >
         <a
           href="#now-playing"
-          class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500"
+          class="mt-2 flex h-14 w-full items-center justify-center space-x-2 rounded-md bg-violet-600 px-4 py-2 text-lg font-semibold text-white hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 md:w-auto"
           >Jump to the Movies 🍿</a
         >
       </div>

@@ -17,17 +17,17 @@ const displayLabel = computed(
 
 <template>
   <div class="relative flex items-start">
-    <div class="flex items-center h-6">
+    <div class="flex h-6 items-center">
       <input
         :id="name"
         :value="modelValue"
         :name="name"
         type="checkbox"
-        class="w-4 h-4 border-gray-300 rounded text-violet-600 focus:ring-violet-600"
+        class="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-600"
       />
     </div>
 
-    <div class="ml-3 text-sm leading-6 cursor-default">
+    <div class="ml-3 cursor-default text-sm leading-6">
       <label
         :for="name"
         class="font-medium text-gray-900"

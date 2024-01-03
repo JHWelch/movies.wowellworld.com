@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col items-center w-full h-48 mt-10 mb-5">
+  <div class="mb-5 mt-10 flex h-48 w-full flex-col items-center">
     <span class="text-6xl">😞</span>
 
     <div class="mt-2 text-lg">
       Sorry, something went wrong. Please
 
       <button
-        class="underline text-violet-600 hover:text-violet-800"
+        class="text-violet-600 underline hover:text-violet-800"
         type="button"
         @click="$emit('reload')"
       >

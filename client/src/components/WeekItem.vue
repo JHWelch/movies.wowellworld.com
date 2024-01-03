@@ -16,10 +16,10 @@ const weekTitle = (week: WeekDto) => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center mt-12 mb-12">
+  <div class="mb-12 mt-12 flex flex-col items-center">
     <div class="w-full max-w-4xl px-4 sm:px-8">
       <div
-        class="flex flex-col gap-6 md:flex-row md:justify-between md:items-center"
+        class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
       >
         <h3 class="flex flex-col">
           <span class="text-lg font-light text-violet-700" v-text="week.date" />
@@ -30,12 +30,12 @@ const weekTitle = (week: WeekDto) => {
         <button
           v-if="showEventDetails"
           v-show="!week.isSkipped"
-          class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500"
+          class="mt-2 flex h-14 w-full items-center justify-center space-x-2 rounded-md bg-violet-600 px-4 py-2 text-lg font-semibold text-white hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 md:w-auto"
           @click="rsvpModal.open(week)"
         >
           <span>RSVP</span>
 
-          <IconRsvp class="w-6 h-6 text-white" />
+          <IconRsvp class="h-6 w-6 text-white" />
         </button>
       </div>
     </div>

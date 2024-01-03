@@ -38,12 +38,12 @@ const movieSizeClasses = (week: WeekDto) => {
 </script>
 
 <template>
-  <div :class="['px-3 max-w-lg lg:px-5', movieSizeClasses(week)]">
-    <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-violet-200">
-      <h4 class="flex items-center justify-between h-12 md:px-2">
+  <div :class="['max-w-lg px-3 lg:px-5', movieSizeClasses(week)]">
+    <div class="flex flex-col rounded-md bg-violet-200 px-4 py-2 shadow-sm">
+      <h4 class="flex h-12 items-center justify-between md:px-2">
         <span
           :class="[
-            'overflow-hidden font-medium text-center overflow-ellipsis',
+            'overflow-hidden overflow-ellipsis text-center font-medium',
             movie.title.length > 20 ? 'text-xl' : 'text-2xl',
           ]"
           v-text="movie.title"
@@ -52,14 +52,14 @@ const movieSizeClasses = (week: WeekDto) => {
         <span
           v-if="showEventDetails"
           v-show="movie.time"
-          class="text-md overflow-hidden font-medium text-center bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
+          class="text-md overflow-hidden rounded-2xl bg-violet-700 px-2 py-0.5 text-center font-medium text-white"
           v-text="movie.time?.replace(/ /g, '\u00a0')"
         />
 
         <span v-else><!-- Empty span to Retain formatting --></span>
       </h4>
 
-      <div class="flex flex-col justify-between flex-1">
+      <div class="flex flex-1 flex-col justify-between">
         <div class="relative mt-2">
           <FieldTripBanner
             v-if="showEventDetails"
@@ -76,9 +76,9 @@ const movieSizeClasses = (week: WeekDto) => {
           </a>
         </div>
 
-        <span class="flex justify-between mt-2">
+        <span class="mt-2 flex justify-between">
           <span
-            class="font-medium text-md text-slate-700"
+            class="text-md font-medium text-slate-700"
             v-text="movie.director"
           />
 

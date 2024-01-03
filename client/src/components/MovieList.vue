@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <div
-    class="flex flex-wrap justify-center mt-2 space-y-4 max-w-9xl md:space-y-8"
+    class="max-w-9xl mt-2 flex flex-wrap justify-center space-y-4 md:space-y-8"
   >
     <MovieItem
       v-for="(movie, index) in week.movies"

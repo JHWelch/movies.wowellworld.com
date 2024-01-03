@@ -3,8 +3,8 @@ import NavButton from './navbar/NavButton.vue'
 </script>
 
 <template>
-  <nav class="flex justify-center h-12 bg-violet-200">
-    <div class="flex items-center w-full h-full max-w-4xl">
+  <nav class="flex h-12 justify-center bg-violet-200">
+    <div class="flex h-full w-full max-w-4xl items-center">
       <NavButton text="Upcoming" route="/" />
 
       <NavButton text="Previous" route="/previous" />

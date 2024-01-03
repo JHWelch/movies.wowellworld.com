@@ -1,5 +1,5 @@
 <template>
-  <footer class="flex flex-col items-center w-full space-y-3 bg-violet-300">
+  <footer class="flex w-full flex-col items-center space-y-3 bg-violet-300">
     <div id="made-with" />
 
     <a href="https://www.themoviedb.org/">
@@ -10,7 +10,7 @@
       />
     </a>
 
-    <p class="px-4 py-2 text-center text-md text-slate-700">
+    <p class="text-md px-4 py-2 text-center text-slate-700">
       This product uses the TMDb API but is not endorsed or certified by TMDb.
     </p>
   </footer>

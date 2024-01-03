@@ -8,22 +8,22 @@ const id = props.sectionTitle.replace(/\s+/g, '-').toLowerCase()
 
 <template>
   <div>
-    <div v-if="sectionTitle" class="flex justify-center w-full">
+    <div v-if="sectionTitle" class="flex w-full justify-center">
       <h2
         :id="id"
-        class="relative flex items-center justify-between w-full max-w-5xl text-2xl italic text-center"
+        class="relative flex w-full max-w-5xl items-center justify-between text-center text-2xl italic"
       >
-        <span class="flex-1 ml-4 mr-12 border-2 border-b border-violet-300" />
+        <span class="ml-4 mr-12 flex-1 border-2 border-b border-violet-300" />
 
         <span v-text="sectionTitle" />
 
-        <span class="flex-1 ml-12 mr-4 border-2 border-b border-violet-300" />
+        <span class="ml-12 mr-4 flex-1 border-2 border-b border-violet-300" />
       </h2>
     </div>
 
-    <div v-else class="flex justify-center w-full">
+    <div v-else class="flex w-full justify-center">
       <span
-        class="relative w-full max-w-5xl mx-4 text-2xl text-center border-2 border-b border-violet-300"
+        class="relative mx-4 w-full max-w-5xl border-2 border-b border-violet-300 text-center text-2xl"
       />
     </div>
   </div>

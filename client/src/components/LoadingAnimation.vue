@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center w-full h-48 mt-10 mb-5">
-    <div class="mx-auto loading">
+  <div class="mb-5 mt-10 flex h-48 w-full items-center">
+    <div class="loading mx-auto">
       <div />
 
       <div />

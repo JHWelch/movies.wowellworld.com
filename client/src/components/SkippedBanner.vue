@@ -5,9 +5,9 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex justify-center w-full p-4 mt-4">
+  <div class="mt-4 flex w-full justify-center p-4">
     <div
-      class="flex items-center justify-center w-full h-24 max-w-4xl px-4 text-2xl text-gray-900 rounded-md bg-violet-200"
+      class="flex h-24 w-full max-w-4xl items-center justify-center rounded-md bg-violet-200 px-4 text-2xl text-gray-900"
     >
       <span class="font-semibold" v-text="theme" />
     </div>

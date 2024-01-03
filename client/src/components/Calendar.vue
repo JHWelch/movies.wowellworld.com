@@ -1,8 +1,8 @@
 <template>
-  <div class="flex justify-center w-full">
-    <div class="w-full max-w-lg p-2 rounded-md sm:p-4 bg-violet-200">
+  <div class="flex w-full justify-center">
+    <div class="w-full max-w-lg rounded-md bg-violet-200 p-2 sm:p-4">
       <iframe
-        class="w-full h-96"
+        class="h-96 w-full"
         src="/calendar"
         style="border: solid 1px #777"
         frameborder="0"

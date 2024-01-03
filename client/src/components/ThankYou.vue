@@ -21,7 +21,7 @@ onMounted(() => {
   <transition name="fade" @after-leave="open = false">
     <div
       v-if="open"
-      class="absolute flex items-center justify-center w-full h-full text-6xl text-violet-950 backdrop-blur-sm"
+      class="absolute flex h-full w-full items-center justify-center text-6xl text-violet-950 backdrop-blur-sm"
       @keydown.escape="open = false"
     >
       thank you
