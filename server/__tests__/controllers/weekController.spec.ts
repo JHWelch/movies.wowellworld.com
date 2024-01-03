@@ -38,16 +38,19 @@ describe('index', () => {
           date: new Date('2021-01-01'),
           id: 'id1',
           isSkipped: false,
+          slug: null,
           theme: 'theme1',
         }, {
           date: new Date('2021-01-08'),
           id: 'id2',
           isSkipped: false,
+          slug: null,
           theme: 'theme2',
         }, {
           date: new Date('2021-01-15'),
           id: 'id3',
           isSkipped: false,
+          slug: null,
           theme: 'theme3',
         },
       ])
@@ -63,6 +66,7 @@ describe('index', () => {
           'weekId': '2021-01-01',
           'date': 'Friday, January 1',
           'isSkipped': false,
+          'slug': null,
           'movies': [],
           'theme': 'theme1',
         }, {
@@ -70,6 +74,7 @@ describe('index', () => {
           'weekId': '2021-01-08',
           'date': 'Friday, January 8',
           'isSkipped': false,
+          'slug': null,
           'movies': [],
           'theme': 'theme2',
         }, {
@@ -77,6 +82,7 @@ describe('index', () => {
           'weekId': '2021-01-15',
           'date': 'Friday, January 15',
           'isSkipped': false,
+          'slug': null,
           'movies': [],
           'theme': 'theme3',
         },
@@ -96,16 +102,19 @@ describe('index', () => {
           id: 'id1',
           isSkipped: false,
           theme: 'theme1',
+          slug: 'slug1',
         }, {
           date: new Date('2021-01-08'),
           id: 'id2',
           isSkipped: false,
           theme: 'theme2',
+          slug: null,
         }, {
           date: new Date('2021-01-15'),
           id: 'id3',
-          isSkipped: false,
+          isSkipped: true,
           theme: 'theme3',
+          slug: 'slug3',
         },
       ])
       req = getMockReq()
@@ -123,6 +132,7 @@ describe('index', () => {
           'isSkipped': false,
           'movies': [],
           'theme': 'theme1',
+          'slug': 'slug1',
         }, {
           'id': 'id2',
           'weekId': '2021-01-08',
@@ -130,13 +140,15 @@ describe('index', () => {
           'isSkipped': false,
           'movies': [],
           'theme': 'theme2',
+          'slug': null,
         }, {
           'id': 'id3',
           'weekId': '2021-01-15',
           'date': 'Friday, January 15',
-          'isSkipped': false,
+          'isSkipped': true,
           'movies': [],
           'theme': 'theme3',
+          'slug': 'slug3',
         },
       ])
     })

@@ -15,6 +15,7 @@ export default class Week {
     public theme: string,
     public date: Date,
     public isSkipped: boolean = false,
+    public slug: string | null = null,
     public movies: Movie[] = [],
   ) {}
 
@@ -28,6 +29,7 @@ export default class Week {
       properties.Theme.title[0].plain_text,
       new Date(properties.Date.date.start),
       properties.Skipped.checkbox,
+      properties.Slug?.rich_text[0]?.plain_text,
     )
   }
 
@@ -37,6 +39,7 @@ export default class Week {
       record.theme,
       record.date.toDate(),
       record.isSkipped,
+      record.slug,
       record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie)),
     )
   }
@@ -67,6 +70,7 @@ export default class Week {
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),
+      slug: this.slug,
       isSkipped: this.isSkipped,
     }
   }
@@ -77,6 +81,7 @@ export default class Week {
       theme: this.theme,
       date: Timestamp.fromDate(this.date),
       movies: this.movies.map((movie) => movie.toFirebaseDTO()),
+      slug: this.slug,
       isSkipped: this.isSkipped,
     }
   }

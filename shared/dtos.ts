@@ -18,5 +18,6 @@ export type WeekDto = {
   theme: string,
   date: string,
   isSkipped: boolean,
+  slug: string | null,
   movies: MovieDto[],
 }

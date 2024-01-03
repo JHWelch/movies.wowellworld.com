@@ -14,6 +14,7 @@ export class FirebaseMock {
             theme: week.theme,
             date: Timestamp.fromDate(week.date),
             isSkipped: week.isSkipped,
+            slug: week.slug,
             movies: [],
           }),
         })),
@@ -47,8 +48,9 @@ export class FirebaseMock {
     theme: string,
     date: string,
     movies: Movie[] = [],
+    slug: string | null = null,
   ): WithFieldValue<FirestoreWeek> =>
-    new Week(id, theme, new Date(date), false, movies).toFirebaseDTO()
+    new Week(id, theme, new Date(date), false, slug, movies).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
     firestore: { firestore: 'firestore' },
@@ -60,8 +62,9 @@ export class FirebaseMock {
 }
 
 type FirebaseWeek = {
-  date: Date,
   id: string,
-  isSkipped: boolean,
   theme: string,
+  date: Date,
+  slug: string | null,
+  isSkipped: boolean,
 }

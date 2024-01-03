@@ -17,4 +17,9 @@ export default interface WeekProperties {
       id: string
     }>
   }
+  Slug: {
+    rich_text: Array<{
+      plain_text: string
+    }>
+  }
 }
