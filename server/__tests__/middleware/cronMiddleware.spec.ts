@@ -23,7 +23,7 @@ describe('Request has no headers', () => {
     }
     cronMiddleware(req, res, nextFunction)
 
-    expect(res.statusCode).toBe(403)
+    expect(res.status).toBeCalledWith(403)
     expect(res.json).toBeCalledWith(expectedResponse)
   })
 })
@@ -41,7 +41,7 @@ describe('Request missing X-Appengine-Cron header', () => {
     }
     cronMiddleware(req, res, nextFunction)
 
-    expect(res.statusCode).toBe(403)
+    expect(res.status).toBeCalledWith(403)
     expect(res.json).toBeCalledWith(expectedResponse)
   })
 })

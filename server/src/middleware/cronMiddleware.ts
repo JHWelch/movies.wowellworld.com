@@ -6,8 +6,7 @@ const cronMiddleware = (
   next: NextFunction,
 ): void => {
   if (!request.headers || !request.headers['X-Appengine-Cron']) {
-    response.statusCode = 403
-    response.json({
+    response.status(403).json({
       error: 'Missing X-Appengine-Cron header',
     })
   } else {
