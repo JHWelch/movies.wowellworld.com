@@ -17,7 +17,14 @@ export default class SubscriptionController {
 
     const user = await this.firestore.getUser(req.body.email)
 
-    if (user?.reminders) {
+    if (!user) {
+      this.firestore.createUser(req.body.email, true)
+      res.status(201)
+
+      return
+    }
+
+    if (user.reminders) {
       res.status(409).json({
         errors: { email: 'Already subscribed' },
         message: "You're already subscribed! Check your spam folder if you don't get the emails.",
@@ -26,8 +33,8 @@ export default class SubscriptionController {
       return
     }
 
-    this.firestore.createUser(req.body.email, true)
-
+    user.reminders = true
+    this.firestore.updateUser(user)
     res.status(200)
   }
 

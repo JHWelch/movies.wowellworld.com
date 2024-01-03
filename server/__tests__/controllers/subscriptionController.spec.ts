@@ -14,7 +14,7 @@ import { Request } from 'express'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'
-import { addDoc } from 'firebase/firestore'
+import { addDoc, setDoc } from 'firebase/firestore'
 
 const { res, mockClear } = getMockRes()
 let req: Request
@@ -52,10 +52,10 @@ describe('store', () => {
         FirebaseMock.mockGetUser()
       })
 
-      it('should return 200', async () => {
+      it('should return 201', async () => {
         await new SubscriptionController(firestore).store(req, res)
 
-        expect(res.status).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(201)
       })
 
       it('creates a new user with reminders enabled', async () => {
@@ -88,6 +88,34 @@ describe('store', () => {
           errors: { email: 'Already subscribed' },
           message: "You're already subscribed! Check your spam folder if you don't get the emails.",
         })
+      })
+    })
+
+    describe('user already exists and is unsubscribed', () => {
+      beforeEach(() => {
+        FirebaseMock.mockGetUser({
+          id: 'id',
+          email: 'test@example.com',
+          reminders: false,
+        })
+      })
+
+      it('should return 200', async () => {
+        await new SubscriptionController(firestore).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(200)
+      })
+
+      it('updates the user to be subscribed', async () => {
+        await new SubscriptionController(firestore).store(req, res)
+
+        expect(setDoc).toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('users', 'id'),
+          {
+            email: 'test@example.com',
+            reminders: true,
+          },
+        )
       })
     })
   })
