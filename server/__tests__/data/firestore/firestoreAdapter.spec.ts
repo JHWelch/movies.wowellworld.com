@@ -235,6 +235,23 @@ describe('cacheWeeks', () => {
   })
 })
 
+describe('createUser', () => {
+  it('creates a user in firestore', async () => {
+    await firestore.createUser(
+      'test@example.com',
+      true,
+    )
+
+    expect(addDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockCollection('users'),
+      {
+        email: 'test@example.com',
+        reminders: true,
+      },
+    )
+  })
+})
+
 describe('createRsvp', () => {
   it('creates an rsvp in firestore', async () => {
     await firestore.createRsvp(

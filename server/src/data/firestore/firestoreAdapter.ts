@@ -23,6 +23,7 @@ export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
   static readonly TEMPLATES_COLLECTION_NAME = 'mail-templates'
+  static readonly USERS_COLLECTION_NAME = 'users'
   static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
   private config: Config
@@ -97,6 +98,13 @@ export default class FirestoreAdapter {
     })
   }
 
+  async createUser (email: string, reminders: boolean): Promise<void> {
+    await addDoc(this.usersCollection, {
+      email,
+      reminders,
+    })
+  }
+
   async sendEmail (to: string, message: EmailMessage): Promise<void> {
     await addDoc(this.mailCollection, {
       to,
@@ -168,6 +176,10 @@ export default class FirestoreAdapter {
     return this.collectionName(FirestoreAdapter.TEMPLATES_COLLECTION_NAME)
   }
 
+  private get usersCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.USERS_COLLECTION_NAME)
+  }
+
   private get weeksCollectionName (): string {
     return this.collectionName(FirestoreAdapter.WEEKS_COLLECTION_NAME)
   }
@@ -178,6 +190,10 @@ export default class FirestoreAdapter {
 
   private get rsvpCollection (): Collection {
     return collection(this.firestore, this.rsvpsCollectionName)
+  }
+
+  private get usersCollection (): Collection {
+    return collection(this.firestore, this.usersCollectionName)
   }
 
   private get weekCollection (): Collection {
