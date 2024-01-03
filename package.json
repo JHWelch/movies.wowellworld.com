@@ -4,8 +4,8 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "lint": "eslint . --ext .ts --ext .vue",
-    "fix": "npm run lint -- --fix",
+    "lint": "eslint . --ext .ts --ext .vue && prettier --check .",
+    "fix": "eslint . --ext .ts --ext .vue --fix && prettier --write .",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "cd server && npm run dev",
     "dev:client": "cd client && npm run dev",
