@@ -18,6 +18,7 @@ import {
 import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
 import Config from '../../config/config.js'
+import User from '../../models/user.js'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
@@ -103,6 +104,16 @@ export default class FirestoreAdapter {
       email,
       reminders,
     })
+  }
+
+  getUser = async (email: string): Promise<User|null> => {
+    const document = await getDoc(doc(this.usersCollection, email))
+
+    if (!document.exists()) {
+      return null
+    }
+
+    return User.fromFirebase(document.data())
   }
 
   sendEmail = async (to: string, message: EmailMessage): Promise<void> => {

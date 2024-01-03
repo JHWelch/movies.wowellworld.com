@@ -252,6 +252,42 @@ describe('createUser', () => {
   })
 })
 
+describe('getUser', () => {
+  describe('when the user exists', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUser({
+        id: 'id1',
+        email: 'test@example.com',
+        reminders: true,
+      })
+    })
+
+    it('returns the user', async () => {
+      const user = await firestore.getUser('test@example.com')
+
+      expect(user).toEqual({
+        id: 'id1',
+        email: 'test@example.com',
+        reminders: true,
+      })
+    })
+  })
+
+  describe('when the user does not exist', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUser({
+        id: 'id1',
+        email: 'test@example.com',
+        reminders: true,
+      }, false)
+    })
+
+    it('returns null', async () => {
+      expect(await firestore.getUser('test@example.com')).toBeNull()
+    })
+  })
+})
+
 describe('createRsvp', () => {
   it('creates an rsvp in firestore', async () => {
     await firestore.createRsvp(

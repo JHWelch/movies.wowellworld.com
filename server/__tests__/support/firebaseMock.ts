@@ -35,6 +35,13 @@ export class FirebaseMock {
     }))
   }
 
+  static mockGetUser (user: FirebaseUser, exists = true) {
+    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+      data: () => user,
+      exists: () => exists,
+    }))
+  }
+
   static mockDoc (collectionPath: string, documentPath: string) {
     return {
       firestore: { firestore: 'firestore' },
@@ -67,4 +74,10 @@ type FirebaseWeek = {
   date: Date,
   slug: string | null,
   isSkipped: boolean,
+}
+
+type FirebaseUser = {
+  id: string,
+  email: string,
+  reminders: boolean,
 }
