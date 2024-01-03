@@ -1,5 +1,5 @@
 import WeekController from '../controllers/weekController.js'
-import { type Request, type Response, Router } from 'express'
+import { Router } from 'express'
 import type NotionAdapter from '../data/notion/notionAdapter.js'
 import CacheController from '../controllers/cacheController.js'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
@@ -10,6 +10,7 @@ import SuggestionController from '../controllers/suggestionController.js'
 import Config from '../config/config.js'
 import CalendarController from '../controllers/calendarController.js'
 import { parseManifest } from '../config/vite.js'
+import { HttpVerb, Route } from './routes.js'
 
 export default function createAppRouter (
   config: Config,
@@ -79,20 +80,3 @@ function routes (
     ),
   ]
 }
-
-class Route {
-  constructor (
-    public path: string,
-    public handler: RouteHandler,
-    public method: HttpVerb = HttpVerb.GET,
-  ) {}
-}
-
-enum HttpVerb {
-  GET,
-  POST,
-  PUT,
-  DELETE,
-}
-
-type RouteHandler = (req: Request, res: Response) => void
