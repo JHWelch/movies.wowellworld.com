@@ -1,38 +1,39 @@
-import WeekController from './controllers/weekController.js'
-import { type Express, type Request, type Response } from 'express'
-import type NotionAdapter from './data/notion/notionAdapter.js'
-import CacheController from './controllers/cacheController.js'
-import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
-import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
-import RsvpController from './controllers/rsvpController.js'
-import HealthCheckController from './controllers/healthCheckController.js'
-import SuggestionController from './controllers/suggestionController.js'
-import Config from './config/config.js'
-import CalendarController from './controllers/calendarController.js'
-import { parseManifest } from './config/vite.js'
+import WeekController from '../controllers/weekController.js'
+import { type Request, type Response, Router } from 'express'
+import type NotionAdapter from '../data/notion/notionAdapter.js'
+import CacheController from '../controllers/cacheController.js'
+import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
+import TmdbAdapter from '../data/tmdb/tmdbAdapter.js'
+import RsvpController from '../controllers/rsvpController.js'
+import HealthCheckController from '../controllers/healthCheckController.js'
+import SuggestionController from '../controllers/suggestionController.js'
+import Config from '../config/config.js'
+import CalendarController from '../controllers/calendarController.js'
+import { parseManifest } from '../config/vite.js'
 
-export function registerRoutes (
+export default function createAppRouter (
   config: Config,
-  express: Express,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
-): void {
+): Router {
+  const router = Router()
+
   routes(config, firestore, notion, tmdb)
     .forEach((route) => {
       switch (route.method) {
       case HttpMethod.GET:
-        express.get(route.path, route.handler); break
+        router.get(route.path, route.handler); break
       case HttpMethod.POST:
-        express.post(route.path, route.handler); break
+        router.post(route.path, route.handler); break
       case HttpMethod.PUT:
-        express.put(route.path, route.handler); break
+        router.put(route.path, route.handler); break
       case HttpMethod.DELETE:
-        express.delete(route.path, route.handler); break
+        router.delete(route.path, route.handler); break
       }
     })
 
-  express.all('*', (_req, res) => {
+  router.all('*', (_req, res) => {
     try {
       res.render('index.html.ejs', {
         environment: config.nodeEnv,
@@ -42,6 +43,8 @@ export function registerRoutes (
       res.json({ success: false, message: 'Something went wrong' })
     }
   })
+
+  return router
 }
 
 function routes (
@@ -50,11 +53,7 @@ function routes (
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Route[] {
-  const cacheController = new CacheController(
-    firestore,
-    notion,
-    tmdb,
-  )
+  const cacheController = new CacheController(firestore, notion, tmdb)
   const rsvpController = new RsvpController(firestore)
   const weekController = new WeekController(firestore)
   const suggestionController = new SuggestionController(notion)

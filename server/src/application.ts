@@ -2,7 +2,7 @@ import { type Express } from 'express'
 import type NotionAdapter from './data/notion/notionAdapter.js'
 import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
 import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
-import { registerRoutes } from './routes.js'
+import createAppRouter from './routers/appRouter.js'
 import Config from './config/config.js'
 
 export default class Application {
@@ -13,7 +13,7 @@ export default class Application {
     private notion: NotionAdapter,
     private tmdb: TmdbAdapter,
   ) {
-    registerRoutes(config, express, firestore, notion, tmdb)
+    express.use(createAppRouter(config, firestore, notion, tmdb))
   }
 
   listen (): void {
