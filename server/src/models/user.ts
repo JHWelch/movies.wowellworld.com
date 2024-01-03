@@ -12,4 +12,9 @@ export default class User {
     record.email,
     record.reminders,
   )
+
+  toFirebaseDTO = (): DocumentData => ({
+    email: this.email,
+    reminders: this.reminders,
+  })
 }

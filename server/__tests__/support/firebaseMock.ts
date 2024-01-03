@@ -1,4 +1,9 @@
-import { getDocs, getDoc, Timestamp, WithFieldValue } from 'firebase/firestore'
+import {
+  getDocs,
+  getDoc,
+  Timestamp,
+  WithFieldValue,
+} from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '../../src/data/firestore/firestoreTypes'
 import Week from '../../src/models/week'

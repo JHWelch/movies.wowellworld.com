@@ -37,6 +37,7 @@ module.exports = {
     fromDate: (date: Date) => Timestamp.fromDate(date),
     now: () => Timestamp.now(),
   },
+  setDoc: jest.fn(),
   where: jest.fn((fieldPath: string, opStr: string, value: any) => ({
     fieldPath,
     opStr,

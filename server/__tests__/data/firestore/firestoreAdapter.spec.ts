@@ -14,12 +14,14 @@ import {
   addDoc,
   getFirestore,
   query,
+  setDoc,
 } from 'firebase/firestore'
 import { transaction } from '../../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../../support/firebaseMock'
 import Week from '../../../src/models/week'
 import { mockConfig } from '../../support/mockConfig'
 import MovieFactory from '../../support/factories/movieFactory'
+import User from '../../../src/models/user'
 
 let firestore: FirestoreAdapter
 
@@ -260,7 +262,7 @@ describe('getUser', () => {
     it('returns the user', async () => {
       const user = await firestore.getUser('test@example.com')
 
-      expect(user).toEqual({
+      expect(user).toMatchObject({
         id: 'id1',
         email: 'test@example.com',
         reminders: true,
@@ -276,6 +278,20 @@ describe('getUser', () => {
     it('returns null', async () => {
       expect(await firestore.getUser('test@example.com')).toBeNull()
     })
+  })
+})
+
+describe('updateUser', () => {
+  it('updates a user in firestore', async () => {
+    await firestore.updateUser(new User('id', 'test@example.com', true))
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('users', 'id'),
+      {
+        email: 'test@example.com',
+        reminders: true,
+      },
+    )
   })
 })
 

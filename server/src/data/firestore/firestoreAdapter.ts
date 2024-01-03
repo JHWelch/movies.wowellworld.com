@@ -12,6 +12,7 @@ import {
   query,
   Query,
   runTransaction,
+  setDoc,
   Timestamp,
   where,
 } from 'firebase/firestore'
@@ -114,6 +115,14 @@ export default class FirestoreAdapter {
     }
 
     return User.fromFirebase(document.data())
+  }
+
+  updateUser = async (user: User): Promise<void> => {
+    setDoc(doc(
+      this.firestore,
+      this.usersCollectionName,
+      user.id,
+    ), user.toFirebaseDTO())
   }
 
   sendEmail = async (to: string, message: EmailMessage): Promise<void> => {
