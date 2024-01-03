@@ -29,6 +29,7 @@ export default class Week {
       properties.Theme.title[0].plain_text,
       new Date(properties.Date.date.start),
       properties.Skipped.checkbox,
+      properties.Slug?.rich_text[0]?.plain_text,
     )
   }
 
@@ -79,6 +80,7 @@ export default class Week {
       theme: this.theme,
       date: Timestamp.fromDate(this.date),
       movies: this.movies.map((movie) => movie.toFirebaseDTO()),
+      slug: this.slug,
       isSkipped: this.isSkipped,
     }
   }

@@ -117,7 +117,7 @@ describe('cacheWeeks', () => {
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek(
-          'id1', '2021-01-01', 'theme1', false, [notionResponse],
+          'id1', '2021-01-01', 'theme1', false, null, [notionResponse],
         ),
       ])
       notionMock.mockRetrieve(notionResponse)

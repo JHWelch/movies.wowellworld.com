@@ -13,6 +13,7 @@ import {
   nCheckbox,
   nDate,
   nRelation,
+  nRichText,
   nTitle,
   pageObjectResponse,
 } from './notionHelpers'
@@ -89,11 +90,13 @@ export class NotionMock {
     date: string,
     theme: string,
     skipped = false,
+    slug: string | null = null,
     movies: NotionMovie[] = [],
   ): PageObjectResponse => pageObjectResponse(id, {
     Date: nDate(date),
     Theme: nTitle(theme),
     Skipped: nCheckbox(skipped),
+    Slug: nRichText(slug),
     Movies: nRelation(movies),
   })
 }

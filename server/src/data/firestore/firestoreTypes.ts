@@ -5,6 +5,7 @@ export type FirestoreWeek = {
   theme: string;
   date: Timestamp;
   isSkipped: boolean;
+  slug: string | null;
   movies: FirestoreMovie[];
 }
 
