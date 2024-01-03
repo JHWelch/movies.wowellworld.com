@@ -1,7 +1,8 @@
 import { MovieDto } from '../../../../../shared/dtos'
+import Factory from './factory'
 
-export default class MovieFactory {
-  private state: MovieDto = {
+export default class MovieFactory extends Factory<MovieDto> {
+  protected state: MovieDto = {
     title: 'The Matrix',
     director: 'The Wachowskis',
     year: 1999,
@@ -14,9 +15,4 @@ export default class MovieFactory {
     isFieldTrip: false,
     displayLength: '2h 16m',
   }
-
-  public build = (overrides?: Partial<MovieDto>): MovieDto => ({
-    ...this.state,
-    ...overrides,
-  })
 }
