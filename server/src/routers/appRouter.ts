@@ -22,13 +22,13 @@ export default function createAppRouter (
   routes(config, firestore, notion, tmdb)
     .forEach((route) => {
       switch (route.method) {
-      case HttpMethod.GET:
+      case HttpVerb.GET:
         router.get(route.path, route.handler); break
-      case HttpMethod.POST:
+      case HttpVerb.POST:
         router.post(route.path, route.handler); break
-      case HttpMethod.PUT:
+      case HttpVerb.PUT:
         router.put(route.path, route.handler); break
-      case HttpMethod.DELETE:
+      case HttpVerb.DELETE:
         router.delete(route.path, route.handler); break
       }
     })
@@ -61,28 +61,21 @@ function routes (
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
-    new Route('/api/weeks', weekController.index.bind(weekController)),
-    new Route(
-      RsvpController.PATHS.store,
-      rsvpController.store.bind(rsvpController),
-      HttpMethod.POST,
-    ),
-    new Route(
-      CacheController.PATHS.weeks,
-      cacheController.cacheWeeks.bind(cacheController),
-    ),
+    new Route('/api/weeks', weekController.index),
+    new Route(RsvpController.PATHS.store, rsvpController.store, HttpVerb.POST),
+    new Route(CacheController.PATHS.weeks, cacheController.cacheWeeks),
     new Route(
       CacheController.PATHS.emailTemplates,
-      cacheController.cacheEmailTemplates.bind(cacheController),
+      cacheController.cacheEmailTemplates,
     ),
     new Route(
       SuggestionController.PATHS.store,
-      suggestionController.store.bind(suggestionController),
-      HttpMethod.POST,
+      suggestionController.store,
+      HttpVerb.POST,
     ),
     new Route(
       CalendarController.PATH,
-      calendarController.index.bind(calendarController),
+      calendarController.index,
     ),
   ]
 }
@@ -91,11 +84,11 @@ class Route {
   constructor (
     public path: string,
     public handler: RouteHandler,
-    public method: HttpMethod = HttpMethod.GET,
+    public method: HttpVerb = HttpVerb.GET,
   ) {}
 }
 
-enum HttpMethod {
+enum HttpVerb {
   GET,
   POST,
   PUT,

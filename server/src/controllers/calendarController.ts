@@ -8,7 +8,7 @@ export default class CalendarController {
     private config: Config,
   ) {}
 
-  index (_req: Request, res: Response): void {
+  index = (_req: Request, res: Response): void => {
     res.redirect(this.config.calendarUrl)
   }
 }

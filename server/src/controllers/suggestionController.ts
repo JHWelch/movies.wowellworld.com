@@ -12,7 +12,7 @@ export default class SuggestionController {
     store: '/suggestions',
   }
 
-  async store (req: Request, res: Response): Promise<void> {
+  store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
     const { theme, movies, submitted_by } = req.body

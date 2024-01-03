@@ -2,10 +2,12 @@ import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import Movie from '../../models/movie.js'
 import Week from '../../models/week.js'
 import {
-  PartialDatabaseObjectResponse,
+  type DatabaseObjectResponse,
+  type PartialDatabaseObjectResponse,
+  type CreatePageResponse,
   type PageObjectResponse,
   type PartialPageObjectResponse,
-  DatabaseObjectResponse,
+  type UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '../../types/weekProperties.js'
 import Config from '../../config/config.js'
@@ -61,15 +63,14 @@ export default class NotionAdapter {
       .map(async (record) => await this.recordToWeek(record)))
   }
 
-  async setMovie (movie: Movie): Promise<void> {
-    await this.#notion.pages.update(movie.toNotion())
-  }
+  setMovie = (movie: Movie): Promise<UpdatePageResponse> =>
+    this.#notion.pages.update(movie.toNotion())
 
-  async createWeek (
+  createWeek = (
     theme: string,
     movies: string[],
     submittedBy: string,
-  ): Promise<void> {
+  ): Promise<CreatePageResponse> =>
     this.#notion.pages.create({
       parent: { database_id: this.#weekDatabaseId },
       properties: {
@@ -78,9 +79,8 @@ export default class NotionAdapter {
         Movies: { relation: movies.map((movie) => ({ id: movie })) },
       },
     })
-  }
 
-  async createMovie (title: string): Promise<string> {
+  createMovie = async (title: string): Promise<string> => {
     const movie = await this.#notion.pages.create({
       parent: { database_id: this.#movieDatabaseId },
       properties: {
@@ -91,7 +91,7 @@ export default class NotionAdapter {
     return movie.id
   }
 
-  async recordToWeek (record: NotionQueryResponse): Promise<Week> {
+  recordToWeek = async (record: NotionQueryResponse): Promise<Week> => {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }
