@@ -65,4 +65,40 @@ describe('store', () => {
       )
     })
   })
+
+  describe('when email is missing', () => {
+    beforeEach(() => {
+      const body = mockBody()
+      delete body.email
+      req = getMockReq({
+        body: body,
+      })
+    })
+
+    it('should return a 422', async () => {
+      await new SubscriptionController(firestore).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { email: 'Required' },
+      })
+    })
+  })
+
+  describe('when email is malformed', () => {
+    beforeEach(() => {
+      req = getMockReq({
+        body: mockBody({ email: 'test' }),
+      })
+    })
+
+    it('should return a 422', async () => {
+      await new SubscriptionController(firestore).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { email: 'Invalid email' },
+      })
+    })
+  })
 })
