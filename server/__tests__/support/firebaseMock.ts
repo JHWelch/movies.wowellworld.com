@@ -35,10 +35,10 @@ export class FirebaseMock {
     }))
   }
 
-  static mockGetUser (user: FirebaseUser, exists = true) {
+  static mockGetUser (user?: FirebaseUser) {
     (getDoc as unknown as jest.Mock).mockImplementation(() => ({
       data: () => user,
-      exists: () => exists,
+      exists: () => Boolean(user),
     }))
   }
 

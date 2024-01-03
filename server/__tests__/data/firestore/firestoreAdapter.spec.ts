@@ -275,11 +275,7 @@ describe('getUser', () => {
 
   describe('when the user does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetUser({
-        id: 'id1',
-        email: 'test@example.com',
-        reminders: true,
-      }, false)
+      FirebaseMock.mockGetUser()
     })
 
     it('returns null', async () => {
