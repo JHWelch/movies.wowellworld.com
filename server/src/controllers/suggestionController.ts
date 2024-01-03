@@ -4,15 +4,13 @@ import { z } from 'zod'
 import { validate } from '../helpers/validation.js'
 
 export default class SuggestionController {
-  constructor (
-    private notion: NotionAdapter,
-  ) {}
+  constructor(private notion: NotionAdapter) {}
 
   static PATHS = {
     store: '/suggestions',
   }
 
-  async store (req: Request, res: Response): Promise<void> {
+  async store(req: Request, res: Response): Promise<void> {
     if (!this.validate(req, res)) return
 
     const { theme, movies, submitted_by } = req.body
@@ -27,10 +25,15 @@ export default class SuggestionController {
   }
 
   private validate = (req: Request, res: Response): boolean =>
-    validate(req, res, z.object({
-      theme: z.string().min(1, { message: 'Required' }),
-      submitted_by: z.string().min(1, { message: 'Required' }),
-      movies: z.array(z.string().min(1, { message: 'Required' }))
-        .min(1, { message: 'Required' }),
-    }))
+    validate(
+      req,
+      res,
+      z.object({
+        theme: z.string().min(1, { message: 'Required' }),
+        submitted_by: z.string().min(1, { message: 'Required' }),
+        movies: z
+          .array(z.string().min(1, { message: 'Required' }))
+          .min(1, { message: 'Required' }),
+      }),
+    )
 }

@@ -6,7 +6,7 @@ import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
     const movieA = new Movie('Title', null, 2004, 120)
-    const movieB = new Movie (
+    const movieB = new Movie(
       'Title',
       'Director',
       2001,
@@ -19,16 +19,18 @@ describe('merge', () => {
 
     movieA.merge(movieB)
 
-    expect(movieA).toEqual(new Movie(
-      'Title',
-      'Director',
-      2004,
-      120,
-      '8:00 PM',
-      'https://www.themoviedb.org/movie/1234',
-      'https://image.tmdb.org/t/p/original/poster.jpg',
-      1234,
-    ))
+    expect(movieA).toEqual(
+      new Movie(
+        'Title',
+        'Director',
+        2004,
+        120,
+        '8:00 PM',
+        'https://www.themoviedb.org/movie/1234',
+        'https://image.tmdb.org/t/p/original/poster.jpg',
+        1234,
+      ),
+    )
   })
 })
 
@@ -57,9 +59,9 @@ describe('toNotion', () => {
         'Length (mins)': { number: movie.length },
         URL: { url: movie.url },
         Poster: { url: movie.posterPath },
-        'Theater Name': { rich_text: [
-          { text: { content: movie.theaterName } },
-        ] },
+        'Theater Name': {
+          rich_text: [{ text: { content: movie.theaterName } }],
+        },
         'Showing URL': { url: movie.showingUrl },
       },
     })
@@ -81,8 +83,9 @@ describe('toNotion', () => {
         'Showing Url',
       )
 
-      expect(() => movie.toNotion())
-        .toThrowError('Movie does not have notionId')
+      expect(() => movie.toNotion()).toThrowError(
+        'Movie does not have notionId',
+      )
     })
   })
 })
@@ -108,10 +111,12 @@ describe('toDTO', () => {
 
   describe('No showingUrl or theaterName', () => {
     it('marks isFieldTrip as false', () => {
-      const movie = new MovieFactory().state({
-        showingUrl: null,
-        theaterName: null,
-      }).make()
+      const movie = new MovieFactory()
+        .state({
+          showingUrl: null,
+          theaterName: null,
+        })
+        .make()
 
       expect(movie.toDTO()).toEqual({
         title: movie.title,
@@ -154,9 +159,7 @@ describe('posterUrl', () => {
   it('appends the posterPath to the base url', () => {
     const movie = new MovieFactory().make()
 
-    expect(movie.posterUrl()).toEqual(
-      `${TMDB_POSTER_URL}${movie.posterPath}`,
-    )
+    expect(movie.posterUrl()).toEqual(`${TMDB_POSTER_URL}${movie.posterPath}`)
   })
 
   describe('posterPath is null', () => {

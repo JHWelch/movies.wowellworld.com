@@ -4,7 +4,7 @@
       <iframe
         class="w-full h-96"
         src="/calendar"
-        style="border:solid 1px #777"
+        style="border: solid 1px #777"
         frameborder="0"
         scrolling="no"
       />

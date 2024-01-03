@@ -33,18 +33,15 @@ const newSuggestionController = () => {
 }
 
 interface MockBodyArgs {
-  theme?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  submitted_by?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  movies?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  theme?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  submitted_by?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  movies?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const mockBody = ({
   theme = 'theme',
   submitted_by = 'submitted_by',
-  movies = [
-    'movie1',
-    'movie2',
-  ],
+  movies = ['movie1', 'movie2'],
 }: MockBodyArgs = {}) => ({ theme, submitted_by, movies })
 
 describe('store', () => {
@@ -75,10 +72,7 @@ describe('store', () => {
         Theme: { title: [{ text: { content: 'theme' } }] },
         'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
         Movies: {
-          relation: [
-            { id: 'movieId1' },
-            { id: 'movieId2' },
-          ],
+          relation: [{ id: 'movieId1' }, { id: 'movieId2' }],
         },
       },
     })
@@ -147,9 +141,7 @@ describe('store', () => {
     it('should return a 422', async () => {
       const req = getMockReq({
         body: mockBody({
-          movies: [
-            '',
-          ],
+          movies: [''],
         }),
       })
 

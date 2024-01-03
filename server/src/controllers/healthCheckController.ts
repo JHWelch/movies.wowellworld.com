@@ -5,7 +5,7 @@ export default class HealthCheckController {
     index: '/health_check',
   }
 
-  static async index (_req: Request, res: Response): Promise<void> {
+  static async index(_req: Request, res: Response): Promise<void> {
     res.status(200).send('ok')
   }
 }

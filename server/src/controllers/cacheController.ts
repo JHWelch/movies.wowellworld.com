@@ -12,17 +12,17 @@ export default class CacheController {
     emailTemplates: '/api/cache/email-templates',
   }
 
-  constructor (
+  constructor(
     private firestore: FirestoreAdapter,
     private notionAdapter: NotionAdapter,
     private tmdbAdapter: TmdbAdapter,
   ) {}
 
-  async cacheWeeks (_req: Request, res: Response): Promise<void> {
+  async cacheWeeks(_req: Request, res: Response): Promise<void> {
     const weeks = await this.notionAdapter.getWeeks()
 
-    const moviesWithoutDirectors = weeks.flatMap<Movie>(week => {
-      return week.movies.filter(movie => !movie.director)
+    const moviesWithoutDirectors = weeks.flatMap<Movie>((week) => {
+      return week.movies.filter((movie) => !movie.director)
     })
 
     await this.fillMovieDetails(moviesWithoutDirectors)
@@ -33,11 +33,13 @@ export default class CacheController {
     res.sendStatus(200)
   }
 
-  async cacheEmailTemplates (_req: Request, res: Response): Promise<void> {
-    this.firestore.updateTemplates(emails.templates.map(email => ({
-      ...email,
-      html: this.getHtml(email.name),
-    })))
+  async cacheEmailTemplates(_req: Request, res: Response): Promise<void> {
+    this.firestore.updateTemplates(
+      emails.templates.map((email) => ({
+        ...email,
+        html: this.getHtml(email.name),
+      })),
+    )
 
     res.sendStatus(200)
   }
@@ -45,18 +47,22 @@ export default class CacheController {
   private getHtml = (name: string | null) =>
     fs.readFileSync(`./emails/built/${name}.html`, 'utf8')
 
-  private async fillMovieDetails (movies: Movie[]): Promise<void> {
-    await Promise.all(movies.map<Promise<void>>(async movie => {
-      const tmdbMovie = await this.tmdbAdapter.getMovie(movie.title)
-      if (!tmdbMovie) return
+  private async fillMovieDetails(movies: Movie[]): Promise<void> {
+    await Promise.all(
+      movies.map<Promise<void>>(async (movie) => {
+        const tmdbMovie = await this.tmdbAdapter.getMovie(movie.title)
+        if (!tmdbMovie) return
 
-      movie.merge(tmdbMovie)
-    }))
+        movie.merge(tmdbMovie)
+      }),
+    )
   }
 
-  private async updateNotionMovies (movies: Movie[]): Promise<void> {
-    await Promise.all(movies.map<Promise<void>>(async movie => {
-      await this.notionAdapter.setMovie(movie)
-    }))
+  private async updateNotionMovies(movies: Movie[]): Promise<void> {
+    await Promise.all(
+      movies.map<Promise<void>>(async (movie) => {
+        await this.notionAdapter.setMovie(movie)
+      }),
+    )
   }
 }

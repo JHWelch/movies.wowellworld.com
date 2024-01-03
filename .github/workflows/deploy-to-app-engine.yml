@@ -17,17 +17,17 @@ jobs:
       id-token: write
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-    - name: Place .env file
-      run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
+      - name: Place .env file
+        run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
 
-    - name: Auth with Google
-      uses: google-github-actions/auth@v1
-      with:
-        workload_identity_provider: ${{ secrets.GOOGLE_WORKFLOW_IDENTITY_PROVIDER }}
-        service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+      - name: Auth with Google
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.GOOGLE_WORKFLOW_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
-    - name: Deploy to Google
-      uses: google-github-actions/deploy-appengine@v1
+      - name: Deploy to Google
+        uses: google-github-actions/deploy-appengine@v1

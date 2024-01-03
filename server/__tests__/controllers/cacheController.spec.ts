@@ -65,26 +65,23 @@ describe('cacheWeeks', () => {
       req = getMockReq()
     })
 
-    it('updates all weeks in firestore', async () =>  {
+    it('updates all weeks in firestore', async () => {
       await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(3)
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
-        )
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
-        )
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
-        )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-01'),
+        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+      )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-08'),
+        FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
+      )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-15'),
+        FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
+      )
     })
   })
 
@@ -116,9 +113,9 @@ describe('cacheWeeks', () => {
       const notionResponse = new NotionMovie('notionId', 'title')
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek(
-          'id1', '2021-01-01', 'theme1', false, [notionResponse],
-        ),
+        NotionMock.mockWeek('id1', '2021-01-01', 'theme1', false, [
+          notionResponse,
+        ]),
       ])
       notionMock.mockRetrieve(notionResponse)
       req = getMockReq()
@@ -134,9 +131,9 @@ describe('cacheWeeks', () => {
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        (new Week('id1', 'theme1', new Date('2021-01-01'), false, [
+        new Week('id1', 'theme1', new Date('2021-01-01'), false, [
           expected,
-        ])).toFirebaseDTO(),
+        ]).toFirebaseDTO(),
       )
     })
 

@@ -1,26 +1,28 @@
 export type MovieResponseTmdb = {
-  adult: boolean,
-  backdrop_path: string | null,
-  id: number,
-  original_language: string,
-  original_title: string,
-  overview: string,
-  popularity: number,
-  poster_path: string | null,
-  release_date: string,
-  title: string,
-  video: boolean,
-  vote_average: number,
-  vote_count: number,
-  credits: {
-    crew: CrewResponseTmdb[]
-  } | undefined,
-  runtime: number | null | undefined,
+  adult: boolean
+  backdrop_path: string | null
+  id: number
+  original_language: string
+  original_title: string
+  overview: string
+  popularity: number
+  poster_path: string | null
+  release_date: string
+  title: string
+  video: boolean
+  vote_average: number
+  vote_count: number
+  credits:
+    | {
+        crew: CrewResponseTmdb[]
+      }
+    | undefined
+  runtime: number | null | undefined
 }
 
 export type CrewResponseTmdb = {
-  name: string,
-  job: string,
+  name: string
+  job: string
 }
 
 type CreditsTmdb = {
@@ -28,13 +30,13 @@ type CreditsTmdb = {
 }
 
 export type SearchResponseTmdb = {
-  page: number,
-  results: MovieResponseTmdb[],
-  total_pages: number,
-  total_results: number,
+  page: number
+  results: MovieResponseTmdb[]
+  total_pages: number
+  total_results: number
 }
 
-export function isMovieResponseTmdb (
+export function isMovieResponseTmdb(
   movie: unknown,
 ): movie is MovieResponseTmdb {
   return (
@@ -67,26 +69,26 @@ export function isMovieResponseTmdb (
     typeof movie.video === 'boolean' &&
     typeof movie.vote_average === 'number' &&
     typeof movie.vote_count === 'number' &&
-    (
-      !('runtime' in movie) ||
+    (!('runtime' in movie) ||
       typeof movie.runtime === 'number' ||
-      movie.runtime === null
-    )
+      movie.runtime === null)
   )
 }
 
-function isCreditsTmdb (credits: unknown): credits is CreditsTmdb {
+function isCreditsTmdb(credits: unknown): credits is CreditsTmdb {
   return (
     !!credits &&
     typeof credits === 'object' &&
     'crew' in credits &&
     Array.isArray(credits.crew) &&
     credits.crew.reduce(
-      (acc: boolean, crew: unknown) => acc && isCrewResponseTmdb(crew), true)
+      (acc: boolean, crew: unknown) => acc && isCrewResponseTmdb(crew),
+      true,
+    )
   )
 }
 
-export function isCrewResponseTmdb (crew: unknown): crew is CrewResponseTmdb {
+export function isCrewResponseTmdb(crew: unknown): crew is CrewResponseTmdb {
   return (
     !!crew &&
     typeof crew === 'object' &&
@@ -97,7 +99,7 @@ export function isCrewResponseTmdb (crew: unknown): crew is CrewResponseTmdb {
   )
 }
 
-export function isSearchResponseTmdb (
+export function isSearchResponseTmdb(
   response: unknown,
 ): response is SearchResponseTmdb {
   return (

@@ -25,7 +25,8 @@ describe('production nodeEnv', () => {
     jest.mock('fs')
     config = mockConfig({ nodeEnv: 'production' })
     jest.spyOn(path, 'resolve').mockReturnValue('/path/to/project')
-    jest.spyOn(path, 'join')
+    jest
+      .spyOn(path, 'join')
       .mockReturnValue('/path/to/project/dist/manifest.json')
     jest.spyOn(fs, 'readFileSync').mockReturnValue('{"key": "value"}')
   })
@@ -34,7 +35,7 @@ describe('production nodeEnv', () => {
     const manifest = await parseManifest(config)
 
     expect(manifest).toEqual({
-      'key': 'value',
+      key: 'value',
     })
   })
 })

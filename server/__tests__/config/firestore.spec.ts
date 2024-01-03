@@ -9,9 +9,9 @@ describe('setupFirestore', () => {
   it('initializes the firestore', () => {
     const firestore = setupFirestore(mockConfig())
 
-    expect (applicationDefault).toHaveBeenCalledTimes(1)
-    expect (initializeApp).toHaveBeenCalledTimes(1)
-    expect (getFirestore).toHaveBeenCalledTimes(1)
+    expect(applicationDefault).toHaveBeenCalledTimes(1)
+    expect(initializeApp).toHaveBeenCalledTimes(1)
+    expect(getFirestore).toHaveBeenCalledTimes(1)
     expect(firestore).toBeDefined()
   })
 })

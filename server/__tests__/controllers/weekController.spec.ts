@@ -39,12 +39,14 @@ describe('index', () => {
           id: 'id1',
           isSkipped: false,
           theme: 'theme1',
-        }, {
+        },
+        {
           date: new Date('2021-01-08'),
           id: 'id2',
           isSkipped: false,
           theme: 'theme2',
-        }, {
+        },
+        {
           date: new Date('2021-01-15'),
           id: 'id3',
           isSkipped: false,
@@ -59,26 +61,28 @@ describe('index', () => {
 
       expect(res.json).toHaveBeenCalledWith([
         {
-          'id': 'id1',
-          'weekId': '2021-01-01',
-          'date': 'Friday, January 1',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme1',
-        }, {
-          'id': 'id2',
-          'weekId': '2021-01-08',
-          'date': 'Friday, January 8',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme2',
-        }, {
-          'id': 'id3',
-          'weekId': '2021-01-15',
-          'date': 'Friday, January 15',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme3',
+          id: 'id1',
+          weekId: '2021-01-01',
+          date: 'Friday, January 1',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme1',
+        },
+        {
+          id: 'id2',
+          weekId: '2021-01-08',
+          date: 'Friday, January 8',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme2',
+        },
+        {
+          id: 'id3',
+          weekId: '2021-01-15',
+          date: 'Friday, January 15',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme3',
         },
       ])
     })
@@ -96,12 +100,14 @@ describe('index', () => {
           id: 'id1',
           isSkipped: false,
           theme: 'theme1',
-        }, {
+        },
+        {
           date: new Date('2021-01-08'),
           id: 'id2',
           isSkipped: false,
           theme: 'theme2',
-        }, {
+        },
+        {
           date: new Date('2021-01-15'),
           id: 'id3',
           isSkipped: false,
@@ -111,32 +117,34 @@ describe('index', () => {
       req = getMockReq()
     })
 
-    it ('should return only past weeks', async () => {
+    it('should return only past weeks', async () => {
       req.query = { past: 'true' }
       await new WeekController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([
         {
-          'id': 'id1',
-          'weekId': '2021-01-01',
-          'date': 'Friday, January 1',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme1',
-        }, {
-          'id': 'id2',
-          'weekId': '2021-01-08',
-          'date': 'Friday, January 8',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme2',
-        }, {
-          'id': 'id3',
-          'weekId': '2021-01-15',
-          'date': 'Friday, January 15',
-          'isSkipped': false,
-          'movies': [],
-          'theme': 'theme3',
+          id: 'id1',
+          weekId: '2021-01-01',
+          date: 'Friday, January 1',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme1',
+        },
+        {
+          id: 'id2',
+          weekId: '2021-01-08',
+          date: 'Friday, January 8',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme2',
+        },
+        {
+          id: 'id3',
+          weekId: '2021-01-15',
+          date: 'Friday, January 15',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme3',
         },
       ])
     })

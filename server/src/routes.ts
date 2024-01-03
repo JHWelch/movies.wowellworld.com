@@ -11,26 +11,29 @@ import Config from './config/config.js'
 import CalendarController from './controllers/calendarController.js'
 import { parseManifest } from './config/vite.js'
 
-export function registerRoutes (
+export function registerRoutes(
   config: Config,
   express: Express,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): void {
-  routes(config, firestore, notion, tmdb)
-    .forEach((route) => {
-      switch (route.method) {
+  routes(config, firestore, notion, tmdb).forEach((route) => {
+    switch (route.method) {
       case HttpMethod.GET:
-        express.get(route.path, route.handler); break
+        express.get(route.path, route.handler)
+        break
       case HttpMethod.POST:
-        express.post(route.path, route.handler); break
+        express.post(route.path, route.handler)
+        break
       case HttpMethod.PUT:
-        express.put(route.path, route.handler); break
+        express.put(route.path, route.handler)
+        break
       case HttpMethod.DELETE:
-        express.delete(route.path, route.handler); break
-      }
-    })
+        express.delete(route.path, route.handler)
+        break
+    }
+  })
 
   express.all('*', (_req, res) => {
     try {
@@ -44,17 +47,13 @@ export function registerRoutes (
   })
 }
 
-function routes (
+function routes(
   config: Config,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Route[] {
-  const cacheController = new CacheController(
-    firestore,
-    notion,
-    tmdb,
-  )
+  const cacheController = new CacheController(firestore, notion, tmdb)
   const rsvpController = new RsvpController(firestore)
   const weekController = new WeekController(firestore)
   const suggestionController = new SuggestionController(notion)
@@ -89,7 +88,7 @@ function routes (
 }
 
 class Route {
-  constructor (
+  constructor(
     public path: string,
     public handler: RouteHandler,
     public method: HttpMethod = HttpMethod.GET,

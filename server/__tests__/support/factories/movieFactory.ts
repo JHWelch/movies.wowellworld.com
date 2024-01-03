@@ -15,7 +15,7 @@ export default class MovieFactory {
     showingUrl: 'Showing Url',
   }
 
-  make (): Movie  {
+  make(): Movie {
     return new Movie(
       this._state.title,
       this._state.director,
@@ -31,7 +31,7 @@ export default class MovieFactory {
     )
   }
 
-  state (state: Partial<typeof this.state>): MovieFactory {
+  state(state: Partial<typeof this.state>): MovieFactory {
     this._state = { ...this._state, ...state }
     return this
   }

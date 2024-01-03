@@ -25,8 +25,9 @@ describe('fromTmdbResponse', () => {
     expect(response.id).toEqual(9603)
     expect(response.originalLanguage).toEqual('en')
     expect(response.originalTitle).toEqual('Clueless')
-    expect(response.overview)
-      .toEqual('Shallow, rich and socially successful Cher is at the top...')
+    expect(response.overview).toEqual(
+      'Shallow, rich and socially successful Cher is at the top...',
+    )
     expect(response.popularity).toEqual(32.244)
     expect(response.posterPath).toEqual('/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg')
     expect(response.releaseDate).toEqual('1995-07-19')
@@ -181,8 +182,9 @@ describe('fromTmdbResponse', () => {
       expect(response.id).toBe(9603)
       expect(response.originalLanguage).toBe('en')
       expect(response.originalTitle).toBe('Clueless')
-      expect(response.overview)
-        .toBe('Shallow, rich and socially successful Cher is at the top...')
+      expect(response.overview).toBe(
+        'Shallow, rich and socially successful Cher is at the top...',
+      )
       expect(response.popularity).toBe(32.244)
       expect(response.posterPath).toBe('/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg')
       expect(response.releaseDate).toBe('1995-07-19')

@@ -3,24 +3,28 @@ import {
   RichTextItemResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 
-export const nCheckbox = (checked: boolean): {
-  type: 'checkbox';
-  checkbox: boolean;
-  id: string;
+export const nCheckbox = (
+  checked: boolean,
+): {
+  type: 'checkbox'
+  checkbox: boolean
+  id: string
 } => ({
   checkbox: checked,
   type: 'checkbox',
   id: 'mockedId',
 })
 
-export const nDate = (start: string): {
-  type: 'date';
+export const nDate = (
+  start: string,
+): {
+  type: 'date'
   date: {
-    start: string,
-    end: null,
-    time_zone: null,
-  };
-  id: string;
+    start: string
+    end: null
+    time_zone: null
+  }
+  id: string
 } => ({
   type: 'date',
   date: {
@@ -31,30 +35,36 @@ export const nDate = (start: string): {
   id: 'mockedId',
 })
 
-export const nNumber = (number: number | null): {
-  type: 'number';
-  number: number | null;
-  id: string;
+export const nNumber = (
+  number: number | null,
+): {
+  type: 'number'
+  number: number | null
+  id: string
 } => ({
   type: 'number',
   number: number,
   id: 'mockedId',
 })
 
-export const nRichText = (text: string | null): {
-  type: 'rich_text';
-  rich_text: Array<RichTextItemResponse>;
-  id: string;
+export const nRichText = (
+  text: string | null,
+): {
+  type: 'rich_text'
+  rich_text: Array<RichTextItemResponse>
+  id: string
 } => ({
   type: 'rich_text',
   rich_text: text ? [richTextItem(text)] : [],
   id: 'some-id',
 })
 
-export const nTitle = (title: string): {
-  type: 'title';
-  title: Array<RichTextItemResponse>;
-  id: string;
+export const nTitle = (
+  title: string,
+): {
+  type: 'title'
+  title: Array<RichTextItemResponse>
+  id: string
 } => ({
   type: 'title',
   title: [richTextItem(title)],
@@ -79,25 +89,29 @@ export const richTextItem = (text: string): RichTextItemResponse => ({
   href: null,
 })
 
-export const nUrl = (url: string | null): {
-  type: 'url';
-  url: string | null;
-  id: string;
+export const nUrl = (
+  url: string | null,
+): {
+  type: 'url'
+  url: string | null
+  id: string
 } => ({
   url,
   type: 'url',
   id: 'mockedId',
 })
 
-export const nRelation = (relation: NotionMovie[]): {
-  type: 'relation';
+export const nRelation = (
+  relation: NotionMovie[],
+): {
+  type: 'relation'
   relation: {
-    id: string;
-  }[];
-  id: string;
+    id: string
+  }[]
+  id: string
 } => ({
   type: 'relation',
-  relation: relation.map(movie => movie.toPageObjectResponse()),
+  relation: relation.map((movie) => movie.toPageObjectResponse()),
   id: 'mockedId',
 })
 
@@ -143,11 +157,11 @@ export type QueryBody = {
 }
 
 export type WithAuth<P> = P & {
-  auth?: string;
-};
+  auth?: string
+}
 
 export class NotionMovie {
-  constructor (
+  constructor(
     public id: string,
     public title: string,
     public director: string | null = null,
@@ -160,7 +174,7 @@ export class NotionMovie {
     public showingUrl: string | null = null,
   ) {}
 
-  toPageObjectResponse (): PageObjectResponse {
+  toPageObjectResponse(): PageObjectResponse {
     return pageObjectResponse(this.id, {
       Title: nTitle(this.title),
       Director: nRichText(this.director),
@@ -174,7 +188,7 @@ export class NotionMovie {
     })
   }
 
-  static demo (): NotionMovie {
+  static demo(): NotionMovie {
     return new NotionMovie(
       'movieId',
       'movieTitle',

@@ -5,10 +5,10 @@ import IconLoading from '../icons/IconLoading.vue'
 import { ErrorBag } from '../types'
 
 type SuggestionFormData = {
-  theme?: string,
-  submitted_by?: string,
-  movie1?: string,
-  movie2?: string,
+  theme?: string
+  submitted_by?: string
+  movie1?: string
+  movie2?: string
 }
 
 const errors = ref<SuggestionFormData>({})
@@ -35,27 +35,26 @@ const handleErrors = (data: ErrorBag) => {
     alert(data.message)
   }
 }
-const disabled = computed(() => submitting.value
-    || !formData.value.theme
-    || !formData.value.movie1
-    || !formData.value.movie2
-    || !formData.value.submitted_by,
+const disabled = computed(
+  () =>
+    submitting.value ||
+    !formData.value.theme ||
+    !formData.value.movie1 ||
+    !formData.value.movie2 ||
+    !formData.value.submitted_by,
 )
 const submit = async () => {
   submitting.value = true
-  const response = await fetch('/suggestions' , {
+  const response = await fetch('/suggestions', {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       theme: formData.value.theme,
       submitted_by: formData.value.submitted_by,
-      movies: [
-        formData.value.movie1,
-        formData.value.movie2,
-      ],
+      movies: [formData.value.movie1, formData.value.movie2],
     }),
   })
 
@@ -73,12 +72,16 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center w-full min-h-[70vh] px-5 py-10 sm:py-10 sm:pb-16">
+  <div
+    class="flex flex-col items-center w-full min-h-[70vh] px-5 py-10 sm:py-10 sm:pb-16"
+  >
     <h1 class="mt-1 text-3xl leading-10 text-center">
       Suggest a Movie Night&nbsp;Theme!
     </h1>
 
-    <form class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8">
+    <form
+      class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-violet-200 sm:mt-8"
+    >
       <FormInput
         v-model="formData.submitted_by"
         name="submitted_by"
@@ -121,14 +124,9 @@ const submit = async () => {
         :class="disabled ? 'opacity-50 cursor-not-allowed' : ''"
         @click="submit()"
       >
-        <span v-if="!submitting">
-          Submit Suggestion!
-        </span>
+        <span v-if="!submitting"> Submit Suggestion! </span>
 
-        <span
-          v-else
-          class="flex space-x-2"
-        >
+        <span v-else class="flex space-x-2">
           <IconLoading />
 
           <span class="ml-2">Submitting...</span>

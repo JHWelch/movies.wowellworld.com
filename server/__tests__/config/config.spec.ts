@@ -48,8 +48,9 @@ describe('env missing NOTION_MOVIE_DATABASE_ID', () => {
   })
 
   it('throws an error', () => {
-    expect(() => new Config())
-      .toThrowError('NOTION_MOVIE_DATABASE_ID is missing')
+    expect(() => new Config()).toThrowError(
+      'NOTION_MOVIE_DATABASE_ID is missing',
+    )
   })
 })
 
@@ -59,8 +60,9 @@ describe('env missing NOTION_WEEK_DATABASE_ID', () => {
   })
 
   it('throws an error', () => {
-    expect(() => new Config())
-      .toThrowError('NOTION_WEEK_DATABASE_ID is missing')
+    expect(() => new Config()).toThrowError(
+      'NOTION_WEEK_DATABASE_ID is missing',
+    )
   })
 })
 
@@ -83,7 +85,6 @@ describe('env missing GOOGLE_CLOUD_PROJECT', () => {
     expect(() => new Config()).toThrowError('GOOGLE_CLOUD_PROJECT is missing')
   })
 })
-
 
 describe('env missing ADMIN_EMAIL', () => {
   beforeEach(() => {

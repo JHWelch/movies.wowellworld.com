@@ -3,7 +3,7 @@ import CrewResponse from './crewResponse.js'
 import { MovieResponseTmdb, isMovieResponseTmdb } from './responseTypes.js'
 
 export default class MovieResponse {
-  constructor (
+  constructor(
     public readonly adult: boolean,
     public readonly backdropPath: string | null,
     public readonly id: number,
@@ -21,7 +21,7 @@ export default class MovieResponse {
     public readonly runtime: number | null | undefined = null,
   ) {}
 
-  static fromTmdbResponse (tmdbResponse: unknown): MovieResponse {
+  static fromTmdbResponse(tmdbResponse: unknown): MovieResponse {
     if (!isMovieResponseTmdb(tmdbResponse)) {
       throw new Error('Invalid response')
     }
@@ -45,20 +45,19 @@ export default class MovieResponse {
     )
   }
 
-  static mapCrew (tmdbResponse: MovieResponseTmdb): CrewResponse[] {
+  static mapCrew(tmdbResponse: MovieResponseTmdb): CrewResponse[] {
     if (!tmdbResponse.credits) return []
 
-    return tmdbResponse.credits.crew
-      .map(CrewResponse.fromTmdbResponse)
+    return tmdbResponse.credits.crew.map(CrewResponse.fromTmdbResponse)
   }
 
-  get director (): string {
-    const director = this.crew.find(crew => crew.job === 'Director')
+  get director(): string {
+    const director = this.crew.find((crew) => crew.job === 'Director')
 
     return director?.name ?? ''
   }
 
-  get fullMovieUrl (): string {
+  get fullMovieUrl(): string {
     return `${TMDB_MOVIE_URL}/${this.id}`
   }
 }

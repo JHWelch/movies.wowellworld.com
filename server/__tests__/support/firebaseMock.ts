@@ -5,8 +5,8 @@ import Week from '../../src/models/week'
 import Movie from '../../src/models/movie'
 
 export class FirebaseMock {
-  static mockWeeks (weeks: FirebaseWeek[]) {
-    (getDocs as unknown as jest.Mock).mockImplementation(() => {
+  static mockWeeks(weeks: FirebaseWeek[]) {
+    ;(getDocs as unknown as jest.Mock).mockImplementation(() => {
       return {
         docs: weeks.map((week) => ({
           data: () => ({
@@ -21,8 +21,8 @@ export class FirebaseMock {
     })
   }
 
-  static mockGetWeek (week: FirebaseWeek, exists = true) {
-    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+  static mockGetWeek(week: FirebaseWeek, exists = true) {
+    ;(getDoc as unknown as jest.Mock).mockImplementation(() => ({
       data: () => ({
         id: week.id,
         theme: week.theme,
@@ -34,7 +34,7 @@ export class FirebaseMock {
     }))
   }
 
-  static mockDoc (collectionPath: string, documentPath: string) {
+  static mockDoc(collectionPath: string, documentPath: string) {
     return {
       firestore: { firestore: 'firestore' },
       collectionPath,
@@ -50,9 +50,11 @@ export class FirebaseMock {
   ): WithFieldValue<FirestoreWeek> =>
     new Week(id, theme, new Date(date), false, movies).toFirebaseDTO()
 
-  static mockCollection = (collectionPath: string): {
-    firestore: { firestore: 'firestore' },
+  static mockCollection = (
     collectionPath: string,
+  ): {
+    firestore: { firestore: 'firestore' }
+    collectionPath: string
   } => ({
     firestore: { firestore: 'firestore' },
     collectionPath,
@@ -60,8 +62,8 @@ export class FirebaseMock {
 }
 
 type FirebaseWeek = {
-  date: Date,
-  id: string,
-  isSkipped: boolean,
-  theme: string,
+  date: Date
+  id: string
+  isSkipped: boolean
+  theme: string
 }

@@ -8,7 +8,7 @@ import { WeekDto } from '../../../shared/dtos'
 import { rsvpModal } from '../state/modalState'
 
 const props = defineProps<{
-  sectionTitles: {[key: number]: string}
+  sectionTitles: { [key: number]: string }
   fetchUrl: string
   showEventDetails: boolean
 }>()
@@ -17,15 +17,19 @@ const weeks = ref<WeekDto[]>([])
 const loading = ref<boolean>(true)
 const error = ref<boolean>(false)
 
-const rsvpWeek = () =>  new URLSearchParams(window.location.search).get('rsvp')
+const rsvpWeek = () => new URLSearchParams(window.location.search).get('rsvp')
 
-const reload =  () => {
+const reload = () => {
   loading.value = true
   error.value = false
   fetch(props.fetchUrl)
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
-        console.error('Error fetching week data: ', response.status, response.statusText)
+        console.error(
+          'Error fetching week data: ',
+          response.status,
+          response.statusText,
+        )
         error.value = true
 
         return Promise.resolve([])
@@ -33,15 +37,19 @@ const reload =  () => {
 
       return response.json()
     })
-    .then(data => {
+    .then((data) => {
       weeks.value = data
       loading.value = false
 
       const rsvp_week = rsvpWeek()
-      if (!rsvp_week) { return }
+      if (!rsvp_week) {
+        return
+      }
 
-      const week = weeks.value.find(week => week.weekId === rsvp_week)
-      if (!week) { return }
+      const week = weeks.value.find((week) => week.weekId === rsvp_week)
+      if (!week) {
+        return
+      }
 
       rsvpModal.open(week)
     })
@@ -54,25 +62,16 @@ reload()
   <div>
     <LoadingAnimation v-if="loading" />
 
-    <Error
-      v-if="error"
-      @reload="reload"
-    />
+    <Error v-if="error" @reload="reload" />
 
-    <div
-      v-for="[index, week] in Object.entries(weeks)"
-      :key="index"
-    >
+    <div v-for="[index, week] in Object.entries(weeks)" :key="index">
       <div>
         <SectionTitle
           v-if="sectionTitles[Number(index)]"
           :section-title="sectionTitles[Number(index)]"
         />
 
-        <WeekItem
-          :week="week"
-          :show-event-details="showEventDetails"
-        />
+        <WeekItem :week="week" :show-event-details="showEventDetails" />
       </div>
     </div>
   </div>

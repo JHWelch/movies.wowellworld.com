@@ -8,9 +8,9 @@ import { rsvpModal } from '../state/modalState'
 import { fireConfetti } from '../utilities/confetti'
 
 type RsvpForm = {
-  name: string,
-  email: string,
-  plusOne: boolean,
+  name: string
+  email: string
+  plusOne: boolean
 }
 
 const errors = ref<Errors>({})
@@ -28,17 +28,21 @@ const handleErrors = (data: ErrorBag) => {
   }
 }
 const rsvp = async () => {
-  if (!rsvpModal.week) { return }
+  if (!rsvpModal.week) {
+    return
+  }
 
   const response = await fetch(
-    '/api/weeks/' + rsvpModal.week.weekId + '/rsvp', {
+    '/api/weeks/' + rsvpModal.week.weekId + '/rsvp',
+    {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData.value),
-    })
+    },
+  )
 
   const data = await response.json()
 
@@ -78,7 +82,9 @@ const rsvp = async () => {
         @click="rsvpModal.close()"
         @keyup.escape="rsvpModal.close()"
       >
-        <div class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0"
+        >
           <Transition
             enter-active-class="ease-out duration-400"
             enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -97,7 +103,9 @@ const rsvp = async () => {
               @click.stop
             >
               <div>
-                <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-violet-100">
+                <div
+                  class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-violet-100"
+                >
                   <IconRsvp class="w-6 h-6 text-violet-600" />
                 </div>
 
@@ -113,12 +121,11 @@ const rsvp = async () => {
 
                   <div class="mt-2">
                     <p class="text-sm text-gray-500">
-                      Let us know you are coming! Bring&nbsp;a&nbsp;friend&nbsp;if&nbsp;you&nbsp;like.
+                      Let us know you are coming!
+                      Bring&nbsp;a&nbsp;friend&nbsp;if&nbsp;you&nbsp;like.
                     </p>
 
-                    <p class="text-sm text-violet-500">
-                      Hope to see you soon!
-                    </p>
+                    <p class="text-sm text-violet-500">Hope to see you soon!</p>
                   </div>
                 </div>
               </div>
@@ -147,13 +154,16 @@ const rsvp = async () => {
                 />
               </form>
 
-              <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+              <div
+                class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"
+              >
                 <button
                   :disabled="!formData.name || !formData.email"
                   type="button"
                   class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-violet-600 hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
                   :class="{
-                    'opacity-50 cursor-not-allowed': !formData.name || !formData.email,
+                    'opacity-50 cursor-not-allowed':
+                      !formData.name || !formData.email,
                   }"
                   @click="rsvp()"
                 >

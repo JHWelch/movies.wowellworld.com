@@ -1,17 +1,14 @@
 <script lang="ts" setup>
 defineProps<{
-  modelValue?: string,
-  name: string,
-  label?: string,
-  type?: string,
-  error?: string,
-  placeholder?: string,
+  modelValue?: string
+  name: string
+  label?: string
+  type?: string
+  error?: string
+  placeholder?: string
 }>()
 
-defineEmits([
-  'clear-error',
-  'update:modelValue',
-])
+defineEmits(['clear-error', 'update:modelValue'])
 </script>
 
 <template>
@@ -34,12 +31,16 @@ defineEmits([
         :aria-describedby="name + '-error'"
         :aria-invalid="error ? 'true' : 'false'"
         :class="{
-          'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
-          'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600': !error,
+          'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500':
+            error,
+          'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600':
+            !error,
         }"
         @change="$emit('clear-error', name)"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
-      >
+        @input="
+          $emit('update:modelValue', ($event.target as HTMLInputElement)?.value)
+        "
+      />
 
       <div
         v-show="error"

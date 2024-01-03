@@ -14,9 +14,9 @@ beforeEach(() => {
 })
 
 interface MockBodyArgs {
-  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  name?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  plusOne?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const mockBody = ({
@@ -26,7 +26,7 @@ const mockBody = ({
 }: MockBodyArgs = {}) => ({ name, email, plusOne })
 
 describe('store', () => {
-  let  firestoreAdapter: FirestoreAdapter
+  let firestoreAdapter: FirestoreAdapter
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
@@ -72,19 +72,16 @@ describe('store', () => {
       await new RsvpController(firestoreAdapter).store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(201)
-      expect(addDoc).toHaveBeenCalledWith(
-        FirebaseMock.mockCollection('mail'),
-        {
-          to: 'ADMIN_EMAIL@example.com',
-          message: {
-            subject: 'TNMC RSVP: test name',
-            // eslint-disable-next-line max-len
-            text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com\nPlus one: true',
-            // eslint-disable-next-line max-len
-            html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
-          },
+      expect(addDoc).toHaveBeenCalledWith(FirebaseMock.mockCollection('mail'), {
+        to: 'ADMIN_EMAIL@example.com',
+        message: {
+          subject: 'TNMC RSVP: test name',
+          // eslint-disable-next-line max-len
+          text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com\nPlus one: true',
+          // eslint-disable-next-line max-len
+          html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
         },
-      )
+      })
     })
 
     describe('when email is missing', () => {
@@ -192,12 +189,15 @@ describe('store', () => {
 
   describe('when week does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2023-01-01'),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-      }, false)
+      FirebaseMock.mockGetWeek(
+        {
+          date: new Date('2023-01-01'),
+          id: 'id1',
+          isSkipped: false,
+          theme: 'theme1',
+        },
+        false,
+      )
     })
 
     it('should return a 404', async () => {

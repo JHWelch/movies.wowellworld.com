@@ -50,10 +50,10 @@ describe('getMovie', () => {
       })
     })
 
-    it ('calls the retrieve method with page_id', async () => {
+    it('calls the retrieve method with page_id', async () => {
       await new NotionAdapter(mockConfig()).getMovie('movieId')
 
-      expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
+      expect(notionMock.retrieve).toHaveBeenCalledWith({ page_id: 'movieId' })
     })
   })
 
@@ -63,8 +63,9 @@ describe('getMovie', () => {
     })
 
     it('should throw an error', async () => {
-      await expect(new NotionAdapter(mockConfig()).getMovie('movieId'))
-        .rejects.toThrowError('Page was not successfully retrieved')
+      await expect(
+        new NotionAdapter(mockConfig()).getMovie('movieId'),
+      ).rejects.toThrowError('Page was not successfully retrieved')
     })
   })
 })
@@ -90,11 +91,11 @@ describe('getWeek', () => {
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toEqual({
-        'date': new Date('2021-01-01'),
-        'id': 'weekId',
-        'isSkipped': false,
-        'movies': [],
-        'theme': 'weekTheme',
+        date: new Date('2021-01-01'),
+        id: 'weekId',
+        isSkipped: false,
+        movies: [],
+        theme: 'weekTheme',
       })
     })
   })
@@ -107,8 +108,9 @@ describe('getWeek', () => {
     it('should throw an error', async () => {
       const notion = new NotionAdapter(mockConfig())
 
-      expect(notion.getWeek('2021-01-01'))
-        .rejects.toThrowError('Page was not successfully retrieved')
+      expect(notion.getWeek('2021-01-01')).rejects.toThrowError(
+        'Page was not successfully retrieved',
+      )
     })
   })
 })
@@ -117,9 +119,9 @@ describe('getWeeks', () => {
   beforeEach(() => {
     notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([
-      NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
-      NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
-      NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
+      NotionMock.mockWeek('weekId3', '2021-01-15', 'theme3'),
+      NotionMock.mockWeek('weekId2', '2021-01-08', 'theme2'),
+      NotionMock.mockWeek('weekId1', '2021-01-01', 'theme1'),
     ])
   })
 
@@ -129,23 +131,25 @@ describe('getWeeks', () => {
 
     expect(weeks).toEqual([
       {
-        'id': 'weekId3',
-        'date': new Date('2021-01-15'),
-        'isSkipped': false,
-        'movies': [],
-        'theme': 'theme3',
-      }, {
-        'id': 'weekId2',
-        'date': new Date('2021-01-08'),
-        'isSkipped': false,
-        'movies': [],
-        'theme': 'theme2',
-      }, {
-        'id': 'weekId1',
-        'date': new Date('2021-01-01'),
-        'isSkipped': false,
-        'movies': [],
-        'theme': 'theme1',
+        id: 'weekId3',
+        date: new Date('2021-01-15'),
+        isSkipped: false,
+        movies: [],
+        theme: 'theme3',
+      },
+      {
+        id: 'weekId2',
+        date: new Date('2021-01-08'),
+        isSkipped: false,
+        movies: [],
+        theme: 'theme2',
+      },
+      {
+        id: 'weekId1',
+        date: new Date('2021-01-01'),
+        isSkipped: false,
+        movies: [],
+        theme: 'theme1',
       },
     ])
   })
@@ -161,10 +165,12 @@ describe('getWeeks', () => {
         property: 'Date',
         date: { is_not_empty: true },
       },
-      sorts: [{
-        property: 'Date',
-        direction: 'ascending',
-      }],
+      sorts: [
+        {
+          property: 'Date',
+          direction: 'ascending',
+        },
+      ],
     })
   })
 })
@@ -227,10 +233,7 @@ describe('createWeek', () => {
       properties: {
         Theme: { title: [{ text: { content: 'Theme' } }] },
         'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },
-        Movies: { relation: [
-          { id: 'movieId1' },
-          { id: 'movieId2' },
-        ] },
+        Movies: { relation: [{ id: 'movieId1' }, { id: 'movieId2' }] },
       },
     })
   })

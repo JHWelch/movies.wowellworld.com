@@ -4,7 +4,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import assetRouter from '../routers/assetRouter.js'
 
-export default function setupExpress (): express.Express {
+export default function setupExpress(): express.Express {
   const app = express()
   app.set('view engine', 'ejs')
   const filename = fileURLToPath(import.meta.url)

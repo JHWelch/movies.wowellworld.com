@@ -18,10 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <transition
-    name="fade"
-    @after-leave="open = false"
-  >
+  <transition name="fade" @after-leave="open = false">
     <div
       v-if="open"
       class="absolute flex items-center justify-center w-full h-full text-6xl text-violet-950 backdrop-blur-sm"

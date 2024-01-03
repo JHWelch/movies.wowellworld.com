@@ -15,5 +15,5 @@ export const rsvpModal: RsvpModalState = reactive<RsvpModalState>({
     rsvpModal.show = true
     rsvpModal.week = week
   },
-  close: () => rsvpModal.show = false,
+  close: () => (rsvpModal.show = false),
 })

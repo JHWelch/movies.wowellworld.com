@@ -9,12 +9,7 @@ import {
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
-import {
-  Timestamp,
-  addDoc,
-  getFirestore,
-  query,
-} from 'firebase/firestore'
+import { Timestamp, addDoc, getFirestore, query } from 'firebase/firestore'
 import { transaction } from '../../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../../support/firebaseMock'
 import Week from '../../../src/models/week'
@@ -38,9 +33,9 @@ describe('constructor', () => {
   it('initializes the firestore', () => {
     firestore = new FirestoreAdapter(mockConfig())
 
-    expect (applicationDefault).toHaveBeenCalledTimes(1)
-    expect (initializeApp).toHaveBeenCalledTimes(1)
-    expect (getFirestore).toHaveBeenCalledTimes(1)
+    expect(applicationDefault).toHaveBeenCalledTimes(1)
+    expect(initializeApp).toHaveBeenCalledTimes(1)
+    expect(getFirestore).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -52,12 +47,14 @@ describe('getUpcomingWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
-      }, {
+      },
+      {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
-      }, {
+      },
+      {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
@@ -95,12 +92,14 @@ describe('getPastWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
-      }, {
+      },
+      {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
-      }, {
+      },
+      {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
@@ -109,7 +108,7 @@ describe('getPastWeeks', () => {
     ])
   })
 
-  it ('should return only past weeks', async () => {
+  it('should return only past weeks', async () => {
     const weeks = await firestore.getPastWeeks()
 
     expect(weeks).toEqual([
@@ -124,10 +123,12 @@ describe('getPastWeeks', () => {
 
     expect(query).toHaveBeenCalledWith(
       { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
-      { and: [
-        { fieldPath: 'date', opStr: '<', value: firestore.today() },
-        { fieldPath: 'isSkipped', opStr: '==', value: false },
-      ] },
+      {
+        and: [
+          { fieldPath: 'date', opStr: '<', value: firestore.today() },
+          { fieldPath: 'isSkipped', opStr: '==', value: false },
+        ],
+      },
       { fieldPath: 'date', directionStr: 'desc' },
     )
   })
@@ -147,20 +148,21 @@ describe('getWeek', () => {
     it('returns the week', async () => {
       const week = await firestore.getWeek('2021-01-01')
 
-      expect(week).toEqual(
-        new Week('id1', 'theme1', new Date('2021-01-01')),
-      )
+      expect(week).toEqual(new Week('id1', 'theme1', new Date('2021-01-01')))
     })
   })
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2021-01-01'),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-      }, false)
+      FirebaseMock.mockGetWeek(
+        {
+          date: new Date('2021-01-01'),
+          id: 'id1',
+          isSkipped: false,
+          theme: 'theme1',
+        },
+        false,
+      )
     })
 
     it('returns null', async () => {
@@ -171,28 +173,25 @@ describe('getWeek', () => {
 
 describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
-    it('updates all weeks in firestore', async () =>  {
+    it('updates all weeks in firestore', async () => {
       await firestore.cacheWeeks([
         new Week('id1', 'theme1', new Date('2021-01-01')),
         new Week('id2', 'theme2', new Date('2021-01-08')),
         new Week('id3', 'theme3', new Date('2021-01-15')),
       ])
 
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
-        )
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
-        )
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
-        )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-01'),
+        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+      )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-08'),
+        FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
+      )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-15'),
+        FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
+      )
     })
   })
 
@@ -206,15 +205,12 @@ describe('cacheWeeks', () => {
       [movie],
     )
 
-    await firestore.cacheWeeks([
-      weekWithMovie,
-    ])
+    await firestore.cacheWeeks([weekWithMovie])
 
-    expect(transaction.set)
-      .toHaveBeenCalledWith(
-        FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01', [movie]),
-      )
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('weeks', '2021-01-01'),
+      FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01', [movie]),
+    )
   })
 
   describe('when mode is development', () => {
@@ -225,11 +221,10 @@ describe('cacheWeeks', () => {
         new Week('id1', 'theme1', new Date('2021-01-01')),
       ])
 
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks-dev', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
-        )
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks-dev', '2021-01-01'),
+        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+      )
     })
   })
 })
@@ -243,20 +238,17 @@ describe('createRsvp', () => {
       true,
     )
 
-    expect(addDoc).toHaveBeenCalledWith(
-      FirebaseMock.mockCollection('rsvps'),
-      {
-        week: '2023-01-01',
-        name: 'test name',
-        email: 'test@example.com',
-        plusOne: true,
-        createdAt: expect.any(Timestamp.constructor),
-      },
-    )
+    expect(addDoc).toHaveBeenCalledWith(FirebaseMock.mockCollection('rsvps'), {
+      week: '2023-01-01',
+      name: 'test name',
+      email: 'test@example.com',
+      plusOne: true,
+      createdAt: expect.any(Timestamp.constructor),
+    })
   })
 })
 
-describe ('sendEmail', () => {
+describe('sendEmail', () => {
   it('sends an email', async () => {
     await firestore.sendEmail('jsmith@example.com', {
       subject: 'test subject',
@@ -264,17 +256,14 @@ describe ('sendEmail', () => {
       html: 'test <p>html</p>',
     })
 
-    expect(addDoc).toHaveBeenCalledWith(
-      FirebaseMock.mockCollection('mail'),
-      {
-        to: 'jsmith@example.com',
-        message: {
-          subject: 'test subject',
-          text: 'test text',
-          html: 'test <p>html</p>',
-        },
+    expect(addDoc).toHaveBeenCalledWith(FirebaseMock.mockCollection('mail'), {
+      to: 'jsmith@example.com',
+      message: {
+        subject: 'test subject',
+        text: 'test text',
+        html: 'test <p>html</p>',
       },
-    )
+    })
   })
 })
 
@@ -295,29 +284,27 @@ describe('sendEmailTemplate', () => {
               posterPath: 'https://example.com/poster.jpg',
             },
           ],
-        })
-
-      expect(addDoc).toHaveBeenCalledWith(
-        FirebaseMock.mockCollection('mail'),
-        {
-          to: 'jsmith@example.com',
-          template: {
-            name: 'rsvpConfirmation',
-            data: {
-              date: 'Thursday, January 1st',
-              theme: 'test theme',
-              movies: [
-                {
-                  title: 'test title',
-                  year: '2021',
-                  time: '6:00pm',
-                  posterPath: 'https://example.com/poster.jpg',
-                },
-              ],
-            },
-          },
         },
       )
+
+      expect(addDoc).toHaveBeenCalledWith(FirebaseMock.mockCollection('mail'), {
+        to: 'jsmith@example.com',
+        template: {
+          name: 'rsvpConfirmation',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      })
     })
   })
 })
@@ -329,7 +316,8 @@ describe('updateTemplates', () => {
         name: 'templateId',
         subject: 'new subject',
         html: 'new html',
-      }, {
+      },
+      {
         name: 'templateId2',
         subject: 'new subject 2',
         html: 'new html 2',

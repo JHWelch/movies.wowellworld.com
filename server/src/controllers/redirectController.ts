@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 
 export default class RedirectController {
-  static async redirect (
+  static async redirect(
     _req: Request,
     res: Response,
     url: string,

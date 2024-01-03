@@ -5,10 +5,10 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "packages"
+  - package-ecosystem: npm
+    directory: packages
     schedule:
-      interval: "daily"
+      interval: daily
     review:
       enabled: true
     pull-request:

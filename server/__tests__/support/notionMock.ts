@@ -23,13 +23,12 @@ export class NotionMock {
   query: jest.MockedFunction<typeof Client.prototype.databases.query>
   retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
 
-  constructor () {
+  constructor() {
     this.create = jest.fn<typeof Client.prototype.pages.create>()
     this.update = jest.fn<typeof Client.prototype.pages.update>()
     this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
-    this.query = jest.fn<typeof Client.prototype.databases.query>();
-
-    (Client as unknown as jest.Mock).mockImplementation(() => ({
+    this.query = jest.fn<typeof Client.prototype.databases.query>()
+    ;(Client as unknown as jest.Mock).mockImplementation(() => ({
       pages: {
         create: this.create,
         update: this.update,
@@ -47,16 +46,16 @@ export class NotionMock {
   }
 
   mockIsFullPageOrDatabase = (response: boolean) => {
-    (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
+    ;(isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
   }
 
   mockRetrieve = (movie: NotionMovie | undefined = undefined) => {
     const notionMovie = movie ?? NotionMovie.demo()
 
-    this.retrieve.mockImplementation(async (
-      _args: WithAuth<GetPageParameters>,
-    ): Promise<GetPageResponse> =>
-      notionMovie.toPageObjectResponse())
+    this.retrieve.mockImplementation(
+      async (_args: WithAuth<GetPageParameters>): Promise<GetPageResponse> =>
+        notionMovie.toPageObjectResponse(),
+    )
 
     return { pages: { retrieve: this.retrieve } }
   }
@@ -72,16 +71,19 @@ export class NotionMock {
         next_cursor: null,
         has_more: false,
         results: weeks,
-      }))
+      }),
+    )
 
     return { databases: { query: this.query } }
   }
 
   mockCreate = (...ids: string[]) => {
-    ids.forEach((id) => this.create.mockResolvedValueOnce({
-      id: id,
-      object: 'page',
-    }))
+    ids.forEach((id) =>
+      this.create.mockResolvedValueOnce({
+        id: id,
+        object: 'page',
+      }),
+    )
   }
 
   static mockWeek = (
@@ -90,10 +92,11 @@ export class NotionMock {
     theme: string,
     skipped = false,
     movies: NotionMovie[] = [],
-  ): PageObjectResponse => pageObjectResponse(id, {
-    Date: nDate(date),
-    Theme: nTitle(theme),
-    Skipped: nCheckbox(skipped),
-    Movies: nRelation(movies),
-  })
+  ): PageObjectResponse =>
+    pageObjectResponse(id, {
+      Date: nDate(date),
+      Theme: nTitle(theme),
+      Skipped: nCheckbox(skipped),
+      Movies: nRelation(movies),
+    })
 }

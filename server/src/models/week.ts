@@ -10,7 +10,7 @@ import { FirestoreWeek } from '../data/firestore/firestoreTypes.js'
 import { WeekDto } from '../../../shared/dtos.js'
 
 export default class Week {
-  constructor (
+  constructor(
     public id: string,
     public theme: string,
     public date: Date,
@@ -18,9 +18,7 @@ export default class Week {
     public movies: Movie[] = [],
   ) {}
 
-  static fromNotion (
-    record: PageObjectResponse | DatabaseObjectResponse,
-  ): Week {
+  static fromNotion(record: PageObjectResponse | DatabaseObjectResponse): Week {
     const properties = record.properties as unknown as WeekProperties
 
     return new Week(
@@ -31,7 +29,7 @@ export default class Week {
     )
   }
 
-  static fromFirebase (record: DocumentData): Week {
+  static fromFirebase(record: DocumentData): Week {
     return new Week(
       record.id,
       record.theme,
@@ -41,7 +39,7 @@ export default class Week {
     )
   }
 
-  displayDate (): string {
+  displayDate(): string {
     return this.date.toLocaleDateString('en-US', {
       timeZone: 'UTC',
       weekday: 'long',
@@ -50,17 +48,17 @@ export default class Week {
     })
   }
 
-  setMovies (movies: Movie[]): Week {
+  setMovies(movies: Movie[]): Week {
     this.movies = movies
 
     return this
   }
 
-  toString (): string {
+  toString(): string {
     return `${this.theme}`
   }
 
-  toDTO (): WeekDto {
+  toDTO(): WeekDto {
     return {
       id: this.id,
       weekId: this.dateString,
@@ -71,7 +69,7 @@ export default class Week {
     }
   }
 
-  toFirebaseDTO (): WithFieldValue<FirestoreWeek> {
+  toFirebaseDTO(): WithFieldValue<FirestoreWeek> {
     return {
       id: this.id,
       theme: this.theme,
@@ -81,7 +79,7 @@ export default class Week {
     }
   }
 
-  get dateString (): string {
+  get dateString(): string {
     return dateToString(this.date)
   }
 }

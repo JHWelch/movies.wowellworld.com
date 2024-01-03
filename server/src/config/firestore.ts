@@ -3,7 +3,7 @@ import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import Config from './config'
 
-export default function setupFirestore (config: Config): Firestore {
+export default function setupFirestore(config: Config): Firestore {
   const firebaseConfig = {
     credential: applicationDefault(),
     projectId: config.googleCloudProject,

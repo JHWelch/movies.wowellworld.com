@@ -1,10 +1,13 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   transform: {
-    '\\.[jt]sx?$': ['ts-jest', {
-      isolatedModules: true,
-      useESM: true,
-    }],
+    '\\.[jt]sx?$': [
+      'ts-jest',
+      {
+        isolatedModules: true,
+        useESM: true,
+      },
+    ],
   },
   moduleNameMapper: {
     '(.+)\\.js': '$1',

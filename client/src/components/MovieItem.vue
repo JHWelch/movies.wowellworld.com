@@ -35,22 +35,16 @@ const movieSizeClasses = (week: WeekDto) => {
 
   return `w-full sm:${sm} lg:${lg} 2xl:${xxl}`
 }
-
 </script>
 
 <template>
-  <div
-    :class="[
-      'px-3 max-w-lg lg:px-5',
-      movieSizeClasses(week),
-    ]"
-  >
+  <div :class="['px-3 max-w-lg lg:px-5', movieSizeClasses(week)]">
     <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-violet-200">
       <h4 class="flex items-center justify-between h-12 md:px-2">
         <span
           :class="[
             'overflow-hidden font-medium text-center overflow-ellipsis',
-            movie.title.length > 20 ? 'text-xl' : 'text-2xl'
+            movie.title.length > 20 ? 'text-xl' : 'text-2xl',
           ]"
           v-text="movie.title"
         />
@@ -73,15 +67,12 @@ const movieSizeClasses = (week: WeekDto) => {
             :week="week"
           />
 
-          <a
-            :href="movie.url ?? undefined"
-            class="w-full"
-          >
+          <a :href="movie.url ?? undefined" class="w-full">
             <img
               :src="movie.posterUrl"
               :alt="movie.title + ' Poster'"
               class="w-full"
-            >
+            />
           </a>
         </div>
 

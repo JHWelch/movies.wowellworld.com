@@ -28,12 +28,12 @@ export default class FirestoreAdapter {
   private config: Config
   private firestore: FirestoreType
 
-  constructor (config: Config) {
+  constructor(config: Config) {
     this.config = config
     this.firestore = setupFirestore(config)
   }
 
-  async cacheWeeks (weeks: Week[]): Promise<void> {
+  async cacheWeeks(weeks: Week[]): Promise<void> {
     await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
         const ref = doc(
@@ -46,33 +46,33 @@ export default class FirestoreAdapter {
     })
   }
 
-  async getPastWeeks (): Promise<Week[]> {
-    return this.getWeeks(query(
-      this.weekCollection,
-      and(
-        where('date', '<', this.today()),
-        where('isSkipped', '==', false),
+  async getPastWeeks(): Promise<Week[]> {
+    return this.getWeeks(
+      query(
+        this.weekCollection,
+        and(where('date', '<', this.today()), where('isSkipped', '==', false)),
+        orderBy('date', 'desc'),
       ),
-      orderBy('date', 'desc'),
-    ))
+    )
   }
 
-  async getUpcomingWeeks (): Promise<Week[]> {
-    return this.getWeeks(query(
-      this.weekCollection,
-      where('date', '>=', this.today()),
-      orderBy('date'),
-    ))
+  async getUpcomingWeeks(): Promise<Week[]> {
+    return this.getWeeks(
+      query(
+        this.weekCollection,
+        where('date', '>=', this.today()),
+        orderBy('date'),
+      ),
+    )
   }
 
-  async getWeeks (firestoreQuery: Query): Promise<Week[]> {
+  async getWeeks(firestoreQuery: Query): Promise<Week[]> {
     const querySnapshot = await getDocs(firestoreQuery)
 
-    return querySnapshot.docs
-      .map((doc) => Week.fromFirebase(doc.data()))
+    return querySnapshot.docs.map((doc) => Week.fromFirebase(doc.data()))
   }
 
-  async getWeek (dateString: string): Promise<Week|null> {
+  async getWeek(dateString: string): Promise<Week | null> {
     const document = await getDoc(doc(this.weekCollection, dateString))
 
     if (!document.exists()) {
@@ -82,7 +82,7 @@ export default class FirestoreAdapter {
     return Week.fromFirebase(document.data())
   }
 
-  async createRsvp (
+  async createRsvp(
     week: string,
     name: string,
     email: string,
@@ -97,14 +97,14 @@ export default class FirestoreAdapter {
     })
   }
 
-  async sendEmail (to: string, message: EmailMessage): Promise<void> {
+  async sendEmail(to: string, message: EmailMessage): Promise<void> {
     await addDoc(this.mailCollection, {
       to,
       message,
     })
   }
 
-  async sendEmailTemplate (
+  async sendEmailTemplate(
     to: string,
     templateName: string,
     templateData: Record<string, unknown>,
@@ -118,81 +118,78 @@ export default class FirestoreAdapter {
     })
   }
 
-  async updateTemplates (templates: {
-    name: string,
-    subject: string,
-    html: string,
-  }[]): Promise<void> {
+  async updateTemplates(
+    templates: {
+      name: string
+      subject: string
+      html: string
+    }[],
+  ): Promise<void> {
     await runTransaction(this.firestore, async (transaction) => {
-      templates.forEach((template: {
-        name: string,
-        subject: string,
-        html: string,
-      }) => {
-        transaction.set(doc(
-          this.firestore,
-          this.templatesCollectionName,
-          template.name,
-        ), {
-          subject: template.subject,
-          html: template.html,
-        })
-      })
+      templates.forEach(
+        (template: { name: string; subject: string; html: string }) => {
+          transaction.set(
+            doc(this.firestore, this.templatesCollectionName, template.name),
+            {
+              subject: template.subject,
+              html: template.html,
+            },
+          )
+        },
+      )
     })
   }
 
-  today (): Timestamp {
+  today(): Timestamp {
     const today = new Date()
-    const todayUtc = new Date(Date.UTC(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    ))
+    const todayUtc = new Date(
+      Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()),
+    )
 
     return Timestamp.fromDate(todayUtc)
   }
 
-  get adminEmail (): string {
+  get adminEmail(): string {
     return this.config.adminEmail
   }
 
-  private get mailCollectionName (): string {
+  private get mailCollectionName(): string {
     return this.collectionName(FirestoreAdapter.MAIL_COLLECTION_NAME)
   }
 
-  private get rsvpsCollectionName (): string {
+  private get rsvpsCollectionName(): string {
     return this.collectionName(FirestoreAdapter.RSVPS_COLLECTION_NAME)
   }
 
-  private get templatesCollectionName (): string {
+  private get templatesCollectionName(): string {
     return this.collectionName(FirestoreAdapter.TEMPLATES_COLLECTION_NAME)
   }
 
-  private get weeksCollectionName (): string {
+  private get weeksCollectionName(): string {
     return this.collectionName(FirestoreAdapter.WEEKS_COLLECTION_NAME)
   }
 
-  private get mailCollection (): Collection {
+  private get mailCollection(): Collection {
     return collection(this.firestore, this.mailCollectionName)
   }
 
-  private get rsvpCollection (): Collection {
+  private get rsvpCollection(): Collection {
     return collection(this.firestore, this.rsvpsCollectionName)
   }
 
-  private get weekCollection (): Collection {
+  private get weekCollection(): Collection {
     return collection(this.firestore, this.weeksCollectionName)
   }
 
-  private collectionName (name: string): string {
+  private collectionName(name: string): string {
     return this.config.isProduction ? name : `${name}-dev`
   }
 }
 
 export type EmailMessage = {
-  subject: string,
-  text: string,
-  html: string,
+  subject: string
+  text: string
+  html: string
 }
 
-type Collection = CollectionReference<DocumentData,DocumentData>
+type Collection = CollectionReference<DocumentData, DocumentData>

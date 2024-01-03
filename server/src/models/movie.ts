@@ -16,7 +16,7 @@ import { TMDB_POSTER_URL } from '../data/tmdb/constants.js'
 import { MovieDto } from '../../../shared/dtos.js'
 
 export default class Movie {
-  constructor (
+  constructor(
     public title: string,
     public director: string | null = null,
     public year: number | null = null,
@@ -30,7 +30,7 @@ export default class Movie {
     public showingUrl: string | null = null,
   ) {}
 
-  static fromNotion (movie: PageObjectResponse): Movie {
+  static fromNotion(movie: PageObjectResponse): Movie {
     const properties = movie.properties as unknown as MovieProperties
 
     return new Movie(
@@ -48,7 +48,7 @@ export default class Movie {
     )
   }
 
-  static fromFirebase (movie: DocumentData): Movie {
+  static fromFirebase(movie: DocumentData): Movie {
     return new Movie(
       movie.title,
       movie.director,
@@ -64,7 +64,7 @@ export default class Movie {
     )
   }
 
-  static fromTmdbResponse (tmdbResponse: MovieResponse): Movie {
+  static fromTmdbResponse(tmdbResponse: MovieResponse): Movie {
     return new Movie(
       tmdbResponse.title,
       tmdbResponse.director,
@@ -77,11 +77,11 @@ export default class Movie {
     )
   }
 
-  isFieldTrip (): boolean {
+  isFieldTrip(): boolean {
     return this.theaterName !== null && this.showingUrl !== null
   }
 
-  displayLength (): string {
+  displayLength(): string {
     if (this.length === null) {
       return ''
     }
@@ -91,17 +91,15 @@ export default class Movie {
       : `${this.length}m`
   }
 
-  posterUrl (): string {
-    return this.posterPath
-      ? `${TMDB_POSTER_URL}${this.posterPath}`
-      : ''
+  posterUrl(): string {
+    return this.posterPath ? `${TMDB_POSTER_URL}${this.posterPath}` : ''
   }
 
-  toString (): string {
+  toString(): string {
     return `${this.title} (${this.year})`
   }
 
-  toDTO (): MovieDto {
+  toDTO(): MovieDto {
     return {
       title: this.title,
       director: this.director,
@@ -117,7 +115,7 @@ export default class Movie {
     }
   }
 
-  toFirebaseDTO (): WithFieldValue<FirestoreMovie> {
+  toFirebaseDTO(): WithFieldValue<FirestoreMovie> {
     return {
       title: this.title,
       director: this.director,
@@ -133,7 +131,7 @@ export default class Movie {
     }
   }
 
-  toNotion (): UpdatePageParameters {
+  toNotion(): UpdatePageParameters {
     if (this.notionId == null) throw new Error('Movie does not have notionId')
 
     return {
@@ -151,7 +149,7 @@ export default class Movie {
     }
   }
 
-  merge (other: Movie): void {
+  merge(other: Movie): void {
     this.title ??= other.title
     this.director ??= other.director
     this.year ??= other.year

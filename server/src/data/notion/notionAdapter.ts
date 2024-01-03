@@ -15,13 +15,13 @@ export default class NotionAdapter {
   #movieDatabaseId: string
   #weekDatabaseId: string
 
-  constructor (config: Config) {
+  constructor(config: Config) {
     this.#movieDatabaseId = config.notionMovieDatabaseId
     this.#weekDatabaseId = config.notionWeekDatabaseId
     this.#notion = new Client({ auth: config.notionToken })
   }
 
-  async getMovie (id: string): Promise<Movie> {
+  async getMovie(id: string): Promise<Movie> {
     const page = await this.#notion.pages.retrieve({ page_id: id })
     if (!isFullPageOrDatabase(page)) {
       throw new Error('Page was not successfully retrieved')
@@ -30,7 +30,7 @@ export default class NotionAdapter {
     return Movie.fromNotion(page)
   }
 
-  async getWeek (date: string): Promise<Week | null> {
+  async getWeek(date: string): Promise<Week | null> {
     const records = await this.#notion.databases.query({
       database_id: this.#weekDatabaseId,
       filter: {
@@ -43,7 +43,7 @@ export default class NotionAdapter {
     return record != null ? await this.recordToWeek(record) : null
   }
 
-  async getWeeks (): Promise<Week[]> {
+  async getWeeks(): Promise<Week[]> {
     const records = await this.#notion.databases.query({
       database_id: this.#weekDatabaseId,
       page_size: 100,
@@ -51,21 +51,24 @@ export default class NotionAdapter {
         property: 'Date',
         date: { is_not_empty: true },
       },
-      sorts: [{
-        property: 'Date',
-        direction: 'ascending',
-      }],
+      sorts: [
+        {
+          property: 'Date',
+          direction: 'ascending',
+        },
+      ],
     })
 
-    return await Promise.all(records.results
-      .map(async (record) => await this.recordToWeek(record)))
+    return await Promise.all(
+      records.results.map(async (record) => await this.recordToWeek(record)),
+    )
   }
 
-  async setMovie (movie: Movie): Promise<void> {
+  async setMovie(movie: Movie): Promise<void> {
     await this.#notion.pages.update(movie.toNotion())
   }
 
-  async createWeek (
+  async createWeek(
     theme: string,
     movies: string[],
     submittedBy: string,
@@ -80,7 +83,7 @@ export default class NotionAdapter {
     })
   }
 
-  async createMovie (title: string): Promise<string> {
+  async createMovie(title: string): Promise<string> {
     const movie = await this.#notion.pages.create({
       parent: { database_id: this.#movieDatabaseId },
       properties: {
@@ -91,7 +94,7 @@ export default class NotionAdapter {
     return movie.id
   }
 
-  async recordToWeek (record: NotionQueryResponse): Promise<Week> {
+  async recordToWeek(record: NotionQueryResponse): Promise<Week> {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }
@@ -99,8 +102,9 @@ export default class NotionAdapter {
     const properties = record.properties as unknown as WeekProperties
 
     const movies = await Promise.all(
-      properties.Movies.relation
-        .map(async (relation) => await this.getMovie(relation.id)),
+      properties.Movies.relation.map(
+        async (relation) => await this.getMovie(relation.id),
+      ),
     )
 
     return Week.fromNotion(record).setMovies(movies)
@@ -108,7 +112,7 @@ export default class NotionAdapter {
 }
 
 type NotionQueryResponse =
-  PageObjectResponse |
-  PartialPageObjectResponse |
-  PartialDatabaseObjectResponse |
-  DatabaseObjectResponse
+  | PageObjectResponse
+  | PartialPageObjectResponse
+  | PartialDatabaseObjectResponse
+  | DatabaseObjectResponse

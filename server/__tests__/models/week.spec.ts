@@ -5,12 +5,7 @@ describe('dateString', () => {
   let week: Week
 
   beforeEach(() => {
-    week = new Week(
-      'id',
-      'theme',
-      new Date('2021-09-13'),
-      false,
-    )
+    week = new Week('id', 'theme', new Date('2021-09-13'), false)
   })
 
   it('returns the date as a string', () => {

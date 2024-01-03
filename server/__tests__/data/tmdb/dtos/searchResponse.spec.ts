@@ -10,10 +10,7 @@ describe('fromTmdbResponse', () => {
         {
           adult: false,
           backdrop_path: '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
-          genre_ids: [
-            35,
-            10749,
-          ],
+          genre_ids: [35, 10749],
           id: 9603,
           original_language: 'en',
           original_title: 'Clueless',
@@ -45,11 +42,7 @@ describe('fromTmdbResponse', () => {
         {
           adult: false,
           backdrop_path: '/oRLTORPsK43SfQvLpaLLghmKdhf.jpg',
-          genre_ids: [
-            9648,
-            53,
-            18,
-          ],
+          genre_ids: [9648, 53, 18],
           id: 939992,
           original_language: 'en',
           original_title: 'Clueless',
