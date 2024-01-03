@@ -13,7 +13,10 @@
     "build:server": "cd server && npm run build",
     "build:client": "cd client && npm run build",
     "start": "node built/server/src/index.js",
-    "postinstall": "npm --prefix server install && npm --prefix client install"
+    "postinstall": "npm --prefix server install && npm --prefix client install",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "cd server && npm run test",
+    "test:client": "cd client && npm run test -- run"
   },
   "keywords": [
     "notion",
