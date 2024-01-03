@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import SectionTitle from './SectionTitle.vue'
 import WeekItem from './WeekItem.vue'
@@ -17,7 +17,7 @@ const weeks = ref<WeekDto[]>([])
 const loading = ref<boolean>(true)
 const error = ref<boolean>(false)
 
-const rsvpWeek = () =>  new URLSearchParams(window.location.search).get('rsvp')
+const rsvpWeek = () => new URLSearchParams(window.location.search).get('rsvp')
 
 const reload =  () => {
   loading.value = true
@@ -46,6 +46,17 @@ const reload =  () => {
       rsvpModal.open(week)
     })
 }
+
+watch(weeks, () => nextTick(() => {
+  const anchor = window.location.hash.substring(1)
+  if (anchor) {
+    const element = document.getElementById(anchor)
+
+    if (element) {
+      element.scrollIntoView()
+    }
+  }
+}))
 
 reload()
 </script>
