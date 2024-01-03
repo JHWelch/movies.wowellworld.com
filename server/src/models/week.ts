@@ -15,6 +15,7 @@ export default class Week {
     public theme: string,
     public date: Date,
     public isSkipped: boolean = false,
+    public slug: string | null = null,
     public movies: Movie[] = [],
   ) {}
 
@@ -37,6 +38,7 @@ export default class Week {
       record.theme,
       record.date.toDate(),
       record.isSkipped,
+      record.slug,
       record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie)),
     )
   }

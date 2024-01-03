@@ -203,6 +203,7 @@ describe('cacheWeeks', () => {
       'theme1',
       new Date('2021-01-01'),
       false,
+      null,
       [movie],
     )
 

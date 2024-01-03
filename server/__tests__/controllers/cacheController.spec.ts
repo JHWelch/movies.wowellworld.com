@@ -134,7 +134,7 @@ describe('cacheWeeks', () => {
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        (new Week('id1', 'theme1', new Date('2021-01-01'), false, [
+        (new Week('id1', 'theme1', new Date('2021-01-01'), false, null, [
           expected,
         ])).toFirebaseDTO(),
       )
