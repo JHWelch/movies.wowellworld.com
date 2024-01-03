@@ -34,7 +34,7 @@ export default class FirestoreAdapter {
     this.firestore = setupFirestore(config)
   }
 
-  async cacheWeeks (weeks: Week[]): Promise<void> {
+  cacheWeeks = async (weeks: Week[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
         const ref = doc(
@@ -47,7 +47,7 @@ export default class FirestoreAdapter {
     })
   }
 
-  async getPastWeeks (): Promise<Week[]> {
+  getPastWeeks = async (): Promise<Week[]> => {
     return this.getWeeks(query(
       this.weekCollection,
       and(
@@ -58,7 +58,7 @@ export default class FirestoreAdapter {
     ))
   }
 
-  async getUpcomingWeeks (): Promise<Week[]> {
+  getUpcomingWeeks = async (): Promise<Week[]> => {
     return this.getWeeks(query(
       this.weekCollection,
       where('date', '>=', this.today()),
@@ -66,14 +66,14 @@ export default class FirestoreAdapter {
     ))
   }
 
-  async getWeeks (firestoreQuery: Query): Promise<Week[]> {
+  getWeeks = async (firestoreQuery: Query): Promise<Week[]> => {
     const querySnapshot = await getDocs(firestoreQuery)
 
     return querySnapshot.docs
       .map((doc) => Week.fromFirebase(doc.data()))
   }
 
-  async getWeek (dateString: string): Promise<Week|null> {
+  getWeek = async (dateString: string): Promise<Week|null> => {
     const document = await getDoc(doc(this.weekCollection, dateString))
 
     if (!document.exists()) {
@@ -83,12 +83,12 @@ export default class FirestoreAdapter {
     return Week.fromFirebase(document.data())
   }
 
-  async createRsvp (
+  createRsvp = async (
     week: string,
     name: string,
     email: string,
     plusOne: boolean,
-  ): Promise<void> {
+  ): Promise<void> => {
     await addDoc(this.rsvpCollection, {
       week,
       name,
@@ -98,25 +98,25 @@ export default class FirestoreAdapter {
     })
   }
 
-  async createUser (email: string, reminders: boolean): Promise<void> {
+  createUser = async (email: string, reminders: boolean): Promise<void> => {
     await addDoc(this.usersCollection, {
       email,
       reminders,
     })
   }
 
-  async sendEmail (to: string, message: EmailMessage): Promise<void> {
+  sendEmail = async (to: string, message: EmailMessage): Promise<void> => {
     await addDoc(this.mailCollection, {
       to,
       message,
     })
   }
 
-  async sendEmailTemplate (
+  sendEmailTemplate = async (
     to: string,
     templateName: string,
     templateData: Record<string, unknown>,
-  ): Promise<void> {
+  ): Promise<void> => {
     await addDoc(this.mailCollection, {
       to,
       template: {
@@ -126,11 +126,11 @@ export default class FirestoreAdapter {
     })
   }
 
-  async updateTemplates (templates: {
+  updateTemplates = async (templates: {
     name: string,
     subject: string,
     html: string,
-  }[]): Promise<void> {
+  }[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       templates.forEach((template: {
         name: string,
@@ -149,7 +149,7 @@ export default class FirestoreAdapter {
     })
   }
 
-  today (): Timestamp {
+  today = (): Timestamp => {
     const today = new Date()
     const todayUtc = new Date(Date.UTC(
       today.getFullYear(),
