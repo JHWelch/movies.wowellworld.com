@@ -155,12 +155,7 @@ describe('getWeek', () => {
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2021-01-01'),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-      }, false)
+      FirebaseMock.mockGetWeek()
     })
 
     it('returns null', async () => {

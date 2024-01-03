@@ -22,16 +22,16 @@ export class FirebaseMock {
     })
   }
 
-  static mockGetWeek (week: FirebaseWeek, exists = true) {
+  static mockGetWeek (week?: FirebaseWeek) {
     (getDoc as unknown as jest.Mock).mockImplementation(() => ({
-      data: () => ({
+      data: () => (week ? {
         id: week.id,
         theme: week.theme,
         date: Timestamp.fromDate(week.date),
         isSkipped: week.isSkipped,
         movies: [],
-      }),
-      exists: () => exists,
+      } : undefined),
+      exists: () => Boolean(week),
     }))
   }
 
