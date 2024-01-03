@@ -70,6 +70,7 @@ export default class Week {
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO()),
+      slug: this.slug,
       isSkipped: this.isSkipped,
     }
   }
