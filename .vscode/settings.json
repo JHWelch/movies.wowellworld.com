@@ -4,4 +4,7 @@
     "**/node_modules": true,
     "**/built": true,
   },
+  "cSpell.words": [
+    "Appengine"
+  ],
 }
