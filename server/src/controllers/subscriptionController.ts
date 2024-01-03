@@ -15,9 +15,20 @@ export default class SubscriptionController {
   store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
+    const user = await this.firestore.getUser(req.body.email)
+
+    if (user?.reminders) {
+      res.status(409).json({
+        errors: { email: 'Already subscribed' },
+        message: "You're already subscribed! Check your spam folder if you don't get the emails.",
+      })
+
+      return
+    }
+
     this.firestore.createUser(req.body.email, true)
 
-    res.status(200).send('ok')
+    res.status(200)
   }
 
   private validate = (req: Request, res: Response): boolean =>

@@ -47,22 +47,48 @@ describe('store', () => {
       })
     })
 
-    it('should return 200', async () => {
-      await new SubscriptionController(firestore).store(req, res)
+    describe('user does not exist', () => {
+      beforeEach(() => {
+        FirebaseMock.mockGetUser()
+      })
 
-      expect(res.status).toHaveBeenCalledWith(200)
+      it('should return 200', async () => {
+        await new SubscriptionController(firestore).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(200)
+      })
+
+      it('creates a new user with reminders enabled', async () => {
+        await new SubscriptionController(firestore).store(req, res)
+
+        expect(addDoc).toHaveBeenCalledWith(
+          FirebaseMock.mockCollection('users'),
+          {
+            email: 'test@example.com',
+            reminders: true,
+          },
+        )
+      })
     })
 
-    it('creates a new user with reminders enabled', async () => {
-      await new SubscriptionController(firestore).store(req, res)
-
-      expect(addDoc).toHaveBeenCalledWith(
-        FirebaseMock.mockCollection('users'),
-        {
+    describe('user already exists and is subscribed', () => {
+      beforeEach(() => {
+        FirebaseMock.mockGetUser({
+          id: 'id',
           email: 'test@example.com',
           reminders: true,
-        },
-      )
+        })
+      })
+
+      it('should return 409', async () => {
+        await new SubscriptionController(firestore).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(409)
+        expect(res.json).toHaveBeenCalledWith({
+          errors: { email: 'Already subscribed' },
+          message: "You're already subscribed! Check your spam folder if you don't get the emails.",
+        })
+      })
     })
   })
 
