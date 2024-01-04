@@ -2,7 +2,8 @@
 
 import { VueWrapper, mount } from '@vue/test-utils'
 import ReminderSubscribe from '../ReminderSubscribe.vue'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 let wrapper: VueWrapper
 
@@ -44,10 +45,18 @@ describe('press the "Get Reminders" button', () => {
     expect(wrapper.find(subscribeSelector).exists()).toBe(true)
   })
 
-  describe('enter email & press the "Subscribe" button', () => {
+  describe('enter email and subscribe with success', () => {
     beforeEach(async () => {
+      (fetch as Mock).mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve({
+          message: 'Thank you for signing up! See you soon.',
+        }),
+      })
+
       await wrapper.find('input').setValue('test@example.com')
       await wrapper.find(subscribeSelector).trigger('click')
+      await nextTick()
     })
 
     it('makes a POST request to the API', async () => {
@@ -56,6 +65,31 @@ describe('press the "Get Reminders" button', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: 'test@example.com' }),
       })
+    })
+
+    it('closes the input', async () => {
+      expect(wrapper.find('input').exists()).toBe(false)
+      expect(wrapper.find(subscribeSelector).exists()).toBe(false)
+    })
+  })
+
+  describe('when the request fails', () => {
+    beforeEach(async () => {
+      (fetch as Mock).mockResolvedValue({
+        ok: false,
+        json: () => Promise.resolve({
+          errors: { email: 'Already subscribed' },
+          message: "You're already subscribed! Check your spam folder if you don't get the emails.",
+        }),
+      })
+
+      await wrapper.find('input').setValue('test@example.com')
+      await wrapper.find(subscribeSelector).trigger('click')
+    })
+
+    it('does not close the input', async () => {
+      expect(wrapper.find('input').exists()).toBe(true)
+      expect(wrapper.find(subscribeSelector).exists()).toBe(true)
     })
   })
 })

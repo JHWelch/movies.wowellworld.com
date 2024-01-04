@@ -5,14 +5,19 @@ import FormInput from './form/FormInput.vue';
 const open = ref<boolean>(false)
 const email = ref<string>('')
 
-const subscribe = () => {
-  fetch('/api/subscriptions', {
+const subscribe = async () => {
+  const response = await fetch('/api/subscriptions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email: email.value }),
   })
+
+  if (response.ok) {
+    open.value = false
+    email.value = ''
+  }
 }
 </script>
 
