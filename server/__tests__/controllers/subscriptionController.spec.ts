@@ -56,7 +56,9 @@ describe('store', () => {
         await new SubscriptionController(firestore).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(201)
-        expect(res.json).toHaveBeenCalledWith({ message: 'Thank you for signing up! See you soon.' })
+        expect(res.json).toHaveBeenCalledWith(
+          SubscriptionController.SUCCESS_MESSAGE,
+        )
       })
 
       it('creates a new user with reminders enabled', async () => {
@@ -105,7 +107,9 @@ describe('store', () => {
         await new SubscriptionController(firestore).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
-        expect(res.json).toHaveBeenCalledWith({ message: 'Thank you for signing up! See you soon.' })
+        expect(res.json).toHaveBeenCalledWith(
+          SubscriptionController.SUCCESS_MESSAGE,
+        )
       })
 
       it('updates the user to be subscribed', async () => {

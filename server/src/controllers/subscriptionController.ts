@@ -8,6 +8,10 @@ export default class SubscriptionController {
     store: '/api/subscriptions',
   }
 
+  static readonly SUCCESS_MESSAGE = {
+    message: 'Thank you for signing up! See you soon.',
+  }
+
   constructor (
     private firestore: FirestoreAdapter,
   ) {}
@@ -19,7 +23,7 @@ export default class SubscriptionController {
 
     if (!user) {
       await this.firestore.createUser(req.body.email, true)
-      res.status(201).json({ message: 'Thank you for signing up! See you soon.' })
+      res.status(201).json(SubscriptionController.SUCCESS_MESSAGE)
 
       return
     }
@@ -35,7 +39,7 @@ export default class SubscriptionController {
 
     user.reminders = true
     await this.firestore.updateUser(user)
-    res.status(200).json({ message: 'Thank you for signing up! See you soon.' })
+    res.status(200).json(SubscriptionController.SUCCESS_MESSAGE)
 
     return
   }
