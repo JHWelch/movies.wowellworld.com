@@ -4,6 +4,16 @@ import FormInput from './form/FormInput.vue';
 
 const open = ref<boolean>(false)
 const email = ref<string>('')
+
+const subscribe = () => {
+  fetch('/api/subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email: email.value }),
+  })
+}
 </script>
 
 <template>
@@ -32,6 +42,7 @@ const email = ref<string>('')
     <button
       class="button"
       data-testid="subscribe-button"
+      @click="subscribe"
     >
       Subscribe
     </button>
