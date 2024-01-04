@@ -11,6 +11,7 @@ import Config from '../config/config.js'
 import CalendarController from '../controllers/calendarController.js'
 import { parseManifest } from '../config/vite.js'
 import { HttpVerb, Route } from './routes.js'
+import SubscriptionController from '../controllers/subscriptionController.js'
 
 export default function createAppRouter (
   config: Config,
@@ -55,10 +56,11 @@ function routes (
   tmdb: TmdbAdapter,
 ): Route[] {
   const cacheController = new CacheController(firestore, notion, tmdb)
-  const rsvpController = new RsvpController(firestore)
-  const weekController = new WeekController(firestore)
-  const suggestionController = new SuggestionController(notion)
   const calendarController = new CalendarController(config)
+  const rsvpController = new RsvpController(firestore)
+  const subscriptionController = new SubscriptionController(firestore)
+  const suggestionController = new SuggestionController(notion)
+  const weekController = new WeekController(firestore)
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
@@ -77,6 +79,11 @@ function routes (
     new Route(
       CalendarController.PATH,
       calendarController.index,
+    ),
+    new Route(
+      SubscriptionController.PATHS.store,
+      subscriptionController.store,
+      HttpVerb.POST,
     ),
   ]
 }

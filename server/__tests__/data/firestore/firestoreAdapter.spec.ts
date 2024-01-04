@@ -54,16 +54,19 @@ describe('getUpcomingWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       }, {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
+        slug: null,
       }, {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
+        slug: null,
       },
     ])
   })
@@ -97,16 +100,19 @@ describe('getPastWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       }, {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
+        slug: null,
       }, {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
+        slug: null,
       },
     ])
   })
@@ -143,6 +149,7 @@ describe('getWeek', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       })
     })
 
@@ -249,10 +256,10 @@ describe('createUser', () => {
   })
 })
 
-describe('getUser', () => {
+describe('getUserByEmail', () => {
   describe('when the user exists', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetUser({
+      FirebaseMock.mockGetUserByEmail({
         id: 'id1',
         email: 'test@example.com',
         reminders: true,
@@ -260,7 +267,7 @@ describe('getUser', () => {
     })
 
     it('returns the user', async () => {
-      const user = await firestore.getUser('test@example.com')
+      const user = await firestore.getUserByEmail('test@example.com')
 
       expect(user).toMatchObject({
         id: 'id1',
@@ -272,11 +279,11 @@ describe('getUser', () => {
 
   describe('when the user does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetUser()
+      FirebaseMock.mockGetUserByEmail()
     })
 
     it('returns null', async () => {
-      expect(await firestore.getUser('test@example.com')).toBeNull()
+      expect(await firestore.getUserByEmail('test@example.com')).toBeNull()
     })
   })
 })

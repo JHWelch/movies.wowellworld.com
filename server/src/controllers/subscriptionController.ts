@@ -15,11 +15,11 @@ export default class SubscriptionController {
   store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
-    const user = await this.firestore.getUser(req.body.email)
+    const user = await this.firestore.getUserByEmail(req.body.email)
 
     if (!user) {
-      this.firestore.createUser(req.body.email, true)
-      res.status(201)
+      await this.firestore.createUser(req.body.email, true)
+      res.status(201).json({ message: 'Thank you for signing up! See you soon.' })
 
       return
     }
@@ -34,8 +34,10 @@ export default class SubscriptionController {
     }
 
     user.reminders = true
-    this.firestore.updateUser(user)
-    res.status(200)
+    await this.firestore.updateUser(user)
+    res.status(200).json({ message: 'Thank you for signing up! See you soon.' })
+
+    return
   }
 
   private validate = (req: Request, res: Response): boolean =>

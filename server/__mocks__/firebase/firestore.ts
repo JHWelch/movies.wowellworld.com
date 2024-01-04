@@ -27,17 +27,18 @@ module.exports = {
     collectionPath,
     documentPath,
   }),
+  limit: jest.fn((limit: number) => ({ limit })),
   orderBy: jest.fn((fieldPath: string, directionStr?: string) => ({
     fieldPath,
     directionStr,
   })),
   query: jest.fn(),
+  setDoc: jest.fn(),
   transaction: transaction,
   Timestamp: {
     fromDate: (date: Date) => Timestamp.fromDate(date),
     now: () => Timestamp.now(),
   },
-  setDoc: jest.fn(),
   where: jest.fn((fieldPath: string, opStr: string, value: any) => ({
     fieldPath,
     opStr,

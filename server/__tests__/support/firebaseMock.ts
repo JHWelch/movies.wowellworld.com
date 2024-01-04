@@ -40,10 +40,15 @@ export class FirebaseMock {
     }))
   }
 
-  static mockGetUser (user?: FirebaseUser) {
-    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
-      data: () => user,
-      exists: () => Boolean(user),
+  static mockGetUserByEmail (user?: FirebaseUser) {
+    (getDocs as unknown as jest.Mock).mockImplementation(() => ({
+      docs: user ? [{
+        data: () => ({
+          id: user.id,
+          email: user.email,
+          reminders: user.reminders,
+        }),
+      }] : [],
     }))
   }
 

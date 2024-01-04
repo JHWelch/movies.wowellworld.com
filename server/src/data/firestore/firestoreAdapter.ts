@@ -8,6 +8,7 @@ import {
   Firestore as FirestoreType,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   Query,
@@ -107,14 +108,18 @@ export default class FirestoreAdapter {
     })
   }
 
-  getUser = async (email: string): Promise<User|null> => {
-    const document = await getDoc(doc(this.usersCollection, email))
+  getUserByEmail = async (email: string): Promise<User|null> => {
+    const users = await getDocs(query(
+      this.usersCollection,
+      where('email', '==', email),
+      limit(1),
+    ))
 
-    if (!document.exists()) {
+    if (users.docs.length === 0) {
       return null
     }
 
-    return User.fromFirebase(document.data())
+    return User.fromFirebase(users.docs[0].data())
   }
 
   updateUser = async (user: User): Promise<void> => {

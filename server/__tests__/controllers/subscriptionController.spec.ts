@@ -49,7 +49,7 @@ describe('store', () => {
 
     describe('user does not exist', () => {
       beforeEach(() => {
-        FirebaseMock.mockGetUser()
+        FirebaseMock.mockGetUserByEmail()
       })
 
       it('should return 201', async () => {
@@ -73,7 +73,7 @@ describe('store', () => {
 
     describe('user already exists and is subscribed', () => {
       beforeEach(() => {
-        FirebaseMock.mockGetUser({
+        FirebaseMock.mockGetUserByEmail({
           id: 'id',
           email: 'test@example.com',
           reminders: true,
@@ -93,7 +93,7 @@ describe('store', () => {
 
     describe('user already exists and is unsubscribed', () => {
       beforeEach(() => {
-        FirebaseMock.mockGetUser({
+        FirebaseMock.mockGetUserByEmail({
           id: 'id',
           email: 'test@example.com',
           reminders: false,
