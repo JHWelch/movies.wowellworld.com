@@ -52,10 +52,11 @@ describe('store', () => {
         FirebaseMock.mockGetUserByEmail()
       })
 
-      it('should return 201', async () => {
+      it('should return 201 and success message', async () => {
         await new SubscriptionController(firestore).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(201)
+        expect(res.json).toHaveBeenCalledWith({ message: 'Thank you for signing up! See you soon.' })
       })
 
       it('creates a new user with reminders enabled', async () => {
@@ -104,6 +105,7 @@ describe('store', () => {
         await new SubscriptionController(firestore).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
+        expect(res.json).toHaveBeenCalledWith({ message: 'Thank you for signing up! See you soon.' })
       })
 
       it('updates the user to be subscribed', async () => {
