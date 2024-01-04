@@ -7,13 +7,18 @@ import { beforeEach, describe, expect, it } from 'vitest'
 let wrapper: VueWrapper
 
 const subscribeSelector = '[data-testid="subscribe-button"]'
+const getRemindersSelector = '[data-testid="get-reminders-button"]'
 
 beforeEach(() => {
   wrapper = mount(ReminderSubscribe)
 })
 
-it('renders a "Get Reminders" button', async () => {
-  expect(wrapper.find('button').text()).toBe('Get Reminders!')
+it('renders "Get Reminders" button with unopened style', () => {
+  const button = wrapper.find(getRemindersSelector)
+
+  expect(button.text()).toBe('Get Reminders!')
+  expect(button.classes()).toContain('text-gray-800')
+  expect(button.classes()).toContain('hover:bg-violet-300')
 })
 
 describe('press the "Get Reminders" button', () => {
@@ -21,11 +26,19 @@ describe('press the "Get Reminders" button', () => {
     await wrapper.find('button').trigger('click')
   })
 
-  it('shows a form to enter an email address', async () => {
+  it('renders "Get Reminders" button with opened style', () => {
+    const button = wrapper.find(getRemindersSelector)
+
+    expect(button.text()).toBe('Get Reminders!')
+    expect(button.classes()).toContain('text-white')
+    expect(button.classes()).toContain('bg-violet-600')
+  })
+
+  it('shows a form to enter an email address', () => {
     expect(wrapper.find('input').exists()).toBe(true)
   })
 
-  it('shows a "Subscribe" button', async () => {
+  it('shows a "Subscribe" button', () => {
     expect(wrapper.find(subscribeSelector).exists()).toBe(true)
   })
 })
