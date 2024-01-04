@@ -47,16 +47,15 @@ const reload =  () => {
     })
 }
 
-watch(weeks, () => nextTick(() => {
+watch(weeks, () => nextTick(() => setTimeout(() => {
   const anchor = window.location.hash.substring(1)
-  if (anchor) {
-    const element = document.getElementById(anchor)
+  if (!anchor) { return }
 
-    if (element) {
-      element.scrollIntoView()
-    }
-  }
-}))
+  const element = document.getElementById(anchor)
+  if (!element) { return }
+
+  element.scrollIntoView()
+}, 100)))
 
 reload()
 </script>
