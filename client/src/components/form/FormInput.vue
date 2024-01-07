@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   name: string,
-  hideLabel: boolean,
   modelValue: string,
+  hideLabel?: boolean,
   label?: string,
   type?: string,
   error?: string,
@@ -22,7 +22,7 @@ defineEmits([
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <label
       v-if="!hideLabel"
       :for="name"
@@ -48,8 +48,10 @@ defineEmits([
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600': !error,
         }"
-        @change="$emit('clear-error', name)"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+        @input="
+          $emit('update:modelValue', ($event.target as HTMLInputElement)?.value);
+          $emit('clear-error', name)
+        "
       >
 
       <div
