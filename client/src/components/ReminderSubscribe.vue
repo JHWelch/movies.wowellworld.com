@@ -47,7 +47,7 @@ const subscribe = async () => {
   <button
     class="h-full py-2 px-4 font-medium flex flex-col justify-center items-center grow sm:grow-0 text-center leading-5"
     :class="{
-      'text-white bg-violet-600': open,
+      'text-white bg-violet-400': open,
       'text-gray-800 hover:bg-violet-300': !open,
     }"
     data-testid="get-reminders-button"
@@ -58,7 +58,7 @@ const subscribe = async () => {
 
   <div
     v-if="open"
-    class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4"
+    class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
   >
     <p class="text-sm">
       Get a email reminder the day before upcoming movie nights
