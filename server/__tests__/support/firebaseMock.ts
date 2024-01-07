@@ -64,7 +64,7 @@ export class FirebaseMock {
     }))
   }
 
-  static mockDoc (collectionPath: string, documentPath: string) {
+  static mockDoc (collectionPath: string, documentPath?: string) {
     return {
       firestore: { firestore: 'firestore' },
       collectionPath,

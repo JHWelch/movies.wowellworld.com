@@ -160,6 +160,27 @@ export default class FirestoreAdapter {
     })
   }
 
+  sendEmailTemplates = async (
+    templateName: string,
+    emails: {
+      to: string,
+      data: Record<string, unknown>,
+    }[],
+  ): Promise<void> => {
+    await runTransaction(this.firestore, async (transaction) => {
+      emails.forEach((email) => {
+        const ref = doc(this.firestore, this.mailCollectionName)
+
+        transaction.set(ref, {
+          to: email.to,
+          template: {
+            name: templateName,
+            data: email.data,
+          },
+        })
+      })
+    })
+  }
   updateTemplates = async (templates: {
     name: string,
     subject: string,

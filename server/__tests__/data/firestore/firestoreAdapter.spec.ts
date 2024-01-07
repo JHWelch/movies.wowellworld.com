@@ -445,6 +445,89 @@ describe('sendEmailTemplate', () => {
   })
 })
 
+describe('sendEmailTemplates', () => {
+  it('sends an email', async () => {
+    await firestore.sendEmailTemplates(
+      'rsvpConfirmation',
+      [
+        {
+          to: 'user1@example.com',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        }, {
+          to: 'user2@example.com',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      ],
+    )
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail'),
+      {
+        to: 'user1@example.com',
+        template: {
+          name: 'rsvpConfirmation',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      },
+    )
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail'),
+      {
+        to: 'user2@example.com',
+        template: {
+          name: 'rsvpConfirmation',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      },
+    )
+  })
+})
+
 describe('updateTemplates', () => {
   it('should update the templates with new data', async () => {
     await firestore.updateTemplates([
