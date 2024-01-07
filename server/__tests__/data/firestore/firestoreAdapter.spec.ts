@@ -448,7 +448,7 @@ describe('sendEmailTemplate', () => {
 describe('sendEmailTemplates', () => {
   it('sends an email', async () => {
     await firestore.sendEmailTemplates(
-      'rsvpConfirmation',
+      'reminder',
       [
         {
           to: 'user1@example.com',
@@ -487,7 +487,7 @@ describe('sendEmailTemplates', () => {
       {
         to: 'user1@example.com',
         template: {
-          name: 'rsvpConfirmation',
+          name: 'reminder',
           data: {
             date: 'Thursday, January 1st',
             theme: 'test theme',
@@ -509,7 +509,7 @@ describe('sendEmailTemplates', () => {
       {
         to: 'user2@example.com',
         template: {
-          name: 'rsvpConfirmation',
+          name: 'reminder',
           data: {
             date: 'Thursday, January 1st',
             theme: 'test theme',

@@ -34,7 +34,7 @@ export class FirebaseMock {
         theme: week.theme,
         date: Timestamp.fromDate(week.date),
         isSkipped: week.isSkipped,
-        movies: [],
+        movies: week.movies ?? [],
       } : undefined),
       exists: () => Boolean(week),
     }))
@@ -96,6 +96,21 @@ type FirebaseWeek = {
   date: Date,
   slug: string | null,
   isSkipped: boolean,
+  movies?: FirebaseMovie[],
+}
+
+type FirebaseMovie = {
+  director: string,
+  length: number,
+  notionId: string,
+  posterPath: string,
+  showingUrl: string | null,
+  theaterName: string | null,
+  time: string | null,
+  title: string,
+  tmdbId: number | null,
+  url: string | null,
+  year: number | null,
 }
 
 type FirebaseUser = {

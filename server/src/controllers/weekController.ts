@@ -3,7 +3,7 @@ import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
 
 export default class WeekController {
   constructor (
-    public firestore: FirestoreAdapter,
+    protected firestore: FirestoreAdapter,
   ) {}
 
   index = async (req: Request, res: Response): Promise<void> => {
