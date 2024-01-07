@@ -329,6 +329,18 @@ describe('getUsersWithReminders', () => {
       ])
     })
   })
+
+  describe('there are no users with reminders', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUserByEmails([])
+    })
+
+    it('returns an empty array', async () => {
+      const users = await firestore.getUsersWithReminders()
+
+      expect(users).toEqual([])
+    })
+  })
 })
 
 describe('updateUser', () => {
