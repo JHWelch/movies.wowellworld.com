@@ -29,7 +29,7 @@ export const notifications: NotificationState = reactive<NotificationState>({
   flash: (
     message: string,
     type?: NotificationType,
-    timeout: number = 3000,
+    timeout: number = 5000,
   ) => {
     notifications.open(message, type)
     setTimeout(notifications.close, timeout)

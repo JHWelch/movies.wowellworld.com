@@ -1,9 +1,23 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import FormInput from './form/FormInput.vue';
+import FormInput from './form/FormInput.vue'
+import { ErrorBag, Errors } from '../types'
+import { notifications } from '../state/notificationState';
 
 const open = ref<boolean>(false)
 const email = ref<string>('')
+
+const errors = ref<Errors>({})
+
+const handleErrors = (data: ErrorBag) => {
+  if (data.errors) {
+    errors.value = data.errors
+  }
+
+  if (data.message) {
+    notifications.flash(data.message, 'error')
+  }
+}
 
 const subscribe = async () => {
   const response = await fetch('/api/subscriptions', {
@@ -14,10 +28,16 @@ const subscribe = async () => {
     body: JSON.stringify({ email: email.value }),
   })
 
-  if (response.ok) {
-    open.value = false
-    email.value = ''
+  const data = await response.json()
+
+  if (!response.ok) {
+    handleErrors(data)
+
+    return
   }
+
+  open.value = false
+  email.value = ''
 }
 </script>
 
@@ -36,20 +56,28 @@ const subscribe = async () => {
 
   <div
     v-if="open"
-    class="absolute w-full right-0 top-12 bg-violet-200 p-2 flex space-x-2"
+    class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4"
   >
-    <FormInput
-      v-model="email"
-      name="email"
-      :hide-label="true"
-    />
+    <p class="text-sm">
+      Get a email reminder the day before upcoming movie nights
+    </p>
 
-    <button
-      class="button"
-      data-testid="subscribe-button"
-      @click="subscribe"
-    >
-      Subscribe
-    </button>
+    <div class="w-full flex space-x-4">
+      <FormInput
+        v-model="email"
+        name="email"
+        :hide-label="true"
+        :error="errors.email"
+        @clear-error="errors = {}"
+      />
+
+      <button
+        class="flex items-center justify-center px-4 py-1 font-semibold text-white rounded-md bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500 h-9 text-sm"
+        data-testid="subscribe-button"
+        @click="subscribe"
+      >
+        Subscribe
+      </button>
+    </div>
   </div>
 </template>
