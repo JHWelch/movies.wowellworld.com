@@ -2,7 +2,8 @@
 import { ref } from 'vue'
 import FormInput from './form/FormInput.vue'
 import { ErrorBag, Errors } from '../types'
-import { notifications } from '../state/notificationState';
+import { notifications } from '../state/notificationState'
+import { fireConfetti } from '../utilities/confetti'
 
 const open = ref<boolean>(false)
 const email = ref<string>('')
@@ -38,6 +39,7 @@ const subscribe = async () => {
 
   open.value = false
   email.value = ''
+  fireConfetti()
 }
 </script>
 
@@ -69,6 +71,7 @@ const subscribe = async () => {
         :hide-label="true"
         :error="errors.email"
         @clear-error="errors = {}"
+        @enter="subscribe"
       />
 
       <button

@@ -17,6 +17,7 @@ withDefaults(defineProps<{
 
 defineEmits([
   'clear-error',
+  'enter',
   'update:modelValue',
 ])
 </script>
@@ -52,6 +53,7 @@ defineEmits([
           $emit('update:modelValue', ($event.target as HTMLInputElement)?.value);
           $emit('clear-error', name)
         "
+        @keyup.enter="$emit('enter')"
       >
 
       <div
