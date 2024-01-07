@@ -122,6 +122,15 @@ export default class FirestoreAdapter {
     return User.fromFirebase(users.docs[0].data())
   }
 
+  getUsersWithReminders = async (): Promise<User[]> => {
+    const users = await getDocs(query(
+      this.usersCollection,
+      where('reminders', '==', true),
+    ))
+
+    return users.docs.map((doc) => User.fromFirebase(doc.data()))
+  }
+
   updateUser = async (user: User): Promise<void> => {
     setDoc(doc(
       this.firestore,

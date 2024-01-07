@@ -52,6 +52,18 @@ export class FirebaseMock {
     }))
   }
 
+  static mockGetUserByEmails (users: FirebaseUser[]) {
+    (getDocs as unknown as jest.Mock).mockImplementation(() => ({
+      docs: users.map((user) => ({
+        data: () => ({
+          id: user.id,
+          email: user.email,
+          reminders: user.reminders,
+        }),
+      })),
+    }))
+  }
+
   static mockDoc (collectionPath: string, documentPath: string) {
     return {
       firestore: { firestore: 'firestore' },

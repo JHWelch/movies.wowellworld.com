@@ -288,6 +288,49 @@ describe('getUserByEmail', () => {
   })
 })
 
+describe('getUsersWithReminders', () => {
+  describe('there are users with reminders', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUserByEmails([
+        {
+          id: 'id1',
+          email: 'user_with_reminder1@example.com',
+          reminders: true,
+        }, {
+          id: 'id2',
+          email: 'user_with_reminder2@example.com',
+          reminders: true,
+        },
+      ])
+    })
+
+    it('should query for users with reminders', async () => {
+      await firestore.getUsersWithReminders()
+
+      expect(query).toHaveBeenCalledWith(
+        { firestore: { firestore: 'firestore' }, collectionPath: 'users' },
+        { fieldPath: 'reminders', opStr: '==', value: true },
+      )
+    })
+
+    it('returns those users', async () => {
+      const users = await firestore.getUsersWithReminders()
+
+      expect(users).toMatchObject([
+        {
+          id: 'id1',
+          email: 'user_with_reminder1@example.com',
+          reminders: true,
+        }, {
+          id: 'id2',
+          email: 'user_with_reminder2@example.com',
+          reminders: true,
+        },
+      ])
+    })
+  })
+})
+
 describe('updateUser', () => {
   it('updates a user in firestore', async () => {
     await firestore.updateUser(new User('id', 'test@example.com', true))
