@@ -1,75 +1,99 @@
 /** @vitest-environment jsdom */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { DOMWrapper, VueWrapper, mount } from '@vue/test-utils'
 import Notifications from '../Notifications.vue'
 import { notifications } from '../../state/notificationState'
 import { nextTick } from 'vue'
+import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 
-it('does not display message by default', () => {
-  const wrapper = mount(Notifications)
+let wrapper: VueWrapper
+let notification: DOMWrapper<Element>
 
-  const notification = wrapper.find('[data-testid="notifications"]')
-  expect(notification.exists()).toBe(false)
+describe('default', () => {
+  beforeEach(() => {
+    wrapper = mount(Notifications)
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
+
+  it('does not display message by default', () => {
+    expect(notification.exists()).toBe(false)
+  })
 })
 
 describe('show message with default type', () => {
-  it('should display message with info style', async () => {
-    const wrapper = mount(Notifications)
-
+  beforeEach(async () => {
+    wrapper = mount(Notifications)
     notifications.open('Hello World')
-
     await nextTick()
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
 
-    const notification = wrapper.find('[data-testid="notifications"]')
+  it('should show notifications', () => {
     expect(notification.exists()).toBe(true)
+  })
+
+  it('should display message', () => {
     expect(notification.text()).toBe('Hello World')
+  })
+
+  it('should display message with info style', () => {
     expect(notification.classes()).toContain('bg-blue-500')
+  })
+
+  it('should display message with info icon', () => {
+    expect(wrapper.findComponent(InformationCircleIcon).exists()).toBe(true)
   })
 })
 
 describe('show message with success type', () => {
-  it('should display message with success style', async () => {
-    const wrapper = mount(Notifications)
-
+  beforeEach(async () => {
+    wrapper = mount(Notifications)
     notifications.open('Hello World', 'success')
-
     await nextTick()
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
 
-    const notification = wrapper.find('[data-testid="notifications"]')
-    expect(notification.exists()).toBe(true)
-    expect(notification.text()).toBe('Hello World')
+  it('should display message with correct style', () => {
     expect(notification.classes()).toContain('bg-green-500')
+  })
+
+  it('should display message with correct icon', () => {
+    expect(wrapper.findComponent(CheckCircleIcon).exists()).toBe(true)
   })
 })
 
 describe('show message with warning type', () => {
-  it('should display message with warning style', async () => {
-    const wrapper = mount(Notifications)
-
+  beforeEach(async () => {
+    wrapper = mount(Notifications)
     notifications.open('Hello World', 'warning')
-
     await nextTick()
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
 
-    const notification = wrapper.find('[data-testid="notifications"]')
-    expect(notification.exists()).toBe(true)
-    expect(notification.text()).toBe('Hello World')
+  it('should display message with correct style', () => {
     expect(notification.classes()).toContain('bg-yellow-500')
+  })
+
+  it('should display message with correct icon', () => {
+    expect(wrapper.findComponent(ExclamationTriangleIcon).exists()).toBe(true)
   })
 })
 
 describe('show message with error type', () => {
-  it('should display message with error style', async () => {
-    const wrapper = mount(Notifications)
-
+  beforeEach(async () => {
+    wrapper = mount(Notifications)
     notifications.open('Hello World', 'error')
-
     await nextTick()
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
 
-    const notification = wrapper.find('[data-testid="notifications"]')
-    expect(notification.exists()).toBe(true)
-    expect(notification.text()).toBe('Hello World')
+  it('should display message with correct style', () => {
     expect(notification.classes()).toContain('bg-red-500')
+  })
+
+  it('should display message with correct icon', () => {
+    expect(wrapper.findComponent(XCircleIcon).exists()).toBe(true)
   })
 })
 
