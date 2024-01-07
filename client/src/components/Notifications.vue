@@ -14,8 +14,6 @@ const icon = {
   warning: ExclamationTriangleIcon,
   info: InformationCircleIcon,
 }
-
-const IconComponent = icon[notifications.type || 'info']
 </script>
 
 <template>
@@ -30,7 +28,10 @@ const IconComponent = icon[notifications.type || 'info']
       'bg-blue-500': notifications.type === 'info',
     }"
   >
-    <IconComponent class="w-8 h-8" />
+    <component
+      :is="icon[notifications.type || 'info']"
+      class="w-6 h-6"
+    />
 
     <p>
       {{ notifications.message }}
