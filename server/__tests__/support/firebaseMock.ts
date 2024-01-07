@@ -52,7 +52,7 @@ export class FirebaseMock {
     }))
   }
 
-  static mockGetUserByEmails (users: FirebaseUser[]) {
+  static mockGetUsers (users: FirebaseUser[]) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => ({
       docs: users.map((user) => ({
         data: () => ({

@@ -291,7 +291,7 @@ describe('getUserByEmail', () => {
 describe('getUsersWithReminders', () => {
   describe('there are users with reminders', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetUserByEmails([
+      FirebaseMock.mockGetUsers([
         {
           id: 'id1',
           email: 'user_with_reminder1@example.com',
@@ -332,7 +332,7 @@ describe('getUsersWithReminders', () => {
 
   describe('there are no users with reminders', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetUserByEmails([])
+      FirebaseMock.mockGetUsers([])
     })
 
     it('returns an empty array', async () => {
