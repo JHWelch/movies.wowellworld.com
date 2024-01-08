@@ -28,12 +28,12 @@ class CronController {
       title: movie.title,
       time: movie.time,
       year: movie.year?.toString(),
-      posterPath: movie.posterPath,
+      posterPath: movie.emailPosterUrl(),
     }))
     const displayDate = week.displayDate()
 
     await this.firestore.sendEmailTemplates('reminder', users.map((user) => ({
-      to: user.id,
+      to: user.email,
       data: {
         date: displayDate,
         theme: week.theme,

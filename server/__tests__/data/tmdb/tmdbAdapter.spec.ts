@@ -34,7 +34,7 @@ describe('getMovie', () => {
 
     const movie = await tmdbAdapter.getMovie('movie title')
 
-    expect(movie).toEqual(expected)
+    expect(movie?.toDTO()).toMatchObject(expected.toDTO())
   })
 
   describe('when movie is not found', () => {

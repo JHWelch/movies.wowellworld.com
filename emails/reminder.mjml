@@ -5,7 +5,7 @@
     <mj-attributes>
       <mj-all font-family="Verdana, sans-serif" />
 
-      <mj-text font-size="16px" color="#111827" line-height="16px"/>
+      <mj-text font-size="24px" color="#111827" line-height="24px"/>
     </mj-attributes>
 
     <mj-html-attributes>
@@ -25,7 +25,7 @@
         <mj-text
           padding="0px"
           align="center"
-          font-size="12px"
+          font-size="16px"
           color="#7c3aed"
         >Wowell World Studios Presents: Thursday&nbsp;Night&nbsp;Movie&nbsp;Club</mj-text>
       </mj-column>
@@ -35,67 +35,67 @@
       <mj-column width="100%">
         <mj-text
           align="center"
-          font-size="12px"
+          font-size="16px"
           line-height="8px"
-        >{{ date }}</mj-text>
+        >{{date}}</mj-text>
 
         <mj-text
           align="center"
           font-size="20px"
           font-weight="bold"
           line-height="8px"
-        >{{ theme }}</mj-text>
+        >{{theme}}</mj-text>
 
         <mj-button
           background-color="#7c3aed"
           color="#ffffff"
-          font-size="12px"
+          font-size="16px"
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
+          href="https://movies.wowellworld.com?rsvp={{weekId}}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>
 
     <mj-section full-width="full-width" background-color="#F9FAFB">
-      {{ #each movies as |movie| }}
+      <mj-raw>{{#each movies}}</mj-raw>
         <mj-column width="50%">
           <mj-text
             align="center"
-            font-size="16px"
+            font-size="30px"
             font-weight="bold"
             color="#111827"
             padding="5px"
-          >{{ movie.title }}</mj-text>
+          >{{title}}</mj-text>
 
           <mj-image
-            src="{{ movie.posterPath }}"
-            alt="{{ movie.title }} Poster"
+            src="{{posterPath}}"
+            alt="{{title}} Poster"
             align="center"
-            width="220px"
+            width="300px"
           />
         </mj-column>
-      {{ /each }}
+      <mj-raw>{{/each}}</mj-raw>
     </mj-section>
 
     <mj-section full-width="full-width" background-color="#e9d5ff">
-      <mj-column width="400px">
-        {{ #each movies as |movie| }}
-          <mj-text font-size="16px" padding="15px 25px">
-            <b>{{ movie.time }}</b> - <i>{{ movie.title }} ({{ movie.year }})</i>
+      <mj-column width="500px">
+        <mj-raw>{{#each movies}}</mj-raw>
+          <mj-text font-size="20px" padding="15px 25px">
+            <b>{{time}}</b> - <i>{{title}} ({{year}})</i>
           </mj-text>
-        {{ /each }}
+        <mj-raw>{{/each}}</mj-raw>
 
         <mj-button
           padding="30px 0px"
           background-color="#7c3aed"
           color="#ffffff"
-          font-size="12px"
+          font-size="16px"
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
+          href="https://movies.wowellworld.com?rsvp={{weekId}}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>

@@ -6,6 +6,7 @@ import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'
 import { transaction } from '../../__mocks__/firebase/firestore'
+import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 
 const { res, mockClear } = getMockRes()
 
@@ -36,7 +37,7 @@ describe('reminders', () => {
           director: 'director1',
           length: 100,
           notionId: 'notion-id1',
-          posterPath: 'poster1',
+          posterPath: '/poster1.png',
           showingUrl: null,
           theaterName: null,
           time: '6:00 PM',
@@ -48,7 +49,7 @@ describe('reminders', () => {
           director: 'director2',
           length: 200,
           notionId: 'notion-id2',
-          posterPath: 'poster2',
+          posterPath: '/poster2.jpg',
           showingUrl: null,
           theaterName: null,
           time: '8:00 PM',
@@ -81,7 +82,7 @@ describe('reminders', () => {
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('mail', expect.anything()),
           {
-            to: 'user-id1',
+            to: 'user_with_reminder1@example.com',
             template: {
               name: 'reminder',
               data: {
@@ -90,12 +91,12 @@ describe('reminders', () => {
                 weekId: '2021-01-01',
                 movies: [{
                   title: 'movie1',
-                  posterPath: 'poster1',
+                  posterPath: TMDB_POSTER_URL + '300/poster1.png',
                   year: '2021',
                   time: '6:00 PM',
                 }, {
                   title: 'movie2',
-                  posterPath: 'poster2',
+                  posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
                   year: '1999',
                   time: '8:00 PM',
                 }],
@@ -107,7 +108,7 @@ describe('reminders', () => {
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('mail', expect.anything()),
           {
-            to: 'user-id2',
+            to: 'user_with_reminder2@example.com',
             template: {
               name: 'reminder',
               data: {
@@ -116,12 +117,12 @@ describe('reminders', () => {
                 weekId: '2021-01-01',
                 movies: [{
                   title: 'movie1',
-                  posterPath: 'poster1',
+                  posterPath: TMDB_POSTER_URL + '300/poster1.png',
                   year: '2021',
                   time: '6:00 PM',
                 }, {
                   title: 'movie2',
-                  posterPath: 'poster2',
+                  posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
                   year: '1999',
                   time: '8:00 PM',
                 }],
