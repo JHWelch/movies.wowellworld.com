@@ -8,6 +8,7 @@ import Movie from '../models/movie'
 import TmdbAdapter from '../data/tmdb/tmdbAdapter'
 import fs from 'fs'
 import emails from '../emails/emails.js'
+import directoryPath from '../helpers/directoryPath.js'
 
 export default class CacheController {
   static PATHS = {
@@ -45,8 +46,8 @@ export default class CacheController {
     res.sendStatus(200)
   }
 
-  private getHtml = (name: string | null) =>
-    fs.readFileSync(`./emails/built/${name}.html`, 'utf8')
+  private getHtml = (name: string | null): string =>
+    fs.readFileSync(`${directoryPath()}/../../../emails/built/${name}.html`, 'utf8')
 
   private fillMovieDetails = (movies: Movie[]): Promise<void[]> =>
     Promise.all(movies.map<Promise<void>>(async movie => {
