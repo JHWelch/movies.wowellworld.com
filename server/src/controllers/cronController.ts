@@ -28,7 +28,7 @@ class CronController {
       title: movie.title,
       time: movie.time,
       year: movie.year?.toString(),
-      posterPath: movie.posterPath,
+      posterPath: movie.emailPosterUrl(),
     }))
     const displayDate = week.displayDate()
 
