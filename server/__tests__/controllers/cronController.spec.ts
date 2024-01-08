@@ -81,7 +81,7 @@ describe('reminders', () => {
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('mail', expect.anything()),
           {
-            to: 'user-id1',
+            to: 'user_with_reminder1@example.com',
             template: {
               name: 'reminder',
               data: {
@@ -107,7 +107,7 @@ describe('reminders', () => {
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('mail', expect.anything()),
           {
-            to: 'user-id2',
+            to: 'user_with_reminder2@example.com',
             template: {
               name: 'reminder',
               data: {

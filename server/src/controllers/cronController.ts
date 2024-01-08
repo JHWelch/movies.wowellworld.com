@@ -33,7 +33,7 @@ class CronController {
     const displayDate = week.displayDate()
 
     await this.firestore.sendEmailTemplates('reminder', users.map((user) => ({
-      to: user.id,
+      to: user.email,
       data: {
         date: displayDate,
         theme: week.theme,
@@ -46,7 +46,7 @@ class CronController {
   }
 
   protected tomorrow = (): Date => {
-    const date = new Date()
+    const date = new Date('2024/01/10')
     date.setDate(date.getDate() + 1)
     return date
   }
