@@ -1,7 +1,7 @@
 
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import CronController from '../../src/controllers/cronController'
+import { CronController } from '../../src/controllers/cronController'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'

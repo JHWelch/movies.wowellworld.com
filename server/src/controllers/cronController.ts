@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 
-export default class CronController {
+class CronController {
   static PATHS = {
     reminders: '/cron/reminders',
   }
@@ -49,4 +49,8 @@ export default class CronController {
     date.setDate(date.getDate() + 1)
     return date
   }
+}
+
+export {
+  CronController,
 }

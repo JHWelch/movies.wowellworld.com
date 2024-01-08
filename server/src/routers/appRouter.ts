@@ -10,8 +10,9 @@ import SuggestionController from '../controllers/suggestionController.js'
 import Config from '../config/config.js'
 import CalendarController from '../controllers/calendarController.js'
 import { parseManifest } from '../config/vite.js'
-import { HttpVerb, Route } from './routes.js'
+import { HttpVerb, Route, registerRoutes } from './routes.js'
 import SubscriptionController from '../controllers/subscriptionController.js'
+import { CronController } from '../controllers/cronController.js'
 
 export default function createAppRouter (
   config: Config,
@@ -21,19 +22,7 @@ export default function createAppRouter (
 ): Router {
   const router = Router()
 
-  routes(config, firestore, notion, tmdb)
-    .forEach((route) => {
-      switch (route.method) {
-      case HttpVerb.GET:
-        router.get(route.path, route.handler); break
-      case HttpVerb.POST:
-        router.post(route.path, route.handler); break
-      case HttpVerb.PUT:
-        router.put(route.path, route.handler); break
-      case HttpVerb.DELETE:
-        router.delete(route.path, route.handler); break
-      }
-    })
+  registerRoutes(router, routes(config, firestore, notion, tmdb))
 
   router.all('*', (_req, res) => {
     try {
@@ -57,6 +46,7 @@ function routes (
 ): Route[] {
   const cacheController = new CacheController(firestore, notion, tmdb)
   const calendarController = new CalendarController(config)
+  const cronController = new CronController(firestore)
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
   const suggestionController = new SuggestionController(notion)
@@ -85,5 +75,6 @@ function routes (
       subscriptionController.store,
       HttpVerb.POST,
     ),
+    new Route(CronController.PATHS.reminders, cronController.reminders),
   ]
 }
