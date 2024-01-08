@@ -50,7 +50,7 @@ describe('X-Appengine-Cron is set', () => {
   beforeEach(() => {
     req = getMockReq({
       headers: {
-        'X-Appengine-Cron': 'true',
+        'x-appengine-cron': 'true',
       },
     })
   })
