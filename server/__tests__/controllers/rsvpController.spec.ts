@@ -192,12 +192,7 @@ describe('store', () => {
 
   describe('when week does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2023-01-01'),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-      }, false)
+      FirebaseMock.mockGetWeek()
     })
 
     it('should return a 404', async () => {

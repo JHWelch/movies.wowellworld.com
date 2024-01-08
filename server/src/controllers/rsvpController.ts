@@ -12,7 +12,7 @@ export default class RsvpController {
     private firestore: FirestoreAdapter,
   ) {}
 
-  async store (req: Request, res: Response): Promise<void> {
+  store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
     const { weekId } = req.params
@@ -35,7 +35,6 @@ export default class RsvpController {
       text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`, // eslint-disable-line max-len
       html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email}</li><li>Plus one: ${plusOne}</li></ul>`, // eslint-disable-line max-len
     })
-
   }
 
   private validate = (req: Request, res: Response): boolean =>

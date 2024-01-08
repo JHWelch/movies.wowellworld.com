@@ -1,0 +1,22 @@
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
+
+export default class User {
+  constructor (
+    public id: string,
+    public email: string,
+    public reminders: boolean,
+  ) {}
+
+  static fromFirebase = (
+    record: QueryDocumentSnapshot<DocumentData, DocumentData>,
+  ): User => new User(
+    record.id,
+    record.data().email,
+    record.data().reminders,
+  )
+
+  toFirebaseDTO = (): DocumentData => ({
+    email: this.email,
+    reminders: this.reminders,
+  })
+}

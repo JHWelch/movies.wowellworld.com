@@ -18,6 +18,7 @@
       </mj-selector>
     </mj-html-attributes>
   </mj-head>
+
   <mj-body>
     <mj-section full-width="full-width" background-color="#F9FAFB">
       <mj-column width="100%">
@@ -52,7 +53,7 @@
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com/"
+          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>
@@ -94,7 +95,7 @@
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com/"
+          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>

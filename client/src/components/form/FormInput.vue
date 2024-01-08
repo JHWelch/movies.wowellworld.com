@@ -1,35 +1,48 @@
 <script lang="ts" setup>
-defineProps<{
-  modelValue?: string,
+withDefaults(defineProps<{
   name: string,
+  modelValue?: string,
+  hideLabel?: boolean,
   label?: string,
   type?: string,
   error?: string,
   placeholder?: string,
-}>()
+}>(), {
+  modelValue: '',
+  hideLabel: false,
+  type: 'text',
+  placeholder: '',
+  error: undefined,
+  label: undefined,
+})
 
 defineEmits([
   'clear-error',
+  'enter',
   'update:modelValue',
 ])
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <label
+      v-if="!hideLabel"
       :for="name"
       class="block text-sm font-medium leading-6 text-gray-900"
       v-text="label ?? name.charAt(0).toUpperCase() + name.slice(1)"
     />
 
-    <div class="relative mt-2">
+    <div
+      class="relative"
+      :class="{ 'mt-2': !hideLabel }"
+    >
       <input
         :id="name"
         :value="modelValue"
         required
         class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-        :placeholder="placeholder ?? ''"
-        :type="type ?? 'text'"
+        :placeholder="placeholder"
+        :type="type"
         :name="name"
         :aria-describedby="name + '-error'"
         :aria-invalid="error ? 'true' : 'false'"
@@ -37,8 +50,11 @@ defineEmits([
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600': !error,
         }"
-        @change="$emit('clear-error', name)"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement)?.value)"
+        @input="
+          $emit('update:modelValue', ($event.target as HTMLInputElement)?.value);
+          $emit('clear-error', name)
+        "
+        @keyup.enter="$emit('enter')"
       >
 
       <div

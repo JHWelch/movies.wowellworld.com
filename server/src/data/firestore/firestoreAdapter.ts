@@ -8,21 +8,26 @@ import {
   Firestore as FirestoreType,
   getDoc,
   getDocs,
+  limit,
   orderBy,
   query,
   Query,
   runTransaction,
+  setDoc,
   Timestamp,
   where,
 } from 'firebase/firestore'
 import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
 import Config from '../../config/config.js'
+import User from '../../models/user.js'
+import { randomUUID } from 'crypto'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
   static readonly TEMPLATES_COLLECTION_NAME = 'mail-templates'
+  static readonly USERS_COLLECTION_NAME = 'users'
   static readonly WEEKS_COLLECTION_NAME = 'weeks'
 
   private config: Config
@@ -33,7 +38,7 @@ export default class FirestoreAdapter {
     this.firestore = setupFirestore(config)
   }
 
-  async cacheWeeks (weeks: Week[]): Promise<void> {
+  cacheWeeks = async (weeks: Week[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       weeks.forEach((week: Week) => {
         const ref = doc(
@@ -46,7 +51,7 @@ export default class FirestoreAdapter {
     })
   }
 
-  async getPastWeeks (): Promise<Week[]> {
+  getPastWeeks = async (): Promise<Week[]> => {
     return this.getWeeks(query(
       this.weekCollection,
       and(
@@ -57,7 +62,7 @@ export default class FirestoreAdapter {
     ))
   }
 
-  async getUpcomingWeeks (): Promise<Week[]> {
+  getUpcomingWeeks = async (): Promise<Week[]> => {
     return this.getWeeks(query(
       this.weekCollection,
       where('date', '>=', this.today()),
@@ -65,14 +70,14 @@ export default class FirestoreAdapter {
     ))
   }
 
-  async getWeeks (firestoreQuery: Query): Promise<Week[]> {
+  getWeeks = async (firestoreQuery: Query): Promise<Week[]> => {
     const querySnapshot = await getDocs(firestoreQuery)
 
     return querySnapshot.docs
       .map((doc) => Week.fromFirebase(doc.data()))
   }
 
-  async getWeek (dateString: string): Promise<Week|null> {
+  getWeek = async (dateString: string): Promise<Week|null> => {
     const document = await getDoc(doc(this.weekCollection, dateString))
 
     if (!document.exists()) {
@@ -82,12 +87,12 @@ export default class FirestoreAdapter {
     return Week.fromFirebase(document.data())
   }
 
-  async createRsvp (
+  createRsvp = async (
     week: string,
     name: string,
     email: string,
     plusOne: boolean,
-  ): Promise<void> {
+  ): Promise<void> => {
     await addDoc(this.rsvpCollection, {
       week,
       name,
@@ -97,18 +102,56 @@ export default class FirestoreAdapter {
     })
   }
 
-  async sendEmail (to: string, message: EmailMessage): Promise<void> {
+  createUser = async (email: string, reminders: boolean): Promise<void> => {
+    await addDoc(this.usersCollection, {
+      email,
+      reminders,
+    })
+  }
+
+  getUserByEmail = async (email: string): Promise<User|null> => {
+    const users = await getDocs(query(
+      this.usersCollection,
+      where('email', '==', email),
+      limit(1),
+    ))
+
+    if (users.docs.length === 0) {
+      return null
+    }
+
+    return User.fromFirebase(users.docs[0])
+  }
+
+  getUsersWithReminders = async (): Promise<User[]> => {
+    const users = await getDocs(query(
+      this.usersCollection,
+      where('reminders', '==', true),
+    ))
+
+    return users.docs.map(User.fromFirebase)
+  }
+
+  updateUser = async (user: User): Promise<void> => {
+    setDoc(doc(
+      this.firestore,
+      this.usersCollectionName,
+      user.id,
+    ), user.toFirebaseDTO())
+  }
+
+  sendEmail = async (to: string, message: EmailMessage): Promise<void> => {
     await addDoc(this.mailCollection, {
       to,
       message,
     })
   }
 
-  async sendEmailTemplate (
+  sendEmailTemplate = async (
     to: string,
     templateName: string,
     templateData: Record<string, unknown>,
-  ): Promise<void> {
+  ): Promise<void> => {
     await addDoc(this.mailCollection, {
       to,
       template: {
@@ -118,11 +161,36 @@ export default class FirestoreAdapter {
     })
   }
 
-  async updateTemplates (templates: {
+  sendEmailTemplates = async (
+    templateName: string,
+    emails: {
+      to: string,
+      data: Record<string, unknown>,
+    }[],
+  ): Promise<void> => {
+    await runTransaction(this.firestore, async (transaction) => {
+      emails.forEach((email) => {
+        const ref = doc(
+          this.firestore,
+          this.mailCollectionName,
+          randomUUID(),
+        )
+
+        transaction.set(ref, {
+          to: email.to,
+          template: {
+            name: templateName,
+            data: email.data,
+          },
+        })
+      })
+    })
+  }
+  updateTemplates = async (templates: {
     name: string,
     subject: string,
     html: string,
-  }[]): Promise<void> {
+  }[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       templates.forEach((template: {
         name: string,
@@ -141,7 +209,7 @@ export default class FirestoreAdapter {
     })
   }
 
-  today (): Timestamp {
+  today = (): Timestamp => {
     const today = new Date()
     const todayUtc = new Date(Date.UTC(
       today.getFullYear(),
@@ -168,6 +236,10 @@ export default class FirestoreAdapter {
     return this.collectionName(FirestoreAdapter.TEMPLATES_COLLECTION_NAME)
   }
 
+  private get usersCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.USERS_COLLECTION_NAME)
+  }
+
   private get weeksCollectionName (): string {
     return this.collectionName(FirestoreAdapter.WEEKS_COLLECTION_NAME)
   }
@@ -178,6 +250,10 @@ export default class FirestoreAdapter {
 
   private get rsvpCollection (): Collection {
     return collection(this.firestore, this.rsvpsCollectionName)
+  }
+
+  private get usersCollection (): Collection {
+    return collection(this.firestore, this.usersCollectionName)
   }
 
   private get weekCollection (): Collection {

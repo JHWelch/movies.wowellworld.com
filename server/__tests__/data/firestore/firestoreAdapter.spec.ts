@@ -14,12 +14,14 @@ import {
   addDoc,
   getFirestore,
   query,
+  setDoc,
 } from 'firebase/firestore'
 import { transaction } from '../../../__mocks__/firebase/firestore'
 import { FirebaseMock } from '../../support/firebaseMock'
 import Week from '../../../src/models/week'
 import { mockConfig } from '../../support/mockConfig'
 import MovieFactory from '../../support/factories/movieFactory'
+import User from '../../../src/models/user'
 
 let firestore: FirestoreAdapter
 
@@ -52,16 +54,19 @@ describe('getUpcomingWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       }, {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
+        slug: null,
       }, {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
+        slug: null,
       },
     ])
   })
@@ -95,16 +100,19 @@ describe('getPastWeeks', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       }, {
         date: new Date('2021-01-08'),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
+        slug: null,
       }, {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
+        slug: null,
       },
     ])
   })
@@ -141,6 +149,7 @@ describe('getWeek', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        slug: null,
       })
     })
 
@@ -155,12 +164,7 @@ describe('getWeek', () => {
 
   describe('when the week does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2021-01-01'),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-      }, false)
+      FirebaseMock.mockGetWeek()
     })
 
     it('returns null', async () => {
@@ -232,6 +236,124 @@ describe('cacheWeeks', () => {
           FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
         )
     })
+  })
+})
+
+describe('createUser', () => {
+  it('creates a user in firestore', async () => {
+    await firestore.createUser(
+      'test@example.com',
+      true,
+    )
+
+    expect(addDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockCollection('users'),
+      {
+        email: 'test@example.com',
+        reminders: true,
+      },
+    )
+  })
+})
+
+describe('getUserByEmail', () => {
+  describe('when the user exists', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUserByEmail({
+        id: 'id1',
+        email: 'test@example.com',
+        reminders: true,
+      })
+    })
+
+    it('returns the user', async () => {
+      const user = await firestore.getUserByEmail('test@example.com')
+
+      expect(user).toMatchObject({
+        id: 'id1',
+        email: 'test@example.com',
+        reminders: true,
+      })
+    })
+  })
+
+  describe('when the user does not exist', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUserByEmail()
+    })
+
+    it('returns null', async () => {
+      expect(await firestore.getUserByEmail('test@example.com')).toBeNull()
+    })
+  })
+})
+
+describe('getUsersWithReminders', () => {
+  describe('there are users with reminders', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUsers([
+        {
+          id: 'id1',
+          email: 'user_with_reminder1@example.com',
+          reminders: true,
+        }, {
+          id: 'id2',
+          email: 'user_with_reminder2@example.com',
+          reminders: true,
+        },
+      ])
+    })
+
+    it('should query for users with reminders', async () => {
+      await firestore.getUsersWithReminders()
+
+      expect(query).toHaveBeenCalledWith(
+        { firestore: { firestore: 'firestore' }, collectionPath: 'users' },
+        { fieldPath: 'reminders', opStr: '==', value: true },
+      )
+    })
+
+    it('returns those users', async () => {
+      const users = await firestore.getUsersWithReminders()
+
+      expect(users).toMatchObject([
+        {
+          id: 'id1',
+          email: 'user_with_reminder1@example.com',
+          reminders: true,
+        }, {
+          id: 'id2',
+          email: 'user_with_reminder2@example.com',
+          reminders: true,
+        },
+      ])
+    })
+  })
+
+  describe('there are no users with reminders', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetUsers([])
+    })
+
+    it('returns an empty array', async () => {
+      const users = await firestore.getUsersWithReminders()
+
+      expect(users).toEqual([])
+    })
+  })
+})
+
+describe('updateUser', () => {
+  it('updates a user in firestore', async () => {
+    await firestore.updateUser(new User('id', 'test@example.com', true))
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('users', 'id'),
+      {
+        email: 'test@example.com',
+        reminders: true,
+      },
+    )
   })
 })
 
@@ -320,6 +442,89 @@ describe('sendEmailTemplate', () => {
         },
       )
     })
+  })
+})
+
+describe('sendEmailTemplates', () => {
+  it('sends an email', async () => {
+    await firestore.sendEmailTemplates(
+      'reminder',
+      [
+        {
+          to: 'user1@example.com',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        }, {
+          to: 'user2@example.com',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      ],
+    )
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail', expect.anything()),
+      {
+        to: 'user1@example.com',
+        template: {
+          name: 'reminder',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      },
+    )
+
+    expect(transaction.set).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('mail', expect.anything()),
+      {
+        to: 'user2@example.com',
+        template: {
+          name: 'reminder',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [
+              {
+                title: 'test title',
+                year: '2021',
+                time: '6:00pm',
+                posterPath: 'https://example.com/poster.jpg',
+              },
+            ],
+          },
+        },
+      },
+    )
   })
 })
 
