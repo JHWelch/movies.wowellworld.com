@@ -18,6 +18,7 @@
       </mj-selector>
     </mj-html-attributes>
   </mj-head>
+
   <mj-body>
     <mj-section full-width="full-width" background-color="#F9FAFB">
       <mj-column width="100%">

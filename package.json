@@ -12,6 +12,7 @@
     "build": "npm run build:server && npm run build:client",
     "build:server": "cd server && npm run build",
     "build:client": "cd client && npm run build",
+    "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
     "start": "node built/server/src/index.js",
     "postinstall": "npm --prefix server install && npm --prefix client install",
     "test": "npm run test:server && npm run test:client",
