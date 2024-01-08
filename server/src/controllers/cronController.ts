@@ -46,7 +46,7 @@ class CronController {
   }
 
   protected tomorrow = (): Date => {
-    const date = new Date('2024/01/10')
+    const date = new Date()
     date.setDate(date.getDate() + 1)
     return date
   }
