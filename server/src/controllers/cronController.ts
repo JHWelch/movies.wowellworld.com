@@ -31,16 +31,14 @@ export default class CronController {
     }))
     const displayDate = week.displayDate()
 
-    const reminders = users.map((user) => ({
+    await this.firestore.sendEmailTemplates('reminder', users.map((user) => ({
       to: user.id,
       data: {
         date: displayDate,
         theme: week.theme,
         movies: movies,
       },
-    }))
-
-    await this.firestore.sendEmailTemplates('reminder', reminders)
+    })))
 
     res.status(200).send('ok')
   }
