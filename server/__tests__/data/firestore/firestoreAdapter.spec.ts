@@ -483,7 +483,7 @@ describe('sendEmailTemplates', () => {
     )
 
     expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('mail'),
+      FirebaseMock.mockDoc('mail', expect.anything()),
       {
         to: 'user1@example.com',
         template: {
@@ -505,7 +505,7 @@ describe('sendEmailTemplates', () => {
     )
 
     expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('mail'),
+      FirebaseMock.mockDoc('mail', expect.anything()),
       {
         to: 'user2@example.com',
         template: {

@@ -79,7 +79,7 @@ describe('reminders', () => {
         await new CronController(firestore).reminders(getMockReq(), res)
 
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('mail'),
+          FirebaseMock.mockDoc('mail', expect.anything()),
           {
             to: 'user-id1',
             template: {
@@ -105,7 +105,7 @@ describe('reminders', () => {
         )
 
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('mail'),
+          FirebaseMock.mockDoc('mail', expect.anything()),
           {
             to: 'user-id2',
             template: {

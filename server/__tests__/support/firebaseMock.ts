@@ -43,8 +43,8 @@ export class FirebaseMock {
   static mockGetUserByEmail (user?: FirebaseUser) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => ({
       docs: user ? [{
+        id: user.id,
         data: () => ({
-          id: user.id,
           email: user.email,
           reminders: user.reminders,
         }),
@@ -55,8 +55,8 @@ export class FirebaseMock {
   static mockGetUsers (users: FirebaseUser[]) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => ({
       docs: users.map((user) => ({
+        id: user.id,
         data: () => ({
-          id: user.id,
           email: user.email,
           reminders: user.reminders,
         }),
@@ -64,7 +64,10 @@ export class FirebaseMock {
     }))
   }
 
-  static mockDoc (collectionPath: string, documentPath?: string) {
+  static mockDoc (
+    collectionPath: string,
+    documentPath?: string | unknown,
+  ) {
     return {
       firestore: { firestore: 'firestore' },
       collectionPath,
