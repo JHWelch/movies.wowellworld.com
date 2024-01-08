@@ -6,7 +6,7 @@ import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
     const movieA = new Movie('Title', null, 2004, 120)
-    const movieB = new Movie (
+    const movieB = new Movie(
       'Title',
       'Director',
       2001,
@@ -19,16 +19,16 @@ describe('merge', () => {
 
     movieA.merge(movieB)
 
-    expect(movieA).toEqual(new Movie(
-      'Title',
-      'Director',
-      2004,
-      120,
-      '8:00 PM',
-      'https://www.themoviedb.org/movie/1234',
-      'https://image.tmdb.org/t/p/original/poster.jpg',
-      1234,
-    ))
+    expect(movieA).toMatchObject({
+      title: 'Title',
+      director: 'Director',
+      year: 2004,
+      length: 120,
+      time: '8:00 PM',
+      url: 'https://www.themoviedb.org/movie/1234',
+      posterPath: 'https://image.tmdb.org/t/p/original/poster.jpg',
+      tmdbId: 1234,
+    })
   })
 })
 
@@ -151,11 +151,11 @@ describe('toFirebaseDTO', () => {
 })
 
 describe('posterUrl', () => {
-  it('appends the posterPath to the base url', () => {
+  it('appends the posterPath to the base url with 500 width', () => {
     const movie = new MovieFactory().make()
 
     expect(movie.posterUrl()).toEqual(
-      `${TMDB_POSTER_URL}${movie.posterPath}`,
+      `${TMDB_POSTER_URL}500${movie.posterPath}`,
     )
   })
 
@@ -164,6 +164,24 @@ describe('posterUrl', () => {
       const movie = new MovieFactory().state({ posterPath: null }).make()
 
       expect(movie.posterUrl()).toEqual('')
+    })
+  })
+})
+
+describe('emailPosterUrl', () => {
+  it('appends the posterPath to the base url with 300 width', () => {
+    const movie = new MovieFactory().make()
+
+    expect(movie.emailPosterUrl()).toEqual(
+      `${TMDB_POSTER_URL}300${movie.posterPath}`,
+    )
+  })
+
+  describe('posterPath is null', () => {
+    it('returns an empty string', () => {
+      const movie = new MovieFactory().state({ posterPath: null }).make()
+
+      expect(movie.emailPosterUrl()).toEqual('')
     })
   })
 })

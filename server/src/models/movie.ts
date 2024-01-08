@@ -91,11 +91,16 @@ export default class Movie {
       : `${this.length}m`
   }
 
-  posterUrl (): string {
-    return this.posterPath
-      ? `${TMDB_POSTER_URL}${this.posterPath}`
-      : ''
-  }
+  posterUrl = (): string => this.posterPath
+    ? `${this.tmdbUrl(500)}${this.posterPath}`
+    : ''
+
+  emailPosterUrl = (): string => this.posterPath
+    ? `${this.tmdbUrl(300)}${this.posterPath}`
+    : ''
+
+  private tmdbUrl = (width: number): string =>
+    TMDB_POSTER_URL + width.toString()
 
   toString (): string {
     return `${this.title} (${this.year})`

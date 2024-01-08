@@ -35,7 +35,7 @@ describe('getMovie', () => {
     it('should return the movie', async () => {
       const movie = await new NotionAdapter(mockConfig()).getMovie('movieId')
 
-      expect(movie).toEqual({
+      expect(movie).toMatchObject({
         notionId: 'movieId',
         title: 'movieTitle',
         director: 'movieDirector',
