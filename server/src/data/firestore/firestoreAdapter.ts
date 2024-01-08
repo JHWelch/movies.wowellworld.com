@@ -21,6 +21,7 @@ import Week from '../../models/week.js'
 import setupFirestore from '../../config/firestore.js'
 import Config from '../../config/config.js'
 import User from '../../models/user.js'
+import { randomUUID } from 'crypto'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
@@ -119,7 +120,7 @@ export default class FirestoreAdapter {
       return null
     }
 
-    return User.fromFirebase(users.docs[0].data())
+    return User.fromFirebase(users.docs[0])
   }
 
   getUsersWithReminders = async (): Promise<User[]> => {
@@ -128,7 +129,7 @@ export default class FirestoreAdapter {
       where('reminders', '==', true),
     ))
 
-    return users.docs.map((doc) => User.fromFirebase(doc.data()))
+    return users.docs.map(User.fromFirebase)
   }
 
   updateUser = async (user: User): Promise<void> => {
@@ -169,7 +170,11 @@ export default class FirestoreAdapter {
   ): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       emails.forEach((email) => {
-        const ref = doc(this.firestore, this.mailCollectionName)
+        const ref = doc(
+          this.firestore,
+          this.mailCollectionName,
+          randomUUID(),
+        )
 
         transaction.set(ref, {
           to: email.to,

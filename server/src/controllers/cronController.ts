@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
+import { dateToString } from '../data/dateUtils.js'
 
 class CronController {
   static PATHS = {
@@ -10,10 +11,10 @@ class CronController {
     protected firestore: FirestoreAdapter,
   ) {}
 
-  async reminders (_req: Request, res: Response): Promise<void> {
-    const tomorrow = this.tomorrow()
+  reminders = async (_req: Request, res: Response): Promise<void> => {
+    const tomorrow = dateToString(this.tomorrow())
 
-    const week = await this.firestore.getWeek(tomorrow.toDateString())
+    const week = await this.firestore.getWeek(tomorrow)
 
     if (!week) {
       res.status(200).send('ok')
