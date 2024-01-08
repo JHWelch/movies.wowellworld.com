@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   name: string,
-  modelValue: string,
+  modelValue?: string,
   hideLabel?: boolean,
   label?: string,
   type?: string,
   error?: string,
   placeholder?: string,
 }>(), {
+  modelValue: '',
   hideLabel: false,
   type: 'text',
   placeholder: '',
