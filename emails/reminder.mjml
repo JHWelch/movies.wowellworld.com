@@ -5,7 +5,7 @@
     <mj-attributes>
       <mj-all font-family="Verdana, sans-serif" />
 
-      <mj-text font-size="16px" color="#111827" line-height="16px"/>
+      <mj-text font-size="24px" color="#111827" line-height="24px"/>
     </mj-attributes>
 
     <mj-html-attributes>
@@ -25,7 +25,7 @@
         <mj-text
           padding="0px"
           align="center"
-          font-size="12px"
+          font-size="16px"
           color="#7c3aed"
         >Wowell World Studios Presents: Thursday&nbsp;Night&nbsp;Movie&nbsp;Club</mj-text>
       </mj-column>
@@ -35,7 +35,7 @@
       <mj-column width="100%">
         <mj-text
           align="center"
-          font-size="12px"
+          font-size="16px"
           line-height="8px"
         >{{date}}</mj-text>
 
@@ -49,7 +49,7 @@
         <mj-button
           background-color="#7c3aed"
           color="#ffffff"
-          font-size="12px"
+          font-size="16px"
           font-weight="bold"
           align="center"
           width="120px"
@@ -63,7 +63,7 @@
         <mj-column width="50%">
           <mj-text
             align="center"
-            font-size="16px"
+            font-size="30px"
             font-weight="bold"
             color="#111827"
             padding="5px"
@@ -73,7 +73,7 @@
             src="{{posterPath}}"
             alt="{{title}} Poster"
             align="center"
-            width="220px"
+            width="300px"
           />
         </mj-column>
       <mj-raw>{{/each}}</mj-raw>
@@ -82,7 +82,7 @@
     <mj-section full-width="full-width" background-color="#e9d5ff">
       <mj-column width="500px">
         <mj-raw>{{#each movies}}</mj-raw>
-          <mj-text font-size="16px" padding="15px 25px">
+          <mj-text font-size="20px" padding="15px 25px">
             <b>{{time}}</b> - <i>{{title}} ({{year}})</i>
           </mj-text>
         <mj-raw>{{/each}}</mj-raw>
@@ -91,7 +91,7 @@
           padding="30px 0px"
           background-color="#7c3aed"
           color="#ffffff"
-          font-size="12px"
+          font-size="16px"
           font-weight="bold"
           align="center"
           width="120px"
