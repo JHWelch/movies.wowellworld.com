@@ -2,7 +2,7 @@
 
 import { VueWrapper, mount } from '@vue/test-utils'
 import ReminderSubscribe from '../ReminderSubscribe.vue'
-import { Mock, beforeEach, describe, expect, it, vi } from 'vitest'
+import { Mock, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 let wrapper: VueWrapper
@@ -11,6 +11,14 @@ const subscribeSelector = '[data-testid="subscribe-button"]'
 const getRemindersSelector = '[data-testid="get-reminders-button"]'
 
 globalThis.fetch = vi.fn()
+
+beforeAll(() => {
+  vi.mock('js-confetti', () => ({
+    default: vi.fn().mockReturnValue({
+      addConfetti: vi.fn(),
+    }),
+  }))
+})
 
 beforeEach(() => {
   wrapper = mount(ReminderSubscribe)
@@ -34,7 +42,7 @@ describe('press the "Get Reminders" button', () => {
 
     expect(button.text()).toBe('Get Reminders!')
     expect(button.classes()).toContain('text-white')
-    expect(button.classes()).toContain('bg-violet-600')
+    expect(button.classes()).toContain('bg-violet-400')
   })
 
   it('shows a form to enter an email address', () => {
