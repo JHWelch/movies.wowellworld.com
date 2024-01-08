@@ -53,7 +53,7 @@
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com/"
+          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>
@@ -95,7 +95,7 @@
           font-weight="bold"
           align="center"
           width="120px"
-          href="https://movies.wowellworld.com/"
+          href="https://movies.wowellworld.com?rsvp={{ weekId }}"
         >RSVP</mj-button>
       </mj-column>
     </mj-section>

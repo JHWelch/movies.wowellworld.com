@@ -36,6 +36,7 @@ export default class CronController {
       data: {
         date: displayDate,
         theme: week.theme,
+        weekId: week.dateString,
         movies: movies,
       },
     })))

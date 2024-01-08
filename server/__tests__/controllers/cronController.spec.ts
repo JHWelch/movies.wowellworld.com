@@ -87,6 +87,7 @@ describe('reminders', () => {
               data: {
                 date: 'Friday, January 1',
                 theme: 'theme1',
+                weekId: '2021-01-01',
                 movies: [{
                   title: 'movie1',
                   posterPath: 'poster1',
@@ -112,6 +113,7 @@ describe('reminders', () => {
               data: {
                 date: 'Friday, January 1',
                 theme: 'theme1',
+                weekId: '2021-01-01',
                 movies: [{
                   title: 'movie1',
                   posterPath: 'poster1',
