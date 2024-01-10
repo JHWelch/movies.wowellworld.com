@@ -2,6 +2,7 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '../helpers/validation.js'
+import { withMessage } from '../helpers/messageBuilder'
 
 export default class SubscriptionController {
   static PATHS = {
@@ -52,6 +53,7 @@ export default class SubscriptionController {
     }
 
     this.firestore.deleteUser(req.query.token.toString())
+    res.redirect(withMessage('/', "You've been unsubscribed from the reminder emails."))
   }
 
   private validate = (req: Request, res: Response): boolean =>

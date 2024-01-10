@@ -15,6 +15,7 @@ import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'
 import { addDoc, deleteDoc, setDoc } from 'firebase/firestore'
+import { withMessage } from '../../src/helpers/messageBuilder'
 
 const { res, mockClear } = getMockRes()
 let req: Request
@@ -184,6 +185,14 @@ describe('destroy', () => {
 
       expect(deleteDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('users', 'id'),
+      )
+    })
+
+    it('should redirect to the homepage with unsubscribe message', async () => {
+      await new SubscriptionController(firestore).destroy(req, res)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        withMessage('/', "You've been unsubscribed from the reminder emails."),
       )
     })
   })
