@@ -44,6 +44,10 @@ export default class SubscriptionController {
     return
   }
 
+  destroy = async (req: Request, res: Response): Promise<void> => {
+    this.firestore.deleteUser(req.query.token)
+  }
+
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
       email: z.string().email(),

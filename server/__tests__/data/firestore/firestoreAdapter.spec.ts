@@ -360,7 +360,7 @@ describe('updateUser', () => {
 
 describe('deleteUser', () => {
   it('deletes a user in firestore', async () => {
-    await firestore.deleteUser(new User('id', 'test@example.com', true))
+    await firestore.deleteUser('id')
 
     expect(deleteDoc).toHaveBeenCalledWith(
       FirebaseMock.mockDoc('users', 'id'),

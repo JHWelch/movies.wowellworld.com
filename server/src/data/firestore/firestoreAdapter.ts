@@ -141,8 +141,8 @@ export default class FirestoreAdapter {
     ), user.toFirebaseDTO())
   }
 
-  deleteUser = async (user: User): Promise<void> => {
-    await deleteDoc(doc(this.firestore, this.usersCollectionName, user.id))
+  deleteUser = async (id: string): Promise<void> => {
+    await deleteDoc(doc(this.firestore, this.usersCollectionName, id))
   }
 
   sendEmail = async (to: string, message: EmailMessage): Promise<void> => {
