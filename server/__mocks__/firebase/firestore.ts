@@ -22,6 +22,7 @@ module.exports = {
   runTransaction: (firestore: any, updateFunction: any, _options: any) => {
     return updateFunction(transaction)
   },
+  deleteDoc: jest.fn(),
   doc: (firestore: any, collectionPath: string, documentPath?: string) => ({
     firestore,
     collectionPath,
