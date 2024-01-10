@@ -164,7 +164,15 @@ describe('store', () => {
 })
 
 describe('destroy', () => {
-  describe('query param matches user id', () => {
+  describe('missing token query param', () => {
+    it('should redirect to the homepage', async () => {
+      await new SubscriptionController(firestore).destroy(req, res)
+
+      expect(res.redirect).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('token query param matches user id', () => {
     beforeEach(() => {
       req = getMockReq({
         query: { token: 'id' },
