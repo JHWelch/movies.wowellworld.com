@@ -31,3 +31,5 @@ jobs:
 
     - name: Deploy to Google
       uses: google-github-actions/deploy-appengine@v1
+      with:
+        deliverables: app.yaml cron.yaml
