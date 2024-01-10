@@ -1,0 +1,4 @@
+cron:
+  - description: Daily reminders
+    url: /cron/reminders
+    schedule: every day 15:00
