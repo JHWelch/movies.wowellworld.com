@@ -1,4 +1,5 @@
 cron:
   - description: Daily reminders
     url: /cron/reminders
-    schedule: every day 16:00
+    schedule: every day 08:00
+    timezone: America/Chicago
