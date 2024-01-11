@@ -7,6 +7,7 @@ import { withMessage } from '../helpers/messageBuilder.js'
 export default class SubscriptionController {
   static PATHS = {
     store: '/api/subscriptions',
+    destroy: '/unsubscribe',
   }
 
   static readonly SUCCESS_MESSAGE = {

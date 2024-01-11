@@ -75,6 +75,10 @@ function routes (
       subscriptionController.store,
       HttpVerb.POST,
     ),
+    new Route(
+      SubscriptionController.PATHS.destroy,
+      subscriptionController.destroy,
+    ),
     new Route(CronController.PATHS.reminders, cronController.reminders),
   ]
 }
