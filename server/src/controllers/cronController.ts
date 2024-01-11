@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import { dateToString } from '../data/dateUtils.js'
+import Config from '../config/config'
 
 class CronController {
   static PATHS = {
@@ -8,6 +9,7 @@ class CronController {
   }
 
   constructor (
+    protected config: Config,
     protected firestore: FirestoreAdapter,
   ) {}
 
@@ -39,6 +41,7 @@ class CronController {
         theme: week.theme,
         weekId: week.dateString,
         movies: movies,
+        unsubscribeUrl: this.config.appUrl + user.unsubscribeUrl(),
       },
     })))
 

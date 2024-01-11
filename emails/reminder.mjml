@@ -99,5 +99,14 @@
         >RSVP</mj-button>
       </mj-column>
     </mj-section>
+
+    <mj-section full-width="full-width" background-color="#F9FAFB">
+      <mj-column width="100%">
+        <mj-text
+          align="center"
+          font-size="10px"
+          line-height="8px"
+        ><a href="{{unsubscribeUrl}}">unsubscribe</a></mj-text>
+      </mj-column>
   </mj-body>
 </mjml>
