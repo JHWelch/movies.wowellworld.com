@@ -115,3 +115,18 @@ describe('message open', () => {
     })
   })
 })
+
+describe('Message called via query param', () => {
+  beforeEach(() => {
+    window.location = {
+      search: '?message=Hello%20World',
+    }
+  })
+
+  it('should display message', async () => {
+    const wrapper = mount(Notifications)
+    await nextTick()
+
+    expect(wrapper.find('[data-testid="notifications"]').exists()).toBe(true)
+  })
+})

@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '../helpers/validation.js'
-import { withMessage } from '../helpers/messageBuilder'
+import { withMessage } from '../helpers/messageBuilder.js'
 
 export default class SubscriptionController {
   static PATHS = {
