@@ -4,6 +4,7 @@ export function mockConfig ({
   nodeEnv = 'production',
 } = {}): Config {
   process.env = {
+    APP_URL: 'http://APP_URL.example.com',
     NODE_ENV: nodeEnv,
     NOTION_TOKEN: 'NOTION_TOKEN',
     NOTION_MOVIE_DATABASE_ID: 'NOTION_MOVIE_DATABASE_ID',

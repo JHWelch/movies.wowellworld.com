@@ -3,6 +3,7 @@ import {
   and,
   collection,
   CollectionReference,
+  deleteDoc,
   doc,
   DocumentData,
   Firestore as FirestoreType,
@@ -138,6 +139,10 @@ export default class FirestoreAdapter {
       this.usersCollectionName,
       user.id,
     ), user.toFirebaseDTO())
+  }
+
+  deleteUser = async (id: string): Promise<void> => {
+    await deleteDoc(doc(this.firestore, this.usersCollectionName, id))
   }
 
   sendEmail = async (to: string, message: EmailMessage): Promise<void> => {

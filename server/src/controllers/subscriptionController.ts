@@ -2,10 +2,12 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '../helpers/validation.js'
+import { withMessage } from '../helpers/messageBuilder.js'
 
 export default class SubscriptionController {
   static PATHS = {
     store: '/api/subscriptions',
+    destroy: '/unsubscribe',
   }
 
   static readonly SUCCESS_MESSAGE = {
@@ -42,6 +44,17 @@ export default class SubscriptionController {
     res.status(200).json(SubscriptionController.SUCCESS_MESSAGE)
 
     return
+  }
+
+  destroy = async (req: Request, res: Response): Promise<void> => {
+    if (!req.query.token) {
+      res.redirect('/')
+
+      return
+    }
+
+    this.firestore.deleteUser(req.query.token.toString())
+    res.redirect(withMessage('/', "You've been unsubscribed from the reminder emails."))
   }
 
   private validate = (req: Request, res: Response): boolean =>

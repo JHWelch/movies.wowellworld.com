@@ -4,6 +4,7 @@ import Config from '../../src/config/config'
 beforeEach(() => {
   jest.resetModules()
   process.env = {
+    APP_URL: 'http://APP_URL.example.com',
     NODE_ENV: 'production',
     NOTION_TOKEN: 'NOTION_TOKEN',
     NOTION_WEEK_DATABASE_ID: 'NOTION_WEEK_DATABASE_ID',
@@ -20,6 +21,7 @@ describe('env variables all present', () => {
   it('returns the config', () => {
     const config = new Config()
 
+    expect(config.appUrl).toBe('http://APP_URL.example.com')
     expect(config.nodeEnv).toBe('production')
     expect(config.notionToken).toBe('NOTION_TOKEN')
     expect(config.notionWeekDatabaseId).toBe('NOTION_WEEK_DATABASE_ID')
@@ -92,6 +94,16 @@ describe('env missing ADMIN_EMAIL', () => {
 
   it('throws an error', () => {
     expect(() => new Config()).toThrowError('ADMIN_EMAIL is missing')
+  })
+})
+
+describe('env missing APP_URL', () => {
+  beforeEach(() => {
+    delete process.env.APP_URL
+  })
+
+  it('throws an error', () => {
+    expect(() => new Config()).toThrowError('APP_URL is missing')
   })
 })
 

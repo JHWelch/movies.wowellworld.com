@@ -7,10 +7,12 @@ import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
+import Config from '../../src/config/config'
 
 const { res, mockClear } = getMockRes()
 
 let firestore: FirestoreAdapter
+let config: Config
 
 beforeAll(() => {
   jest.mock('firebase-admin/app')
@@ -20,7 +22,8 @@ beforeAll(() => {
 
 beforeEach(() => {
   mockClear()
-  firestore = new FirestoreAdapter(mockConfig())
+  config = mockConfig()
+  firestore = new FirestoreAdapter(config)
   jest.clearAllMocks()
 })
 
@@ -77,7 +80,7 @@ describe('reminders', () => {
       })
 
       it('should send a reminder to those users', async () => {
-        await new CronController(firestore).reminders(getMockReq(), res)
+        await new CronController(config, firestore).reminders(getMockReq(), res)
 
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('mail', expect.anything()),
@@ -89,6 +92,7 @@ describe('reminders', () => {
                 date: 'Friday, January 1',
                 theme: 'theme1',
                 weekId: '2021-01-01',
+                unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id1',
                 movies: [{
                   title: 'movie1',
                   posterPath: TMDB_POSTER_URL + '300/poster1.png',
@@ -115,6 +119,7 @@ describe('reminders', () => {
                 date: 'Friday, January 1',
                 theme: 'theme1',
                 weekId: '2021-01-01',
+                unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id2',
                 movies: [{
                   title: 'movie1',
                   posterPath: TMDB_POSTER_URL + '300/poster1.png',

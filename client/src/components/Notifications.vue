@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { notifications } from '../state/notificationState'
+import { isNotificationType } from '../../../shared/notifications'
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
@@ -7,6 +8,17 @@ import {
   XCircleIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/solid'
+
+const urlParams = new URLSearchParams(window.location.search)
+const initialMessage = urlParams.get('message')
+const initialType = urlParams.get('type')
+
+if (initialMessage) {
+  notifications.open(
+    initialMessage,
+    isNotificationType(initialType) ? initialType : undefined,
+  )
+}
 
 const icon = {
   success: CheckCircleIcon,
@@ -21,14 +33,14 @@ const icon = {
     enter-active-class="transition ease-out duration-400"
     enter-from-class="opacity-0"
     enter-to-class="opacity-100"
-    leave-active-class="transition ease-in duration-300"
+    leave-active-class="transition duration-300 ease-in"
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
     <div
       v-if="notifications.show()"
       data-testid="notifications"
-      class="fixed top-0 right-0 py-4 pl-4 pr-6 m-4 rounded-lg shadow-lg text-white z-50 flex space-x-4 justify-center items-center"
+      class="fixed top-0 right-0 z-50 flex items-center justify-center py-4 pl-4 pr-6 m-4 space-x-4 text-white rounded-lg shadow-lg"
       :class="{
         'bg-green-500': notifications.type === 'success',
         'bg-red-500': notifications.type === 'error',

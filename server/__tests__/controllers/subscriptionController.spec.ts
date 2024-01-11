@@ -14,7 +14,8 @@ import { Request } from 'express'
 import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
 import { mockConfig } from '../support/mockConfig'
 import { FirebaseMock } from '../support/firebaseMock'
-import { addDoc, setDoc } from 'firebase/firestore'
+import { addDoc, deleteDoc, setDoc } from 'firebase/firestore'
+import { withMessage } from '../../src/helpers/messageBuilder'
 
 const { res, mockClear } = getMockRes()
 let req: Request
@@ -159,6 +160,40 @@ describe('store', () => {
       expect(res.json).toHaveBeenCalledWith({
         errors: { email: 'Invalid email' },
       })
+    })
+  })
+})
+
+describe('destroy', () => {
+  describe('missing token query param', () => {
+    it('should redirect to the homepage', async () => {
+      await new SubscriptionController(firestore).destroy(req, res)
+
+      expect(res.redirect).toHaveBeenCalledWith('/')
+    })
+  })
+
+  describe('token query param matches user id', () => {
+    beforeEach(() => {
+      req = getMockReq({
+        query: { token: 'id' },
+      })
+    })
+
+    it('should delete the user', async () => {
+      await new SubscriptionController(firestore).destroy(req, res)
+
+      expect(deleteDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('users', 'id'),
+      )
+    })
+
+    it('should redirect to the homepage with unsubscribe message', async () => {
+      await new SubscriptionController(firestore).destroy(req, res)
+
+      expect(res.redirect).toHaveBeenCalledWith(
+        withMessage('/', "You've been unsubscribed from the reminder emails."),
+      )
     })
   })
 })

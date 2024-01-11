@@ -115,3 +115,39 @@ describe('message open', () => {
     })
   })
 })
+
+describe('Message called via query param', () => {
+  beforeEach(async () => {
+    window.location = {
+      search: '?message=Hello%20World',
+    }
+    wrapper = mount(Notifications)
+    await nextTick()
+
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
+
+  it('should display info message', async () => {
+    expect(notification.exists()).toBe(true)
+    expect(notification.text()).toBe('Hello World')
+    expect(notification.classes()).toContain('bg-blue-500')
+  })
+})
+
+describe('Message called via query param with type', () => {
+  beforeEach(async () => {
+    window.location = {
+      search: '?message=Hello%20World&type=success',
+    }
+    wrapper = mount(Notifications)
+    await nextTick()
+
+    notification = wrapper.find('[data-testid="notifications"]')
+  })
+
+  it('should display success message', async () => {
+    expect(notification.exists()).toBe(true)
+    expect(notification.text()).toBe('Hello World')
+    expect(notification.classes()).toContain('bg-green-500')
+  })
+})

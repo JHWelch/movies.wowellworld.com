@@ -12,6 +12,7 @@ import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
 import {
   Timestamp,
   addDoc,
+  deleteDoc,
   getFirestore,
   query,
   setDoc,
@@ -353,6 +354,16 @@ describe('updateUser', () => {
         email: 'test@example.com',
         reminders: true,
       },
+    )
+  })
+})
+
+describe('deleteUser', () => {
+  it('deletes a user in firestore', async () => {
+    await firestore.deleteUser('id')
+
+    expect(deleteDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('users', 'id'),
     )
   })
 })
