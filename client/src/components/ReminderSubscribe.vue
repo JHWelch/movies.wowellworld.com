@@ -61,7 +61,7 @@ const subscribe = async () => {
     class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
   >
     <p class="text-sm">
-      Get a email reminder the day before upcoming movie nights
+      Get an email reminder the day before upcoming movie nights
     </p>
 
     <div class="w-full flex space-x-4">
