@@ -46,7 +46,7 @@ function routes (
 ): Route[] {
   const cacheController = new CacheController(firestore, notion, tmdb)
   const calendarController = new CalendarController(config)
-  const cronController = new CronController(firestore)
+  const cronController = new CronController(config, firestore)
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
   const suggestionController = new SuggestionController(notion)
