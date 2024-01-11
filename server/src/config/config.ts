@@ -1,5 +1,6 @@
 export default class Config {
   adminEmail: string
+  appUrl: string
   calendarUrl: string
   googleCloudProject: string
   notionMovieDatabaseId: string
@@ -11,6 +12,7 @@ export default class Config {
 
   constructor () {
     this.adminEmail = this.requiredVariable('ADMIN_EMAIL')
+    this.appUrl = this.requiredVariable('APP_URL')
     this.calendarUrl = this.requiredVariable('CALENDAR_URL')
     this.googleCloudProject = this.requiredVariable('GOOGLE_CLOUD_PROJECT')
     this.notionMovieDatabaseId = this.requiredVariable('NOTION_MOVIE_DATABASE_ID') // eslint-disable-line max-len
