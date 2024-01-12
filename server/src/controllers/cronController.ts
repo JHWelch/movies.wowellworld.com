@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '../data/firestore/firestoreAdapter'
 import Config from '../config/config'
-import { tomorrow } from '../data/dateUtils'
+import { tomorrow } from '../data/dateUtils.js'
 
 class CronController {
   static PATHS = {
