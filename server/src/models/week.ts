@@ -87,6 +87,6 @@ export default class Week {
   }
 
   get dateString (): string {
-    return dateToString(this.date)
+    return this.date.toISOString().substring(0, 10)
   }
 }
