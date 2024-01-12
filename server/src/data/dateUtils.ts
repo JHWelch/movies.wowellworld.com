@@ -1,15 +1,13 @@
-export function today (): string {
-  return dateToString(new Date())
-}
+export const today = () => dateToString(new Date())
 
-export function tomorrow (): string {
+export const tomorrow = (): string => {
   const tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
 
   return dateToString(tomorrow)
 }
 
-export function dateToString (date: Date): string {
+export const dateToString = (date: Date): string => {
   const array = date.toLocaleString('en-US', {
     timeZone: 'America/Chicago',
     year: 'numeric',
