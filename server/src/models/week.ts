@@ -4,7 +4,6 @@ import {
 } from '@notionhq/client/build/src/api-endpoints'
 import Movie from './movie.js'
 import type WeekProperties from '../types/weekProperties.js'
-import { dateToString } from '../data/dateUtils.js'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '../data/firestore/firestoreTypes.js'
 import { WeekDto } from '../../../shared/dtos.js'
@@ -87,6 +86,6 @@ export default class Week {
   }
 
   get dateString (): string {
-    return dateToString(this.date)
+    return this.date.toISOString().substring(0, 10)
   }
 }
