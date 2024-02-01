@@ -64,6 +64,7 @@
           <mj-text
             align="center"
             font-size="30px"
+            line-height="30px"
             font-weight="bold"
             color="#111827"
             padding="5px"
