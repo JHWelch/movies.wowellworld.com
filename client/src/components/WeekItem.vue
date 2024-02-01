@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { WeekDto } from '../../../shared/dtos'
-import IconRsvp from '../icons/IconRsvp.vue'
 import { rsvpModal } from '../state/modalState'
 import MovieList from './MovieList.vue'
 import SkippedBanner from './SkippedBanner.vue'
@@ -42,7 +42,7 @@ const weekTitle = (week: WeekDto) => {
         >
           <span>RSVP</span>
 
-          <IconRsvp class="w-6 h-6 text-white" />
+          <CalendarDaysIcon class="w-6 h-6 text-white" />
         </button>
       </div>
     </div>

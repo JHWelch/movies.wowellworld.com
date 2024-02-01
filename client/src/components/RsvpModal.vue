@@ -3,9 +3,9 @@ import { ref } from 'vue'
 import { Errors, ErrorBag } from '../types'
 import FormInput from './form/FormInput.vue'
 import FormCheckbox from './form/FormCheckbox.vue'
-import IconRsvp from '../icons/IconRsvp.vue'
 import { rsvpModal } from '../state/modalState'
 import { fireConfetti } from '../utilities/confetti'
+import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 
 type RsvpForm = {
   name: string,
@@ -98,7 +98,7 @@ const rsvp = async () => {
             >
               <div>
                 <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-violet-100">
-                  <IconRsvp class="w-6 h-6 text-violet-600" />
+                  <CalendarDaysIcon class="w-6 h-6 text-violet-600" />
                 </div>
 
                 <div class="mt-3 text-center sm:mt-5">

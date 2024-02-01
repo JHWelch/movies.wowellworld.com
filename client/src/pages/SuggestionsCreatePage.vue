@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import FormInput from '../components/form/FormInput.vue'
-import IconLoading from '../icons/IconLoading.vue'
+import LoadingIcon from '../icons/LoadingIcon.vue'
 import { ErrorBag } from '../types'
 
 type SuggestionFormData = {
@@ -129,7 +129,7 @@ const submit = async () => {
           v-else
           class="flex space-x-2"
         >
-          <IconLoading />
+          <LoadingIcon />
 
           <span class="ml-2">Submitting...</span>
         </span>

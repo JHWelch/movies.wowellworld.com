@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import { TicketIcon } from '@heroicons/vue/24/outline'
 import { MovieDto, WeekDto } from '../../../../shared/dtos'
-import IconTicket from '../../icons/IconTicket.vue'
 
 defineProps<{
   movie: MovieDto
@@ -16,6 +16,6 @@ defineProps<{
   >
     <span v-text="movie.theaterName" />
 
-    <IconTicket class="w-6 h-6 ml-2 -rotate-45" />
+    <TicketIcon class="w-6 h-6 ml-2 -rotate-45" />
   </a>
 </template>
