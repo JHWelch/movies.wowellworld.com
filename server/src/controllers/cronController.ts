@@ -16,7 +16,7 @@ class CronController {
   reminders = async (_req: Request, res: Response): Promise<void> => {
     const week = await this.firestore.getWeek(tomorrow())
 
-    if (!week) {
+    if (!week || week.isSkipped) {
       res.status(200).send('ok')
 
       return
