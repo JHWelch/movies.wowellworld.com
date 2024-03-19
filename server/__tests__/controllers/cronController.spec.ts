@@ -8,6 +8,7 @@ import { FirebaseMock } from '../support/firebaseMock'
 import { transaction } from '../../__mocks__/firebase/firestore'
 import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
 import Config from '../../src/config/config'
+import { getDocs } from 'firebase/firestore'
 
 const { res, mockClear } = getMockRes()
 
@@ -136,6 +137,40 @@ describe('reminders', () => {
           },
         )
       })
+    })
+  })
+
+  describe('there is no event tomorrow', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetWeek()
+    })
+
+    it('should return 200', async () => {
+      await new CronController(config, firestore).reminders(getMockReq(), res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.send).toHaveBeenCalledWith('ok')
+      expect(getDocs).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('the event is skipped', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetWeek({
+        id: 'week-id1',
+        theme: 'theme1',
+        date: new Date('2021-01-01'),
+        slug: null,
+        isSkipped: true,
+      })
+    })
+
+    it('should return 200', async () => {
+      await new CronController(config, firestore).reminders(getMockReq(), res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.send).toHaveBeenCalledWith('ok')
+      expect(getDocs).not.toHaveBeenCalled()
     })
   })
 })
