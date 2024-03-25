@@ -13,7 +13,7 @@ import { MapIcon } from '@heroicons/vue/24/outline'
           </span>
 
           <span class="self-center">
-            Come find us at 2111 W Argyle St Apt 1
+            Come find us at 2111 W Argyle St. Apt 1
           </span>
         </div>
 
