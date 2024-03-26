@@ -6,14 +6,16 @@ import { MapIcon } from '@heroicons/vue/24/outline'
 <template>
   <div class="relative">
     <div class="fixed top-0 left-0 w-screen h-12 bg-fuchsia-200 z-50 flex justify-center">
-      <div class="w-full max-w-4xl h-full flex items-center relative text-lg justify-between pr-4 pl-4 lg:pl-0">
+      <div class="w-full max-w-4xl h-full flex items-center relative md:text-lg justify-between pr-4 pl-4 lg:pl-0">
         <div class="flex space-x-2 sm:space-x-4">
           <span class="font-semibold">
             🚚 We moved!
           </span>
 
           <span class="self-center">
-            Come find us at 2111 W Argyle St. Apt 1
+            <span class="hidden md:inline-block">Come find us at </span>
+
+            2111 W Argyle St Apt 1
           </span>
         </div>
 
