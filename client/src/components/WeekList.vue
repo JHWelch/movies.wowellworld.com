@@ -3,7 +3,7 @@ import { nextTick, ref, watch } from 'vue'
 import LoadingAnimation from './LoadingAnimation.vue'
 import SectionTitle from './SectionTitle.vue'
 import WeekItem from './WeekItem.vue'
-import Error from './Error.vue'
+import ErrorBanner from './ErrorBanner.vue'
 import { WeekDto } from '../../../shared/dtos'
 import { rsvpModal } from '../state/modalState'
 
@@ -64,7 +64,7 @@ reload()
   <div>
     <LoadingAnimation v-if="loading" />
 
-    <Error
+    <ErrorBanner
       v-if="error"
       @reload="reload"
     />

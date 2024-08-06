@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+module.exports = { // eslint-disable-line no-undef
   transform: {
     '\\.[jt]sx?$': ['ts-jest', {
       isolatedModules: true,

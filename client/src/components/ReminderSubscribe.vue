@@ -5,7 +5,7 @@ import { ErrorBag, Errors } from '../types'
 import { notifications } from '../state/notificationState'
 import { fireConfetti } from '../utilities/confetti'
 
-const open = ref<boolean>(false)
+const isOpen = ref<boolean>(false)
 const email = ref<string>('')
 
 const errors = ref<Errors>({})
@@ -37,7 +37,7 @@ const subscribe = async () => {
     return
   }
 
-  open.value = false
+  isOpen.value = false
   email.value = ''
   fireConfetti()
 }
@@ -45,26 +45,26 @@ const subscribe = async () => {
 
 <template>
   <button
-    class="h-full py-2 px-4 font-medium flex flex-col justify-center items-center grow sm:grow-0 text-center leading-5"
+    class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0"
     :class="{
-      'text-white bg-violet-400': open,
-      'text-gray-800 hover:bg-violet-300': !open,
+      'text-white bg-violet-400': isOpen,
+      'text-gray-800 hover:bg-violet-300': !isOpen,
     }"
     data-testid="get-reminders-button"
-    @click="open = !open"
+    @click="isOpen = !isOpen"
   >
     Get Reminders!
   </button>
 
   <div
-    v-if="open"
+    v-if="isOpen"
     class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
   >
     <p class="text-sm">
       Get an email reminder the day before upcoming movie nights
     </p>
 
-    <div class="w-full flex space-x-4">
+    <div class="flex w-full space-x-4">
       <FormInput
         v-model="email"
         name="email"
@@ -75,7 +75,7 @@ const subscribe = async () => {
       />
 
       <button
-        class="flex items-center justify-center px-4 py-1 font-semibold text-white rounded-md bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500 h-9 text-sm"
+        class="flex items-center justify-center px-4 py-1 text-sm font-semibold text-white rounded-md bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500 h-9"
         data-testid="subscribe-button"
         @click="subscribe"
       >

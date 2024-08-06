@@ -2,16 +2,16 @@
 import { ref, onMounted } from 'vue'
 import { fireConfetti } from '../utilities/confetti'
 
-const open = ref(false)
+const isOpen = ref(false)
 
 onMounted(() => {
   const params = new URLSearchParams(window.location.search)
 
   if (params.has('suggest_success')) {
-    open.value = true
+    isOpen.value = true
     fireConfetti()
     setTimeout(() => {
-      open.value = false
+      isOpen.value = false
     }, 2000)
   }
 })
@@ -20,12 +20,12 @@ onMounted(() => {
 <template>
   <transition
     name="fade"
-    @after-leave="open = false"
+    @after-leave="isOpen = false"
   >
     <div
-      v-if="open"
+      v-if="isOpen"
       class="absolute flex items-center justify-center w-full h-full text-6xl text-violet-950 backdrop-blur-sm"
-      @keydown.escape="open = false"
+      @keydown.escape="isOpen = false"
     >
       thank you
     </div>
