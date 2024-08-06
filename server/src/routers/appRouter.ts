@@ -30,7 +30,7 @@ export default function createAppRouter (
         environment: config.nodeEnv,
         manifest: parseManifest(config),
       })
-    } catch (error) {
+    } catch (_) {
       res.json({ success: false, message: 'Something went wrong' })
     }
   })

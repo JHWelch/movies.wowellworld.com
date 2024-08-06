@@ -15,7 +15,7 @@ export default class Config {
     this.appUrl = this.requiredVariable('APP_URL')
     this.calendarUrl = this.requiredVariable('CALENDAR_URL')
     this.googleCloudProject = this.requiredVariable('GOOGLE_CLOUD_PROJECT')
-    this.notionMovieDatabaseId = this.requiredVariable('NOTION_MOVIE_DATABASE_ID') // eslint-disable-line max-len
+    this.notionMovieDatabaseId = this.requiredVariable('NOTION_MOVIE_DATABASE_ID')
     this.notionWeekDatabaseId = this.requiredVariable('NOTION_WEEK_DATABASE_ID')
     this.notionToken = this.requiredVariable('NOTION_TOKEN')
     this.port = parseInt(this.optionalVariable('PORT', '8080'))

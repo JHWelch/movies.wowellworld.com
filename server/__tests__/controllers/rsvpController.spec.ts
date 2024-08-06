@@ -78,9 +78,7 @@ describe('store', () => {
           to: 'ADMIN_EMAIL@example.com',
           message: {
             subject: 'TNMC RSVP: test name',
-            // eslint-disable-next-line max-len
             text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com\nPlus one: true',
-            // eslint-disable-next-line max-len
             html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
           },
         },
