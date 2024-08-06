@@ -2,11 +2,11 @@
 
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import Error from '../Error.vue'
+import ErrorBanner from '../ErrorBanner.vue'
 
 describe('Press "refresh the page"', () => {
   it('should emit "reload" event', () => {
-    const wrapper = mount(Error)
+    const wrapper = mount(ErrorBanner)
 
     wrapper.find('button').trigger('click')
 
