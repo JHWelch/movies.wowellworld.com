@@ -16,5 +16,6 @@ updates:
     groups:
       npm-dependencies:
         update-types:
+          - major
           - minor
           - patch
