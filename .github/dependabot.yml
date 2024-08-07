@@ -5,11 +5,16 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "packages"
+  - package-ecosystem: npm
+    directory: packages
     schedule:
-      interval: "daily"
+      interval: daily
     review:
       enabled: true
     pull-request:
       enabled: true
+    groups:
+      npm-dependencies:
+        update-types:
+          - minor
+          - patch
