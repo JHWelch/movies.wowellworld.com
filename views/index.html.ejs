@@ -12,14 +12,14 @@
 
   <link rel="icon" href="https://fav.farm/🎥" />
   <% if (environment === 'production') { %>
-    <link rel="stylesheet" href="public/<%= manifest['src/main.ts'].css %>">
+    <link rel="stylesheet" href="/<%= manifest['src/main.ts'].css %>">
   <% } %>
 </head>
   <body>
     <div id="app"></div>
 
     <% if (environment === 'production') { %>
-      <script type="module" src="public/<%= manifest['src/main.ts'].file %>"></script>
+      <script type="module" src="/<%= manifest['src/main.ts'].file %>"></script>
     <% } else { %>
       <script type="module" src="http://localhost:5173/@vite/client"></script>
       <script type="module" src="http://localhost:5173/src/main.ts"></script>
