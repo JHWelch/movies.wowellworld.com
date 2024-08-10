@@ -25,12 +25,12 @@ export default class CacheController {
   cacheWeeks = async (_req: Request, res: Response): Promise<void> => {
     const weeks = await this.notionAdapter.getWeeks()
 
-    const moviesWithoutDirectors = weeks.flatMap<Movie>(week => {
-      return week.movies.filter(movie => !movie.director)
+    const moviesForSync = weeks.flatMap<Movie>(week => {
+      return week.movies.filter(movie => !movie.director && !movie.posterPath)
     })
 
-    await this.fillMovieDetails(moviesWithoutDirectors)
-    await this.updateNotionMovies(moviesWithoutDirectors)
+    await this.fillMovieDetails(moviesForSync)
+    await this.updateNotionMovies(moviesForSync)
 
     this.firestore.cacheWeeks(weeks)
 
