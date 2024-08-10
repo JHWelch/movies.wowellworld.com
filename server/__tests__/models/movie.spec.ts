@@ -166,6 +166,16 @@ describe('posterUrl', () => {
       expect(movie.posterUrl()).toEqual('')
     })
   })
+
+  describe('posterPath starts with /assets', () => {
+    it('returns the posterPath', () => {
+      const movie = new MovieFactory().state({
+        posterPath: '/assets/poster.jpg',
+      }).make()
+
+      expect(movie.posterUrl()).toEqual('/assets/poster.jpg')
+    })
+  })
 })
 
 describe('emailPosterUrl', () => {

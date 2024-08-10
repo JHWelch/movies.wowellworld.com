@@ -91,9 +91,17 @@ export default class Movie {
       : `${this.length}m`
   }
 
-  posterUrl = (): string => this.posterPath
-    ? `${this.tmdbUrl(500)}${this.posterPath}`
-    : ''
+  posterUrl = (): string => {
+    if (!this.posterPath){
+      return ''
+    }
+
+    if (this.posterPath.startsWith('/assets/')) {
+      return this.posterPath
+    }
+
+    return `${this.tmdbUrl(500)}${this.posterPath}`
+  }
 
   emailPosterUrl = (): string => this.posterPath
     ? `${this.tmdbUrl(300)}${this.posterPath}`
