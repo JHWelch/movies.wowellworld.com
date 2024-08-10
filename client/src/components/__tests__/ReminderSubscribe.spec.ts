@@ -28,8 +28,8 @@ it('renders "Get Reminders" button with unopened style', () => {
   const button = wrapper.find(getRemindersSelector)
 
   expect(button.text()).toBe('Get Reminders!')
-  expect(button.classes()).toContain('text-gray-800')
-  expect(button.classes()).toContain('hover:bg-violet-300')
+  expect(button.classes()).toContain('text-white')
+  expect(button.classes()).toContain('hover:bg-purp-dark')
 })
 
 describe('press the "Get Reminders" button', () => {
@@ -41,8 +41,8 @@ describe('press the "Get Reminders" button', () => {
     const button = wrapper.find(getRemindersSelector)
 
     expect(button.text()).toBe('Get Reminders!')
-    expect(button.classes()).toContain('text-white')
-    expect(button.classes()).toContain('bg-violet-400')
+    expect(button.classes()).toContain('text-mint')
+    expect(button.classes()).toContain('bg-purp-dark')
   })
 
   it('shows a form to enter an email address', () => {

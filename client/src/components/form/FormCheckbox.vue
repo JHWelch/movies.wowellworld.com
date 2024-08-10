@@ -26,7 +26,7 @@ const displayLabel = computed(
         :value="modelValue"
         :name="name"
         type="checkbox"
-        class="w-4 h-4 border-gray-300 rounded text-violet-600 focus:ring-violet-600"
+        class="w-4 h-4 border-gray-300 rounded text-brat-500 focus:ring-brat-500"
       >
     </div>
 
