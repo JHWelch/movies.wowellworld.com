@@ -87,6 +87,8 @@ const movieSizeClasses = (week: WeekDto) => {
 
         <span class="flex justify-between mt-2">
           <span
+            v-if="movie.director"
+            data-testid="movie-director"
             class="font-medium text-black text-md"
             v-text="movie.director"
           />
