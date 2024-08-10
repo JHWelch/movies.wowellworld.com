@@ -96,7 +96,7 @@ export default class Movie {
       return ''
     }
 
-    if (this.posterPath.startsWith('/src/assets/')) {
+    if (this.posterPath.startsWith('/events/')) {
       return this.posterPath
     }
 
