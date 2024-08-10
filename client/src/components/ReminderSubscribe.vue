@@ -47,8 +47,8 @@ const subscribe = async () => {
   <button
     class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0"
     :class="{
-      'text-white bg-violet-400': isOpen,
-      'text-gray-800 hover:bg-violet-300': !isOpen,
+      'bg-purp-dark text-mint': isOpen,
+      'hover:bg-purp-dark hover:text-mint text-white': !isOpen,
     }"
     data-testid="get-reminders-button"
     @click="isOpen = !isOpen"
@@ -58,7 +58,7 @@ const subscribe = async () => {
 
   <div
     v-if="isOpen"
-    class="absolute w-full right-0 top-12 bg-violet-200 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
+    class="absolute w-full right-0 top-12 bg-brat-500 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
   >
     <p class="text-sm">
       Get an email reminder the day before upcoming movie nights
@@ -75,7 +75,7 @@ const subscribe = async () => {
       />
 
       <button
-        class="flex items-center justify-center px-4 py-1 text-sm font-semibold text-white rounded-md bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500 h-9"
+        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-md text-mint bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500 h-9"
         data-testid="subscribe-button"
         @click="subscribe"
       >

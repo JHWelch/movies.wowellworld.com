@@ -8,10 +8,10 @@ defineProps<{
 <template>
   <router-link
     :to="route"
-    class="h-full py-2 px-4 font-medium flex flex-col justify-center items-center grow sm:grow-0 text-center leading-5"
+    class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0"
     :class="{
-      'text-white bg-violet-600': route === $route.path,
-      'text-gray-800 hover:bg-violet-300': route !== $route.path,
+      'text-mint bg-purp-dark': route === $route.path,
+      'text-white hover:text-mint hover:bg-purp-dark': route !== $route.path,
     }"
   >
     {{ text }}

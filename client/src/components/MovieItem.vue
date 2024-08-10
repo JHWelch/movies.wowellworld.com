@@ -45,7 +45,7 @@ const movieSizeClasses = (week: WeekDto) => {
       movieSizeClasses(week),
     ]"
   >
-    <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-violet-200">
+    <div class="flex flex-col px-4 py-2 rounded-md shadow-sm bg-brat-500">
       <h4 class="flex items-center justify-between h-12 md:px-2">
         <span
           :class="[
@@ -58,7 +58,7 @@ const movieSizeClasses = (week: WeekDto) => {
         <span
           v-if="showEventDetails"
           v-show="movie.time"
-          class="text-md overflow-hidden font-medium text-center bg-violet-700 text-white px-2 py-0.5 rounded-2xl"
+          class="text-md overflow-hidden font-medium text-center bg-brat-500 text-black px-2 py-0.5 rounded-2xl"
           v-text="movie.time?.replace(/ /g, '\u00a0')"
         />
 
@@ -87,7 +87,7 @@ const movieSizeClasses = (week: WeekDto) => {
 
         <span class="flex justify-between mt-2">
           <span
-            class="font-medium text-md text-slate-700"
+            class="font-medium text-black text-md"
             v-text="movie.director"
           />
 

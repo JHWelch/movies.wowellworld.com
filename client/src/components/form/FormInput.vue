@@ -48,7 +48,7 @@ defineEmits([
         :aria-invalid="error ? 'true' : 'false'"
         :class="{
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
-          'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-violet-600': !error,
+          'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-brat-500': !error,
         }"
         @input="
           $emit('update:modelValue', ($event.target as HTMLInputElement)?.value);

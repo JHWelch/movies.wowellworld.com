@@ -12,7 +12,7 @@ defineProps<{
   <a
     v-if="movie.isFieldTrip"
     :href="movie.showingUrl ?? undefined"
-    class="absolute inset-0 flex items-center justify-between w-full h-12 p-3 font-medium text-center text-white text-md bg-opacity-80 bg-violet-500"
+    class="absolute inset-0 flex items-center justify-between w-full h-12 p-3 font-medium text-center text-mint text-md bg-opacity-80 bg-purp-dark"
   >
     <span v-text="movie.theaterName" />
 

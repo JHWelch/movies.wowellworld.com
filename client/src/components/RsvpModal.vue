@@ -55,10 +55,10 @@ const rsvp = async () => {
 
 <template>
   <Transition
-    enter-active-class="transition ease-out duration-300"
+    enter-active-class="transition duration-300 ease-out"
     enter-from-class="opacity-0"
     enter-to-class="opacity-100"
-    leave-active-class="transition ease-in duration-200"
+    leave-active-class="transition duration-200 ease-in"
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
@@ -81,11 +81,11 @@ const rsvp = async () => {
         <div class="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
           <Transition
             enter-active-class="ease-out duration-400"
-            enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            enter-to-class="opacity-100 translate-y-0 sm:scale-100"
-            leave-active-class="ease-in duration-200"
-            leave-from-class="opacity-100 translate-y-0 sm:scale-100"
-            leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            enter-from-class="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
+            enter-to-class="translate-y-0 opacity-100 sm:scale-100"
+            leave-active-class="duration-200 ease-in"
+            leave-from-class="translate-y-0 opacity-100 sm:scale-100"
+            leave-to-class="translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95"
           >
             <div
               v-show="rsvpModal.show"
@@ -97,8 +97,8 @@ const rsvp = async () => {
               @click.stop
             >
               <div>
-                <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-violet-100">
-                  <CalendarDaysIcon class="w-6 h-6 text-violet-600" />
+                <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-brat-100">
+                  <CalendarDaysIcon class="w-6 h-6 text-brat-500" />
                 </div>
 
                 <div class="mt-3 text-center sm:mt-5">
@@ -106,7 +106,7 @@ const rsvp = async () => {
                     id="modal-title"
                     class="text-base font-semibold leading-6 text-gray-900"
                   >
-                    <span class="text-violet-500">RSVP to: </span>
+                    <span class="text-brat-500">RSVP to: </span>
 
                     <span v-text="rsvpModal.week?.theme" />
                   </h3>
@@ -116,7 +116,7 @@ const rsvp = async () => {
                       Let us know you are coming! Bring&nbsp;a&nbsp;friend&nbsp;if&nbsp;you&nbsp;like.
                     </p>
 
-                    <p class="text-sm text-violet-500">
+                    <p class="text-sm text-brat-500">
                       Hope to see you soon!
                     </p>
                   </div>
@@ -151,7 +151,7 @@ const rsvp = async () => {
                 <button
                   :disabled="!formData.name || !formData.email"
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-violet-600 hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2"
+                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-sm bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
                   :class="{
                     'opacity-50 cursor-not-allowed': !formData.name || !formData.email,
                   }"

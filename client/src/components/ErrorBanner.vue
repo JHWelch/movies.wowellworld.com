@@ -6,7 +6,7 @@
       Sorry, something went wrong. Please
 
       <button
-        class="underline text-violet-600 hover:text-violet-800"
+        class="underline text-brat-800 hover:text-brat-600"
         type="button"
         @click="$emit('reload')"
       >

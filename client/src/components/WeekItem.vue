@@ -24,7 +24,7 @@ const weekTitle = (week: WeekDto) => {
           class="flex flex-col"
         >
           <span
-            class="text-lg font-light text-violet-700"
+            class="text-lg font-light text-purp-dark"
             v-text="week.date"
           />
 
@@ -37,12 +37,12 @@ const weekTitle = (week: WeekDto) => {
         <button
           v-if="showEventDetails"
           v-show="!week.isSkipped"
-          class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-violet-600 hover:bg-violet-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-500"
+          class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-black rounded-md h-14 md:w-auto bg-brat-500 hover:bg-brat-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500"
           @click="rsvpModal.open(week)"
         >
           <span>RSVP</span>
 
-          <CalendarDaysIcon class="w-6 h-6 text-white" />
+          <CalendarDaysIcon class="w-6 h-6 text-black" />
         </button>
       </div>
     </div>
