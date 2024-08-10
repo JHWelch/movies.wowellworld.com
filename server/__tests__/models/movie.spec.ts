@@ -167,13 +167,13 @@ describe('posterUrl', () => {
     })
   })
 
-  describe('posterPath starts with /src/assets', () => {
+  describe('posterPath starts with /events', () => {
     it('returns the posterPath', () => {
       const movie = new MovieFactory().state({
-        posterPath: '/src/assets/poster.jpg',
+        posterPath: '/events/poster.jpg',
       }).make()
 
-      expect(movie.posterUrl()).toEqual('/src/assets/poster.jpg')
+      expect(movie.posterUrl()).toEqual('/events/poster.jpg')
     })
   })
 })
