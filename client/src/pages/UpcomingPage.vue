@@ -9,15 +9,19 @@ import heroImg from '../assets/hero.png'
 <template>
   <div class="flex flex-col items-center w-full">
     <div class="max-w-4xl py-10">
-      <h1 class="flex flex-col items-center py-5 text-center">
+      <div class="flex flex-col items-center px-4 py-5 text-center md:px-8">
+        <h1 class="sr-only">
+          Wowell World Cinemas Presents Movie Nights
+        </h1>
+
         <img
           :src="heroImg"
-          alt="Wowell World Cinemas Presents Movie Nights"
+          alt=""
         >
-      </h1>
+      </div>
 
       <div
-        class="flex flex-col items-center justify-center py-6 space-y-4 text-center"
+        class="flex flex-col items-center justify-center px-4 py-6 space-y-4 text-center md:px-8"
       >
         <a
           href="#now-playing"
