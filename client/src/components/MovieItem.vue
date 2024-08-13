@@ -50,7 +50,7 @@ const movieSizeClasses = (week: WeekDto) => {
         <span
           :class="[
             'overflow-hidden font-medium text-center overflow-ellipsis',
-            movie.title.length > 20 ? 'text-xl' : 'text-2xl'
+            movie.title.length > 20 ? 'text-xl' : 'text-2xl',
           ]"
           v-text="movie.title"
         />
