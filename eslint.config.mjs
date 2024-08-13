@@ -72,6 +72,8 @@ export default [{
     }],
 
     'vue/multi-word-component-names': 'off',
+
+    'vue/comma-dangle': ['error', 'always-multiline'],
   },
 }, {
   files: ['**/*.vue'],
