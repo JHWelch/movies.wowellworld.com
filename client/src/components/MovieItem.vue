@@ -81,6 +81,7 @@ const movieSizeClasses = (week: WeekDto) => {
               :src="movie.posterUrl"
               :alt="movie.title + ' Poster'"
               class="w-full"
+              loading="lazy"
             >
           </a>
         </div>
