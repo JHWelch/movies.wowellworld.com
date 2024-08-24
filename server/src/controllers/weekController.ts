@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express'
-import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 
 export default class WeekController {
   constructor (

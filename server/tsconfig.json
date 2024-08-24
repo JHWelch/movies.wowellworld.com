@@ -17,6 +17,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowUnreachableCode": true,
+    "paths": {
+      "@server/*": [
+        "./src/*"
+      ],
+      "@shared/*": [
+        "../shared/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts",

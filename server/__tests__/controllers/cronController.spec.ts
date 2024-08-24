@@ -1,13 +1,13 @@
 
 import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { CronController } from '../../src/controllers/cronController'
-import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
-import { mockConfig } from '../support/mockConfig'
-import { FirebaseMock } from '../support/firebaseMock'
-import { transaction } from '../../__mocks__/firebase/firestore'
-import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
-import Config from '../../src/config/config'
+import { CronController } from '@server/controllers/cronController'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import { mockConfig } from '@tests/support/mockConfig'
+import { FirebaseMock } from '@tests/support/firebaseMock'
+import { transaction } from '@mocks/firebase/firestore'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import Config from '@server/config/config'
 import { getDocs } from 'firebase/firestore'
 
 const { res, mockClear } = getMockRes()

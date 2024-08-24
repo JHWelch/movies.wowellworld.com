@@ -8,7 +8,7 @@ import {
 } from '@jest/globals'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
-import FirestoreAdapter from '../../../src/data/firestore/firestoreAdapter'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import {
   Timestamp,
   addDoc,
@@ -17,12 +17,12 @@ import {
   query,
   setDoc,
 } from 'firebase/firestore'
-import { transaction } from '../../../__mocks__/firebase/firestore'
-import { FirebaseMock } from '../../support/firebaseMock'
-import Week from '../../../src/models/week'
-import { mockConfig } from '../../support/mockConfig'
-import MovieFactory from '../../support/factories/movieFactory'
-import User from '../../../src/models/user'
+import { transaction } from '@mocks/firebase/firestore'
+import { FirebaseMock } from '@tests/support/firebaseMock'
+import Week from '@server/models/week'
+import { mockConfig } from '@tests/support/mockConfig'
+import MovieFactory from '@tests/support/factories/movieFactory'
+import User from '@server/models/user'
 
 let firestore: FirestoreAdapter
 

@@ -1,10 +1,10 @@
 import { type Express } from 'express'
-import type NotionAdapter from './data/notion/notionAdapter.js'
-import FirestoreAdapter from './data/firestore/firestoreAdapter.js'
-import TmdbAdapter from './data/tmdb/tmdbAdapter.js'
-import createAppRouter from './routers/appRouter.js'
-import Config from './config/config.js'
-import cronMiddleware from './middleware/cronMiddleware.js'
+import type NotionAdapter from '@server/data/notion/notionAdapter'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
+import createAppRouter from '@server/routers/appRouter'
+import Config from '@server/config/config'
+import cronMiddleware from '@server/middleware/cronMiddleware'
 
 export default class Application {
   constructor (

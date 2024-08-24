@@ -81,4 +81,12 @@ export default [{
   rules: {
     'max-len': 'off',
   },
+}, {
+  files: ['server/**/*.ts'],
+
+  rules: {
+    'no-restricted-imports': ['error', {
+      'patterns': ['.*'], // Disable all relative imports
+    }],
+  },
 }]

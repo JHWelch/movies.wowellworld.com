@@ -1,4 +1,4 @@
-import { CrewResponseTmdb } from './responseTypes'
+import { CrewResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
 
 export default class CrewResponse {
   constructor (

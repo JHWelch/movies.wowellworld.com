@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals'
-import User from '../../src/models/user'
+import User from '@server/models/user'
 
 describe('unsubscribeUrl', () => {
   it('returns the unsubscribe url', () => {

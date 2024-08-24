@@ -2,8 +2,8 @@ import { describe, expect, it } from '@jest/globals'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import { getFirestore } from 'firebase/firestore'
-import setupFirestore from '../../src/config/firestore'
-import { mockConfig } from '../support/mockConfig'
+import setupFirestore from '@server/config/firestore'
+import { mockConfig } from '@tests/support/mockConfig'
 
 describe('setupFirestore', () => {
   it('initializes the firestore', () => {

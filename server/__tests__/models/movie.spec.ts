@@ -1,7 +1,7 @@
 import { describe, expect, it, test } from '@jest/globals'
-import Movie from '../../src/models/movie'
-import MovieFactory from '../support/factories/movieFactory'
-import { TMDB_POSTER_URL } from '../../src/data/tmdb/constants'
+import Movie from '@server/models/movie'
+import MovieFactory from '@tests/support/factories/movieFactory'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {

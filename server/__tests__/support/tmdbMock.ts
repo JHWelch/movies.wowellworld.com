@@ -1,5 +1,5 @@
-import Movie from '../../src/models/movie'
-import { MockFetch } from './fetchMock'
+import Movie from '@server/models/movie'
+import { MockFetch } from '@tests/support/fetchMock'
 
 export class TmdbMock {
   constructor (

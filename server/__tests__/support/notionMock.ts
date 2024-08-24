@@ -16,7 +16,7 @@ import {
   nRichText,
   nTitle,
   pageObjectResponse,
-} from './notionHelpers'
+} from '@tests/support/notionHelpers'
 
 export class NotionMock {
   create: jest.MockedFunction<typeof Client.prototype.pages.create>

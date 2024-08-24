@@ -7,6 +7,10 @@ module.exports = { // eslint-disable-line no-undef
     }],
   },
   moduleNameMapper: {
+    '^@server/(.*)$': '<rootDir>/src/$1',
+    '^@shared/(.*)$': '<rootDir>/../shared/$1',
+    '^@mocks/(.*)$': '<rootDir>/__mocks__/$1',
+    '^@tests/(.*)$': '<rootDir>/__tests__/$1',
     '(.+)\\.js': '$1',
   },
   extensionsToTreatAsEsm: ['.ts'],

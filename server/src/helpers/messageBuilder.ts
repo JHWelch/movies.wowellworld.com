@@ -1,4 +1,4 @@
-import { NotificationType } from '../../../shared/notifications'
+import { NotificationType } from '@shared/notifications'
 
 const withMessage = (
   route: string,

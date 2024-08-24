@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Config from '../config/config'
+import Config from '@server/config/config'
 
 export default class CalendarController {
   static PATH = '/calendar'

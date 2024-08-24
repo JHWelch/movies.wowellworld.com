@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
-import NotionAdapter from '../data/notion/notionAdapter.js'
+import NotionAdapter from '@server/data/notion/notionAdapter'
 import { z } from 'zod'
-import { validate } from '../helpers/validation.js'
+import { validate } from '@server/helpers/validation'
 
 export default class SuggestionController {
   constructor (

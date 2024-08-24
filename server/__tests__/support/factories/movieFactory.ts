@@ -1,4 +1,4 @@
-import Movie from '../../../src/models/movie'
+import Movie from '@server/models/movie'
 
 export default class MovieFactory {
   private _state = {

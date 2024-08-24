@@ -6,10 +6,10 @@ import {
   it,
   jest,
 } from '@jest/globals'
-import NotionAdapter from '../../../src/data/notion/notionAdapter'
-import { NotionMock } from '../../support/notionMock'
-import Movie from '../../../src/models/movie'
-import { mockConfig } from '../../support/mockConfig'
+import NotionAdapter from '@server/data/notion/notionAdapter'
+import { NotionMock } from '@tests/support/notionMock'
+import Movie from '@server/models/movie'
+import { mockConfig } from '@tests/support/mockConfig'
 
 let notionMock: NotionMock
 

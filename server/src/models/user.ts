@@ -1,5 +1,5 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
-import SubscriptionController from '../controllers/subscriptionController.js'
+import SubscriptionController from '@server/controllers/subscriptionController'
 
 export default class User {
   constructor (

@@ -1,8 +1,8 @@
-import Config from '../../config/config.js'
-import Movie from '../../models/movie.js'
-import { TMDB_BASE_URL } from './constants.js'
-import MovieResponse from './dtos/movieResponse.js'
-import SearchResponse from './dtos/searchResponse.js'
+import Config from '@server/config/config'
+import Movie from '@server/models/movie'
+import { TMDB_BASE_URL } from '@server/data/tmdb/constants'
+import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
+import SearchResponse from '@server/data/tmdb/dtos/searchResponse'
 
 export default class TmdbAdapter {
   private tmdbApiKey: string

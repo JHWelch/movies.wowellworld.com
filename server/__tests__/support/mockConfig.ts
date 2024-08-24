@@ -1,4 +1,4 @@
-import Config from '../../src/config/config.js'
+import Config from '@server/config/config'
 
 export function mockConfig ({
   nodeEnv = 'production',
