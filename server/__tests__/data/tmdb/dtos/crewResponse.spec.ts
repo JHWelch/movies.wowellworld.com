@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals'
-import CrewResponse from '../../../../src/data/tmdb/dtos/crewResponse.js'
+import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
 
 describe('fromTmdbResponse', () => {
   it('should assign all fields correctly', () => {

@@ -6,12 +6,12 @@ import {
   it,
   jest,
 } from '@jest/globals'
-import WeekController from '../../src/controllers/weekController'
+import WeekController from '@server/controllers/weekController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { FirebaseMock } from '../support/firebaseMock'
-import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
-import { mockConfig } from '../support/mockConfig'
+import { FirebaseMock } from '@tests/support/firebaseMock'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import { mockConfig } from '@tests/support/mockConfig'
 
 const { res, mockClear } = getMockRes()
 

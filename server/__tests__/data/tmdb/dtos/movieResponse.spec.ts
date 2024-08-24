@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals'
-import MovieResponse from '../../../../src/data/tmdb/dtos/movieResponse'
-import CrewResponse from '../../../../src/data/tmdb/dtos/crewResponse'
+import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
+import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
 
 describe('fromTmdbResponse', () => {
   it('should assign all fields correctly from search', () => {

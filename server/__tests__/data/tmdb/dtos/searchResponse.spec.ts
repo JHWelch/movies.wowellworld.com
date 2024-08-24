@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
-import SearchResponse from '../../../../src/data/tmdb/dtos/searchResponse'
-import MovieResponse from '../../../../src/data/tmdb/dtos/movieResponse'
+import SearchResponse from '@server/data/tmdb/dtos/searchResponse'
+import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
 
 describe('fromTmdbResponse', () => {
   it('should assign all fields correctly', () => {

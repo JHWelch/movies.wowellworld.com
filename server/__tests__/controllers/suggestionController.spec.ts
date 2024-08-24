@@ -1,4 +1,4 @@
-import SuggestionController from '../../src/controllers/suggestionController'
+import SuggestionController from '@server/controllers/suggestionController'
 import {
   beforeAll,
   beforeEach,
@@ -8,9 +8,9 @@ import {
   jest,
 } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import NotionAdapter from '../../src/data/notion/notionAdapter'
-import { mockConfig } from '../support/mockConfig'
-import { NotionMock } from '../support/notionMock'
+import NotionAdapter from '@server/data/notion/notionAdapter'
+import { mockConfig } from '@tests/support/mockConfig'
+import { NotionMock } from '@tests/support/notionMock'
 
 const { res, mockClear } = getMockRes()
 

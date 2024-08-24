@@ -1,5 +1,5 @@
 import { NextFunction, Request } from 'express'
-import cronMiddleware from '../../src/middleware/cronMiddleware'
+import cronMiddleware from '@server/middleware/cronMiddleware'
 import { beforeEach, describe, expect, jest, it } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 

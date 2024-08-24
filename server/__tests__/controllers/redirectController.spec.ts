@@ -1,4 +1,4 @@
-import RedirectController from '../../src/controllers/redirectController'
+import RedirectController from '@server/controllers/redirectController'
 import { beforeEach, expect, it } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 

@@ -1,19 +1,19 @@
 import {
   UpdatePageParameters,
   type PageObjectResponse,
-} from '@notionhq/client/build/src/api-endpoints.js'
-import type MovieProperties from '../types/movieProperties.js'
+} from '@notionhq/client/build/src/api-endpoints'
+import type MovieProperties from '@server/types/movieProperties'
 import { DocumentData, WithFieldValue } from 'firebase/firestore'
-import MovieResponse from '../data/tmdb/dtos/movieResponse.js'
+import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
 import {
   notionNumber,
   notionRichText,
   notionTitle,
   notionUrl,
-} from '../data/notion/notionFormatters.js'
-import { FirestoreMovie } from '../data/firestore/firestoreTypes.js'
-import { TMDB_POSTER_URL } from '../data/tmdb/constants.js'
-import { MovieDto } from '../../../shared/dtos.js'
+} from '@server/data/notion/notionFormatters'
+import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { MovieDto } from '@shared/dtos'
 
 export default class Movie {
   constructor (

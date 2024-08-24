@@ -1,4 +1,4 @@
-import Config from './config'
+import Config from '@server/config/config'
 import fs from 'fs'
 import path from 'path'
 

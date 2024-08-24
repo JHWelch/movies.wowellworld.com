@@ -18,10 +18,10 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore'
-import Week from '../../models/week.js'
-import setupFirestore from '../../config/firestore.js'
-import Config from '../../config/config.js'
-import User from '../../models/user.js'
+import Week from '@server/models/week'
+import setupFirestore from '@server/config/firestore'
+import Config from '@server/config/config'
+import User from '@server/models/user'
 import { randomUUID } from 'crypto'
 
 export default class FirestoreAdapter {

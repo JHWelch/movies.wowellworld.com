@@ -1,4 +1,4 @@
-import { withMessage } from '../../src/helpers/messageBuilder'
+import { withMessage } from '@server/helpers/messageBuilder'
 import { describe, expect, it } from '@jest/globals'
 
 describe('withMessage', () => {

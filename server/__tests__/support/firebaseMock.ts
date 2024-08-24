@@ -5,9 +5,9 @@ import {
   WithFieldValue,
 } from 'firebase/firestore'
 import { jest } from '@jest/globals'
-import { FirestoreWeek } from '../../src/data/firestore/firestoreTypes'
-import Week from '../../src/models/week'
-import Movie from '../../src/models/movie'
+import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
+import Week from '@server/models/week'
+import Movie from '@server/models/movie'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {

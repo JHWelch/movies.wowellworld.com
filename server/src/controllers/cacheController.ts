@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
-import NotionAdapter from '../data/notion/notionAdapter'
+import NotionAdapter from '@server/data/notion/notionAdapter'
 import {
   type UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import FirestoreAdapter from '../data/firestore/firestoreAdapter'
-import Movie from '../models/movie'
-import TmdbAdapter from '../data/tmdb/tmdbAdapter'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import Movie from '@server/models/movie'
+import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import fs from 'fs'
-import emails from '../emails/emails.js'
-import directoryPath from '../helpers/directoryPath.js'
+import emails from '@server/emails/emails'
+import directoryPath from '@server/helpers/directoryPath'
 
 export default class CacheController {
   static PATHS = {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import Config from '../../src/config/config'
+import Config from '@server/config/config'
 
 beforeEach(() => {
   jest.resetModules()

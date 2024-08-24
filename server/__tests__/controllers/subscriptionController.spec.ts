@@ -9,13 +9,13 @@ import {
 } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import SubscriptionController
-  from '../../src/controllers/subscriptionController'
+  from '@server/controllers/subscriptionController'
 import { Request } from 'express'
-import FirestoreAdapter from '../../src/data/firestore/firestoreAdapter'
-import { mockConfig } from '../support/mockConfig'
-import { FirebaseMock } from '../support/firebaseMock'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import { mockConfig } from '@tests/support/mockConfig'
+import { FirebaseMock } from '@tests/support/firebaseMock'
 import { addDoc, deleteDoc, setDoc } from 'firebase/firestore'
-import { withMessage } from '../../src/helpers/messageBuilder'
+import { withMessage } from '@server/helpers/messageBuilder'
 
 const { res, mockClear } = getMockRes()
 let req: Request

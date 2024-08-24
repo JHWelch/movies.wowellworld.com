@@ -1,7 +1,7 @@
-import Config from '../../src/config/config'
-import { mockConfig } from '../support/mockConfig'
+import Config from '@server/config/config'
+import { mockConfig } from '@tests/support/mockConfig'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { parseManifest } from '../../src/config/vite'
+import { parseManifest } from '@server/config/vite'
 import path from 'path'
 import fs from 'fs'
 

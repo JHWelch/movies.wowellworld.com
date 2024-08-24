@@ -1,8 +1,8 @@
-import CalendarController from '../../src/controllers/calendarController'
+import CalendarController from '@server/controllers/calendarController'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { beforeEach, describe, expect, it } from '@jest/globals'
-import { mockConfig } from '../support/mockConfig'
-import Config from '../../src/config/config'
+import { mockConfig } from '@tests/support/mockConfig'
+import Config from '@server/config/config'
 
 const { res, mockClear } = getMockRes()
 

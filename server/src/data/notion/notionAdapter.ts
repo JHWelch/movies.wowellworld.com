@@ -1,6 +1,6 @@
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
-import Movie from '../../models/movie.js'
-import Week from '../../models/week.js'
+import Movie from '@server/models/movie'
+import Week from '@server/models/week'
 import {
   type DatabaseObjectResponse,
   type PartialDatabaseObjectResponse,
@@ -9,8 +9,8 @@ import {
   type PartialPageObjectResponse,
   type UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import type WeekProperties from '../../types/weekProperties.js'
-import Config from '../../config/config.js'
+import type WeekProperties from '@server/types/weekProperties'
+import Config from '@server/config/config'
 
 export default class NotionAdapter {
   #notion: Client

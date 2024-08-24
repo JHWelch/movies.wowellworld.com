@@ -1,5 +1,5 @@
-import MovieResponse from './movieResponse.js'
-import { isSearchResponseTmdb } from './responseTypes.js'
+import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
+import { isSearchResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
 
 export default class SearchResponse {
   constructor (

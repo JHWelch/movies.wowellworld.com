@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import assetRouter from '../routers/assetRouter.js'
-import directoryPath from '../helpers/directoryPath.js'
+import assetRouter from '@server/routers/assetRouter'
+import directoryPath from '@server/helpers/directoryPath'
 
 export default function setupExpress (): express.Express {
   const dirname = directoryPath()

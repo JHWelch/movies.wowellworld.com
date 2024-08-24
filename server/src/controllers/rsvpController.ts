@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
-import FirestoreAdapter from '../data/firestore/firestoreAdapter.js'
+import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { z } from 'zod'
-import { validate } from '../helpers/validation.js'
+import { validate } from '@server/helpers/validation'
 
 export default class RsvpController {
   static PATHS = {
