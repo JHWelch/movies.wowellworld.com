@@ -21,10 +21,10 @@ export default {
           '950': '#1d3201',
         },
         purp: {
-          'light': "#806297",
+          'light': '#806297',
           'dark': '#511a7a',
         },
-        mint: '#a8dcb9'
+        mint: '#a8dcb9',
       },
       maxWidth: {
         '8xl': '90rem',
@@ -33,7 +33,7 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'), // eslint-disable-line @typescript-eslint/no-require-imports, no-undef
+    require('@tailwindcss/forms'), // eslint-disable-line @typescript-eslint/no-require-imports, no-undef
   ],
 }
