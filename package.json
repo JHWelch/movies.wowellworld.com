@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
+    "postinstall": "npm --prefix server install && npm --prefix client install",
     "lint": "eslint",
     "fix": "npm run lint -- --fix",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
@@ -15,7 +16,6 @@
     "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
     "link:emails": "ln -s ../emails built/emails",
     "start": "node built/server/src/index.js",
-    "postinstall": "npm --prefix server install && npm --prefix client install",
     "test": "npm run test:server && npm run test:client",
     "test:server": "npm run --prefix server test",
     "test:client": "npm run --prefix client test -- run"

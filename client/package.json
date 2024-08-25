@@ -5,6 +5,8 @@
   "type": "module",
   "main": "src/main.ts",
   "scripts": {
+    "lint": "eslint .",
+    "fix": "npm run lint -- --fix",
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
