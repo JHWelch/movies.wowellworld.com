@@ -21,4 +21,8 @@ export default abstract class Factory<Model, Constructor> {
 
     return this._make()
   }
+
+  makeMany (count: number, state?: Partial<Constructor>): Model[] {
+    return Array.from({ length: count }, () => this.make(state))
+  }
 }
