@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -17,10 +17,16 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@assets/': new URL('./src/assets/', import.meta.url).pathname,
       '@client/': new URL('./src/', import.meta.url).pathname,
       '@components/': new URL('./src/components/', import.meta.url).pathname,
       '@pages/': new URL('./src/pages/', import.meta.url).pathname,
       '@shared/': new URL('../shared/', import.meta.url).pathname,
+    },
+  },
+  test: {
+    alias: {
+      '@tests/': new URL('./src/__tests__/', import.meta.url).pathname,
     },
   },
 })
