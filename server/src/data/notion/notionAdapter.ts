@@ -1,6 +1,6 @@
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { Movie } from '@server/models/movie'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 import {
   type DatabaseObjectResponse,
   type PartialDatabaseObjectResponse,

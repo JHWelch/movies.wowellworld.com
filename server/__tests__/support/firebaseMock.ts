@@ -6,7 +6,7 @@ import {
 } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 import { Movie } from '@server/models/movie'
 
 export class FirebaseMock {

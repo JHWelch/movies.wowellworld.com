@@ -19,7 +19,7 @@ import {
 } from 'firebase/firestore'
 import { transaction } from '@mocks/firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'

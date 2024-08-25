@@ -9,7 +9,7 @@ import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import fs from 'fs'
 import emails from '@server/emails/emails'
 import directoryPath from '@server/helpers/directoryPath'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 import { minutesAsTimeString } from '@server/helpers/formatters'
 
 export default class CacheController {

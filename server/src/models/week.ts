@@ -8,7 +8,7 @@ import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { WeekDto } from '@shared/dtos'
 
-type WeekConstructor = {
+export type WeekConstructor = {
   id: string,
   theme: string,
   date: Date,
@@ -17,7 +17,7 @@ type WeekConstructor = {
   movies?: Movie[],
 }
 
-export default class Week {
+export class Week {
   public id: string = ''
   public theme: string = ''
   public date: Date = new Date()

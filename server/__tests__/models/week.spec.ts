@@ -1,5 +1,5 @@
 import { it, describe, expect, beforeEach } from '@jest/globals'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 
 describe('dateString', () => {
   let week: Week

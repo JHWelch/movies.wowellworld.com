@@ -18,7 +18,7 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore'
-import Week from '@server/models/week'
+import { Week } from '@server/models/week'
 import setupFirestore from '@server/config/firestore'
 import Config from '@server/config/config'
 import User from '@server/models/user'
