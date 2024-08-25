@@ -1,7 +1,10 @@
-import Movie from '@server/models/movie'
+import { Movie, MovieConstructor } from '@server/models/movie'
+import Factory from '@tests/support/factories/factory'
 
-export default class MovieFactory {
-  private _state = {
+export default class MovieFactory extends Factory<MovieConstructor, Movie> {
+  protected _make = () => new Movie(this._state)
+
+  protected _state = {
     title: 'Movie Title',
     director: 'Movie Director',
     year: 2021,
@@ -13,31 +16,6 @@ export default class MovieFactory {
     notionId: 'notionId',
     theaterName: 'Theater',
     showingUrl: 'Showing Url',
-  }
-
-  make (state?: Partial<typeof this.state>): Movie  {
-    if (state) {
-      this.state(state)
-    }
-
-    return new Movie({
-      title: this._state.title,
-      director: this._state.director,
-      year: this._state.year,
-      length: this._state.length,
-      time: this._state.time,
-      url: this._state.url,
-      posterPath: this._state.posterPath,
-      tmdbId: this._state.tmdbId,
-      notionId: this._state.notionId,
-      theaterName: this._state.theaterName,
-      showingUrl: this._state.showingUrl,
-    })
-  }
-
-  state (state: Partial<typeof this.state>): MovieFactory {
-    this._state = { ...this._state, ...state }
-    return this
   }
 
   noFields (): MovieFactory {
