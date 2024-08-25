@@ -82,7 +82,7 @@ export class FirebaseMock {
     movies: Movie[] = [],
     slug: string | null = null,
   ): WithFieldValue<FirestoreWeek> =>
-    new Week(id, theme, new Date(date), false, slug, movies).toFirebaseDTO()
+    new Week({ id, theme, date: new Date(date), slug, movies }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
     firestore: { firestore: 'firestore' },

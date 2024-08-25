@@ -76,9 +76,9 @@ describe('getUpcomingWeeks', () => {
     const weeks = await firestore.getUpcomingWeeks()
 
     expect(weeks).toEqual([
-      new Week('id1', 'theme1', new Date('2021-01-01')),
-      new Week('id2', 'theme2', new Date('2021-01-08')),
-      new Week('id3', 'theme3', new Date('2021-01-15')),
+      new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
+      new Week({ id: 'id2', theme: 'theme2', date: new Date('2021-01-08') }),
+      new Week({ id: 'id3', theme: 'theme3', date: new Date('2021-01-15') }),
     ])
   })
 
@@ -122,9 +122,9 @@ describe('getPastWeeks', () => {
     const weeks = await firestore.getPastWeeks()
 
     expect(weeks).toEqual([
-      new Week('id1', 'theme1', new Date('2021-01-01')),
-      new Week('id2', 'theme2', new Date('2021-01-08')),
-      new Week('id3', 'theme3', new Date('2021-01-15')),
+      new Week({ id: 'id1', theme: 'theme1',date:  new Date('2021-01-01') }),
+      new Week({ id: 'id2', theme: 'theme2',date:  new Date('2021-01-08') }),
+      new Week({ id: 'id3', theme: 'theme3',date:  new Date('2021-01-15') }),
     ])
   })
 
@@ -158,7 +158,7 @@ describe('getWeek', () => {
       const week = await firestore.getWeek('2021-01-01')
 
       expect(week).toEqual(
-        new Week('id1', 'theme1', new Date('2021-01-01')),
+        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
       )
     })
   })
@@ -178,9 +178,9 @@ describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () =>  {
       await firestore.cacheWeeks([
-        new Week('id1', 'theme1', new Date('2021-01-01')),
-        new Week('id2', 'theme2', new Date('2021-01-08')),
-        new Week('id3', 'theme3', new Date('2021-01-15')),
+        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
+        new Week({ id: 'id2', theme: 'theme2', date: new Date('2021-01-08') }),
+        new Week({ id: 'id3', theme: 'theme3', date: new Date('2021-01-15') }),
       ])
 
       expect(transaction.set)
@@ -203,14 +203,12 @@ describe('cacheWeeks', () => {
 
   it('can update a week with movies', async () => {
     const movie = new MovieFactory().make()
-    const weekWithMovie = new Week(
-      'id1',
-      'theme1',
-      new Date('2021-01-01'),
-      false,
-      null,
-      [movie],
-    )
+    const weekWithMovie = new Week({
+      id: 'id1',
+      theme: 'theme1',
+      date: new Date('2021-01-01'),
+      movies: [movie],
+    })
 
     await firestore.cacheWeeks([
       weekWithMovie,
@@ -228,7 +226,7 @@ describe('cacheWeeks', () => {
       firestore = new FirestoreAdapter(mockConfig({ nodeEnv: 'development' }))
 
       await firestore.cacheWeeks([
-        new Week('id1', 'theme1', new Date('2021-01-01')),
+        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
       ])
 
       expect(transaction.set)

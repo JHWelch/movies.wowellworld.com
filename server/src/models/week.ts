@@ -8,39 +8,57 @@ import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { WeekDto } from '@shared/dtos'
 
+type WeekConstructor = {
+  id: string,
+  theme: string,
+  date: Date,
+  isSkipped?: boolean,
+  slug?: string | null,
+  movies?: Movie[],
+}
+
 export default class Week {
-  constructor (
-    public id: string,
-    public theme: string,
-    public date: Date,
-    public isSkipped: boolean = false,
-    public slug: string | null = null,
-    public movies: Movie[] = [],
-  ) {}
+  public id: string = ''
+  public theme: string = ''
+  public date: Date = new Date()
+  public isSkipped: boolean = false
+  public slug: string | null = null
+  public movies: Movie[] = []
+
+  constructor (week: WeekConstructor) {
+    Object.keys(week).forEach((key) => {
+      const typedKey = key as keyof WeekConstructor
+      if (week[typedKey] === undefined) {
+        delete week[typedKey]
+      }
+    })
+    Object.assign(this, week)
+  }
 
   static fromNotion (
     record: PageObjectResponse | DatabaseObjectResponse,
   ): Week {
     const properties = record.properties as unknown as WeekProperties
 
-    return new Week(
-      record.id,
-      properties.Theme.title[0].plain_text,
-      new Date(properties.Date.date.start),
-      properties.Skipped.checkbox,
-      properties.Slug?.rich_text[0]?.plain_text,
-    )
+    return new Week({
+      id: record.id,
+      theme: properties.Theme.title[0].plain_text,
+      date: new Date(properties.Date.date.start),
+      isSkipped: properties.Skipped.checkbox,
+      slug: properties.Slug?.rich_text[0]?.plain_text,
+    })
   }
 
   static fromFirebase (record: DocumentData): Week {
-    return new Week(
-      record.id,
-      record.theme,
-      record.date.toDate(),
-      record.isSkipped,
-      record.slug,
-      record.movies.map((movie: DocumentData) => Movie.fromFirebase(movie)),
-    )
+    return new Week({
+      id: record.id,
+      theme: record.theme,
+      date: record.date.toDate(),
+      isSkipped: record.isSkipped,
+      slug: record.slug,
+      movies: record.movies
+        .map((movie: DocumentData) => Movie.fromFirebase(movie)),
+    })
   }
 
   displayDate (): string {
