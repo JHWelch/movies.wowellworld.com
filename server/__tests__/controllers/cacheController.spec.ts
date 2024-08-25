@@ -1,4 +1,5 @@
 import {
+  afterEach,
   beforeAll,
   beforeEach,
   describe,
@@ -48,6 +49,10 @@ beforeEach(() => {
   notionMock.mockNotionEnv()
   mockClear()
   jest.mock('@server/helpers/directoryPath')
+})
+
+afterEach(() => {
+  jest.restoreAllMocks()
 })
 
 describe('cacheWeeks', () => {
@@ -153,14 +158,8 @@ describe('cacheWeeks', () => {
   })
 
   describe('movies without times', () => {
-    let expected: Movie[]
-
-    beforeEach(() => {
-      expected = [
-        new MovieFactory().make({ time: null, tmdbId: null }),
-        new MovieFactory().make({ time: null, tmdbId: null }),
-      ]
-      const notionResponse = expected.map(NotionMovie.fromMovie)
+    const setupNotionMocks = (movies: Movie[]) => {
+      const notionResponse = movies.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek(
@@ -169,10 +168,17 @@ describe('cacheWeeks', () => {
       ])
       notionMock.mockRetrieve(notionResponse[0])
       notionMock.mockRetrieve(notionResponse[1])
+    }
+
+    beforeEach(() => {
       req = getMockReq()
     })
 
-    it('stores data from tmdb in firestore', async () => {
+    it('updates times when adding to firebase', async () => {
+      const expected = new MovieFactory()
+        .state({ time: null, tmdbId: null })
+        .makeMany(2)
+      setupNotionMocks(expected)
       expected[0].time = '6:00 PM'
       expected[1].time = '7:45 PM'
 
@@ -192,10 +198,20 @@ describe('cacheWeeks', () => {
     })
 
     it('updates the movie in notion', async () => {
+      const expected = new MovieFactory()
+        .state({ time: null, tmdbId: null })
+        .makeMany(2)
+      setupNotionMocks(expected)
+
       await newCacheController().cacheWeeks(req, res)
 
+      expected[0].time = '6:00 PM'
+      expected[1].time = '7:45 PM'
       expect(res.sendStatus).toHaveBeenCalledWith(200)
-      expect(notionMock.update).toHaveBeenCalledTimes(2)
+      expect(notionMock.update)
+        .toHaveBeenCalledWith(expected[0].toNotion())
+      expect(notionMock.update)
+        .toHaveBeenCalledWith(expected[1].toNotion())
     })
   })
 })

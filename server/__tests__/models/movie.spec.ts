@@ -52,6 +52,7 @@ describe('toNotion', () => {
           { text: { content: movie.theaterName } },
         ] },
         'Showing URL': { url: movie.showingUrl },
+        'Time': { rich_text: [{ text: { content: movie.time } }] },
       },
     })
   })

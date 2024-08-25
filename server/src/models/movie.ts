@@ -181,6 +181,7 @@ export class Movie {
         Poster: notionUrl(this.posterPath),
         'Theater Name': notionRichText(this.theaterName),
         'Showing URL': notionUrl(this.showingUrl),
+        'Time': notionRichText(this.time),
       },
     }
   }
