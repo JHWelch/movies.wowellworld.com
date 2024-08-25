@@ -1,7 +1,7 @@
 import { Movie, MovieConstructor } from '@server/models/movie'
 import Factory from '@tests/support/factories/factory'
 
-export default class MovieFactory extends Factory<MovieConstructor, Movie> {
+export default class MovieFactory extends Factory<Movie, MovieConstructor> {
   protected _make = () => new Movie(this._state)
 
   protected _state = {

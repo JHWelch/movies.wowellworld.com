@@ -1,4 +1,4 @@
-export default abstract class Factory<Constructor, Model> {
+export default abstract class Factory<Model, Constructor> {
   protected abstract _state: Constructor
   protected abstract _make (): Model
 
