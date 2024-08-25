@@ -201,7 +201,7 @@ describe('cacheWeeks', () => {
 })
 
 describe('cacheEmailTemplates', () => {
-  it.skip('uploads email templates to firestore', async () => {
+  it('uploads email templates to firestore', async () => {
     jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
     await newCacheController().cacheEmailTemplates(req, res)
 
