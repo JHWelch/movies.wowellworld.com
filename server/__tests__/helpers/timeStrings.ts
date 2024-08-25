@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals'
-import { minutesAsTimeString } from '@server/helpers/formatters'
+import { minutesAsTimeString } from '@server/helpers/timeStrings'
 
 describe('minutesAsTimeString', () => {
   it('should properly format minutes to time', () => {
