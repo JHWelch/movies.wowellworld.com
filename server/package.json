@@ -5,14 +5,14 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
+    "lint": "eslint .",
+    "fix": "npm run lint -- --fix",
+    "dev": "nodemon src/index.ts",
     "build": "tsc && tsc-alias --resolve-full-paths",
     "postbuild": "cp -R node_modules ../built/node_modules",
-    "lint": "eslint . --ext .ts",
-    "fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "test-watch": "jest --watch",
-    "coverage": "jest --coverage",
-    "dev": "nodemon src/index.ts"
+    "coverage": "jest --coverage"
   },
   "nodemonConfig": {
     "ext": "ts,ejs",
