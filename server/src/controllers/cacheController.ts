@@ -9,6 +9,8 @@ import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import fs from 'fs'
 import emails from '@server/emails/emails'
 import directoryPath from '@server/helpers/directoryPath'
+import Week from '@server/models/week'
+import { minutesAsTimeString } from '@server/helpers/formatters'
 
 export default class CacheController {
   static PATHS = {
@@ -25,12 +27,19 @@ export default class CacheController {
   cacheWeeks = async (_req: Request, res: Response): Promise<void> => {
     const weeks = await this.notionAdapter.getWeeks()
 
-    const moviesForSync = weeks.flatMap<Movie>(week => {
-      return week.movies.filter(movie => !movie.director && !movie.posterPath)
-    })
+    const moviesWithoutDetails = weeks.flatMap(week => week.movies
+      .filter(movie => !movie.director && !movie.posterPath))
+    await this.fillMovieDetails(moviesWithoutDetails)
 
-    await this.fillMovieDetails(moviesForSync)
-    await this.updateNotionMovies(moviesForSync)
+    const weeksWithoutTimes = weeks.filter(week => !week.isSkipped
+      && week.movies.some(movie => !movie.time))
+
+    this.updateWeekTimes(weeksWithoutTimes)
+
+    await this.updateNotionMovies([
+      ...moviesWithoutDetails,
+      ...weeksWithoutTimes.flatMap(week => week.movies),
+    ])
 
     this.firestore.cacheWeeks(weeks)
 
@@ -56,6 +65,20 @@ export default class CacheController {
 
       movie.merge(tmdbMovie)
     }))
+
+  private updateWeekTimes = (weeks: Week[]): void => weeks
+    .forEach(week => this.updateMovieTimes(week.movies))
+
+
+  private updateMovieTimes = (movies: Movie[]): void => {
+    let minutes = 18 * 60 // 6pm
+
+    movies.forEach((movie) => {
+      movie.time = minutesAsTimeString(minutes)
+      minutes += (movie.length || 0) + 15
+      minutes = Math.ceil(minutes / 5) * 5
+    })
+  }
 
   private updateNotionMovies = (
     movies: Movie[],
