@@ -2,6 +2,7 @@ import {
   PageObjectResponse,
   RichTextItemResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { Movie } from '@server/models/movie'
 
 export const nCheckbox = (checked: boolean): {
   type: 'checkbox';
@@ -146,19 +147,40 @@ export type WithAuth<P> = P & {
   auth?: string;
 };
 
+type NotionMovieConstructor = {
+  id: string,
+  title: string,
+  director?: string | null,
+  year?: number | null,
+  length?: number | null,
+  time?: string | null,
+  url?: string | null,
+  posterPath?: string | null,
+  theaterName?: string | null,
+  showingUrl?: string | null,
+}
+
 export class NotionMovie {
-  constructor (
-    public id: string,
-    public title: string,
-    public director: string | null = null,
-    public year: number | null = null,
-    public length: number | null = null,
-    public time: string | null = null,
-    public url: string | null = null,
-    public posterPath: string | null = null,
-    public theaterName: string | null = null,
-    public showingUrl: string | null = null,
-  ) {}
+  public id: string = ''
+  public title: string = ''
+  public director: string | null = null
+  public year: number | null = null
+  public length: number | null = null
+  public time: string | null = null
+  public url: string | null = null
+  public posterPath: string | null = null
+  public theaterName: string | null = null
+  public showingUrl: string | null = null
+
+  constructor (movie: NotionMovieConstructor) {
+    Object.keys(movie).forEach((key) => {
+      const typedKey = key as keyof NotionMovieConstructor
+      if (movie[typedKey] === undefined) {
+        delete movie[typedKey]
+      }
+    })
+    Object.assign(this, movie)
+  }
 
   toPageObjectResponse (): PageObjectResponse {
     return pageObjectResponse(this.id, {
@@ -175,17 +197,32 @@ export class NotionMovie {
   }
 
   static demo (): NotionMovie {
-    return new NotionMovie(
-      'movieId',
-      'movieTitle',
-      'movieDirector',
-      2021,
-      120,
-      '8:00 PM',
-      'movieUrl',
-      'moviePosterPath',
-      'movieTheaterName',
-      'movieShowingUrl',
-    )
+    return new NotionMovie({
+      id: 'movieId',
+      title: 'movieTitle',
+      director: 'movieDirector',
+      year: 2021,
+      length: 120,
+      time: '8:00 PM',
+      url: 'movieUrl',
+      posterPath: 'moviePosterPath',
+      theaterName: 'movieTheaterName',
+      showingUrl: 'movieShowingUrl',
+    })
+  }
+
+  static fromMovie (movie: Movie): NotionMovie {
+    return new NotionMovie({
+      id: movie.notionId || '',
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      time: movie.time,
+      url: movie.url,
+      posterPath: movie.posterPath,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
+    })
   }
 }

@@ -22,6 +22,7 @@ import { Movie } from '@server/models/movie'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
+import MovieFactory from '@tests/support/factories/movieFactory'
 
 let notionMock: NotionMock
 
@@ -113,7 +114,7 @@ describe('cacheWeeks', () => {
         posterPath: '/poster.jpg',
         tmdbId: 1234,
       })
-      const notionResponse = new NotionMovie('notionId', 'title')
+      const notionResponse = new NotionMovie({ id: 'notionId', title: 'title' })
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek(
@@ -134,12 +135,12 @@ describe('cacheWeeks', () => {
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        (new Week({
+        new Week({
           id: 'id1',
           theme: 'theme1',
           date: new Date('2021-01-01'),
           movies: [expected],
-        })).toFirebaseDTO(),
+        }).toFirebaseDTO(),
       )
     })
 
@@ -156,51 +157,10 @@ describe('cacheWeeks', () => {
 
     beforeEach(() => {
       expected = [
-        new Movie({
-          title: 'title',
-          director: 'director',
-          year: 2001,
-          length: 90,
-          time: '6:00 PM',
-          url: 'https://www.themoviedb.org/movie/1234',
-          posterPath: '/poster.jpg',
-          tmdbId: null,
-          notionId: 'notionId',
-        }),
-        new Movie({
-          title: 'title',
-          director: 'director',
-          year: 2001,
-          length: 90,
-          time: '7:45 PM',
-          url: 'https://www.themoviedb.org/movie/1234',
-          posterPath: '/poster.jpg',
-          tmdbId: null,
-          notionId: 'notionId',
-        }),
+        new MovieFactory().make({ time: null, tmdbId: null }),
+        new MovieFactory().make({ time: null, tmdbId: null }),
       ]
-      const notionResponse = [
-        new NotionMovie(
-          'notionId',
-          'title',
-          'director',
-          2001,
-          90,
-          null,
-          'https://www.themoviedb.org/movie/1234',
-          '/poster.jpg',
-        ),
-        new NotionMovie(
-          'notionId',
-          'title',
-          'director',
-          2001,
-          90,
-          null,
-          'https://www.themoviedb.org/movie/1234',
-          '/poster.jpg',
-        ),
-      ]
+      const notionResponse = expected.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek(
@@ -213,18 +173,21 @@ describe('cacheWeeks', () => {
     })
 
     it('stores data from tmdb in firestore', async () => {
+      expected[0].time = '6:00 PM'
+      expected[1].time = '7:45 PM'
+
       await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        (new Week({
+        new Week({
           id: 'id1',
           theme: 'theme1',
           date: new Date('2021-01-01'),
           movies: expected,
-        })).toFirebaseDTO(),
+        }).toFirebaseDTO(),
       )
     })
 
