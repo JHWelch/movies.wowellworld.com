@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import Calendar from '../components/Calendar.vue'
-import RsvpModal from '../components/RsvpModal.vue'
-import ThankYou from '../components/ThankYou.vue'
-import WeekList from '../components/WeekList.vue'
-import heroImg from '../assets/hero.png'
+import Calendar from '@components/Calendar.vue'
+import RsvpModal from '@components/RsvpModal.vue'
+import ThankYou from '@components/ThankYou.vue'
+import WeekList from '@components/WeekList.vue'
+import heroImg from '@assets/hero.png'
 </script>
 
 <template>

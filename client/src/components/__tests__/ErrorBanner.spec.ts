@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import ErrorBanner from '../ErrorBanner.vue'
+import ErrorBanner from '@components/ErrorBanner.vue'
 
 describe('Press "refresh the page"', () => {
   it('should emit "reload" event', () => {

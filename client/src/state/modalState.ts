@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { WeekDto } from '../../../shared/dtos'
+import { WeekDto } from '@shared/dtos'
 
 type RsvpModalState = {
   show: boolean

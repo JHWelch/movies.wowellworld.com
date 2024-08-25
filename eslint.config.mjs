@@ -57,6 +57,10 @@ export default [{
       tabWidth: 2,
     }],
 
+    'no-restricted-imports': ['error', {
+      'patterns': ['.*'], // Disable all relative imports
+    }],
+
     'object-curly-spacing': ['error', 'always'],
 
     quotes: ['error', 'single', {
@@ -80,13 +84,5 @@ export default [{
 
   rules: {
     'max-len': 'off',
-  },
-}, {
-  files: ['server/**/*.ts'],
-
-  rules: {
-    'no-restricted-imports': ['error', {
-      'patterns': ['.*'], // Disable all relative imports
-    }],
   },
 }]

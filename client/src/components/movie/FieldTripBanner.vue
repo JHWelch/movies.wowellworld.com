@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { TicketIcon } from '@heroicons/vue/24/outline'
-import { MovieDto, WeekDto } from '../../../../shared/dtos'
+import { MovieDto, WeekDto } from '@shared/dtos'
 
 defineProps<{
   movie: MovieDto

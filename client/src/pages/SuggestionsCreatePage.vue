@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import FormInput from '../components/form/FormInput.vue'
-import LoadingIcon from '../icons/LoadingIcon.vue'
-import { ErrorBag } from '../types'
+import FormInput from '@components/form/FormInput.vue'
+import LoadingIcon from '@components/icons/LoadingIcon.vue'
+import { ErrorBag } from '@client/types'
 
 type SuggestionFormData = {
   theme?: string,

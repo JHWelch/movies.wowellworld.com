@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import UpcomingPage from './pages/UpcomingPage.vue'
-import PreviousPage from './pages/PreviousPage.vue'
-import SuggestionsCreatePageVue from './pages/SuggestionsCreatePage.vue'
+import UpcomingPage from '@pages/UpcomingPage.vue'
+import PreviousPage from '@pages/PreviousPage.vue'
+import SuggestionsCreatePageVue from '@pages/SuggestionsCreatePage.vue'
 
 const routes = [
   {

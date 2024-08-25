@@ -2,10 +2,10 @@
 
 import { expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import MovieItem from '../MovieItem.vue'
-import WeekFactory from '../../__tests__/utils/factories/weekFactory'
-import MovieFactory from '../../__tests__/utils/factories/movieFactory'
-import IconLabel from '../IconLabel.vue'
+import MovieItem from '@components/MovieItem.vue'
+import WeekFactory from '@tests/utils/factories/weekFactory'
+import MovieFactory from '@tests/utils/factories/movieFactory'
+import IconLabel from '@components/IconLabel.vue'
 
 
 it('has all movie details', () => {
