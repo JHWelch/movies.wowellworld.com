@@ -1,5 +1,5 @@
 import Config from '@server/config/config'
-import Movie from '@server/models/movie'
+import { Movie } from '@server/models/movie'
 import { TMDB_BASE_URL } from '@server/data/tmdb/constants'
 import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
 import SearchResponse from '@server/data/tmdb/dtos/searchResponse'

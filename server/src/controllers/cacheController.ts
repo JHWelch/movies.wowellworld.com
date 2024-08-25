@@ -4,7 +4,7 @@ import {
   type UpdatePageResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
-import Movie from '@server/models/movie'
+import { Movie } from '@server/models/movie'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import fs from 'fs'
 import emails from '@server/emails/emails'

@@ -15,7 +15,7 @@ import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
 
-type MovieConstructor = {
+export type MovieConstructor = {
   title: string,
   director?: string | null,
   year?: number | null,
@@ -29,7 +29,7 @@ type MovieConstructor = {
   showingUrl?: string | null,
 }
 
-export default class Movie {
+export class Movie {
   public title: string = ''
   public director: string | null = null
   public year: number | null = null

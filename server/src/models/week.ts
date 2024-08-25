@@ -2,7 +2,7 @@ import {
   DatabaseObjectResponse,
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import Movie from '@server/models/movie'
+import { Movie } from '@server/models/movie'
 import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'

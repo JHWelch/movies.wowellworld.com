@@ -7,7 +7,7 @@ import {
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import Week from '@server/models/week'
-import Movie from '@server/models/movie'
+import { Movie } from '@server/models/movie'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
