@@ -5,17 +5,20 @@ import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
-    const movieA = new Movie('Title', null, 2004, 120)
-    const movieB = new Movie(
-      'Title',
-      'Director',
-      2001,
-      null,
-      '8:00 PM',
-      'https://www.themoviedb.org/movie/1234',
-      'https://image.tmdb.org/t/p/original/poster.jpg',
-      1234,
-    )
+    const movieA = new Movie({
+      title: 'Title',
+      year: 2004,
+      length: 120,
+    })
+    const movieB = new Movie({
+      title: 'Title',
+      director: 'Director',
+      year: 2001,
+      time: '8:00 PM',
+      url: 'https://www.themoviedb.org/movie/1234',
+      posterPath: 'https://image.tmdb.org/t/p/original/poster.jpg',
+      tmdbId: 1234,
+    })
 
     movieA.merge(movieB)
 
@@ -34,19 +37,7 @@ describe('merge', () => {
 
 describe('toNotion', () => {
   it('returns a notion update object', () => {
-    const movie = new Movie(
-      'Movie Title',
-      'Movie Director',
-      2021,
-      120,
-      '8:00 PM',
-      'Movie Url',
-      'Movie Poster Url',
-      1234,
-      'notionId',
-      'Theater',
-      'Showing Url',
-    )
+    const movie = new MovieFactory().make()
 
     expect(movie.toNotion()).toEqual({
       page_id: movie.notionId,
@@ -67,19 +58,7 @@ describe('toNotion', () => {
 
   describe('movie does not have notionId', () => {
     it('should throw an error', async () => {
-      const movie = new Movie(
-        'Movie Title',
-        'Movie Director',
-        2021,
-        120,
-        '8:00 PM',
-        'Movie Url',
-        'Movie Poster Url',
-        1234,
-        null,
-        'Theater',
-        'Showing Url',
-      )
+      const movie = new MovieFactory().state({ notionId: null }).make()
 
       expect(() => movie.toNotion())
         .toThrowError('Movie does not have notionId')

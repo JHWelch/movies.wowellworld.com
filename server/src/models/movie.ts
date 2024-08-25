@@ -15,66 +15,87 @@ import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
 
+type MovieConstructor = {
+  title: string,
+  director?: string | null,
+  year?: number | null,
+  length?: number | null,
+  time?: string | null,
+  url?: string | null,
+  posterPath?: string | null,
+  tmdbId?: number | null,
+  notionId?: string | null,
+  theaterName?: string | null,
+  showingUrl?: string | null,
+}
+
 export default class Movie {
-  constructor (
-    public title: string,
-    public director: string | null = null,
-    public year: number | null = null,
-    public length: number | null = null,
-    public time: string | null = null,
-    public url: string | null = null,
-    public posterPath: string | null = null,
-    public tmdbId: number | null = null,
-    public notionId: string | null = null,
-    public theaterName: string | null = null,
-    public showingUrl: string | null = null,
-  ) {}
+  public title: string = ''
+  public director: string | null = null
+  public year: number | null = null
+  public length: number | null = null
+  public time: string | null = null
+  public url: string | null = null
+  public posterPath: string | null = null
+  public tmdbId: number | null = null
+  public notionId: string | null = null
+  public theaterName: string | null = null
+  public showingUrl: string | null = null
+
+  constructor (movie: MovieConstructor) {
+    Object.keys(movie).forEach((key) => {
+      const typedKey = key as keyof MovieConstructor
+      if (movie[typedKey] === undefined) {
+        delete movie[typedKey]
+      }
+    })
+    Object.assign(this, movie)
+  }
 
   static fromNotion (movie: PageObjectResponse): Movie {
     const properties = movie.properties as unknown as MovieProperties
 
-    return new Movie(
-      properties.Title?.title[0]?.plain_text,
-      properties.Director?.rich_text[0]?.plain_text,
-      properties.Year?.number,
-      properties['Length (mins)']?.number,
-      properties.Time?.rich_text[0]?.plain_text,
-      properties.URL?.url,
-      properties.Poster?.url,
-      null,
-      movie.id,
-      properties['Theater Name']?.rich_text[0]?.plain_text,
-      properties['Showing URL']?.url,
-    )
+    return new Movie({
+      title: properties.Title?.title[0]?.plain_text,
+      director: properties.Director?.rich_text[0]?.plain_text,
+      year: properties.Year?.number,
+      length: properties['Length (mins)']?.number,
+      time: properties.Time?.rich_text[0]?.plain_text,
+      url: properties.URL?.url,
+      posterPath: properties.Poster?.url,
+      tmdbId: null,
+      notionId: movie.id,
+      theaterName: properties['Theater Name']?.rich_text[0]?.plain_text,
+      showingUrl: properties['Showing URL']?.url,
+    })
   }
 
   static fromFirebase (movie: DocumentData): Movie {
-    return new Movie(
-      movie.title,
-      movie.director,
-      movie.year,
-      movie.length,
-      movie.time,
-      movie.url,
-      movie.posterPath,
-      movie.tmdbId,
-      movie.notionId,
-      movie.theaterName,
-      movie.showingUrl,
-    )
+    return new Movie({
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      time: movie.time,
+      url: movie.url,
+      posterPath: movie.posterPath,
+      tmdbId: movie.tmdbId,
+      notionId: movie.notionId,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
+    })
   }
 
   static fromTmdbResponse (tmdbResponse: MovieResponse): Movie {
-    return new Movie(
-      tmdbResponse.title,
-      tmdbResponse.director,
-      parseInt(tmdbResponse.releaseDate.split('-')[0]),
-      tmdbResponse.runtime ?? -1,
-      null,
-      tmdbResponse.fullMovieUrl,
-      tmdbResponse.posterPath,
-      tmdbResponse.id,
-    )
+    return new Movie({
+      title: tmdbResponse.title,
+      director: tmdbResponse.director,
+      year: parseInt(tmdbResponse.releaseDate.split('-')[0]),
+      length: tmdbResponse.runtime ?? -1,
+      url: tmdbResponse.fullMovieUrl,
+      posterPath: tmdbResponse.posterPath,
+      tmdbId: tmdbResponse.id,
+    })
   }
 
   isFieldTrip (): boolean {

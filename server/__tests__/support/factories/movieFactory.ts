@@ -15,24 +15,35 @@ export default class MovieFactory {
     showingUrl: 'Showing Url',
   }
 
-  make (): Movie  {
-    return new Movie(
-      this._state.title,
-      this._state.director,
-      this._state.year,
-      this._state.length,
-      this._state.time,
-      this._state.url,
-      this._state.posterPath,
-      this._state.tmdbId,
-      this._state.notionId,
-      this._state.theaterName,
-      this._state.showingUrl,
-    )
+  make (state?: Partial<typeof this.state>): Movie  {
+    if (state) {
+      this.state(state)
+    }
+
+    return new Movie({
+      title: this._state.title,
+      director: this._state.director,
+      year: this._state.year,
+      length: this._state.length,
+      time: this._state.time,
+      url: this._state.url,
+      posterPath: this._state.posterPath,
+      tmdbId: this._state.tmdbId,
+      notionId: this._state.notionId,
+      theaterName: this._state.theaterName,
+      showingUrl: this._state.showingUrl,
+    })
   }
 
   state (state: Partial<typeof this.state>): MovieFactory {
     this._state = { ...this._state, ...state }
     return this
+  }
+
+  noFields (): MovieFactory {
+    return this.state({
+      theaterName: undefined,
+      showingUrl: null,
+    })
   }
 }

@@ -93,27 +93,26 @@ describe('cacheWeeks', () => {
     let expected: Movie
 
     beforeEach(() => {
-      expected = new Movie(
-        'title',
-        'director',
-        2001,
-        90,
-        '6:00 PM',
-        'https://www.themoviedb.org/movie/1234',
-        '/poster.jpg',
-        1234,
-        'notionId',
-      )
-      const tmdb = new Movie(
-        'title',
-        'director',
-        2001,
-        90,
-        null,
-        'https://www.themoviedb.org/movie/1234',
-        '/poster.jpg',
-        1234,
-      )
+      expected = new Movie({
+        title: 'title',
+        director: 'director',
+        year: 2001,
+        length: 90,
+        time: '6:00 PM',
+        url: 'https://www.themoviedb.org/movie/1234',
+        posterPath: '/poster.jpg',
+        tmdbId: 1234,
+        notionId: 'notionId',
+      })
+      const tmdb = new Movie({
+        title: 'title',
+        director: 'director',
+        year: 2001,
+        length: 90,
+        url: 'https://www.themoviedb.org/movie/1234',
+        posterPath: '/poster.jpg',
+        tmdbId: 1234,
+      })
       const notionResponse = new NotionMovie('notionId', 'title')
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
@@ -154,28 +153,28 @@ describe('cacheWeeks', () => {
 
     beforeEach(() => {
       expected = [
-        new Movie(
-          'title',
-          'director',
-          2001,
-          90,
-          '6:00 PM',
-          'https://www.themoviedb.org/movie/1234',
-          '/poster.jpg',
-          null,
-          'notionId',
-        ),
-        new Movie(
-          'title',
-          'director',
-          2001,
-          90,
-          '7:45 PM',
-          'https://www.themoviedb.org/movie/1234',
-          '/poster.jpg',
-          null,
-          'notionId',
-        ),
+        new Movie({
+          title: 'title',
+          director: 'director',
+          year: 2001,
+          length: 90,
+          time: '6:00 PM',
+          url: 'https://www.themoviedb.org/movie/1234',
+          posterPath: '/poster.jpg',
+          tmdbId: null,
+          notionId: 'notionId',
+        }),
+        new Movie({
+          title: 'title',
+          director: 'director',
+          year: 2001,
+          length: 90,
+          time: '7:45 PM',
+          url: 'https://www.themoviedb.org/movie/1234',
+          posterPath: '/poster.jpg',
+          tmdbId: null,
+          notionId: 'notionId',
+        }),
       ]
       const notionResponse = [
         new NotionMovie(
