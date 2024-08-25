@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "fix": "npm run lint -- --fix",
     "dev": "nodemon src/index.ts",
-    "build": "tsc && tsc-alias --resolve-full-paths",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json --resolve-full-paths",
     "postbuild": "cp -R node_modules ../built/node_modules",
     "test": "jest",
     "test-watch": "jest --watch",
@@ -17,7 +17,7 @@
   "nodemonConfig": {
     "ext": "ts,ejs",
     "execMap": {
-      "ts": "tsx"
+      "ts": "tsx --tsconfig tsconfig.build.json"
     }
   },
   "dependencies": {
