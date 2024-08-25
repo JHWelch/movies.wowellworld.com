@@ -1,5 +1,5 @@
-import { MovieDto, WeekDto } from '../../../../../shared/dtos'
-import Factory from './factory'
+import { MovieDto, WeekDto } from '@shared/dtos'
+import Factory from '@tests/utils/factories/factory'
 
 export default class WeekFactory extends Factory<WeekDto> {
   protected state: WeekDto = {

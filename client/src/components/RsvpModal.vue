@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Errors, ErrorBag } from '../types'
-import FormInput from './form/FormInput.vue'
-import FormCheckbox from './form/FormCheckbox.vue'
-import { rsvpModal } from '../state/modalState'
-import { fireConfetti } from '../utilities/confetti'
+import { Errors, ErrorBag } from '@client/types'
+import FormInput from '@components/form/FormInput.vue'
+import FormCheckbox from '@components/form/FormCheckbox.vue'
+import { rsvpModal } from '@client/state/modalState'
+import { fireConfetti } from '@client/utilities/confetti'
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 
 type RsvpForm = {

@@ -2,8 +2,8 @@
 
 import { beforeEach, describe, expect, it } from 'vitest'
 import { DOMWrapper, VueWrapper, mount } from '@vue/test-utils'
-import Notifications from '../Notifications.vue'
-import { notifications } from '../../state/notificationState'
+import Notifications from '@components/Notifications.vue'
+import { notifications } from '@client/state/notificationState'
 import { nextTick } from 'vue'
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 

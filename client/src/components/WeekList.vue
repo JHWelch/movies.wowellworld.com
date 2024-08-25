@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { nextTick, ref, watch } from 'vue'
-import LoadingAnimation from './LoadingAnimation.vue'
-import SectionTitle from './SectionTitle.vue'
-import WeekItem from './WeekItem.vue'
-import ErrorBanner from './ErrorBanner.vue'
-import { WeekDto } from '../../../shared/dtos'
-import { rsvpModal } from '../state/modalState'
+import LoadingAnimation from '@components/LoadingAnimation.vue'
+import SectionTitle from '@components/SectionTitle.vue'
+import WeekItem from '@components/WeekItem.vue'
+import ErrorBanner from '@components/ErrorBanner.vue'
+import { WeekDto } from '@shared/dtos'
+import { rsvpModal } from '@client/state/modalState'
 
 const props = defineProps<{
   sectionTitles: {[key: number]: string}

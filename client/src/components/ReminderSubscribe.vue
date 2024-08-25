@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import FormInput from './form/FormInput.vue'
-import { ErrorBag, Errors } from '../types'
-import { notifications } from '../state/notificationState'
-import { fireConfetti } from '../utilities/confetti'
+import FormInput from '@components/form/FormInput.vue'
+import { ErrorBag, Errors } from '@client/types'
+import { notifications } from '@client/state/notificationState'
+import { fireConfetti } from '@client/utilities/confetti'
 
 const isOpen = ref<boolean>(false)
 const email = ref<string>('')

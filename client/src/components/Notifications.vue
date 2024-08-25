@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { notifications } from '../state/notificationState'
-import { isNotificationType } from '../../../shared/notifications'
+import { notifications } from '@client/state/notificationState'
+import { isNotificationType } from '@shared/notifications'
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,

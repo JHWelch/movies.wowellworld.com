@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 
 import { VueWrapper, mount } from '@vue/test-utils'
-import ReminderSubscribe from '../ReminderSubscribe.vue'
+import ReminderSubscribe from '@client/components/ReminderSubscribe.vue'
 import { Mock, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
 

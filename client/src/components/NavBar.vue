@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ReminderSubscribe from './ReminderSubscribe.vue'
-import NavButton from './navbar/NavButton.vue'
+import ReminderSubscribe from '@components/ReminderSubscribe.vue'
+import NavButton from '@components/navbar/NavButton.vue'
 </script>
 
 <template>

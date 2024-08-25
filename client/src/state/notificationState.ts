@@ -1,5 +1,5 @@
 import { reactive } from 'vue'
-import { NotificationType } from '../../../shared/notifications'
+import { NotificationType } from '@shared/notifications'
 
 export type NotificationState = {
   message?: string

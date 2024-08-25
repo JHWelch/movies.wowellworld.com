@@ -2,8 +2,8 @@
 
 import { expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import WeekItem from '../WeekItem.vue'
-import WeekFactory from '../../__tests__/utils/factories/weekFactory'
+import WeekItem from '@components/WeekItem.vue'
+import WeekFactory from '@tests/utils/factories/weekFactory'
 
 
 it('has id of the week\'s slug', () => {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { WeekDto } from '../../../shared/dtos'
-import MovieItem from './MovieItem.vue'
+import { WeekDto } from '@shared/dtos'
+import MovieItem from '@components/MovieItem.vue'
 
 defineProps<{
   showEventDetails: boolean

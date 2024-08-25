@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { fireConfetti } from '../utilities/confetti'
+import { fireConfetti } from '@client/utilities/confetti'
 
 const isOpen = ref(false)
 

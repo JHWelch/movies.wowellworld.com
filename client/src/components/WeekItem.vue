@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
-import { WeekDto } from '../../../shared/dtos'
-import { rsvpModal } from '../state/modalState'
-import MovieList from './MovieList.vue'
-import SkippedBanner from './SkippedBanner.vue'
+import { WeekDto } from '@shared/dtos'
+import { rsvpModal } from '@client/state/modalState'
+import MovieList from '@components/MovieList.vue'
+import SkippedBanner from '@components/SkippedBanner.vue'
 
 defineProps<{
   week: WeekDto

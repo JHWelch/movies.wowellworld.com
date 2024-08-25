@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import AppFooter from './components/AppFooter.vue'
-import NavBar from './components/NavBar.vue'
-import Notifications from './components/Notifications.vue'
+import AppFooter from '@components/AppFooter.vue'
+import NavBar from '@components/NavBar.vue'
+import Notifications from '@components/Notifications.vue'
 </script>
 
 <template>

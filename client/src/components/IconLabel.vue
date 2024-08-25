@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import DynamicHeroIcon from './DynamicHeroIcon.vue'
+import DynamicHeroIcon from '@components/DynamicHeroIcon.vue'
 import * as heroIcons from '@heroicons/vue/24/solid'
 
 withDefaults(defineProps<{

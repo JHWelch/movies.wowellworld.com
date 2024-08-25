@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { MovieDto, WeekDto } from '../../../shared/dtos'
-import IconLabel from './IconLabel.vue'
-import FieldTripBanner from './movie/FieldTripBanner.vue'
+import type { MovieDto, WeekDto } from '@shared/dtos'
+import IconLabel from '@components/IconLabel.vue'
+import FieldTripBanner from '@components/movie/FieldTripBanner.vue'
 
 defineProps<{
   movie: MovieDto

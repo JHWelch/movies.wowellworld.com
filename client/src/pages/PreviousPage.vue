@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import WeekList from '../components/WeekList.vue'
+import WeekList from '@components/WeekList.vue'
 </script>
 
 <template>
