@@ -6,3 +6,10 @@ export const minutesAsTimeString = (minutes: number): string => {
 
   return `${hoursString}:${minutesString} ${period}`
 }
+
+export const timeStringAsMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(':').map(Number)
+  const period = time.slice(-2)
+
+  return (hours % 12 + (period === 'PM' ? 12 : 0)) * 60 + minutes
+}
