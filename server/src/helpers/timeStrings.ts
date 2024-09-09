@@ -8,8 +8,8 @@ export const minutesAsTimeString = (minutes: number): string => {
 }
 
 export const timeStringAsMinutes = (time: string): number => {
-  const [hours, minutes] = time.split(':').map(Number)
-  const period = time.slice(-2)
+  const [hourMinutes, period] = time.split(' ')
+  const [hours, minutes] = hourMinutes.split(':').map(Number)
 
   return (hours % 12 + (period === 'PM' ? 12 : 0)) * 60 + minutes
 }

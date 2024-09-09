@@ -15,6 +15,6 @@ describe('timeStringAsMinutes', () => {
     expect(timeStringAsMinutes('12:00 AM')).toBe(0)
     expect(timeStringAsMinutes('6:40 AM')).toBe(400)
     expect(timeStringAsMinutes('12:00 PM')).toBe(720)
-    expect(timeStringAsMinutes('6:30 PM')).toBe(1830)
+    expect(timeStringAsMinutes('6:30 PM')).toBe(1110)
   })
 })

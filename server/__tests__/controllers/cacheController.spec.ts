@@ -244,6 +244,37 @@ describe('cacheWeeks', () => {
           .toHaveBeenCalledWith(expected[1].toNotion())
       })
     })
+
+    describe('has starter time', () => {
+      let expected: Movie[]
+
+      it('assigns all other proper times', async () => {
+        expected = [
+          new MovieFactory().make({ title: 'Movie 1', time: '7:00 PM', tmdbId: null }),
+          new MovieFactory().make({ title: 'Movie 2', time: null, tmdbId: null }),
+        ]
+        setupNotionMocks(expected)
+        expected[1].time = '8:45 PM'
+
+        await newCacheController().cacheWeeks(req, res)
+
+        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(transaction.set).toHaveBeenCalledTimes(1)
+        expect(transaction.set).toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
+          new Week({
+            id: 'id1',
+            theme: 'theme1',
+            date: new Date('2021-01-01'),
+            movies: expected,
+          }).toFirebaseDTO(),
+        )
+        expect(notionMock.update)
+          .toHaveBeenCalledWith(expected[0].toNotion())
+        expect(notionMock.update)
+          .toHaveBeenCalledWith(expected[1].toNotion())
+      })
+    })
   })
 })
 

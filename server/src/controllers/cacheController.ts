@@ -10,7 +10,7 @@ import fs from 'fs'
 import emails from '@server/emails/emails'
 import directoryPath from '@server/helpers/directoryPath'
 import { Week } from '@server/models/week'
-import { minutesAsTimeString } from '@server/helpers/formatters'
+import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 
 export default class CacheController {
   static PATHS = {
@@ -71,7 +71,9 @@ export default class CacheController {
 
 
   private updateMovieTimes = (movies: Movie[]): void => {
-    let minutes = 18 * 60 // 6pm
+    let minutes = movies[0].time
+      ? timeStringAsMinutes(movies[0].time)
+      : 18 * 60 // 6pm
 
     movies.forEach((movie) => {
       movie.time = minutesAsTimeString(minutes)
