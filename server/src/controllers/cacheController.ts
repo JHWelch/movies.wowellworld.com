@@ -32,6 +32,7 @@ export default class CacheController {
     await this.fillMovieDetails(moviesWithoutDetails)
 
     const weeksWithoutTimes = weeks.filter(week => !week.isSkipped
+      && !week.isPast
       && week.movies.some(movie => !movie.time && movie.director))
 
     const moviesWithoutTimes = this.updateWeekTimes(weeksWithoutTimes)

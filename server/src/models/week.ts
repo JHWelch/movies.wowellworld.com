@@ -106,4 +106,8 @@ export class Week {
   get dateString (): string {
     return this.date.toISOString().substring(0, 10)
   }
+
+  get isPast (): boolean {
+    return this.date < new Date()
+  }
 }

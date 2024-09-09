@@ -24,6 +24,7 @@ import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import MockDate from 'mockdate'
 
 let notionMock: NotionMock
 
@@ -42,6 +43,7 @@ beforeAll(() => {
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
+  MockDate.set('2021-01-01')
 })
 
 beforeEach(() => {
@@ -161,12 +163,12 @@ describe('cacheWeeks', () => {
   })
 
   describe('movies without times', () => {
-    const setupNotionMocks = (movies: Movie[]) => {
+    const setupNotionMocks = (movies: Movie[], date = '2021-01-01') => {
       const notionResponse = movies.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
         NotionMock.mockWeek(
-          'id1', '2021-01-01', 'theme1', false, null, notionResponse,
+          'id1', date, 'theme1', false, null, notionResponse,
         ),
       ])
       notionResponse.forEach((movie) => notionMock.mockRetrieve(movie))
@@ -305,7 +307,7 @@ describe('cacheWeeks', () => {
       })
     })
 
-    describe('movie has no director', () => {
+    describe('first movie has no director', () => {
       let expected: Movie[]
 
       beforeEach(() => {
@@ -338,6 +340,33 @@ describe('cacheWeeks', () => {
           .toHaveBeenCalledWith(expected[1].toNotion())
         expect(notionMock.update)
           .toHaveBeenCalledWith(expected[2].toNotion())
+      })
+    })
+
+    describe('movies in the past', () => {
+      let expected: Movie[]
+
+      beforeEach(() => {
+        expected = new MovieFactory()
+          .state({ time: null, tmdbId: null })
+          .makeMany(2)
+        setupNotionMocks(expected, '2020-01-01')
+      })
+
+      it('caches without update and does not update notion', async () => {
+        await newCacheController().cacheWeeks(req, res)
+
+        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(transaction.set).toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2020-01-01'),
+          new Week({
+            id: 'id1',
+            theme: 'theme1',
+            date: new Date('2020-01-01'),
+            movies: expected,
+          }).toFirebaseDTO(),
+        )
+        expect(notionMock.update).not.toHaveBeenCalled()
       })
     })
   })
