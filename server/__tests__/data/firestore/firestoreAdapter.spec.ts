@@ -186,17 +186,29 @@ describe('cacheWeeks', () => {
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+          FirebaseMock.mockWeek({
+            id: 'id1',
+            theme: 'theme1',
+            date: '2021-01-01',
+          }),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
+          FirebaseMock.mockWeek({
+            id: 'id2',
+            theme: 'theme2',
+            date: '2021-01-08',
+          }),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
+          FirebaseMock.mockWeek({
+            id: 'id3',
+            theme: 'theme3',
+            date: '2021-01-15',
+          }),
         )
     })
   })
@@ -217,7 +229,12 @@ describe('cacheWeeks', () => {
     expect(transaction.set)
       .toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01', [movie]),
+        FirebaseMock.mockWeek({
+          id: 'id1',
+          theme: 'theme1',
+          date: '2021-01-01',
+          movies: [movie],
+        }),
       )
   })
 
@@ -232,7 +249,11 @@ describe('cacheWeeks', () => {
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks-dev', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+          FirebaseMock.mockWeek({
+            id: 'id1',
+            theme: 'theme1',
+            date: '2021-01-01',
+          }),
         )
     })
   })

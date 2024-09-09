@@ -76,13 +76,15 @@ export class FirebaseMock {
   }
 
   static mockWeek = (
-    id: string,
-    theme: string,
-    date: string,
-    movies: Movie[] = [],
-    slug: string | null = null,
+    week: FirebaseWeekConstructor,
   ): WithFieldValue<FirestoreWeek> =>
-    new Week({ id, theme, date: new Date(date), slug, movies }).toFirebaseDTO()
+    new Week({
+      id: week.id,
+      theme: week.theme,
+      date: new Date(week.date),
+      movies: week.movies ?? [],
+      slug: week.slug ?? null,
+    }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
     firestore: { firestore: 'firestore' },
@@ -120,4 +122,13 @@ type FirebaseUser = {
   id: string,
   email: string,
   reminders: boolean,
+}
+
+type FirebaseWeekConstructor = {
+  id: string,
+  theme: string,
+  date: Date|string,
+  isSkipped?: boolean,
+  slug?: string | null,
+  movies?: Movie[],
 }
