@@ -100,7 +100,7 @@ export default class NotionAdapter {
 
     const movies = await Promise.all(
       properties.Movies.relation
-        .map(async (relation) => await this.getMovie(relation.id)),
+        .map((relation) => this.getMovie(relation.id)),
     )
 
     return Week.fromNotion(record).setMovies(movies)

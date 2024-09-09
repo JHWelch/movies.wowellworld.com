@@ -169,8 +169,7 @@ describe('cacheWeeks', () => {
           'id1', '2021-01-01', 'theme1', false, null, notionResponse,
         ),
       ])
-      notionMock.mockRetrieve(notionResponse[0])
-      notionMock.mockRetrieve(notionResponse[1])
+      notionResponse.forEach((movie) => notionMock.mockRetrieve(movie))
     }
 
     describe('no times at all, even numbers', () => {
@@ -303,6 +302,42 @@ describe('cacheWeeks', () => {
           }).toFirebaseDTO(),
         )
         expect(notionMock.update).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('movie has no director', () => {
+      let expected: Movie[]
+
+      beforeEach(() => {
+        expected = [
+          new MovieFactory().make({ time: null, tmdbId: null, director: null }),
+          new MovieFactory().make({ time: null, tmdbId: null, length: 123 }),
+          new MovieFactory().make({ time: null, tmdbId: null }),
+        ]
+        setupNotionMocks(expected)
+        expected[1].time = '6:00 PM'
+        expected[2].time = '8:20 PM'
+      })
+
+      it('skips the movie', async () => {
+        await newCacheController().cacheWeeks(req, res)
+
+        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(transaction.set).toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
+          new Week({
+            id: 'id1',
+            theme: 'theme1',
+            date: new Date('2021-01-01'),
+            movies: expected,
+          }).toFirebaseDTO(),
+        )
+        expect(notionMock.update)
+          .not.toHaveBeenCalledWith(expected[0].toNotion())
+        expect(notionMock.update)
+          .toHaveBeenCalledWith(expected[1].toNotion())
+        expect(notionMock.update)
+          .toHaveBeenCalledWith(expected[2].toNotion())
       })
     })
   })

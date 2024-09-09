@@ -32,7 +32,7 @@ export default class CacheController {
     await this.fillMovieDetails(moviesWithoutDetails)
 
     const weeksWithoutTimes = weeks.filter(week => !week.isSkipped
-      && week.movies.some(movie => !movie.time))
+      && week.movies.some(movie => !movie.time && movie.director))
 
     const moviesWithoutTimes = this.updateWeekTimes(weeksWithoutTimes)
 
@@ -71,15 +71,18 @@ export default class CacheController {
 
 
   private updateMovieTimes = (movies: Movie[]): Movie[] => {
-    let minutes = movies[0].time
-      ? timeStringAsMinutes(movies[0].time)
+    const firstMovieIndex = movies.findIndex(movie => movie.director)
+    const firstMovie = movies[firstMovieIndex]
+
+    let minutes = firstMovie?.time
+      ? timeStringAsMinutes(firstMovie.time)
       : 18 * 60 // 6pm
 
     if (isNaN(minutes)) {
       return []
     }
 
-    return movies.map((movie) => {
+    return movies.slice(firstMovieIndex).map((movie) => {
       movie.time = minutesAsTimeString(minutes)
       minutes += (movie.length || 0) + 15
       minutes = Math.ceil(minutes / 5) * 5
