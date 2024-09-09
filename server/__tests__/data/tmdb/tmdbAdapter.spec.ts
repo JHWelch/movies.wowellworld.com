@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
-import Movie from '@server/models/movie'
+import { Movie } from '@server/models/movie'
 import { TmdbMock } from '@tests/support/tmdbMock'
 import { mockFetch } from '@tests/support/fetchMock'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -19,16 +19,15 @@ describe('getMovie', () => {
   })
 
   it('should return a movie', async () => {
-    const expected = new Movie(
-      'movie title',
-      'director',
-      2001,
-      90,
-      null,
-      'https://www.themoviedb.org/movie/1234',
-      '/posterPath.jpg',
-      1234,
-    )
+    const expected = new Movie({
+      title: 'movie title',
+      director: 'director',
+      year: 2001,
+      length: 90,
+      url: 'https://www.themoviedb.org/movie/1234',
+      posterPath: '/posterPath.jpg',
+      tmdbId: 1234,
+    })
     tmdbMock.mockSearchMovie(expected)
     tmdbMock.mockMovieDetails(expected)
 

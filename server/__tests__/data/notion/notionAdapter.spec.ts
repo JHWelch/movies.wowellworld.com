@@ -8,8 +8,8 @@ import {
 } from '@jest/globals'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { NotionMock } from '@tests/support/notionMock'
-import Movie from '@server/models/movie'
 import { mockConfig } from '@tests/support/mockConfig'
+import MovieFactory from '@tests/support/factories/movieFactory'
 
 let notionMock: NotionMock
 
@@ -175,20 +175,9 @@ describe('getWeeks', () => {
 
 describe('setMovie', () => {
   it('should call the update method with the correct parameters', async () => {
-    const movie = new Movie(
-      'Movie Title',
-      'Movie Director',
-      2021,
-      120,
-      '8:00 PM',
-      'Movie Url',
-      'Movie Poster Url',
-      1234,
-      'notionId',
-      'Theater',
-      'Showing Url',
-    )
+    const movie = new MovieFactory().make()
     const notion = new NotionAdapter(mockConfig())
+
     await notion.setMovie(movie)
 
     expect(notionMock.update).toHaveBeenCalledWith(movie.toNotion())

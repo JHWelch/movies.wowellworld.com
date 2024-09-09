@@ -1,6 +1,6 @@
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
-import Movie from '@server/models/movie'
-import Week from '@server/models/week'
+import { Movie } from '@server/models/movie'
+import { Week } from '@server/models/week'
 import {
   type DatabaseObjectResponse,
   type PartialDatabaseObjectResponse,
@@ -100,7 +100,7 @@ export default class NotionAdapter {
 
     const movies = await Promise.all(
       properties.Movies.relation
-        .map(async (relation) => await this.getMovie(relation.id)),
+        .map((relation) => this.getMovie(relation.id)),
     )
 
     return Week.fromNotion(record).setMovies(movies)

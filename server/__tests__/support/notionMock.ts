@@ -54,7 +54,7 @@ export class NotionMock {
   mockRetrieve = (movie: NotionMovie | undefined = undefined) => {
     const notionMovie = movie ?? NotionMovie.demo()
 
-    this.retrieve.mockImplementation(async (
+    this.retrieve.mockImplementationOnce(async (
       _args: WithAuth<GetPageParameters>,
     ): Promise<GetPageResponse> =>
       notionMovie.toPageObjectResponse())
