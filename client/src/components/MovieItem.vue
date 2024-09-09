@@ -58,7 +58,7 @@ const movieSizeClasses = (week: WeekDto) => {
         <span
           v-if="showEventDetails"
           v-show="movie.time"
-          class="text-md overflow-hidden font-medium text-center bg-brat-500 text-black px-2 py-0.5 rounded-2xl"
+          class="text-md overflow-hidden font-medium text-center bg-brat-300 text-black px-2 py-0.5 rounded-2xl"
           v-text="movie.time?.replace(/ /g, '\u00a0')"
         />
 
