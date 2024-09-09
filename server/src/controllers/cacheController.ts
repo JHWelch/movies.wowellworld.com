@@ -34,11 +34,11 @@ export default class CacheController {
     const weeksWithoutTimes = weeks.filter(week => !week.isSkipped
       && week.movies.some(movie => !movie.time))
 
-    this.updateWeekTimes(weeksWithoutTimes)
+    const moviesWithoutTimes = this.updateWeekTimes(weeksWithoutTimes)
 
     await this.updateNotionMovies([
       ...moviesWithoutDetails,
-      ...weeksWithoutTimes.flatMap(week => week.movies),
+      ...moviesWithoutTimes,
     ])
 
     this.firestore.cacheWeeks(weeks)
@@ -66,19 +66,25 @@ export default class CacheController {
       movie.merge(tmdbMovie)
     }))
 
-  private updateWeekTimes = (weeks: Week[]): void => weeks
-    .forEach(week => this.updateMovieTimes(week.movies))
+  private updateWeekTimes = (weeks: Week[]): Movie[] => weeks
+    .flatMap(week => this.updateMovieTimes(week.movies))
 
 
-  private updateMovieTimes = (movies: Movie[]): void => {
+  private updateMovieTimes = (movies: Movie[]): Movie[] => {
     let minutes = movies[0].time
       ? timeStringAsMinutes(movies[0].time)
       : 18 * 60 // 6pm
 
-    movies.forEach((movie) => {
+    if (isNaN(minutes)) {
+      return []
+    }
+
+    return movies.map((movie) => {
       movie.time = minutesAsTimeString(minutes)
       minutes += (movie.length || 0) + 15
       minutes = Math.ceil(minutes / 5) * 5
+
+      return movie
     })
   }
 

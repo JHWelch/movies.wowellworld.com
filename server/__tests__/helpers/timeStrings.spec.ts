@@ -17,4 +17,8 @@ describe('timeStringAsMinutes', () => {
     expect(timeStringAsMinutes('12:00 PM')).toBe(720)
     expect(timeStringAsMinutes('6:30 PM')).toBe(1110)
   })
+
+  it('should return NaN for invalid time', () => {
+    expect(timeStringAsMinutes('Afternoon')).toBeNaN()
+  })
 })
