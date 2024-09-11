@@ -94,6 +94,7 @@ export class Week {
       movies: this.movies.map((movie) => movie.toDTO()),
       slug: this.slug,
       isSkipped: this.isSkipped,
+      styledTheme: this.styledTheme,
     }
   }
 
