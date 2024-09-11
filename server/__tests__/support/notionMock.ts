@@ -85,18 +85,24 @@ export class NotionMock {
     }))
   }
 
-  static mockWeek = (
-    id: string,
-    date: string,
-    theme: string,
-    skipped = false,
-    slug: string | null = null,
-    movies: NotionMovie[] = [],
-  ): PageObjectResponse => pageObjectResponse(id, {
-    Date: nDate(date),
-    Theme: nTitle(theme),
-    Skipped: nCheckbox(skipped),
-    Slug: nRichText(slug),
-    Movies: nRelation(movies),
-  })
+
+  static mockWeek = (week: MockWeek): PageObjectResponse => pageObjectResponse(
+    week.id,
+    {
+      Date: nDate(week.date),
+      Theme: nTitle(week.theme),
+      Skipped: nCheckbox(week.skipped ?? false),
+      Slug: nRichText(week.slug ?? null),
+      Movies: nRelation(week.movies ?? []),
+    }
+  )
+}
+
+type MockWeek = {
+  id: string,
+  date: string,
+  theme: string,
+  skipped?: boolean
+  slug?: string | null
+  movies?: NotionMovie[]
 }

@@ -71,9 +71,9 @@ describe('cacheWeeks', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
-        NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
-        NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
+        NotionMock.mockWeek({ id: 'id1', date: '2021-01-01', theme: 'theme1' }),
+        NotionMock.mockWeek({ id: 'id2', date: '2021-01-08', theme: 'theme2' }),
+        NotionMock.mockWeek({ id: 'id3', date: '2021-01-15', theme: 'theme3' }),
       ])
     })
 
@@ -139,9 +139,12 @@ describe('cacheWeeks', () => {
       const notionResponse = new NotionMovie({ id: 'notionId', title: 'title' })
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek(
-          'id1', '2021-01-01', 'theme1', false, null, [notionResponse],
-        ),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+          movies: [notionResponse],
+        }),
       ])
       notionMock.mockRetrieve(notionResponse)
       req = getMockReq()
@@ -179,9 +182,12 @@ describe('cacheWeeks', () => {
       const notionResponse = movies.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek(
-          'id1', date, 'theme1', false, null, notionResponse,
-        ),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date,
+          theme: 'theme1',
+          movies: notionResponse,
+        }),
       ])
       notionResponse.forEach((movie) => notionMock.mockRetrieve(movie))
     }

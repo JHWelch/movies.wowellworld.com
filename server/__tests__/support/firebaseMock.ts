@@ -8,6 +8,7 @@ import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { Week } from '@server/models/week'
 import { Movie } from '@server/models/movie'
+import { RichText } from '@server/models/commonTypes'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
@@ -84,6 +85,7 @@ export class FirebaseMock {
       date: new Date(week.date),
       movies: week.movies ?? [],
       slug: week.slug ?? null,
+      styledTheme: week.styledTheme ?? [],
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -128,6 +130,7 @@ type FirebaseWeekConstructor = {
   id: string,
   theme: string,
   date: Date|string,
+  styledTheme?: RichText[],
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],

@@ -7,11 +7,13 @@ import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { WeekDto } from '@shared/dtos'
+import { RichText } from '@server/models/commonTypes'
 
 export type WeekConstructor = {
   id: string,
   theme: string,
   date: Date,
+  styledTheme?: RichText[],
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
@@ -21,6 +23,7 @@ export class Week {
   public id: string = ''
   public theme: string = ''
   public date: Date = new Date()
+  public styledTheme: RichText[] = []
   public isSkipped: boolean = false
   public slug: string | null = null
   public movies: Movie[] = []
