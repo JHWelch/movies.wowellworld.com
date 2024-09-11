@@ -54,7 +54,7 @@ describe('getMovie', () => {
     it ('calls the retrieve method with page_id', async () => {
       await new NotionAdapter(mockConfig()).getMovie('movieId')
 
-      expect(notionMock.retrieve).toHaveBeenCalledWith({ 'page_id': 'movieId' })
+      expect(notionMock.retrieve).toHaveBeenCalledWith({ page_id: 'movieId' })
     })
   })
 
@@ -91,13 +91,13 @@ describe('getWeek', () => {
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toEqual({
-        'date': new Date('2021-01-01'),
-        'id': 'weekId',
-        'isSkipped': false,
-        'slug': null,
-        'movies': [],
-        'theme': 'weekTheme',
-        'styledTheme': [],
+        date: new Date('2021-01-01'),
+        id: 'weekId',
+        isSkipped: false,
+        slug: null,
+        movies: [],
+        theme: 'weekTheme',
+        styledTheme: [],
       })
     })
   })
@@ -183,29 +183,29 @@ describe('getWeeks', () => {
 
     expect(weeks).toEqual([
       {
-        'id': 'weekId3',
-        'date': new Date('2021-01-15'),
-        'isSkipped': false,
-        'slug': null,
-        'movies': [],
-        'theme': 'theme3',
-        'styledTheme': [],
+        id: 'weekId3',
+        date: new Date('2021-01-15'),
+        isSkipped: false,
+        slug: null,
+        movies: [],
+        theme: 'theme3',
+        styledTheme: [],
       }, {
-        'id': 'weekId2',
-        'date': new Date('2021-01-08'),
-        'isSkipped': true,
-        'slug': null,
-        'movies': [],
-        'theme': 'theme2',
-        'styledTheme': [],
+        id: 'weekId2',
+        date: new Date('2021-01-08'),
+        isSkipped: true,
+        slug: null,
+        movies: [],
+        theme: 'theme2',
+        styledTheme: [],
       }, {
-        'id': 'weekId1',
-        'date': new Date('2021-01-01'),
-        'isSkipped': false,
-        'slug': 'weekSlug',
-        'movies': [],
-        'theme': 'theme1',
-        'styledTheme': styled,
+        id: 'weekId1',
+        date: new Date('2021-01-01'),
+        isSkipped: false,
+        slug: 'weekSlug',
+        movies: [],
+        theme: 'theme1',
+        styledTheme: styled,
       },
     ])
   })
