@@ -23,7 +23,7 @@ import { Week } from '@server/models/week'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'
-import { RichText } from '@server/models/commonTypes'
+import { RichText } from '@shared/dtos'
 
 let firestore: FirestoreAdapter
 

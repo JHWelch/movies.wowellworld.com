@@ -19,7 +19,6 @@ export type WeekDto = {
   date: string,
   isSkipped: boolean,
   slug: string | null,
-  styledTheme: RichText[],
   movies: MovieDto[],
 }
 
@@ -33,9 +32,14 @@ export type TextStyle = {
 };
 
 export type RichText = {
+  type: 'text',
   text: {
       content: string;
-  }
+      link: {
+          url: string;
+      } | null;
+  };
   annotations: TextStyle;
   plain_text: string;
+  href: string | null;
 };

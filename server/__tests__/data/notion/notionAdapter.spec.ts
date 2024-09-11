@@ -10,7 +10,7 @@ import NotionAdapter from '@server/data/notion/notionAdapter'
 import { NotionMock } from '@tests/support/notionMock'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
-import { RichText } from '@server/models/commonTypes'
+import { RichText } from '@shared/dtos'
 
 let notionMock: NotionMock
 

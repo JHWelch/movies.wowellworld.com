@@ -6,8 +6,7 @@ import { Movie } from '@server/models/movie'
 import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
-import { WeekDto } from '@shared/dtos'
-import { RichText } from '@server/models/commonTypes'
+import { RichText, WeekDto } from '@shared/dtos'
 
 export type WeekConstructor = {
   id: string,

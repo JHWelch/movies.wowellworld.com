@@ -1,4 +1,4 @@
-import { RichText } from '@server/models/commonTypes'
+import { RichText } from '@shared/dtos'
 import { Timestamp } from 'firebase/firestore'
 
 export type FirestoreWeek = {

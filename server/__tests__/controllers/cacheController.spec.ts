@@ -25,7 +25,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import MockDate from 'mockdate'
-import { RichText } from '@server/models/commonTypes'
+import { RichText } from '@shared/dtos'
 
 let notionMock: NotionMock
 

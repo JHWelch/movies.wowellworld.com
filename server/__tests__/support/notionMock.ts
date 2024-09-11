@@ -7,7 +7,7 @@ import {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { RichText } from '@server/models/commonTypes'
+import { RichText } from '@shared/dtos'
 import {
   NotionMovie,
   WithAuth,
