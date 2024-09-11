@@ -25,6 +25,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import MockDate from 'mockdate'
+import { RichText } from '@server/models/commonTypes'
 
 let notionMock: NotionMock
 
@@ -68,12 +69,64 @@ describe('cacheWeeks', () => {
   })
 
   describe('when the cache is empty', () => {
+    const styled: RichText[] = [
+      {
+        type: 'text',
+        text: {
+          content: 'week',
+          link: null,
+        },
+        annotations: {
+          bold: true,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: 'default',
+        },
+        plain_text: 'week',
+        href: null,
+      },
+      {
+        type: 'text',
+        text: {
+          content: 'id 3',
+          link: null,
+        },
+        annotations: {
+          bold: false,
+          italic: true,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: 'red',
+        },
+        plain_text: 'id 3',
+        href: null,
+      },
+    ]
+
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek({ id: 'id1', date: '2021-01-01', theme: 'theme1' }),
-        NotionMock.mockWeek({ id: 'id2', date: '2021-01-08', theme: 'theme2' }),
-        NotionMock.mockWeek({ id: 'id3', date: '2021-01-15', theme: 'theme3' }),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+        }),
+        NotionMock.mockWeek({
+          id: 'id2',
+          date: '2021-01-08',
+          theme: 'theme2',
+          skipped: true,
+        }),
+        NotionMock.mockWeek({
+          id: 'id3',
+          date: '2021-01-15',
+          theme: 'theme3',
+          slug: 'slug',
+          styledTheme: styled,
+        }),
       ])
     })
 
@@ -98,6 +151,7 @@ describe('cacheWeeks', () => {
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
+            isSkipped: true,
           }),
         )
       expect(transaction.set)
@@ -107,6 +161,8 @@ describe('cacheWeeks', () => {
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
+            slug: 'slug',
+            styledTheme: styled,
           }),
         )
     })

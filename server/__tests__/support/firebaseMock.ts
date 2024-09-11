@@ -85,6 +85,7 @@ export class FirebaseMock {
       theme: week.theme,
       date: new Date(week.date),
       movies: week.movies ?? [],
+      isSkipped: week.isSkipped ?? false,
       slug: week.slug ?? null,
       styledTheme: week.styledTheme ?? [],
     }).toFirebaseDTO()
