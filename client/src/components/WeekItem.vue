@@ -4,6 +4,7 @@ import { WeekDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
 import MovieList from '@components/MovieList.vue'
 import SkippedBanner from '@components/SkippedBanner.vue'
+import Theme from '@components/week/Theme.vue'
 
 defineProps<{
   week: WeekDto
@@ -28,10 +29,11 @@ const weekTitle = (week: WeekDto) => {
             v-text="week.date"
           />
 
-          <span
+          <!-- <span
             class="text-3xl font-semibold"
             v-text="weekTitle(week)"
-          />
+          /> -->
+          <Theme :week="week" />
         </h3>
 
         <button
