@@ -18,9 +18,7 @@ describe('Just a theme, no styled theme', () => {
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: {
-        week: week,
-      },
+      props: { week: week },
     })
     expect(wrapper.text()).toContain(week.theme)
   })
@@ -67,9 +65,7 @@ describe('Week skipped', () => {
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: {
-        week: week,
-      },
+      props: { week: week },
     })
     expect(wrapper.text()).toContain('No movies this week!')
   })
