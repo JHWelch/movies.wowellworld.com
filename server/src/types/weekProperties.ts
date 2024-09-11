@@ -24,7 +24,7 @@ export default interface WeekProperties {
       plain_text: string
     }>
   }
-  'Styled Title': {
+  'Styled Theme': {
     rich_text: Array<TextRichTextItemResponse>
   }
 }

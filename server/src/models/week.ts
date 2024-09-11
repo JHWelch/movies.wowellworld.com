@@ -49,6 +49,7 @@ export class Week {
       date: new Date(properties.Date.date.start),
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
+      styledTheme: properties['Styled Theme']?.rich_text,
     })
   }
 
