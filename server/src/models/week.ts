@@ -60,6 +60,7 @@ export class Week {
       date: record.date.toDate(),
       isSkipped: record.isSkipped,
       slug: record.slug,
+      styledTheme: record.styledTheme,
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })

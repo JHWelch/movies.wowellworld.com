@@ -23,6 +23,7 @@ import { Week } from '@server/models/week'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'
+import { RichText } from '@server/models/commonTypes'
 
 let firestore: FirestoreAdapter
 
@@ -48,6 +49,43 @@ describe('constructor', () => {
 })
 
 describe('getUpcomingWeeks', () => {
+  const styled: RichText[] = [
+    {
+      type: 'text',
+      text: {
+        content: 'week',
+        link: null,
+      },
+      annotations: {
+        bold: true,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: 'default',
+      },
+      plain_text: 'week',
+      href: null,
+    },
+    {
+      type: 'text',
+      text: {
+        content: 'id 3',
+        link: null,
+      },
+      annotations: {
+        bold: false,
+        italic: true,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: 'red',
+      },
+      plain_text: 'id 3',
+      href: null,
+    },
+  ]
+
   beforeEach(() => {
     FirebaseMock.mockWeeks([
       {
@@ -56,18 +94,21 @@ describe('getUpcomingWeeks', () => {
         isSkipped: false,
         theme: 'theme1',
         slug: null,
+        styledTheme: [],
       }, {
         date: new Date('2021-01-08'),
         id: 'id2',
-        isSkipped: false,
+        isSkipped: true,
         theme: 'theme2',
         slug: null,
+        styledTheme: [],
       }, {
         date: new Date('2021-01-15'),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
-        slug: null,
+        slug: 'slug',
+        styledTheme: styled,
       },
     ])
   })
@@ -76,9 +117,23 @@ describe('getUpcomingWeeks', () => {
     const weeks = await firestore.getUpcomingWeeks()
 
     expect(weeks).toEqual([
-      new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
-      new Week({ id: 'id2', theme: 'theme2', date: new Date('2021-01-08') }),
-      new Week({ id: 'id3', theme: 'theme3', date: new Date('2021-01-15') }),
+      new Week({
+        id: 'id1',
+        theme: 'theme1',
+        date: new Date('2021-01-01') }),
+      new Week({
+        id: 'id2',
+        theme: 'theme2',
+        date: new Date('2021-01-08'),
+        isSkipped: true,
+      }),
+      new Week({
+        id: 'id3',
+        theme: 'theme3',
+        date: new Date('2021-01-15'),
+        slug: 'slug',
+        styledTheme: styled,
+      }),
     ])
   })
 

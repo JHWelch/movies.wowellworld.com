@@ -21,6 +21,7 @@ export class FirebaseMock {
             date: Timestamp.fromDate(week.date),
             isSkipped: week.isSkipped,
             slug: week.slug,
+            styledTheme: week.styledTheme ?? [],
             movies: [],
           }),
         })),
@@ -104,6 +105,7 @@ type FirebaseWeek = {
   slug: string | null,
   isSkipped: boolean,
   movies?: FirebaseMovie[],
+  styledTheme?: RichText[],
 }
 
 type FirebaseMovie = {
