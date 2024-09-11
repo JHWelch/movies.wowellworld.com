@@ -48,6 +48,8 @@ export default [{
 
     indent: ['error', 2],
 
+    'quote-props': ['error', 'as-needed'],
+
     'max-len': ['error', {
       ignoreStrings: true,
       ignoreTrailingComments: true,
