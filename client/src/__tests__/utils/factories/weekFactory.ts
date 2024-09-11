@@ -9,6 +9,7 @@ export default class WeekFactory extends Factory<WeekDto> {
     date: '2020-01-01',
     isSkipped: false,
     slug: null,
+    styledTheme: [],
     movies: [],
   }
 

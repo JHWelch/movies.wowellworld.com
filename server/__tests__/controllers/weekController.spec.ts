@@ -69,6 +69,7 @@ describe('index', () => {
           'slug': null,
           'movies': [],
           'theme': 'theme1',
+          'styledTheme': [],
         }, {
           'id': 'id2',
           'weekId': '2021-01-08',
@@ -77,6 +78,7 @@ describe('index', () => {
           'slug': null,
           'movies': [],
           'theme': 'theme2',
+          'styledTheme': [],
         }, {
           'id': 'id3',
           'weekId': '2021-01-15',
@@ -85,6 +87,7 @@ describe('index', () => {
           'slug': null,
           'movies': [],
           'theme': 'theme3',
+          'styledTheme': [],
         },
       ])
     })
@@ -132,6 +135,7 @@ describe('index', () => {
           'isSkipped': false,
           'movies': [],
           'theme': 'theme1',
+          'styledTheme': [],
           'slug': 'slug1',
         }, {
           'id': 'id2',
@@ -140,6 +144,7 @@ describe('index', () => {
           'isSkipped': false,
           'movies': [],
           'theme': 'theme2',
+          'styledTheme': [],
           'slug': null,
         }, {
           'id': 'id3',
@@ -148,6 +153,7 @@ describe('index', () => {
           'isSkipped': true,
           'movies': [],
           'theme': 'theme3',
+          'styledTheme': [],
           'slug': 'slug3',
         },
       ])

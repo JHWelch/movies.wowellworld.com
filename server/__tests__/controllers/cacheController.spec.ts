@@ -25,6 +25,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import MockDate from 'mockdate'
+import { RichText } from '@shared/dtos'
 
 let notionMock: NotionMock
 
@@ -68,12 +69,64 @@ describe('cacheWeeks', () => {
   })
 
   describe('when the cache is empty', () => {
+    const styled: RichText[] = [
+      {
+        type: 'text',
+        text: {
+          content: 'week',
+          link: null,
+        },
+        annotations: {
+          bold: true,
+          italic: false,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: 'default',
+        },
+        plain_text: 'week',
+        href: null,
+      },
+      {
+        type: 'text',
+        text: {
+          content: 'id 3',
+          link: null,
+        },
+        annotations: {
+          bold: false,
+          italic: true,
+          strikethrough: false,
+          underline: false,
+          code: false,
+          color: 'red',
+        },
+        plain_text: 'id 3',
+        href: null,
+      },
+    ]
+
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek('id1', '2021-01-01', 'theme1'),
-        NotionMock.mockWeek('id2', '2021-01-08', 'theme2'),
-        NotionMock.mockWeek('id3', '2021-01-15', 'theme3'),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+        }),
+        NotionMock.mockWeek({
+          id: 'id2',
+          date: '2021-01-08',
+          theme: 'theme2',
+          skipped: true,
+        }),
+        NotionMock.mockWeek({
+          id: 'id3',
+          date: '2021-01-15',
+          theme: 'theme3',
+          slug: 'slug',
+          styledTheme: styled,
+        }),
       ])
     })
 
@@ -85,17 +138,32 @@ describe('cacheWeeks', () => {
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek('id1', 'theme1', '2021-01-01'),
+          FirebaseMock.mockWeek({
+            id: 'id1',
+            theme: 'theme1',
+            date: '2021-01-01',
+          }),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek('id2', 'theme2', '2021-01-08'),
+          FirebaseMock.mockWeek({
+            id: 'id2',
+            theme: 'theme2',
+            date: '2021-01-08',
+            isSkipped: true,
+          }),
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek('id3', 'theme3', '2021-01-15'),
+          FirebaseMock.mockWeek({
+            id: 'id3',
+            theme: 'theme3',
+            date: '2021-01-15',
+            slug: 'slug',
+            styledTheme: styled,
+          }),
         )
     })
   })
@@ -127,9 +195,12 @@ describe('cacheWeeks', () => {
       const notionResponse = new NotionMovie({ id: 'notionId', title: 'title' })
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek(
-          'id1', '2021-01-01', 'theme1', false, null, [notionResponse],
-        ),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+          movies: [notionResponse],
+        }),
       ])
       notionMock.mockRetrieve(notionResponse)
       req = getMockReq()
@@ -167,9 +238,12 @@ describe('cacheWeeks', () => {
       const notionResponse = movies.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek(
-          'id1', date, 'theme1', false, null, notionResponse,
-        ),
+        NotionMock.mockWeek({
+          id: 'id1',
+          date,
+          theme: 'theme1',
+          movies: notionResponse,
+        }),
       ])
       notionResponse.forEach((movie) => notionMock.mockRetrieve(movie))
     }

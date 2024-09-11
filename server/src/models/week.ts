@@ -6,12 +6,13 @@ import { Movie } from '@server/models/movie'
 import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
-import { WeekDto } from '@shared/dtos'
+import { RichText, WeekDto } from '@shared/dtos'
 
 export type WeekConstructor = {
   id: string,
   theme: string,
   date: Date,
+  styledTheme?: RichText[],
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
@@ -21,6 +22,7 @@ export class Week {
   public id: string = ''
   public theme: string = ''
   public date: Date = new Date()
+  public styledTheme: RichText[] = []
   public isSkipped: boolean = false
   public slug: string | null = null
   public movies: Movie[] = []
@@ -46,6 +48,7 @@ export class Week {
       date: new Date(properties.Date.date.start),
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
+      styledTheme: properties['Styled Theme']?.rich_text,
     })
   }
 
@@ -56,6 +59,7 @@ export class Week {
       date: record.date.toDate(),
       isSkipped: record.isSkipped,
       slug: record.slug,
+      styledTheme: record.styledTheme,
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })
@@ -89,6 +93,7 @@ export class Week {
       movies: this.movies.map((movie) => movie.toDTO()),
       slug: this.slug,
       isSkipped: this.isSkipped,
+      styledTheme: this.styledTheme,
     }
   }
 
@@ -100,6 +105,7 @@ export class Week {
       movies: this.movies.map((movie) => movie.toFirebaseDTO()),
       slug: this.slug,
       isSkipped: this.isSkipped,
+      styledTheme: this.styledTheme,
     }
   }
 

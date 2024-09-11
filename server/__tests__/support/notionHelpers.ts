@@ -42,13 +42,17 @@ export const nNumber = (number: number | null): {
   id: 'mockedId',
 })
 
-export const nRichText = (text: string | null): {
+export const nRichText = (
+  text: string | RichTextItemResponse[] | null,
+): {
   type: 'rich_text';
   rich_text: Array<RichTextItemResponse>;
   id: string;
 } => ({
   type: 'rich_text',
-  rich_text: text ? [richTextItem(text)] : [],
+  rich_text: Array.isArray(text)
+    ? text
+    : (text ? [richTextItem(text)] : []),
   id: 'some-id',
 })
 

@@ -7,6 +7,7 @@ import {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { RichText } from '@shared/dtos'
 import {
   NotionMovie,
   WithAuth,
@@ -85,18 +86,24 @@ export class NotionMock {
     }))
   }
 
-  static mockWeek = (
+
+  static mockWeek = (week: {
     id: string,
     date: string,
     theme: string,
-    skipped = false,
-    slug: string | null = null,
-    movies: NotionMovie[] = [],
-  ): PageObjectResponse => pageObjectResponse(id, {
-    Date: nDate(date),
-    Theme: nTitle(theme),
-    Skipped: nCheckbox(skipped),
-    Slug: nRichText(slug),
-    Movies: nRelation(movies),
-  })
+    skipped?: boolean
+    slug?: string | null
+    movies?: NotionMovie[]
+    styledTheme?: RichText[]
+  }): PageObjectResponse => pageObjectResponse(
+    week.id,
+    {
+      Date: nDate(week.date),
+      Theme: nTitle(week.theme),
+      Skipped: nCheckbox(week.skipped ?? false),
+      Slug: nRichText(week.slug ?? null),
+      Movies: nRelation(week.movies ?? []),
+      'Styled Theme': nRichText(week.styledTheme ?? []),
+    }
+  )
 }

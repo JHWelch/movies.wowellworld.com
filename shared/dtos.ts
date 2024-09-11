@@ -19,5 +19,28 @@ export type WeekDto = {
   date: string,
   isSkipped: boolean,
   slug: string | null,
+  styledTheme: RichText[],
   movies: MovieDto[],
 }
+
+export type TextStyle = {
+  bold: boolean;
+  italic: boolean;
+  strikethrough: boolean;
+  underline: boolean;
+  code: boolean;
+  color: 'default' | 'gray' | 'brown' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'red' | 'gray_background' | 'brown_background' | 'orange_background' | 'yellow_background' | 'green_background' | 'blue_background' | 'purple_background' | 'pink_background' | 'red_background';
+};
+
+export type RichText = {
+  type: 'text',
+  text: {
+      content: string;
+      link: {
+          url: string;
+      } | null;
+  };
+  annotations: TextStyle;
+  plain_text: string;
+  href: string | null;
+};

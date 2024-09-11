@@ -1,3 +1,5 @@
+import { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+
 export default interface WeekProperties {
   Theme: {
     title: Array<{
@@ -21,5 +23,8 @@ export default interface WeekProperties {
     rich_text: Array<{
       plain_text: string
     }>
+  }
+  'Styled Theme': {
+    rich_text: Array<TextRichTextItemResponse>
   }
 }

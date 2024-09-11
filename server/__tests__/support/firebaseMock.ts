@@ -8,6 +8,7 @@ import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { Week } from '@server/models/week'
 import { Movie } from '@server/models/movie'
+import { RichText } from '@shared/dtos'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
@@ -20,6 +21,7 @@ export class FirebaseMock {
             date: Timestamp.fromDate(week.date),
             isSkipped: week.isSkipped,
             slug: week.slug,
+            styledTheme: week.styledTheme ?? [],
             movies: [],
           }),
         })),
@@ -76,13 +78,17 @@ export class FirebaseMock {
   }
 
   static mockWeek = (
-    id: string,
-    theme: string,
-    date: string,
-    movies: Movie[] = [],
-    slug: string | null = null,
+    week: FirebaseWeekConstructor,
   ): WithFieldValue<FirestoreWeek> =>
-    new Week({ id, theme, date: new Date(date), slug, movies }).toFirebaseDTO()
+    new Week({
+      id: week.id,
+      theme: week.theme,
+      date: new Date(week.date),
+      movies: week.movies ?? [],
+      isSkipped: week.isSkipped ?? false,
+      slug: week.slug ?? null,
+      styledTheme: week.styledTheme ?? [],
+    }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
     firestore: { firestore: 'firestore' },
@@ -100,6 +106,7 @@ type FirebaseWeek = {
   slug: string | null,
   isSkipped: boolean,
   movies?: FirebaseMovie[],
+  styledTheme?: RichText[],
 }
 
 type FirebaseMovie = {
@@ -120,4 +127,14 @@ type FirebaseUser = {
   id: string,
   email: string,
   reminders: boolean,
+}
+
+type FirebaseWeekConstructor = {
+  id: string,
+  theme: string,
+  date: Date|string,
+  styledTheme?: RichText[],
+  isSkipped?: boolean,
+  slug?: string | null,
+  movies?: Movie[],
 }

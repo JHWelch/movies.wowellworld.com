@@ -1,3 +1,4 @@
+import { RichText } from '@shared/dtos'
 import { Timestamp } from 'firebase/firestore'
 
 export type FirestoreWeek = {
@@ -6,6 +7,7 @@ export type FirestoreWeek = {
   date: Timestamp;
   isSkipped: boolean;
   slug: string | null;
+  styledTheme: RichText[];
   movies: FirestoreMovie[];
 }
 

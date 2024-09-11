@@ -10,6 +10,7 @@ import NotionAdapter from '@server/data/notion/notionAdapter'
 import { NotionMock } from '@tests/support/notionMock'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import { RichText } from '@shared/dtos'
 
 let notionMock: NotionMock
 
@@ -76,7 +77,7 @@ describe('getWeek', () => {
       DATABASE_ID: 'DATABASE_ID',
     }
     notionMock.mockQuery([
-      NotionMock.mockWeek('weekId', '2021-01-01', 'weekTheme'),
+      NotionMock.mockWeek({ id: 'weekId', date: '2021-01-01', theme: 'weekTheme' }),
     ])
   })
 
@@ -96,6 +97,7 @@ describe('getWeek', () => {
         'slug': null,
         'movies': [],
         'theme': 'weekTheme',
+        'styledTheme': [],
       })
     })
   })
@@ -115,12 +117,63 @@ describe('getWeek', () => {
 })
 
 describe('getWeeks', () => {
+  const styled: RichText[] = [
+    {
+      type: 'text',
+      text: {
+        content: 'week',
+        link: null,
+      },
+      annotations: {
+        bold: true,
+        italic: false,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: 'default',
+      },
+      plain_text: 'week',
+      href: null,
+    },
+    {
+      type: 'text',
+      text: {
+        content: 'id 3',
+        link: null,
+      },
+      annotations: {
+        bold: false,
+        italic: true,
+        strikethrough: false,
+        underline: false,
+        code: false,
+        color: 'red',
+      },
+      plain_text: 'id 3',
+      href: null,
+    },
+  ]
   beforeEach(() => {
     notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([
-      NotionMock.mockWeek('weekId3','2021-01-15', 'theme3'),
-      NotionMock.mockWeek('weekId2','2021-01-08', 'theme2'),
-      NotionMock.mockWeek('weekId1','2021-01-01', 'theme1'),
+      NotionMock.mockWeek({
+        id: 'weekId3',
+        date: '2021-01-15',
+        theme: 'theme3',
+      }),
+      NotionMock.mockWeek({
+        id: 'weekId2',
+        date: '2021-01-08',
+        theme: 'theme2',
+        skipped: true,
+      }),
+      NotionMock.mockWeek({
+        id: 'weekId1',
+        date: '2021-01-01',
+        theme: 'theme1',
+        slug: 'weekSlug',
+        styledTheme: styled,
+      }),
     ])
   })
 
@@ -136,20 +189,23 @@ describe('getWeeks', () => {
         'slug': null,
         'movies': [],
         'theme': 'theme3',
+        'styledTheme': [],
       }, {
         'id': 'weekId2',
         'date': new Date('2021-01-08'),
-        'isSkipped': false,
+        'isSkipped': true,
         'slug': null,
         'movies': [],
         'theme': 'theme2',
+        'styledTheme': [],
       }, {
         'id': 'weekId1',
         'date': new Date('2021-01-01'),
         'isSkipped': false,
-        'slug': null,
+        'slug': 'weekSlug',
         'movies': [],
         'theme': 'theme1',
+        'styledTheme': styled,
       },
     ])
   })
