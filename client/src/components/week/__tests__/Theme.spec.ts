@@ -39,7 +39,7 @@ describe('Styled theme', () => {
     })
   })
 
-  it('shows the bold theme', () => {
+  it('shows the styled theme', () => {
     const wrapper = mount(Theme, {
       props: { week },
     })
@@ -54,5 +54,45 @@ describe('Styled theme', () => {
     expect(component.element.children[2].classList).toContain('underline')
     expect(component.element.children[3].innerHTML).toBe('the best')
     expect(component.element.children[3].classList).toContain('line-through')
+  })
+})
+
+describe('Week skipped', () => {
+  beforeEach(() => {
+    week = new WeekFactory().build({
+      theme: 'The Matrix',
+      isSkipped: true,
+    })
+  })
+
+  it('shows the theme', () => {
+    const wrapper = mount(Theme, {
+      props: {
+        week: week,
+      },
+    })
+    expect(wrapper.text()).toContain('No movies this week!')
+  })
+
+  describe('with styled Theme', () => {
+    beforeEach(() => {
+      week.styledTheme = [
+        new RichTextFactory().text('The').bold().build(),
+        new RichTextFactory().text('Matrix').italic().build(),
+      ]
+    })
+
+    it('shows the styled theme', () => {
+      const wrapper = mount(Theme, {
+        props: { week },
+      })
+
+      const component = wrapper.find('[data-testid="theme"]')
+      expect(component.exists()).toBe(true)
+      expect(component.element.children[0].innerHTML).toBe('The')
+      expect(component.element.children[0].classList).toContain('font-bold')
+      expect(component.element.children[1].innerHTML).toBe('Matrix')
+      expect(component.element.children[1].classList).toContain('italic')
+    })
   })
 })

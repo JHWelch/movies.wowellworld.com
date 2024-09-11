@@ -32,6 +32,6 @@ defineProps<{
     class="text-3xl font-semibold"
     data-testid="theme"
   >
-    {{ week.theme }}
+    {{ week.isSkipped ? 'No movies this week!' : week.theme }}
   </span>
 </template>
