@@ -10,10 +10,6 @@ defineProps<{
   week: WeekDto
   showEventDetails: boolean
 }>()
-
-const weekTitle = (week: WeekDto) => {
-  return week.isSkipped ? 'No movies this week!' : week.theme
-}
 </script>
 
 <template>
@@ -29,10 +25,6 @@ const weekTitle = (week: WeekDto) => {
             v-text="week.date"
           />
 
-          <!-- <span
-            class="text-3xl font-semibold"
-            v-text="weekTitle(week)"
-          /> -->
           <Theme :week="week" />
         </h3>
 
