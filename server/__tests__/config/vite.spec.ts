@@ -34,7 +34,7 @@ describe('production nodeEnv', () => {
     const manifest = await parseManifest(config)
 
     expect(manifest).toEqual({
-      'key': 'value',
+      key: 'value',
     })
   })
 })

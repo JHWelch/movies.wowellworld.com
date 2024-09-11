@@ -58,7 +58,7 @@ export default [{
     }],
 
     'no-restricted-imports': ['error', {
-      'patterns': ['.*'], // Disable all relative imports
+      patterns: ['.*'], // Disable all relative imports
     }],
 
     'object-curly-spacing': ['error', 'always'],
