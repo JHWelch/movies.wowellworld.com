@@ -24,6 +24,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'
 import { RichText } from '@shared/dtos'
+import { configureDayjs } from '@server/config/dayjs'
 
 let firestore: FirestoreAdapter
 
@@ -31,6 +32,7 @@ beforeAll(() => {
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
+  configureDayjs()
 })
 
 beforeEach(() => {

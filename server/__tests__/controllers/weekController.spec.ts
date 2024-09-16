@@ -12,6 +12,7 @@ import { getMockReq, getMockRes } from '@jest-mock/express'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
+import { configureDayjs } from '@server/config/dayjs'
 
 const { res, mockClear } = getMockRes()
 
@@ -19,6 +20,7 @@ beforeAll(() => {
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
+  configureDayjs()
 })
 
 beforeEach(() => {

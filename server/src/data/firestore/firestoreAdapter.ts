@@ -23,6 +23,7 @@ import setupFirestore from '@server/config/firestore'
 import Config from '@server/config/config'
 import User from '@server/models/user'
 import { randomUUID } from 'crypto'
+import dayjs from 'dayjs'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
@@ -214,16 +215,9 @@ export default class FirestoreAdapter {
     })
   }
 
-  today = (): Timestamp => {
-    const today = new Date()
-    const todayUtc = new Date(Date.UTC(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    ))
-
-    return Timestamp.fromDate(todayUtc)
-  }
+  today = (): Timestamp => Timestamp.fromDate(
+    dayjs().tz('America/Chicago').startOf('day').toDate()
+  )
 
   get adminEmail (): string {
     return this.config.adminEmail
