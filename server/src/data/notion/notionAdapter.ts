@@ -40,26 +40,40 @@ export default class NotionAdapter {
         date: { equals: date },
       },
     })
+
     const record = records.results[0]
 
     return record != null ? await this.recordToWeek(record) : null
   }
 
   async getWeeks (): Promise<Week[]> {
-    const records = await this.#notion.databases.query({
-      database_id: this.#weekDatabaseId,
-      page_size: 100,
-      filter: {
-        property: 'Date',
-        date: { is_not_empty: true },
-      },
-      sorts: [{
-        property: 'Date',
-        direction: 'ascending',
-      }],
-    })
+    const results: (PageObjectResponse
+      | PartialPageObjectResponse
+      | DatabaseObjectResponse
+      | PartialDatabaseObjectResponse)[]  = []
+    let hasMore = true
+    let nextCursor: string | undefined | null
 
-    return await Promise.all(records.results
+    while (hasMore) {
+      const records = await this.#notion.databases.query({
+        database_id: this.#weekDatabaseId,
+        page_size: 100,
+        filter: {
+          property: 'Date',
+          date: { is_not_empty: true },
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+        start_cursor: nextCursor ?? undefined,
+      })
+      results.push(...records.results)
+      hasMore = records.has_more
+      nextCursor = records.next_cursor
+    }
+
+    return await Promise.all(results
       .map(async (record) => await this.recordToWeek(record)))
   }
 
