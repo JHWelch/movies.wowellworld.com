@@ -42,7 +42,7 @@ export default class CacheController {
       ...moviesWithoutTimes,
     ])
 
-    this.firestore.cacheWeeks(weeks)
+    await this.firestore.cacheWeeks(weeks)
 
     res.sendStatus(200)
   }
