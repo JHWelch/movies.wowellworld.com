@@ -103,7 +103,7 @@ type FirebaseWeek = {
   id: string,
   theme: string,
   date: Date,
-  slug: string | null,
+  slug?: string | null,
   isSkipped: boolean,
   movies?: FirebaseMovie[],
   styledTheme?: RichText[],
