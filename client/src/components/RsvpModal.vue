@@ -136,6 +136,7 @@ const rsvp = async () => {
                   :error="errors.email"
                   name="email"
                   type="email"
+                  label="Email (optional)"
                   placeholder="ghostface@woodsboroca.gov"
                 />
 
@@ -149,11 +150,12 @@ const rsvp = async () => {
 
               <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                 <button
-                  :disabled="!formData.name || !formData.email"
+                  data-testid="rsvp-button"
+                  :disabled="!formData.name"
                   type="button"
                   class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-sm bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
                   :class="{
-                    'opacity-50 cursor-not-allowed': !formData.name || !formData.email,
+                    'opacity-50 cursor-not-allowed': !formData.name,
                   }"
                   @click="rsvp()"
                 >
