@@ -32,15 +32,15 @@ export default class RsvpController {
 
     await this.firestore.sendEmail(this.firestore.adminEmail, {
       subject: `TNMC RSVP: ${name}`,
-      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email}\nPlus one: ${plusOne}`, // eslint-disable-line max-len
-      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email}</li><li>Plus one: ${plusOne}</li></ul>`, // eslint-disable-line max-len
+      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}\nPlus one: ${plusOne}`,
+      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li><li>Plus one: ${plusOne}</li></ul>`,
     })
   }
 
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
       name: z.string().min(1, { message: 'Required' }),
-      email: z.string().email(),
+      email: z.string().email().optional(),
       plusOne: z.boolean(),
     }))
 }

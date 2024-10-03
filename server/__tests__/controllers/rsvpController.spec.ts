@@ -5,6 +5,7 @@ import { Timestamp, addDoc } from 'firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
+import { Request } from 'express'
 
 const { res, mockClear } = getMockRes()
 
@@ -86,20 +87,48 @@ describe('store', () => {
     })
 
     describe('when email is missing', () => {
-      it('should return a 422', async () => {
+      let req: Request
+
+      beforeEach(() => {
         const body = mockBody()
         delete body.email
-        const req = getMockReq({
+        req = getMockReq({
           params: { weekId: '2023-01-01' },
           body: body,
         })
+      })
 
+      it('submit the form', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
-        expect(res.status).toHaveBeenCalledWith(422)
-        expect(res.json).toHaveBeenCalledWith({
-          errors: { email: 'Required' },
-        })
+        expect(res.status).toHaveBeenCalledWith(201)
+        expect(addDoc).toHaveBeenCalledWith(
+          FirebaseMock.mockCollection('rsvps'),
+          {
+            week: '2023-01-01',
+            name: 'test name',
+            email: null,
+            plusOne: true,
+            createdAt: expect.any(Timestamp.constructor),
+          },
+        )
+      })
+
+      it('sends an email to admins', async () => {
+        await new RsvpController(firestoreAdapter).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(201)
+        expect(addDoc).toHaveBeenCalledWith(
+          FirebaseMock.mockCollection('mail'),
+          {
+            to: 'ADMIN_EMAIL@example.com',
+            message: {
+              subject: 'TNMC RSVP: test name',
+              text: 'test name has RSVPed for 2023-01-01\n\nEmail: None\nPlus one: true',
+              html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: None</li><li>Plus one: true</li></ul>',
+            },
+          },
+        )
       })
     })
 
