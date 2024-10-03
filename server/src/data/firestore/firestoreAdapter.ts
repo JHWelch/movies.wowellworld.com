@@ -91,15 +91,15 @@ export default class FirestoreAdapter {
   createRsvp = async (
     week: string,
     name: string,
-    email: string,
+    email: string | undefined,
     plusOne: boolean,
   ): Promise<void> => {
     await addDoc(this.rsvpCollection, {
       week,
       name,
-      email,
       plusOne,
       createdAt: Timestamp.now(),
+      email: email || null,
     })
   }
 

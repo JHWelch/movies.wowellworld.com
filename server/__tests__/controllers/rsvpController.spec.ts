@@ -107,7 +107,7 @@ describe('store', () => {
           {
             week: '2023-01-01',
             name: 'test name',
-            // email: null,
+            email: null,
             plusOne: true,
             createdAt: expect.any(Timestamp.constructor),
           },

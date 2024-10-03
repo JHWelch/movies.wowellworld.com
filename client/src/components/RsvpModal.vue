@@ -9,7 +9,7 @@ import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 
 type RsvpForm = {
   name: string,
-  email: string,
+  email?: string,
   plusOne: boolean,
 }
 
@@ -29,6 +29,10 @@ const handleErrors = (data: ErrorBag) => {
 }
 const rsvp = async () => {
   if (!rsvpModal.week) { return }
+
+  if (formData.value.email === '') {
+    delete formData.value.email
+  }
 
   const response = await fetch(
     '/api/weeks/' + rsvpModal.week.weekId + '/rsvp', {
