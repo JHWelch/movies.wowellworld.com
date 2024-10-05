@@ -15,8 +15,8 @@ type RsvpForm = {
 
 const errors = ref<Errors>({})
 const formData = ref<RsvpForm>({
-  name: '',
-  email: '',
+  name: localStorage.getItem('rsvp.name') || '',
+  email: localStorage.getItem('rsvp.email') || '',
   plusOne: false,
 })
 const handleErrors = (data: ErrorBag) => {
@@ -54,6 +54,9 @@ const rsvp = async () => {
 
   fireConfetti()
   rsvpModal.close()
+
+  localStorage.setItem('rsvp.name', formData.value.name)
+  localStorage.setItem('rsvp.email', formData.value.email || '')
 }
 </script>
 
