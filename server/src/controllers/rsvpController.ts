@@ -46,6 +46,10 @@ export default class RsvpController {
       return
     }
 
+    if (user.reminders) {
+      return
+    }
+
     user.reminders = true
     await this.firestore.updateUser(user)
   }

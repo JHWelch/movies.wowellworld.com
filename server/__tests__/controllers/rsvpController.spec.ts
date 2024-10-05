@@ -157,6 +157,38 @@ describe('store', () => {
           )
         })
       })
+
+      describe('user already exists and is subscribed', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail({
+            id: 'id',
+            email: 'test@example.com',
+            reminders: true,
+          })
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('does not update users', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(setDoc).not.toHaveBeenCalled()
+        })
+      })
     })
 
     describe('reminders is not boolean', () => {
