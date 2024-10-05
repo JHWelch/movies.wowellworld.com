@@ -30,14 +30,11 @@ describe('only name input', () => {
 })
 
 describe('rsvp submit', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     fetch.doMock()
     vi.mock(import('@client/utilities/confetti'), () => ({
       fireConfetti: vi.fn(),
     }))
-  })
-
-  it('calls api with the correct data', async () => {
     fetch.mockResponseOnce(JSON.stringify({}))
     const week = new WeekFactory().build({
       weekId: '2020-01-01',
@@ -48,7 +45,9 @@ describe('rsvp submit', () => {
     await wrapper.find('[data-testid="input-email"]').setValue('jdoe@example.com')
 
     await wrapper.find('[data-testid="rsvp-button"]').trigger('click')
+  })
 
+  it('calls api with the correct data', async () => {
     expect(fetch.requests().length).toEqual(1)
     const request = fetch.requests()[0]
     expect(request.method).toEqual('POST')
@@ -61,26 +60,15 @@ describe('rsvp submit', () => {
   })
 
   it('closes the modal', async () => {
-    fetch.mockResponseOnce(JSON.stringify({}))
-    const week = new WeekFactory().build()
-    rsvpModal.open(week)
-    const wrapper = mount(RsvpModal)
-    await wrapper.find('[data-testid="input-name"]').setValue('John Doe')
-
-    await wrapper.find('[data-testid="rsvp-button"]').trigger('click')
-
     expect(rsvpModal.show).toBe(false)
   })
 
   it('fires confetti', async () => {
-    fetch.mockResponseOnce(JSON.stringify({}))
-    const week = new WeekFactory().build()
-    rsvpModal.open(week)
-    const wrapper = mount(RsvpModal)
-    await wrapper.find('[data-testid="input-name"]').setValue('John Doe')
-
-    await wrapper.find('[data-testid="rsvp-button"]').trigger('click')
-
     expect(fireConfetti).toHaveBeenCalled()
+  })
+
+  it('saves email and name to local storage', async () => {
+    expect(localStorage.getItem('rsvp.email')).toEqual('jdoe@example.com')
+    expect(localStorage.getItem('rsvp.name')).toEqual('John Doe')
   })
 })

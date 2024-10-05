@@ -54,6 +54,9 @@ const rsvp = async () => {
 
   fireConfetti()
   rsvpModal.close()
+
+  localStorage.setItem('rsvp.name', formData.value.name)
+  localStorage.setItem('rsvp.email', formData.value.email || '')
 }
 </script>
 
