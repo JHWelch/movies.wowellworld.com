@@ -51,6 +51,10 @@ jobs:
       working-directory: ./server
       run: npm test
 
+    - name: Test Types
+      working-directory: ./server
+      run: npm run test:types
+
   test-client:
     runs-on: ubuntu-latest
 
@@ -70,3 +74,7 @@ jobs:
     - name: Run Tests
       working-directory: ./client
       run: npm test -- run
+
+    - name: Test Types
+      working-directory: ./server
+      run: npm run test:types

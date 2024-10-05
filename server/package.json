@@ -12,6 +12,7 @@
     "postbuild": "cp -R node_modules ../built/node_modules",
     "test": "jest",
     "test-watch": "jest --watch",
+    "test:types": "tsc -p tsconfig.build.json --noEmit",
     "coverage": "jest --coverage"
   },
   "nodemonConfig": {

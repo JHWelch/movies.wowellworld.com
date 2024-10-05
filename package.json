@@ -18,7 +18,8 @@
     "start": "node built/server/src/index.js",
     "test": "npm run test:server && npm run test:client",
     "test:server": "npm run --prefix server test",
-    "test:client": "npm run --prefix client test -- run"
+    "test:client": "npm run --prefix client test -- run",
+    "test:types": "npm run --prefix server test:types && npm run --prefix client test:types"
   },
   "keywords": [
     "notion",
