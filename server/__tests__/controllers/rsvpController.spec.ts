@@ -14,17 +14,17 @@ beforeEach(() => {
   mockClear()
 })
 
-interface MockBodyArgs {
-  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
 const mockBody = ({
   name = 'test name',
   email = 'test@example.com',
   plusOne = true,
-}: MockBodyArgs = {}) => ({ name, email, plusOne })
+  reminders = false,
+}: {
+  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  reminders?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+} = {}) => ({ name, email, plusOne, reminders })
 
 describe('store', () => {
   let firestoreAdapter: FirestoreAdapter
@@ -48,7 +48,7 @@ describe('store', () => {
       })
     })
 
-    it('should save the rsvp', async () => {
+    it('submits the form', async () => {
       await new RsvpController(firestoreAdapter).store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(201)
@@ -81,12 +81,67 @@ describe('store', () => {
       )
     })
 
+    describe('reminders are enabled', () => {
+      beforeEach(() => {
+        req.body.reminders = true
+      })
+
+      describe('user does not exist', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail()
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('creates a new user with reminders enabled', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('users'),
+            {
+              email: 'test@example.com',
+              reminders: true,
+            },
+          )
+        })
+      })
+    })
+
+    describe('reminders is not boolean', () => {
+      beforeEach(() => {
+        req.body.reminders = 'invalid'
+      })
+
+      it('should return a 422', async () => {
+        await new RsvpController(firestoreAdapter).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(422)
+        expect(res.json).toHaveBeenCalledWith({
+          errors: { reminders: 'Expected boolean, received string' },
+        })
+      })
+    })
+
     describe('email is missing', () => {
       beforeEach(() => {
         delete req.body.email
       })
 
-      it('submit the form', async () => {
+      it('submits the form', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(201)

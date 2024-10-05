@@ -16,7 +16,7 @@ export default class RsvpController {
     if (!this.validate(req, res)) return
 
     const { weekId } = req.params
-    const { name, email, plusOne } = req.body
+    const { name, email, plusOne, reminders } = req.body
 
     const week = await this.firestore.getWeek(weekId)
 
@@ -28,6 +28,10 @@ export default class RsvpController {
 
     await this.firestore.createRsvp(weekId, name, email, plusOne)
 
+    if (reminders) {
+      await this.subscribe(email)
+    }
+
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
     await this.firestore.sendEmail(this.firestore.adminEmail, {
@@ -35,6 +39,16 @@ export default class RsvpController {
       text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}\nPlus one: ${plusOne}`,
       html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li><li>Plus one: ${plusOne}</li></ul>`,
     })
+  }
+
+  private subscribe = async (email: string): Promise<void> => {
+    const user = await this.firestore.getUserByEmail(email)
+
+    if (!user) {
+      await this.firestore.createUser(email, true)
+
+      return
+    }
   }
 
   private validate = (req: Request, res: Response): boolean =>
