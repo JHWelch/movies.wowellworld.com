@@ -24,7 +24,7 @@ jobs:
       run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
 
     - name: Auth with Google
-      uses: google-github-actions/auth@v1
+      uses: google-github-actions/auth@v2
       with:
         workload_identity_provider: ${{ secrets.GOOGLE_WORKFLOW_IDENTITY_PROVIDER }}
         service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
