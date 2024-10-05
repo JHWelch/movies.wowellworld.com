@@ -25,8 +25,10 @@ const displayLabel = computed(
         :id="name"
         :value="modelValue"
         :name="name"
+        :data-testid="'input-' + name"
         type="checkbox"
         class="w-4 h-4 border-gray-300 rounded text-brat-500 focus:ring-brat-500"
+        @change="$emit('update:modelValue', !modelValue)"
       >
     </div>
 

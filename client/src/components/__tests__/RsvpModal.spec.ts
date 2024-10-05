@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import RsvpModal from '@components/RsvpModal.vue'
 import WeekFactory from '@tests/utils/factories/weekFactory'
 import { rsvpModal } from '@client/state/modalState'
@@ -39,14 +39,28 @@ describe('nothing input', () => {
 })
 
 describe('only name input', () => {
-  it('enables the submit button', async () => {
+  let wrapper: VueWrapper
+
+  beforeEach(async () => {
     const week = new WeekFactory().build()
     rsvpModal.open(week)
-    const wrapper = mount(RsvpModal)
+    wrapper = mount(RsvpModal)
 
     await wrapper.byTestId('input-name').setValue('John Doe')
+  })
 
+  it('enables the submit button', async () => {
     expect(wrapper.byTestId('rsvp-button').attributes('disabled')).toBe(undefined)
+  })
+
+  describe('reminders checked', () => {
+    beforeEach(async () => {
+      await wrapper.byTestId('input-reminders').setValue(true)
+    })
+
+    it('disables the submit button', () => {
+      expect(wrapper.byTestId('rsvp-button').attributes('disabled')).toBe('')
+    })
   })
 })
 
@@ -77,6 +91,7 @@ describe('rsvp submit', () => {
       name: 'John Doe',
       email: 'jdoe@example.com',
       plusOne: false,
+      reminders: false,
     })
   })
 
