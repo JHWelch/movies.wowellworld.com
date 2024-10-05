@@ -10,7 +10,6 @@ import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 type RsvpForm = {
   name: string,
   email?: string,
-  plusOne: boolean,
   reminders: boolean,
 }
 
@@ -18,7 +17,6 @@ const errors = ref<Errors>({})
 const formData = ref<RsvpForm>({
   name: localStorage.getItem('rsvp.name') || '',
   email: localStorage.getItem('rsvp.email') || '',
-  plusOne: false,
   reminders: false,
 })
 const handleErrors = (data: ErrorBag) => {
@@ -152,13 +150,6 @@ const disabled = computed(() => !formData.value.name
                   label="Email"
                   placeholder="ghostface@woodsboroca.gov"
                   :required="formData.reminders"
-                />
-
-                <FormCheckbox
-                  v-model="formData.plusOne"
-                  name="plusOne"
-                  description="The more the merrier"
-                  label="Plus One?"
                 />
 
                 <FormCheckbox

@@ -448,7 +448,6 @@ describe('createRsvp', () => {
       '2023-01-01',
       'test name',
       'test@example.com',
-      true,
     )
 
     expect(addDoc).toHaveBeenCalledWith(
@@ -457,7 +456,6 @@ describe('createRsvp', () => {
         week: '2023-01-01',
         name: 'test name',
         email: 'test@example.com',
-        plusOne: true,
         createdAt: expect.any(Timestamp.constructor),
       },
     )

@@ -90,7 +90,6 @@ describe('rsvp submit', () => {
     expect(await request.json()).toEqual({
       name: 'John Doe',
       email: 'jdoe@example.com',
-      plusOne: false,
       reminders: false,
     })
   })
