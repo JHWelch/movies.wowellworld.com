@@ -28,5 +28,8 @@ export default defineConfig({
     alias: {
       '@tests/': new URL('./src/__tests__/', import.meta.url).pathname,
     },
+    setupFiles:[
+      './src/__tests__/setup.ts',
+    ],
   },
 })
