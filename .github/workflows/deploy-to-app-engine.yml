@@ -30,6 +30,6 @@ jobs:
         service_account: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
 
     - name: Deploy to Google
-      uses: google-github-actions/deploy-appengine@v1
+      uses: google-github-actions/deploy-appengine@v2
       with:
         deliverables: app.yaml cron.yaml
