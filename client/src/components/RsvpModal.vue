@@ -11,6 +11,7 @@ type RsvpForm = {
   name: string,
   email?: string,
   plusOne: boolean,
+  reminders: boolean,
 }
 
 const errors = ref<Errors>({})
@@ -18,6 +19,7 @@ const formData = ref<RsvpForm>({
   name: localStorage.getItem('rsvp.name') || '',
   email: localStorage.getItem('rsvp.email') || '',
   plusOne: false,
+  reminders: false,
 })
 const handleErrors = (data: ErrorBag) => {
   if (data.errors) {
@@ -152,6 +154,13 @@ const rsvp = async () => {
                   name="plusOne"
                   description="The more the merrier"
                   label="Plus One?"
+                />
+
+                <FormCheckbox
+                  v-model="formData.reminders"
+                  name="reminders"
+                  description="Get reminder emails for upcoming events"
+                  label="Reminders?"
                 />
               </form>
 
