@@ -50,7 +50,7 @@ export default class NotionAdapter {
     const results: (PageObjectResponse
       | PartialPageObjectResponse
       | DatabaseObjectResponse
-      | PartialDatabaseObjectResponse)[]  = []
+      | PartialDatabaseObjectResponse)[] = []
     let hasMore = true
     let nextCursor: string | undefined | null
 

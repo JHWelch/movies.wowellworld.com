@@ -52,6 +52,8 @@ export default [{
 
     '@stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
 
+    '@stylistic/no-multi-spaces': 'error',
+
     'quote-props': ['error', 'as-needed'],
 
     'max-len': ['error', {

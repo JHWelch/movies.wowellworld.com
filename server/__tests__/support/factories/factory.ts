@@ -14,7 +14,7 @@ export default abstract class Factory<Model, Constructor> {
     return this
   }
 
-  make (state?: Partial<Constructor>): Model  {
+  make (state?: Partial<Constructor>): Model {
     if (state) {
       this.state(state)
     }

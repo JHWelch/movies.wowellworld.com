@@ -231,7 +231,7 @@ describe('getWeek', () => {
 
 describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
-    it('updates all weeks in firestore', async () =>  {
+    it('updates all weeks in firestore', async () => {
       await firestore.cacheWeeks([
         new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
         new Week({ id: 'id2', theme: 'theme2', date: new Date('2021-01-08') }),
