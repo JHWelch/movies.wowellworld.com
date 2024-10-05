@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { Errors, ErrorBag } from '@client/types'
 import FormInput from '@components/form/FormInput.vue'
 import FormCheckbox from '@components/form/FormCheckbox.vue'
@@ -11,6 +11,7 @@ type RsvpForm = {
   name: string,
   email?: string,
   plusOne: boolean,
+  reminders: boolean,
 }
 
 const errors = ref<Errors>({})
@@ -18,6 +19,7 @@ const formData = ref<RsvpForm>({
   name: localStorage.getItem('rsvp.name') || '',
   email: localStorage.getItem('rsvp.email') || '',
   plusOne: false,
+  reminders: false,
 })
 const handleErrors = (data: ErrorBag) => {
   if (data.errors) {
@@ -58,6 +60,9 @@ const rsvp = async () => {
   localStorage.setItem('rsvp.name', formData.value.name)
   localStorage.setItem('rsvp.email', formData.value.email || '')
 }
+
+const disabled = computed(() => !formData.value.name
+  || (formData.value.reminders && !formData.value.email))
 </script>
 
 <template>
@@ -136,6 +141,7 @@ const rsvp = async () => {
                   :error="errors.name"
                   name="name"
                   placeholder="Ghostface"
+                  :required="true"
                 />
 
                 <FormInput
@@ -143,8 +149,9 @@ const rsvp = async () => {
                   :error="errors.email"
                   name="email"
                   type="email"
-                  label="Email (optional)"
+                  label="Email"
                   placeholder="ghostface@woodsboroca.gov"
+                  :required="formData.reminders"
                 />
 
                 <FormCheckbox
@@ -153,16 +160,23 @@ const rsvp = async () => {
                   description="The more the merrier"
                   label="Plus One?"
                 />
+
+                <FormCheckbox
+                  v-model="formData.reminders"
+                  name="reminders"
+                  description="Get reminder emails for upcoming events"
+                  label="Reminders?"
+                />
               </form>
 
               <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                 <button
                   data-testid="rsvp-button"
-                  :disabled="!formData.name"
+                  :disabled="disabled"
                   type="button"
                   class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-sm bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
                   :class="{
-                    'opacity-50 cursor-not-allowed': !formData.name,
+                    'opacity-50 cursor-not-allowed': disabled,
                   }"
                   @click="rsvp()"
                 >

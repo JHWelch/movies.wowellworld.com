@@ -7,7 +7,6 @@ declare module '@vue/test-utils' {
   }
 }
 
-
 interface CustomMatchers<R = unknown> {
   toBeValue: (value: string) => R
 }

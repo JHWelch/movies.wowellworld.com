@@ -1,7 +1,7 @@
 import RsvpController from '@server/controllers/rsvpController'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { Timestamp, addDoc } from 'firebase/firestore'
+import { Timestamp, addDoc, setDoc } from 'firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -14,20 +14,21 @@ beforeEach(() => {
   mockClear()
 })
 
-interface MockBodyArgs {
-  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
 const mockBody = ({
   name = 'test name',
   email = 'test@example.com',
   plusOne = true,
-}: MockBodyArgs = {}) => ({ name, email, plusOne })
+  reminders = false,
+}: {
+  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  reminders?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+} = {}) => ({ name, email, plusOne, reminders })
 
 describe('store', () => {
-  let  firestoreAdapter: FirestoreAdapter
+  let firestoreAdapter: FirestoreAdapter
+  let req: Request
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
@@ -41,14 +42,13 @@ describe('store', () => {
         isSkipped: false,
         theme: 'theme1',
       })
-    })
-
-    it('should save the rsvp', async () => {
-      const req = getMockReq({
+      req = getMockReq({
         params: { weekId: '2023-01-01' },
         body: mockBody(),
       })
+    })
 
+    it('submits the form', async () => {
       await new RsvpController(firestoreAdapter).store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(201)
@@ -65,11 +65,6 @@ describe('store', () => {
     })
 
     it('sends an email to admins', async () => {
-      const req = getMockReq({
-        params: { weekId: '2023-01-01' },
-        body: mockBody(),
-      })
-
       await new RsvpController(firestoreAdapter).store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(201)
@@ -86,19 +81,137 @@ describe('store', () => {
       )
     })
 
-    describe('when email is missing', () => {
-      let req: Request
-
+    describe('reminders are enabled', () => {
       beforeEach(() => {
-        const body = mockBody()
-        delete body.email
-        req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: body,
+        req.body.reminders = true
+      })
+
+      describe('user does not exist', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail()
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('creates a new user with reminders enabled', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('users'),
+            {
+              email: 'test@example.com',
+              reminders: true,
+            },
+          )
         })
       })
 
-      it('submit the form', async () => {
+      describe('user already exists and is unsubscribed', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail({
+            id: 'id',
+            email: 'test@example.com',
+            reminders: false,
+          })
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('updates the user to be subscribed', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(setDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockDoc('users', 'id'),
+            {
+              email: 'test@example.com',
+              reminders: true,
+            },
+          )
+        })
+      })
+
+      describe('user already exists and is subscribed', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail({
+            id: 'id',
+            email: 'test@example.com',
+            reminders: true,
+          })
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('does not update users', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(setDoc).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    describe('reminders is not boolean', () => {
+      beforeEach(() => {
+        req.body.reminders = 'invalid'
+      })
+
+      it('should return a 422', async () => {
+        await new RsvpController(firestoreAdapter).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(422)
+        expect(res.json).toHaveBeenCalledWith({
+          errors: { reminders: 'Expected boolean, received string' },
+        })
+      })
+    })
+
+    describe('email is missing', () => {
+      beforeEach(() => {
+        delete req.body.email
+      })
+
+      it('submits the form', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(201)
@@ -130,15 +243,27 @@ describe('store', () => {
           },
         )
       })
+
+      describe('reminders is selected', () => {
+        it('should return a 422', async () => {
+          req.body.reminders = true
+
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(422)
+          expect(res.json).toHaveBeenCalledWith({
+            errors: { email: 'Email is required to receive reminders' },
+          })
+        })
+      })
     })
 
-    describe('when email is invalid', () => {
-      it('should return a 422', async () => {
-        const req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: mockBody({ email: 'invalid' }),
-        })
+    describe('email is invalid', () => {
+      beforeEach(() => {
+        req.body.email = 'invalid'
+      })
 
+      it('should return a 422', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(422)
@@ -148,15 +273,12 @@ describe('store', () => {
       })
     })
 
-    describe('when name is missing', () => {
-      it('should return a 422', async () => {
-        const body = mockBody()
-        delete body.name
-        const req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: body,
-        })
+    describe('name is missing', () => {
+      beforeEach(() => {
+        delete req.body.name
+      })
 
+      it('should return a 422', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(422)
@@ -166,13 +288,12 @@ describe('store', () => {
       })
     })
 
-    describe('when name is empty string', () => {
-      it('should return a 422', async () => {
-        const req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: mockBody({ name: '' }),
-        })
+    describe('name is empty string', () => {
+      beforeEach(() => {
+        req.body.name = ''
+      })
 
+      it('should return a 422', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(422)
@@ -182,15 +303,12 @@ describe('store', () => {
       })
     })
 
-    describe('when plusOne is missing', () => {
-      it('should return a 422', async () => {
-        const body = mockBody()
-        delete body.plusOne
-        const req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: body,
-        })
+    describe('plusOne is missing', () => {
+      beforeEach(() => {
+        delete req.body.plusOne
+      })
 
+      it('should return a 422', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(422)
@@ -200,13 +318,12 @@ describe('store', () => {
       })
     })
 
-    describe('when plusOne is not a boolean', () => {
-      it('should return a 422', async () => {
-        const req = getMockReq({
-          params: { weekId: '2023-01-01' },
-          body: mockBody({ plusOne: 'invalid' }),
-        })
+    describe('plusOne is not a boolean', () => {
+      beforeEach(() => {
+        req.body.plusOne = 'invalid'
+      })
 
+      it('should return a 422', async () => {
         await new RsvpController(firestoreAdapter).store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(422)
@@ -217,17 +334,16 @@ describe('store', () => {
     })
   })
 
-  describe('when week does not exist', () => {
+  describe('week does not exist', () => {
     beforeEach(() => {
       FirebaseMock.mockGetWeek()
-    })
-
-    it('should return a 404', async () => {
-      const req = getMockReq({
+      req = getMockReq({
         params: { weekId: '2023-01-01' },
         body: mockBody(),
       })
+    })
 
+    it('should return a 404', async () => {
       await new RsvpController(firestoreAdapter).store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(404)
