@@ -129,6 +129,7 @@ export const pageObjectResponse = (
     object: 'user',
   },
   url: '',
+  in_trash: false,
 })
 
 export type QueryBody = {
