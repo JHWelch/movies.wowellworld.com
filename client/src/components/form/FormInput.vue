@@ -7,6 +7,7 @@ withDefaults(defineProps<{
   type?: string,
   error?: string,
   placeholder?: string,
+  required?: boolean,
 }>(), {
   modelValue: '',
   hideLabel: false,
@@ -14,6 +15,7 @@ withDefaults(defineProps<{
   placeholder: '',
   error: undefined,
   label: undefined,
+  required: false,
 })
 
 defineEmits([
@@ -29,8 +31,14 @@ defineEmits([
       v-if="!hideLabel"
       :for="name"
       class="block text-sm font-medium leading-6 text-gray-900"
-      v-text="label ?? name.charAt(0).toUpperCase() + name.slice(1)"
-    />
+    >
+      {{ label ?? name.charAt(0).toUpperCase() + name.slice(1) }}
+
+      <span
+        v-if="required"
+        class="text-red-500"
+      >*</span>
+    </label>
 
     <div
       class="relative"
@@ -40,14 +48,14 @@ defineEmits([
         :id="name"
         :data-testid="'input-' + name"
         :value="modelValue"
-        required
-        class="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+        :required="required"
         :placeholder="placeholder"
         :type="type"
         :name="name"
         :aria-describedby="name + '-error'"
         :aria-invalid="error ? 'true' : 'false'"
         :class="{
+          'block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6': true,
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-brat-500': !error,
         }"
