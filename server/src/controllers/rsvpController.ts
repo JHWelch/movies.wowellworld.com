@@ -42,5 +42,15 @@ export default class RsvpController {
       name: z.string().min(1, { message: 'Required' }),
       email: z.string().email().optional(),
       plusOne: z.boolean(),
-    }))
+      reminders: z.boolean().default(false),
+    }).refine((data) => {
+      if (data.reminders) {
+        return data.email
+      }
+
+      return true
+    }, {
+      message: 'Email is required to receive reminders',
+      path: ['email'],
+    } ))
 }

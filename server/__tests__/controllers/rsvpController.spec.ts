@@ -86,7 +86,7 @@ describe('store', () => {
       )
     })
 
-    describe('when email is missing', () => {
+    describe('email is missing', () => {
       let req: Request
 
       beforeEach(() => {
@@ -130,9 +130,22 @@ describe('store', () => {
           },
         )
       })
+
+      describe('reminders is selected', () => {
+        it('should return a 422', async () => {
+          req.body.reminders = true
+
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(422)
+          expect(res.json).toHaveBeenCalledWith({
+            errors: { email: 'Email is required to receive reminders' },
+          })
+        })
+      })
     })
 
-    describe('when email is invalid', () => {
+    describe('email is invalid', () => {
       it('should return a 422', async () => {
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
@@ -148,7 +161,7 @@ describe('store', () => {
       })
     })
 
-    describe('when name is missing', () => {
+    describe('name is missing', () => {
       it('should return a 422', async () => {
         const body = mockBody()
         delete body.name
@@ -166,7 +179,7 @@ describe('store', () => {
       })
     })
 
-    describe('when name is empty string', () => {
+    describe('name is empty string', () => {
       it('should return a 422', async () => {
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
@@ -182,7 +195,7 @@ describe('store', () => {
       })
     })
 
-    describe('when plusOne is missing', () => {
+    describe('plusOne is missing', () => {
       it('should return a 422', async () => {
         const body = mockBody()
         delete body.plusOne
@@ -200,7 +213,7 @@ describe('store', () => {
       })
     })
 
-    describe('when plusOne is not a boolean', () => {
+    describe('plusOne is not a boolean', () => {
       it('should return a 422', async () => {
         const req = getMockReq({
           params: { weekId: '2023-01-01' },
@@ -217,7 +230,7 @@ describe('store', () => {
     })
   })
 
-  describe('when week does not exist', () => {
+  describe('week does not exist', () => {
     beforeEach(() => {
       FirebaseMock.mockGetWeek()
     })
