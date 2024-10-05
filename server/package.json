@@ -24,7 +24,7 @@
     "@jhwelch/made-with": "^0.0.0",
     "@notionhq/client": "^2.2.5",
     "@types/express": "^4.17.17",
-    "@types/node": "^18.16.19",
+    "@types/node": "^20.0.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
