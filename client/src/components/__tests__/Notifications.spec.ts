@@ -1,7 +1,7 @@
 /** @vitest-environment jsdom */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DOMWrapper, VueWrapper, mount } from '@vue/test-utils'
+import { VueWrapper, mount } from '@vue/test-utils'
 import Notifications from '@components/Notifications.vue'
 import { notifications } from '@client/state/notificationState'
 import { nextTick } from 'vue'

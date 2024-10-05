@@ -1,4 +1,4 @@
-import { VueWrapper } from '@vue/test-utils'
+import { VueWrapper } from '@vue/test-utils' // eslint-disable-line
 
 declare module '@vue/test-utils' {
   interface VueWrapper<VM, T> {
