@@ -7,9 +7,6 @@ import { nextTick } from 'vue'
 
 let wrapper: VueWrapper
 
-const subscribeSelector = '[data-testid="subscribe-button"]'
-const getRemindersSelector = '[data-testid="get-reminders-button"]'
-
 globalThis.fetch = vi.fn()
 
 beforeAll(() => {
@@ -25,7 +22,7 @@ beforeEach(() => {
 })
 
 it('renders "Get Reminders" button with unopened style', () => {
-  const button = wrapper.find(getRemindersSelector)
+  const button = wrapper.byTestId('get-reminders-button')
 
   expect(button.text()).toBe('Get Reminders!')
   expect(button.classes()).toContain('text-white')
@@ -38,7 +35,7 @@ describe('press the "Get Reminders" button', () => {
   })
 
   it('renders "Get Reminders" button with opened style', () => {
-    const button = wrapper.find(getRemindersSelector)
+    const button = wrapper.byTestId('get-reminders-button')
 
     expect(button.text()).toBe('Get Reminders!')
     expect(button.classes()).toContain('text-mint')
@@ -50,7 +47,7 @@ describe('press the "Get Reminders" button', () => {
   })
 
   it('shows a "Subscribe" button', () => {
-    expect(wrapper.find(subscribeSelector).exists()).toBe(true)
+    expect(wrapper.byTestId('subscribe-button').exists()).toBe(true)
   })
 
   describe('enter email and subscribe with success', () => {
@@ -63,7 +60,7 @@ describe('press the "Get Reminders" button', () => {
       })
 
       await wrapper.find('input').setValue('test@example.com')
-      await wrapper.find(subscribeSelector).trigger('click')
+      await wrapper.byTestId('subscribe-button').trigger('click')
       await nextTick()
     })
 
@@ -77,7 +74,7 @@ describe('press the "Get Reminders" button', () => {
 
     it('closes the input', async () => {
       expect(wrapper.find('input').exists()).toBe(false)
-      expect(wrapper.find(subscribeSelector).exists()).toBe(false)
+      expect(wrapper.byTestId('subscribe-button').exists()).toBe(false)
     })
   })
 
@@ -92,12 +89,12 @@ describe('press the "Get Reminders" button', () => {
       })
 
       await wrapper.find('input').setValue('test@example.com')
-      await wrapper.find(subscribeSelector).trigger('click')
+      await wrapper.byTestId('subscribe-button').trigger('click')
     })
 
     it('does not close the input', async () => {
       expect(wrapper.find('input').exists()).toBe(true)
-      expect(wrapper.find(subscribeSelector).exists()).toBe(true)
+      expect(wrapper.byTestId('subscribe-button').exists()).toBe(true)
     })
   })
 })

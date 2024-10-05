@@ -1,19 +1,19 @@
 /** @vitest-environment jsdom */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { DOMWrapper, VueWrapper, mount } from '@vue/test-utils'
+import { VueWrapper, mount } from '@vue/test-utils'
 import Notifications from '@components/Notifications.vue'
 import { notifications } from '@client/state/notificationState'
 import { nextTick } from 'vue'
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 
 let wrapper: VueWrapper
-let notification: DOMWrapper<Element>
+let notification: VueWrapper
 
 describe('default', () => {
   beforeEach(() => {
     wrapper = mount(Notifications)
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('does not display message by default', () => {
@@ -26,7 +26,7 @@ describe('show message with default type', () => {
     wrapper = mount(Notifications)
     notifications.open('Hello World')
     await nextTick()
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should show notifications', () => {
@@ -51,7 +51,7 @@ describe('show message with success type', () => {
     wrapper = mount(Notifications)
     notifications.open('Hello World', 'success')
     await nextTick()
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should display message with correct style', () => {
@@ -68,7 +68,7 @@ describe('show message with warning type', () => {
     wrapper = mount(Notifications)
     notifications.open('Hello World', 'warning')
     await nextTick()
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should display message with correct style', () => {
@@ -85,7 +85,7 @@ describe('show message with error type', () => {
     wrapper = mount(Notifications)
     notifications.open('Hello World', 'error')
     await nextTick()
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should display message with correct style', () => {
@@ -106,12 +106,12 @@ describe('message open', () => {
     it('should close message', async () => {
       const wrapper = mount(Notifications)
 
-      const close = wrapper.find('[data-testid="notifications-close"]')
+      const close = wrapper.byTestId('notifications-close')
       close.trigger('click')
 
       await nextTick()
 
-      expect(wrapper.find('[data-testid="notifications"]').exists()).toBe(false)
+      expect(wrapper.byTestId('notifications').exists()).toBe(false)
     })
   })
 })
@@ -124,7 +124,7 @@ describe('Message called via query param', () => {
     wrapper = mount(Notifications)
     await nextTick()
 
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should display info message', async () => {
@@ -142,7 +142,7 @@ describe('Message called via query param with type', () => {
     wrapper = mount(Notifications)
     await nextTick()
 
-    notification = wrapper.find('[data-testid="notifications"]')
+    notification = wrapper.byTestId('notifications')
   })
 
   it('should display success message', async () => {
