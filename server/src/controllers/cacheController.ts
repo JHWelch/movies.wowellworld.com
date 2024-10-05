@@ -70,7 +70,6 @@ export default class CacheController {
   private updateWeekTimes = (weeks: Week[]): Movie[] => weeks
     .flatMap(week => this.updateMovieTimes(week.movies))
 
-
   private updateMovieTimes = (movies: Movie[]): Movie[] => {
     const firstMovieIndex = movies.findIndex(movie => movie.director)
     const firstMovie = movies[firstMovieIndex]

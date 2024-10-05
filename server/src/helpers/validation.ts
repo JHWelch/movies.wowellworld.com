@@ -43,7 +43,6 @@ type ErrorResponse = {
   }
 }
 
-
 export {
   validate,
 }

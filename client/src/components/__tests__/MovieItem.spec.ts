@@ -7,7 +7,6 @@ import WeekFactory from '@tests/utils/factories/weekFactory'
 import MovieFactory from '@tests/utils/factories/movieFactory'
 import IconLabel from '@components/IconLabel.vue'
 
-
 it('has all movie details', () => {
   const movie = new MovieFactory().build()
   const week = new WeekFactory().withMovies([movie]).build()

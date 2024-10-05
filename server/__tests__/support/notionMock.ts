@@ -86,7 +86,6 @@ export class NotionMock {
     }))
   }
 
-
   static mockWeek = (week: {
     id: string,
     date: string,
