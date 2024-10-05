@@ -141,6 +141,7 @@ const disabled = computed(() => !formData.value.name
                   :error="errors.name"
                   name="name"
                   placeholder="Ghostface"
+                  :required="true"
                 />
 
                 <FormInput
@@ -148,8 +149,9 @@ const disabled = computed(() => !formData.value.name
                   :error="errors.email"
                   name="email"
                   type="email"
-                  label="Email (optional)"
+                  label="Email"
                   placeholder="ghostface@woodsboroca.gov"
+                  :required="formData.reminders"
                 />
 
                 <FormCheckbox
