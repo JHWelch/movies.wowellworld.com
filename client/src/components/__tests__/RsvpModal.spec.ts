@@ -23,8 +23,8 @@ describe('name and email already set', () => {
     rsvpModal.open(week)
     const wrapper = mount(RsvpModal)
 
-    expect(wrapper.byTestId('input-name').element.value).toEqual('John Doe')
-    expect(wrapper.byTestId('input-email').element.value).toEqual('jdoe@example.com')
+    expect(wrapper.byTestId('input-name')).toBeValue('John Doe')
+    expect(wrapper.byTestId('input-email')).toBeValue('jdoe@example.com')
   })
 })
 
@@ -52,11 +52,11 @@ describe('only name input', () => {
 
 describe('rsvp submit', () => {
   beforeEach(async () => {
-    fetch.doMock()
+    window.fetch.doMock()
     vi.mock(import('@client/utilities/confetti'), () => ({
       fireConfetti: vi.fn(),
     }))
-    fetch.mockResponseOnce(JSON.stringify({}))
+    window.fetch.mockResponseOnce(JSON.stringify({}))
     const week = new WeekFactory().build({
       weekId: '2020-01-01',
     })
@@ -69,11 +69,11 @@ describe('rsvp submit', () => {
   })
 
   it('calls api with the correct data', async () => {
-    expect(fetch.requests().length).toEqual(1)
-    const request = fetch.requests()[0]
+    expect(window.fetch.requests().length).toEqual(1)
+    const request = window.fetch.requests()[0]
     expect(request.method).toEqual('POST')
     expect(request.url).toEqual('/api/weeks/2020-01-01/rsvp')
-    expect(JSON.parse(request.body)).toEqual({
+    expect(await request.json()).toEqual({
       name: 'John Doe',
       email: 'jdoe@example.com',
       plusOne: false,

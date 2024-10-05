@@ -1,14 +1,14 @@
 /** @vitest-environment jsdom */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { VueWrapper, mount } from '@vue/test-utils'
+import { DOMWrapper, VueWrapper, mount } from '@vue/test-utils'
 import Notifications from '@components/Notifications.vue'
 import { notifications } from '@client/state/notificationState'
 import { nextTick } from 'vue'
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
 
 let wrapper: VueWrapper
-let notification: VueWrapper
+let notification: DOMWrapper<Element>
 
 describe('default', () => {
   beforeEach(() => {
@@ -119,6 +119,7 @@ describe('message open', () => {
 describe('Message called via query param', () => {
   beforeEach(async () => {
     window.location = {
+      ...window.location,
       search: '?message=Hello%20World',
     }
     wrapper = mount(Notifications)
@@ -137,6 +138,7 @@ describe('Message called via query param', () => {
 describe('Message called via query param with type', () => {
   beforeEach(async () => {
     window.location = {
+      ...window.location,
       search: '?message=Hello%20World&type=success',
     }
     wrapper = mount(Notifications)

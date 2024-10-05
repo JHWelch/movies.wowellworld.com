@@ -11,7 +11,7 @@
     "build": "vue-tsc -p tsconfig.build.json && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:types": "vue-tsc -p tsconfig.build.json --noEmit"
+    "test:types": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@heroicons/vue": "^2.1.1",

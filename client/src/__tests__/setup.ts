@@ -1,16 +1,37 @@
 import createFetchMock from 'vitest-fetch-mock'
-import { vi } from 'vitest'
+import { expect, vi } from 'vitest'
 const fetchMocker = createFetchMock(vi)
-import { VueWrapper } from '@vue/test-utils'
+import { DOMWrapper, VueWrapper } from '@vue/test-utils'
 
 fetchMocker.enableMocks()
 
-HTMLCanvasElement.prototype.getContext = () => {
-  // return whatever getContext has to return
-}
-
 // Vue Wrapper helpers
 
-VueWrapper.prototype.byTestId = function (this: VueWrapper, id: string)  {
+VueWrapper.prototype.byTestId = function<NodeType extends Node> (
+  this: VueWrapper<NodeType>,
+  id: string
+): DOMWrapper<Element> {
   return this.find(`[data-testid="${id}"]`)
 }
+
+// Custom matchers
+
+expect.extend({
+  toBeValue: function (wrapper: DOMWrapper<Element>, value: string) {
+    const element = wrapper.element
+    if (!(element instanceof HTMLInputElement)) {
+      return {
+        pass: false,
+        message: () => 'element is not an input',
+      }
+    }
+
+    const { isNot } = this
+
+    return {
+      pass : element.value === value,
+      message: () =>
+        `expected ${element.value}${isNot ? ' not' : ''} to be ${value}`,
+    }
+  },
+})
