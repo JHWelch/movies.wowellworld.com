@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
   name: string,
-  modelValue?: string,
   hideLabel?: boolean,
   label?: string,
   type?: string,
@@ -9,7 +8,6 @@ withDefaults(defineProps<{
   placeholder?: string,
   required?: boolean,
 }>(), {
-  modelValue: '',
   hideLabel: false,
   type: 'text',
   placeholder: '',
@@ -21,8 +19,9 @@ withDefaults(defineProps<{
 defineEmits([
   'clear-error',
   'enter',
-  'update:modelValue',
 ])
+
+const model = defineModel<string>()
 </script>
 
 <template>
@@ -46,8 +45,8 @@ defineEmits([
     >
       <input
         :id="name"
+        v-model="model"
         :data-testid="'input-' + name"
-        :value="modelValue"
         :required="required"
         :placeholder="placeholder"
         :type="type"
@@ -60,7 +59,6 @@ defineEmits([
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-brat-500': !error,
         }"
         @input="
-          $emit('update:modelValue', ($event.target as HTMLInputElement)?.value);
           $emit('clear-error', name)
         "
         @keyup.enter="$emit('enter')"
