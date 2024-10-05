@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 
 const props = defineProps<{
-  modelValue: boolean,
   name: string,
   description: string,
   label?: string,
@@ -10,8 +9,9 @@ const props = defineProps<{
 
 defineEmits([
   'clear-error',
-  'update:modelValue',
 ])
+
+const model = defineModel<boolean>()
 
 const displayLabel = computed(
   () => props.label ?? props.name.charAt(0).toUpperCase() + props.name.slice(1),
@@ -23,12 +23,11 @@ const displayLabel = computed(
     <div class="flex items-center h-6">
       <input
         :id="name"
-        :value="modelValue"
+        v-model="model"
         :name="name"
         :data-testid="'input-' + name"
         type="checkbox"
         class="w-4 h-4 border-gray-300 rounded text-brat-500 focus:ring-brat-500"
-        @change="$emit('update:modelValue', !modelValue)"
       >
     </div>
 
@@ -43,7 +42,7 @@ const displayLabel = computed(
       <span
         :id="name +'-description'"
         class="text-gray-500"
-        @click="$emit('update:modelValue', !modelValue)"
+        @click="model = !model"
       >
         <span
           class="sr-only"

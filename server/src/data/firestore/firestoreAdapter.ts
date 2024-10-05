@@ -92,12 +92,10 @@ export default class FirestoreAdapter {
     week: string,
     name: string,
     email: string | undefined,
-    plusOne: boolean,
   ): Promise<void> => {
     await addDoc(this.rsvpCollection, {
       week,
       name,
-      plusOne,
       createdAt: Timestamp.now(),
       email: email || null,
     })

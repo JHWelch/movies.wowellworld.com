@@ -17,14 +17,12 @@ beforeEach(() => {
 const mockBody = ({
   name = 'test name',
   email = 'test@example.com',
-  plusOne = true,
   reminders = false,
 }: {
   name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  plusOne?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
   reminders?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-} = {}) => ({ name, email, plusOne, reminders })
+} = {}) => ({ name, email, reminders })
 
 describe('store', () => {
   let firestoreAdapter: FirestoreAdapter
@@ -58,7 +56,6 @@ describe('store', () => {
           week: '2023-01-01',
           name: 'test name',
           email: 'test@example.com',
-          plusOne: true,
           createdAt: expect.any(Timestamp.constructor),
         },
       )
@@ -74,8 +71,8 @@ describe('store', () => {
           to: 'ADMIN_EMAIL@example.com',
           message: {
             subject: 'TNMC RSVP: test name',
-            text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com\nPlus one: true',
-            html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li><li>Plus one: true</li></ul>',
+            text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com',
+            html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li></ul>',
           },
         },
       )
@@ -101,7 +98,6 @@ describe('store', () => {
               week: '2023-01-01',
               name: 'test name',
               email: 'test@example.com',
-              plusOne: true,
               createdAt: expect.any(Timestamp.constructor),
             },
           )
@@ -139,7 +135,6 @@ describe('store', () => {
               week: '2023-01-01',
               name: 'test name',
               email: 'test@example.com',
-              plusOne: true,
               createdAt: expect.any(Timestamp.constructor),
             },
           )
@@ -177,7 +172,6 @@ describe('store', () => {
               week: '2023-01-01',
               name: 'test name',
               email: 'test@example.com',
-              plusOne: true,
               createdAt: expect.any(Timestamp.constructor),
             },
           )
@@ -221,7 +215,6 @@ describe('store', () => {
             week: '2023-01-01',
             name: 'test name',
             email: null,
-            plusOne: true,
             createdAt: expect.any(Timestamp.constructor),
           },
         )
@@ -237,8 +230,8 @@ describe('store', () => {
             to: 'ADMIN_EMAIL@example.com',
             message: {
               subject: 'TNMC RSVP: test name',
-              text: 'test name has RSVPed for 2023-01-01\n\nEmail: None\nPlus one: true',
-              html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: None</li><li>Plus one: true</li></ul>',
+              text: 'test name has RSVPed for 2023-01-01\n\nEmail: None',
+              html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: None</li></ul>',
             },
           },
         )
@@ -299,36 +292,6 @@ describe('store', () => {
         expect(res.status).toHaveBeenCalledWith(422)
         expect(res.json).toHaveBeenCalledWith({
           errors: { name: 'Required' },
-        })
-      })
-    })
-
-    describe('plusOne is missing', () => {
-      beforeEach(() => {
-        delete req.body.plusOne
-      })
-
-      it('should return a 422', async () => {
-        await new RsvpController(firestoreAdapter).store(req, res)
-
-        expect(res.status).toHaveBeenCalledWith(422)
-        expect(res.json).toHaveBeenCalledWith({
-          errors: { plusOne: 'Required' },
-        })
-      })
-    })
-
-    describe('plusOne is not a boolean', () => {
-      beforeEach(() => {
-        req.body.plusOne = 'invalid'
-      })
-
-      it('should return a 422', async () => {
-        await new RsvpController(firestoreAdapter).store(req, res)
-
-        expect(res.status).toHaveBeenCalledWith(422)
-        expect(res.json).toHaveBeenCalledWith({
-          errors: { plusOne: 'Expected boolean, received string' },
         })
       })
     })
