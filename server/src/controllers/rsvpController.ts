@@ -34,11 +34,7 @@ export default class RsvpController {
 
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
-    await this.firestore.sendEmail(this.firestore.adminEmail, {
-      subject: `TNMC RSVP: ${name}`,
-      text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}\nPlus one: ${plusOne}`,
-      html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li><li>Plus one: ${plusOne}</li></ul>`,
-    })
+    await this.sendAdminEmail(name, weekId, email, plusOne)
   }
 
   private subscribe = async (email: string): Promise<void> => {
@@ -50,6 +46,17 @@ export default class RsvpController {
       return
     }
   }
+
+  private sendAdminEmail = async (
+    name: string,
+    weekId: string,
+    email: string,
+    plusOne: boolean
+  ): Promise<void> => this.firestore.sendEmail(this.firestore.adminEmail, {
+    subject: `TNMC RSVP: ${name}`,
+    text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}\nPlus one: ${plusOne}`,
+    html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li><li>Plus one: ${plusOne}</li></ul>`,
+  })
 
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
