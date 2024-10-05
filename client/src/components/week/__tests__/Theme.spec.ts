@@ -42,7 +42,7 @@ describe('Styled theme', () => {
       props: { week },
     })
 
-    const component = wrapper.find('[data-testid="theme"]')
+    const component = wrapper.byTestId('theme')
     expect(component.exists()).toBe(true)
     expect(component.element.children[0].innerHTML).toBe('The')
     expect(component.element.children[0].classList).toContain('font-bold')
@@ -83,7 +83,7 @@ describe('Week skipped', () => {
         props: { week },
       })
 
-      const component = wrapper.find('[data-testid="theme"]')
+      const component = wrapper.byTestId('theme')
       expect(component.exists()).toBe(true)
       expect(component.element.children[0].innerHTML).toBe('The')
       expect(component.element.children[0].classList).toContain('font-bold')

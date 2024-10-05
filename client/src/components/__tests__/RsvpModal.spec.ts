@@ -23,8 +23,8 @@ describe('name and email already set', () => {
     rsvpModal.open(week)
     const wrapper = mount(RsvpModal)
 
-    expect(wrapper.find('[data-testid="input-name"]').element.value).toEqual('John Doe')
-    expect(wrapper.find('[data-testid="input-email"]').element.value).toEqual('jdoe@example.com')
+    expect(wrapper.byTestId('input-name').element.value).toEqual('John Doe')
+    expect(wrapper.byTestId('input-email').element.value).toEqual('jdoe@example.com')
   })
 })
 
@@ -34,7 +34,7 @@ describe('nothing input', () => {
     rsvpModal.open(week)
     const wrapper = mount(RsvpModal)
 
-    expect(wrapper.find('[data-testid="rsvp-button"]').attributes('disabled')).toBe('')
+    expect(wrapper.byTestId('rsvp-button').attributes('disabled')).toBe('')
   })
 })
 
@@ -44,9 +44,9 @@ describe('only name input', () => {
     rsvpModal.open(week)
     const wrapper = mount(RsvpModal)
 
-    await wrapper.find('[data-testid="input-name"]').setValue('John Doe')
+    await wrapper.byTestId('input-name').setValue('John Doe')
 
-    expect(wrapper.find('[data-testid="rsvp-button"]').attributes('disabled')).toBe(undefined)
+    expect(wrapper.byTestId('rsvp-button').attributes('disabled')).toBe(undefined)
   })
 })
 
@@ -62,10 +62,10 @@ describe('rsvp submit', () => {
     })
     rsvpModal.open(week)
     const wrapper = mount(RsvpModal)
-    await wrapper.find('[data-testid="input-name"]').setValue('John Doe')
-    await wrapper.find('[data-testid="input-email"]').setValue('jdoe@example.com')
+    await wrapper.byTestId('input-name').setValue('John Doe')
+    await wrapper.byTestId('input-email').setValue('jdoe@example.com')
 
-    await wrapper.find('[data-testid="rsvp-button"]').trigger('click')
+    await wrapper.byTestId('rsvp-button').trigger('click')
   })
 
   it('calls api with the correct data', async () => {
