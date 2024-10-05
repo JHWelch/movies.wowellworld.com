@@ -45,6 +45,9 @@ export default class RsvpController {
 
       return
     }
+
+    user.reminders = true
+    await this.firestore.updateUser(user)
   }
 
   private sendAdminEmail = async (

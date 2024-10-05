@@ -1,7 +1,7 @@
 import RsvpController from '@server/controllers/rsvpController'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
-import { Timestamp, addDoc } from 'firebase/firestore'
+import { Timestamp, addDoc, setDoc } from 'firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -112,6 +112,44 @@ describe('store', () => {
 
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('users'),
+            {
+              email: 'test@example.com',
+              reminders: true,
+            },
+          )
+        })
+      })
+
+      describe('user already exists and is unsubscribed', () => {
+        beforeEach(() => {
+          FirebaseMock.mockGetUserByEmail({
+            id: 'id',
+            email: 'test@example.com',
+            reminders: false,
+          })
+        })
+
+        it('submits the form', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(res.status).toHaveBeenCalledWith(201)
+          expect(addDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockCollection('rsvps'),
+            {
+              week: '2023-01-01',
+              name: 'test name',
+              email: 'test@example.com',
+              plusOne: true,
+              createdAt: expect.any(Timestamp.constructor),
+            },
+          )
+        })
+
+        it('updates the user to be subscribed', async () => {
+          await new RsvpController(firestoreAdapter).store(req, res)
+
+          expect(setDoc).toHaveBeenCalledWith(
+            FirebaseMock.mockDoc('users', 'id'),
             {
               email: 'test@example.com',
               reminders: true,
