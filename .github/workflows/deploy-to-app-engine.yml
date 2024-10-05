@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Place .env file
       run: echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
