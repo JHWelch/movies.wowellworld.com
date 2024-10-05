@@ -15,8 +15,8 @@ type RsvpForm = {
 
 const errors = ref<Errors>({})
 const formData = ref<RsvpForm>({
-  name: '',
-  email: '',
+  name: localStorage.getItem('rsvp.name') || '',
+  email: localStorage.getItem('rsvp.email') || '',
   plusOne: false,
 })
 const handleErrors = (data: ErrorBag) => {

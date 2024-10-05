@@ -1,11 +1,32 @@
 /** @vitest-environment jsdom */
 
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import RsvpModal from '@components/RsvpModal.vue'
 import WeekFactory from '@tests/utils/factories/weekFactory'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
+
+afterEach(() => {
+  localStorage.removeItem('rsvp.email')
+  localStorage.removeItem('rsvp.name')
+})
+
+describe('name and email already set', () => {
+  beforeEach(() => {
+    localStorage.setItem('rsvp.email', 'jdoe@example.com')
+    localStorage.setItem('rsvp.name', 'John Doe')
+  })
+
+  it('prefills the name and email fields', () => {
+    const week = new WeekFactory().build()
+    rsvpModal.open(week)
+    const wrapper = mount(RsvpModal)
+
+    expect(wrapper.find('[data-testid="input-name"]').element.value).toEqual('John Doe')
+    expect(wrapper.find('[data-testid="input-email"]').element.value).toEqual('jdoe@example.com')
+  })
+})
 
 describe('nothing input', () => {
   it('disables the submit button', () => {
