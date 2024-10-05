@@ -76,5 +76,5 @@ jobs:
       run: npm test -- run
 
     - name: Test Types
-      working-directory: ./server
+      working-directory: ./client
       run: npm run test:types
