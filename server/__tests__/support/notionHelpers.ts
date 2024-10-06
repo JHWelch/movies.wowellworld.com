@@ -150,7 +150,7 @@ export type QueryBody = {
 
 export type WithAuth<P> = P & {
   auth?: string;
-};
+}
 
 type NotionMovieConstructor = {
   id: string,
