@@ -6,7 +6,7 @@ export class TmdbMock {
     private mockFetch: MockFetch,
   ) {}
 
-  mockSearchMovie (movie: Movie | undefined, id = 1234)  {
+  mockSearchMovie (movie: Movie | undefined, id = 1234) {
     this.mockFetch
       .mockImplementationOnce(async () => new Response(JSON.stringify({
         page: 1,

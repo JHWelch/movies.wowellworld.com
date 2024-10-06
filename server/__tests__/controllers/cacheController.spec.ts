@@ -130,7 +130,7 @@ describe('cacheWeeks', () => {
       ])
     })
 
-    it('updates all weeks in firestore', async () =>  {
+    it('updates all weeks in firestore', async () => {
       await newCacheController().cacheWeeks(req, res)
 
       expect(res.sendStatus).toHaveBeenCalledWith(200)

@@ -33,7 +33,6 @@ export default class RichTextFactory extends Factory<RichText> {
     return this
   }
 
-
   public italic (): RichTextFactory {
     this.state.annotations.italic = true
 

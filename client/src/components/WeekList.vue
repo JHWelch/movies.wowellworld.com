@@ -19,7 +19,7 @@ const error = ref<boolean>(false)
 
 const rsvpWeek = () => new URLSearchParams(window.location.search).get('rsvp')
 
-const reload =  () => {
+const reload = () => {
   loading.value = true
   error.value = false
   fetch(props.fetchUrl)

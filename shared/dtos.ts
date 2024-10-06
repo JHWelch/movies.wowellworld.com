@@ -35,10 +35,10 @@ export type TextStyle = {
 export type RichText = {
   type: 'text',
   text: {
-      content: string;
-      link: {
-          url: string;
-      } | null;
+    content: string;
+    link: {
+      url: string;
+    } | null;
   };
   annotations: TextStyle;
   plain_text: string;

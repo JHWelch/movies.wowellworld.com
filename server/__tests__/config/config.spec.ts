@@ -86,7 +86,6 @@ describe('env missing GOOGLE_CLOUD_PROJECT', () => {
   })
 })
 
-
 describe('env missing ADMIN_EMAIL', () => {
   beforeEach(() => {
     delete process.env.ADMIN_EMAIL
