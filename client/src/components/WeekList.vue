@@ -8,7 +8,7 @@ import { WeekDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
 
 const props = defineProps<{
-  sectionTitles: {[key: number]: string}
+  sectionTitles: { [key: number]: string }
   fetchUrl: string
   showEventDetails: boolean
 }>()
