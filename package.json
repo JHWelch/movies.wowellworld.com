@@ -28,7 +28,7 @@
   "author": "Jordan Welch",
   "license": "MIT",
   "devDependencies": {
-    "@jhwelch/eslint-config": "^1.0.1",
+    "@jhwelch/eslint-config": "^2.0.0",
     "concurrently": "^9.0.1",
     "eslint": "^9.9.1",
     "mjml": "^4.14.1"
