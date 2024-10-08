@@ -21,11 +21,22 @@ describe('totalLength', () => {
   it('can get total length with no times', () => {
     const week = new WeekFactory().make({
       movies: [
-        new MovieFactory().make({ length: 90 }),
-        new MovieFactory().make({ length: 120 }),
+        new MovieFactory().make({ length: 90, time: null }),
+        new MovieFactory().make({ length: 120, time: null }),
       ],
     })
 
     expect(week.totalLength).toEqual(90 + 120 + 15)
+  })
+
+  it('can get total length with times on all', () => {
+    const week = new WeekFactory().make({
+      movies: [
+        new MovieFactory().make({ time: '6:00 PM', length: 60 }),
+        new MovieFactory().make({ time: '8:00 PM', length: 120 }),
+      ],
+    })
+
+    expect(week.totalLength).toEqual(240)
   })
 })
