@@ -191,23 +191,15 @@ export default class FirestoreAdapter {
   }
   updateTemplates = async (templates: {
     name: string,
-    subject: string,
-    html: string,
+    data: Record<string, unknown>,
   }[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
-      templates.forEach((template: {
-        name: string,
-        subject: string,
-        html: string,
-      }) => {
+      templates.forEach((template) => {
         transaction.set(doc(
           this.firestore,
           this.templatesCollectionName,
           template.name,
-        ), {
-          subject: template.subject,
-          html: template.html,
-        })
+        ), template.data)
       })
     })
   }
