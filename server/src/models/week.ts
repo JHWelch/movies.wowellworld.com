@@ -126,8 +126,10 @@ export class Week {
       .findIndex((movie) => movie.time)
 
     if (firstTimeIndex === -1 || lastTimeIndex === -1) {
+      const breaks = (this.movies.length - 1) * 15
+
       return this.movies
-        .reduce((total, movie) => (movie.length ?? 0) + total, 15)
+        .reduce((total, movie) => (movie.length ?? 0) + total, 0) + breaks
     }
 
     const firstTime = timeStringAsMinutes(this.movies[firstTimeIndex].time ?? '')
