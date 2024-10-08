@@ -32,8 +32,5 @@
     "concurrently": "^9.0.1",
     "eslint": "^9.9.1",
     "mjml": "^4.14.1"
-  },
-  "dependencies": {
-    "ics": "^3.8.1"
   }
 }
