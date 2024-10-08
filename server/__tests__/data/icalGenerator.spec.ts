@@ -13,13 +13,13 @@ it('can generate an ical file from a week', () => {
 
   }).make()
   week.movies = [
-    new MovieFactory({
+    new MovieFactory().make({
       time: '6:00 PM',
       length: 105,
-    }).make(),
-    new MovieFactory({
+    }),
+    new MovieFactory().make({
       time: '8:00 PM',
-    }).make(),
+    }),
   ]
 
   expect(icalGenerator(week)).toMatchSnapshot()
