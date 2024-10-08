@@ -156,7 +156,7 @@ describe('store', () => {
                 year: '1999',
                 time: '8:00 PM',
               }],
-              // ics: icalGenerator(this.week),
+              ics: icalGenerator(week),
             },
           },
         },

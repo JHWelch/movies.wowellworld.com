@@ -6,6 +6,10 @@ export default {
     }, {
       name: 'rsvpConfirmation',
       subject: 'Thanks for RSVPing to {{ theme }}',
+      attachments: [{
+        filename: 'invite.ics',
+        content: '{{ ics }}',
+      }],
     },
   ],
 }
