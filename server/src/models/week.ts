@@ -135,8 +135,10 @@ export class Week {
     const firstTime = timeStringAsMinutes(this.movies[firstTimeIndex].time ?? '')
     const lastTime = timeStringAsMinutes(this.movies[lastTimeIndex].time ?? '')
 
-    return lastTime - firstTime + this.movies
-      .slice(lastTimeIndex)
+    const moviesPostTime = this.movies.slice(lastTimeIndex)
+    const breaks = (moviesPostTime.length - 1) * 15
+
+    return lastTime - firstTime + breaks + moviesPostTime
       .reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 }
