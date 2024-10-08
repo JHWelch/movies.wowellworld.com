@@ -2,6 +2,8 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '@server/helpers/validation'
+import { Week } from '@server/models/week'
+import { icalGenerator } from '@server/data/icalGenerator'
 
 export default class RsvpController {
   static PATHS = {
@@ -28,13 +30,16 @@ export default class RsvpController {
 
     await this.firestore.createRsvp(weekId, name, email)
 
-    if (reminders) {
+    if (reminders && email) {
       await this.subscribe(email)
     }
 
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
-    await this.sendAdminEmail(name, weekId, email)
+    await Promise.all([
+      this.sendAdminEmail(name, weekId, email),
+      this.sendConfirmation(week, email),
+    ])
   }
 
   private subscribe = async (email: string): Promise<void> => {
@@ -63,6 +68,30 @@ export default class RsvpController {
     text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}`,
     html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li></ul>`,
   })
+
+  private sendConfirmation = async (
+    week: Week,
+    email: string | undefined,
+  ): Promise<void> => {
+    if (!email) {
+      return
+    }
+
+    const movies = week.movies.map((movie) => ({
+      title: movie.title,
+      time: movie.time,
+      year: movie.year?.toString(),
+      posterPath: movie.emailPosterUrl(),
+    }))
+
+    await this.firestore.sendEmailTemplate(email, 'rsvpConfirmation', {
+      date: week.displayDate(),
+      theme: week.theme,
+      weekId: week.dateString,
+      movies: movies,
+      ics: icalGenerator(week),
+    })
+  }
 
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({

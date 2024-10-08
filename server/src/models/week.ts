@@ -7,6 +7,7 @@ import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { RichText, WeekDto } from '@shared/dtos'
+import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 
 export type WeekConstructor = {
   id: string,
@@ -115,5 +116,29 @@ export class Week {
 
   get isPast (): boolean {
     return this.date < new Date()
+  }
+
+  get totalLength (): number {
+    const firstTimeIndex = this.movies.findIndex((movie) => movie.time)
+    const lastTimeIndex = this.movies.length - 1 - this.movies
+      .slice()
+      .reverse()
+      .findIndex((movie) => movie.time)
+
+    if (firstTimeIndex === -1 || lastTimeIndex === -1) {
+      const breaks = (this.movies.length - 1) * 15
+
+      return this.movies
+        .reduce((total, movie) => (movie.length ?? 0) + total, 0) + breaks
+    }
+
+    const firstTime = timeStringAsMinutes(this.movies[firstTimeIndex].time ?? '')
+    const lastTime = timeStringAsMinutes(this.movies[lastTimeIndex].time ?? '')
+
+    const moviesPostTime = this.movies.slice(lastTimeIndex)
+    const breaks = (moviesPostTime.length - 1) * 15
+
+    return lastTime - firstTime + breaks + moviesPostTime
+      .reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 }

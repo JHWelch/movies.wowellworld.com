@@ -6,6 +6,11 @@ import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { icalGenerator } from '@server/data/icalGenerator'
+import { Week } from '@server/models/week'
+import WeekFactory from '@tests/support/factories/weekFactory'
+import MovieFactory from '@tests/support/factories/movieFactory'
 
 const { res, mockClear } = getMockRes()
 
@@ -27,6 +32,7 @@ const mockBody = ({
 describe('store', () => {
   let firestoreAdapter: FirestoreAdapter
   let req: Request
+  let week: Week
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
@@ -34,14 +40,61 @@ describe('store', () => {
 
   describe('has correct week', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        date: new Date('2023-01-01'),
-        id: 'id1',
-        isSkipped: false,
+      week = new WeekFactory().make({
+        date: new Date('2021-01-01'),
         theme: 'theme1',
       })
+      week.movies = [
+        new MovieFactory().make({
+          director: 'director1',
+          length: 100,
+          notionId: 'notion-id1',
+          posterPath: '/poster1.png',
+          showingUrl: null,
+          theaterName: null,
+          time: '6:00 PM',
+          title: 'movie1',
+          tmdbId: 1,
+          url: 'https://example.com',
+          year: 2021,
+        }),
+        new MovieFactory().make({
+          director: 'director2',
+          length: 200,
+          notionId: 'notion-id2',
+          posterPath: '/poster2.jpg',
+          showingUrl: null,
+          theaterName: null,
+          time: '8:00 PM',
+          title: 'movie2',
+          tmdbId: 2,
+          url: 'https://example.com',
+          year: 1999,
+        }),
+      ]
+
+      FirebaseMock.mockGetWeek({
+        date: week.date,
+        id: week.id,
+        isSkipped: week.isSkipped,
+        theme: week.theme,
+        slug: week.slug,
+        movies:  week.movies.map(movie => ({
+          director: movie.director ?? '',
+          length: movie.length ?? 0,
+          notionId: movie.notionId ?? '',
+          posterPath: movie.posterPath ?? '',
+          showingUrl: movie.showingUrl,
+          theaterName: movie.theaterName,
+          time: movie.time,
+          title: movie.title,
+          tmdbId: movie.tmdbId,
+          url: movie.url,
+          year: movie.year,
+        })),
+      })
       req = getMockReq({
-        params: { weekId: '2023-01-01' },
+        params: { weekId: '2021-01-01' },
         body: mockBody(),
       })
     })
@@ -53,7 +106,7 @@ describe('store', () => {
       expect(addDoc).toHaveBeenCalledWith(
         FirebaseMock.mockCollection('rsvps'),
         {
-          week: '2023-01-01',
+          week: '2021-01-01',
           name: 'test name',
           email: 'test@example.com',
           createdAt: expect.any(Timestamp.constructor),
@@ -71,8 +124,40 @@ describe('store', () => {
           to: 'ADMIN_EMAIL@example.com',
           message: {
             subject: 'TNMC RSVP: test name',
-            text: 'test name has RSVPed for 2023-01-01\n\nEmail: test@example.com',
-            html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: test@example.com</li></ul>',
+            text: 'test name has RSVPed for 2021-01-01\n\nEmail: test@example.com',
+            html: '<p>test name has RSVPed for 2021-01-01<p><ul><li>Email: test@example.com</li></ul>',
+          },
+        },
+      )
+    })
+
+    it('sends a confirmation email to the user', async () => {
+      await new RsvpController(firestoreAdapter).store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(201)
+      expect(addDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockCollection('mail'),
+        {
+          to: 'test@example.com',
+          template: {
+            name: 'rsvpConfirmation',
+            data: {
+              date: 'Friday, January 1',
+              theme: 'theme1',
+              weekId: '2021-01-01',
+              movies: [{
+                title: 'movie1',
+                posterPath: TMDB_POSTER_URL + '300/poster1.png',
+                year: '2021',
+                time: '6:00 PM',
+              }, {
+                title: 'movie2',
+                posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
+                year: '1999',
+                time: '8:00 PM',
+              }],
+              ics: icalGenerator(week),
+            },
           },
         },
       )
@@ -95,7 +180,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2023-01-01',
+              week: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -132,7 +217,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2023-01-01',
+              week: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -169,7 +254,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2023-01-01',
+              week: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -212,7 +297,7 @@ describe('store', () => {
         expect(addDoc).toHaveBeenCalledWith(
           FirebaseMock.mockCollection('rsvps'),
           {
-            week: '2023-01-01',
+            week: '2021-01-01',
             name: 'test name',
             email: null,
             createdAt: expect.any(Timestamp.constructor),
@@ -230,11 +315,18 @@ describe('store', () => {
             to: 'ADMIN_EMAIL@example.com',
             message: {
               subject: 'TNMC RSVP: test name',
-              text: 'test name has RSVPed for 2023-01-01\n\nEmail: None',
-              html: '<p>test name has RSVPed for 2023-01-01<p><ul><li>Email: None</li></ul>',
+              text: 'test name has RSVPed for 2021-01-01\n\nEmail: None',
+              html: '<p>test name has RSVPed for 2021-01-01<p><ul><li>Email: None</li></ul>',
             },
           },
         )
+      })
+
+      it('does not send an email to the user', async () => {
+        await new RsvpController(firestoreAdapter).store(req, res)
+
+        expect(res.status).toHaveBeenCalledWith(201)
+        expect(addDoc).toHaveBeenCalledTimes(2) // rsvp and admin email
       })
 
       describe('reminders is selected', () => {
@@ -301,7 +393,7 @@ describe('store', () => {
     beforeEach(() => {
       FirebaseMock.mockGetWeek()
       req = getMockReq({
-        params: { weekId: '2023-01-01' },
+        params: { weekId: '2021-01-01' },
         body: mockBody(),
       })
     })
@@ -311,7 +403,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(404)
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Week 2023-01-01 not found',
+        message: 'Week 2021-01-01 not found',
       })
     })
   })

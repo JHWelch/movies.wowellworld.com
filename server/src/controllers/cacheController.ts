@@ -49,8 +49,11 @@ export default class CacheController {
 
   cacheEmailTemplates = async (_req: Request, res: Response): Promise<void> => {
     this.firestore.updateTemplates(emails.templates.map(email => ({
-      ...email,
-      html: this.getHtml(email.name),
+      name: email.name,
+      data: {
+        ...email.data,
+        html: this.getHtml(email.name),
+      },
     })))
 
     res.sendStatus(200)

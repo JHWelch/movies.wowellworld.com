@@ -616,12 +616,16 @@ describe('updateTemplates', () => {
     await firestore.updateTemplates([
       {
         name: 'templateId',
-        subject: 'new subject',
-        html: 'new html',
+        data: {
+          subject: 'new subject',
+          html: 'new html',
+        },
       }, {
         name: 'templateId2',
-        subject: 'new subject 2',
-        html: 'new html 2',
+        data: {
+          subject: 'new subject 2',
+          html: 'new html 2',
+        },
       },
     ])
 
