@@ -116,4 +116,8 @@ export class Week {
   get isPast (): boolean {
     return this.date < new Date()
   }
+
+  get totalLength (): number {
+    return this.movies.reduce((total, movie) => (movie.length ?? 0) + total, 15)
+  }
 }
