@@ -7,6 +7,10 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { icalGenerator } from '@server/data/icalGenerator'
+import { Week } from '@server/models/week'
+import WeekFactory from '@tests/support/factories/weekFactory'
+import MovieFactory from '@tests/support/factories/movieFactory'
 
 const { res, mockClear } = getMockRes()
 
@@ -28,6 +32,7 @@ const mockBody = ({
 describe('store', () => {
   let firestoreAdapter: FirestoreAdapter
   let req: Request
+  let week: Week
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
@@ -35,13 +40,12 @@ describe('store', () => {
 
   describe('has correct week', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
+      week = new WeekFactory().make({
         date: new Date('2021-01-01'),
-        id: 'week-id1',
-        isSkipped: false,
         theme: 'theme1',
-        slug: null,
-        movies: [{
+      })
+      week.movies = [
+        new MovieFactory().make({
           director: 'director1',
           length: 100,
           notionId: 'notion-id1',
@@ -53,7 +57,8 @@ describe('store', () => {
           tmdbId: 1,
           url: 'https://example.com',
           year: 2021,
-        }, {
+        }),
+        new MovieFactory().make({
           director: 'director2',
           length: 200,
           notionId: 'notion-id2',
@@ -65,7 +70,28 @@ describe('store', () => {
           tmdbId: 2,
           url: 'https://example.com',
           year: 1999,
-        }],
+        }),
+      ]
+
+      FirebaseMock.mockGetWeek({
+        date: week.date,
+        id: week.id,
+        isSkipped: week.isSkipped,
+        theme: week.theme,
+        slug: week.slug,
+        movies:  week.movies.map(movie => ({
+          director: movie.director ?? '',
+          length: movie.length ?? 0,
+          notionId: movie.notionId ?? '',
+          posterPath: movie.posterPath ?? '',
+          showingUrl: movie.showingUrl,
+          theaterName: movie.theaterName,
+          time: movie.time,
+          title: movie.title,
+          tmdbId: movie.tmdbId,
+          url: movie.url,
+          year: movie.year,
+        })),
       })
       req = getMockReq({
         params: { weekId: '2021-01-01' },
@@ -130,6 +156,7 @@ describe('store', () => {
                 year: '1999',
                 time: '8:00 PM',
               }],
+              // ics: icalGenerator(this.week),
             },
           },
         },
