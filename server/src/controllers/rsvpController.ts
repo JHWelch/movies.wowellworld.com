@@ -37,7 +37,7 @@ export default class RsvpController {
 
     await Promise.all([
       this.sendAdminEmail(name, weekId, email),
-      this.sendConfirmation(week, email),
+      // this.sendConfirmation(week, email),
     ])
   }
 

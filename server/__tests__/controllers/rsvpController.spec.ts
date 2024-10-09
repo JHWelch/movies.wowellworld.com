@@ -6,7 +6,6 @@ import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
-import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
@@ -130,36 +129,36 @@ describe('store', () => {
       )
     })
 
-    it('sends a confirmation email to the user', async () => {
-      await new RsvpController(firestoreAdapter).store(req, res)
+    // it('sends a confirmation email to the user', async () => {
+    //   await new RsvpController(firestoreAdapter).store(req, res)
 
-      expect(res.status).toHaveBeenCalledWith(201)
-      expect(addDoc).toHaveBeenCalledWith(
-        FirebaseMock.mockCollection('mail'),
-        {
-          to: 'test@example.com',
-          template: {
-            name: 'rsvpConfirmation',
-            data: {
-              date: 'Friday, January 1',
-              theme: 'theme1',
-              weekId: '2021-01-01',
-              movies: [{
-                title: 'movie1',
-                posterPath: TMDB_POSTER_URL + '300/poster1.png',
-                year: '2021',
-                time: '6:00 PM',
-              }, {
-                title: 'movie2',
-                posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
-                year: '1999',
-                time: '8:00 PM',
-              }],
-            },
-          },
-        },
-      )
-    })
+    //   expect(res.status).toHaveBeenCalledWith(201)
+    //   expect(addDoc).toHaveBeenCalledWith(
+    //     FirebaseMock.mockCollection('mail'),
+    //     {
+    //       to: 'test@example.com',
+    //       template: {
+    //         name: 'rsvpConfirmation',
+    //         data: {
+    //           date: 'Friday, January 1',
+    //           theme: 'theme1',
+    //           weekId: '2021-01-01',
+    //           movies: [{
+    //             title: 'movie1',
+    //             posterPath: TMDB_POSTER_URL + '300/poster1.png',
+    //             year: '2021',
+    //             time: '6:00 PM',
+    //           }, {
+    //             title: 'movie2',
+    //             posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
+    //             year: '1999',
+    //             time: '8:00 PM',
+    //           }],
+    //         },
+    //       },
+    //     },
+    //   )
+    // })
 
     describe('reminders are enabled', () => {
       beforeEach(() => {
