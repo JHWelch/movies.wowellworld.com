@@ -9,6 +9,7 @@ import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { RichText, WeekDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { DateTime } from 'luxon'
+import { CHICAGO, TZ } from '@server/config/tz'
 
 export type WeekConstructor = {
   id: string,
@@ -23,7 +24,7 @@ export type WeekConstructor = {
 export class Week {
   public id: string = ''
   public theme: string = ''
-  public date: DateTime = DateTime.now()
+  public date: DateTime = DateTime.now().setZone(CHICAGO)
   public styledTheme: RichText[] = []
   public isSkipped: boolean = false
   public slug: string | null = null
@@ -47,7 +48,7 @@ export class Week {
     return new Week({
       id: record.id,
       theme: properties.Theme.title[0].plain_text,
-      date: DateTime.fromISO(properties.Date.date.start, { zone: 'America/Chicago' }),
+      date: DateTime.fromISO(properties.Date.date.start, TZ),
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
       styledTheme: properties['Styled Theme']?.rich_text,
@@ -58,7 +59,7 @@ export class Week {
     return new Week({
       id: record.id,
       theme: record.theme,
-      date: DateTime.fromJSDate(record.date.toDate()),
+      date: DateTime.fromJSDate(record.date.toDate(), TZ),
       isSkipped: record.isSkipped,
       slug: record.slug,
       styledTheme: record.styledTheme,

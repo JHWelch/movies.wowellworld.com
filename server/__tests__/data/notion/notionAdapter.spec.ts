@@ -12,6 +12,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 let notionMock: NotionMock
 
@@ -92,7 +93,7 @@ describe('getWeek', () => {
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toEqual({
-        date: DateTime.fromISO('2021-01-01', { zone: 'America/Chicago' }),
+        date: DateTime.fromISO('2021-01-01', TZ),
         id: 'weekId',
         isSkipped: false,
         slug: null,
@@ -185,7 +186,7 @@ describe('getWeeks', () => {
     expect(weeks).toEqual([
       {
         id: 'weekId3',
-        date: DateTime.fromISO('2021-01-15', { zone: 'America/Chicago' }),
+        date: DateTime.fromISO('2021-01-15', TZ),
         isSkipped: false,
         slug: null,
         movies: [],
@@ -193,7 +194,7 @@ describe('getWeeks', () => {
         styledTheme: [],
       }, {
         id: 'weekId2',
-        date: DateTime.fromISO('2021-01-08', { zone: 'America/Chicago' }),
+        date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
         slug: null,
         movies: [],
@@ -201,7 +202,7 @@ describe('getWeeks', () => {
         styledTheme: [],
       }, {
         id: 'weekId1',
-        date: DateTime.fromISO('2021-01-01', { zone: 'America/Chicago' }),
+        date: DateTime.fromISO('2021-01-01', TZ),
         isSkipped: false,
         slug: 'weekSlug',
         movies: [],
