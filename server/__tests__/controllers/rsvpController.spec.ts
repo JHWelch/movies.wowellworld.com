@@ -9,6 +9,7 @@ import { Request } from 'express'
 import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import { DateTime } from 'luxon'
 
 const { res, mockClear } = getMockRes()
 
@@ -39,7 +40,7 @@ describe('store', () => {
   describe('has correct week', () => {
     beforeEach(() => {
       week = new WeekFactory().make({
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01'),
         theme: 'theme1',
       })
       week.movies = [

@@ -5,7 +5,7 @@ import * as ics from 'ics'
 export const icalGenerator = (week: Week): string | undefined => {
   const { error, value } = ics.createEvent({
     uid: week.dateString + '@movies.wowellworld.com',
-    start: week.date.getTime(),
+    start: week.date.toJSDate().getTime(),
     duration: { minutes: week.totalLength },
     title: week.theme,
     description: 'Come one, come all (okay maybe not all) to the Welch-Cowell/Cowell-Welch/Wowell household for a recurring Thursday Night Movie Club!',
@@ -13,7 +13,10 @@ export const icalGenerator = (week: Week): string | undefined => {
     url: 'https://movies.wowellworld.com/',
     status: 'CONFIRMED',
     busyStatus: 'BUSY',
-    organizer: { name: 'Rachel & Jordan', email: 'fam@wowellworld.com' },
+    organizer: {
+      name: 'Rachel & Jordan',
+      email: 'fam@wowellworld.com',
+    },
   })
 
   if (error) {

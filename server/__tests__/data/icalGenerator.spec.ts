@@ -9,9 +9,7 @@ beforeEach(() => {
 })
 
 it('can generate an ical file from a week', () => {
-  const week = new WeekFactory({
-
-  }).make()
+  const week = new WeekFactory().make()
   week.movies = [
     new MovieFactory().make({
       time: '6:00 PM',

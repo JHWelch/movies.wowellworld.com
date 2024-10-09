@@ -8,11 +8,12 @@ import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { RichText, WeekDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
+import { DateTime } from 'luxon'
 
 export type WeekConstructor = {
   id: string,
   theme: string,
-  date: Date,
+  date: DateTime,
   styledTheme?: RichText[],
   isSkipped?: boolean,
   slug?: string | null,
@@ -22,7 +23,7 @@ export type WeekConstructor = {
 export class Week {
   public id: string = ''
   public theme: string = ''
-  public date: Date = new Date()
+  public date: DateTime = DateTime.now()
   public styledTheme: RichText[] = []
   public isSkipped: boolean = false
   public slug: string | null = null
@@ -46,7 +47,7 @@ export class Week {
     return new Week({
       id: record.id,
       theme: properties.Theme.title[0].plain_text,
-      date: new Date(properties.Date.date.start),
+      date: DateTime.fromISO(properties.Date.date.start, { zone: 'America/Chicago' }),
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
       styledTheme: properties['Styled Theme']?.rich_text,
@@ -57,7 +58,7 @@ export class Week {
     return new Week({
       id: record.id,
       theme: record.theme,
-      date: record.date.toDate(),
+      date: DateTime.fromJSDate(record.date.toDate()),
       isSkipped: record.isSkipped,
       slug: record.slug,
       styledTheme: record.styledTheme,
@@ -67,12 +68,7 @@ export class Week {
   }
 
   displayDate (): string {
-    return this.date.toLocaleDateString('en-US', {
-      timeZone: 'UTC',
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-    })
+    return this.date.toFormat('EEEE, LLLL d')
   }
 
   setMovies (movies: Movie[]): Week {
@@ -102,7 +98,7 @@ export class Week {
     return {
       id: this.id,
       theme: this.theme,
-      date: Timestamp.fromDate(this.date),
+      date: Timestamp.fromDate(this.date.toJSDate()),
       movies: this.movies.map((movie) => movie.toFirebaseDTO()),
       slug: this.slug,
       isSkipped: this.isSkipped,
@@ -111,11 +107,11 @@ export class Week {
   }
 
   get dateString (): string {
-    return this.date.toISOString().substring(0, 10)
+    return this.date.toISODate() ?? ''
   }
 
   get isPast (): boolean {
-    return this.date < new Date()
+    return this.date < DateTime.now()
   }
 
   get totalLength (): number {
@@ -141,4 +137,17 @@ export class Week {
     return lastTime - firstTime + breaks + moviesPostTime
       .reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
+
+  // get startTime (): number {
+  //   const firstTime = this.movies.find((movie) => movie.time)
+
+  //   const minutes = timeStringAsMinutes(firstTime?.time ?? '6:00 PM')
+
+  //   console.log(this.date)
+
+  //   return DateTime.fromJSDate(this.date)
+  //     .setZone('America/Chicago', { keepLocalTime: true })
+  //     .plus({ minutes })
+  //     .toUnixInteger()
+  // }
 }

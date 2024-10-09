@@ -9,6 +9,7 @@ import { icalGenerator } from '@server/data/icalGenerator'
 import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import { DateTime } from 'luxon'
 
 const { res, mockClear } = getMockRes()
 
@@ -29,7 +30,7 @@ describe('show', () => {
   describe('has correct week', () => {
     beforeEach(() => {
       week = new WeekFactory().make({
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01'),
       })
       week.movies = [
         new MovieFactory().make(),
