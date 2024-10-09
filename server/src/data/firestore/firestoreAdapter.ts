@@ -23,6 +23,8 @@ import setupFirestore from '@server/config/firestore'
 import Config from '@server/config/config'
 import User from '@server/models/user'
 import { randomUUID } from 'crypto'
+import { DateTime } from 'luxon'
+import { CHICAGO } from '@server/config/tz'
 
 export default class FirestoreAdapter {
   static readonly MAIL_COLLECTION_NAME = 'mail'
@@ -205,14 +207,9 @@ export default class FirestoreAdapter {
   }
 
   today = (): Timestamp => {
-    const today = new Date()
-    const todayUtc = new Date(Date.UTC(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate(),
-    ))
-
-    return Timestamp.fromDate(todayUtc)
+    return Timestamp.fromDate(
+      DateTime.now().setZone(CHICAGO).startOf('day').toJSDate()
+    )
   }
 
   get adminEmail (): string {
