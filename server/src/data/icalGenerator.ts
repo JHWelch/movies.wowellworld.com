@@ -7,7 +7,7 @@ export const icalGenerator = (week: Week): string | undefined => {
     uid: week.dateString + '@movies.wowellworld.com',
     start: week.startTime.toJSDate().getTime(),
     duration: { minutes: week.totalLength },
-    title: week.theme,
+    title: 'Movie Nights: ' + week.theme,
     description: 'Come one, come all (okay maybe not all) to the Welch-Cowell/Cowell-Welch/Wowell household for a recurring Thursday Night Movie Club!',
     location: '2111 W Argyle St. Chicago, IL 60625',
     url: 'https://movies.wowellworld.com/',
