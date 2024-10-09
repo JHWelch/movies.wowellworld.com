@@ -11,6 +11,7 @@ import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { TZ } from '@server/config/tz'
 
 const { res, mockClear } = getMockRes()
 
@@ -41,7 +42,7 @@ describe('store', () => {
   describe('has correct week', () => {
     beforeEach(() => {
       week = new WeekFactory().make({
-        date: DateTime.fromISO('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         theme: 'theme1',
       })
       week.movies = [

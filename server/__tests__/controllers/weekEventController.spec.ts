@@ -10,6 +10,7 @@ import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 const { res, mockClear } = getMockRes()
 
@@ -30,7 +31,7 @@ describe('show', () => {
   describe('has correct week', () => {
     beforeEach(() => {
       week = new WeekFactory().make({
-        date: DateTime.fromISO('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
       })
       week.movies = [
         new MovieFactory().make(),

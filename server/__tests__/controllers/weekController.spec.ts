@@ -13,6 +13,7 @@ import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 const { res, mockClear } = getMockRes()
 
@@ -36,19 +37,19 @@ describe('index', () => {
       firestore = new FirestoreAdapter(mockConfig())
       FirebaseMock.mockWeeks([
         {
-          date: DateTime.fromISO('2021-01-01'),
+          date: DateTime.fromISO('2021-01-01', TZ),
           id: 'id1',
           isSkipped: false,
           slug: null,
           theme: 'theme1',
         }, {
-          date: DateTime.fromISO('2021-01-08'),
+          date: DateTime.fromISO('2021-01-08', TZ),
           id: 'id2',
           isSkipped: false,
           slug: null,
           theme: 'theme2',
         }, {
-          date: DateTime.fromISO('2021-01-15'),
+          date: DateTime.fromISO('2021-01-15', TZ),
           id: 'id3',
           isSkipped: false,
           slug: null,
@@ -102,19 +103,19 @@ describe('index', () => {
       firestore = new FirestoreAdapter(mockConfig())
       FirebaseMock.mockWeeks([
         {
-          date: DateTime.fromISO('2021-01-01'),
+          date: DateTime.fromISO('2021-01-01', TZ),
           id: 'id1',
           isSkipped: false,
           theme: 'theme1',
           slug: 'slug1',
         }, {
-          date: DateTime.fromISO('2021-01-08'),
+          date: DateTime.fromISO('2021-01-08', TZ),
           id: 'id2',
           isSkipped: false,
           theme: 'theme2',
           slug: null,
         }, {
-          date: DateTime.fromISO('2021-01-15'),
+          date: DateTime.fromISO('2021-01-15', TZ),
           id: 'id3',
           isSkipped: true,
           theme: 'theme3',

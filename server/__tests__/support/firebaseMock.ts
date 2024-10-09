@@ -10,6 +10,7 @@ import { Week } from '@server/models/week'
 import { Movie } from '@server/models/movie'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
@@ -86,7 +87,7 @@ export class FirebaseMock {
       theme: week.theme,
       date: week.date instanceof Date
         ? DateTime.fromJSDate(week.date)
-        : DateTime.fromISO(week.date),
+        : DateTime.fromISO(week.date, TZ),
       movies: week.movies ?? [],
       isSkipped: week.isSkipped ?? false,
       slug: week.slug ?? null,

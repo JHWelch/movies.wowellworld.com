@@ -10,6 +10,7 @@ import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import Config from '@server/config/config'
 import { getDocs } from 'firebase/firestore'
 import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 const { res, mockClear } = getMockRes()
 
@@ -33,7 +34,7 @@ describe('reminders', () => {
   describe('there is an event tomorrow', () => {
     beforeEach(() => {
       FirebaseMock.mockGetWeek({
-        date: DateTime.fromISO('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         id: 'week-id1',
         isSkipped: false,
         theme: 'theme1',
@@ -160,7 +161,7 @@ describe('reminders', () => {
       FirebaseMock.mockGetWeek({
         id: 'week-id1',
         theme: 'theme1',
-        date: DateTime.fromISO('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         slug: null,
         isSkipped: true,
       })
