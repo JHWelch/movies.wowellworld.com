@@ -77,18 +77,18 @@ describe('totalLength', () => {
   })
 })
 
-// describe('startTime', () => {
-//   describe('with start time', () => {
-//     it('returns the start time', () => {
-//       const week = new WeekFactory().make({
-//         movies: [
-//           new MovieFactory().make({ length: 105, time: '6:00 PM' }),
-//           new MovieFactory().make({ length: 120, time: '8:00 PM' }),
-//         ],
-//       })
+describe('startTime', () => {
+  describe('with start time', () => {
+    it('returns the start time', () => {
+      const week = new WeekFactory().make({
+        date: DateTime.fromISO('2021-09-13'),
+        movies: [
+          new MovieFactory().make({ length: 105, time: '6:00 PM' }),
+          new MovieFactory().make({ length: 120, time: '8:00 PM' }),
+        ],
+      })
 
-//       expect(week.startTime)
-//         .toEqual(new Date('2021-09-13T18:00:00+06:00').getTime())
-//     })
-//   })
-// })
+      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T18:00:00'))
+    })
+  })
+})

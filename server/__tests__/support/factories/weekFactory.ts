@@ -8,7 +8,7 @@ export default class WeekFactory extends Factory<Week, WeekConstructor> {
   protected _state = {
     id: 'id',
     theme: 'theme',
-    date: DateTime.fromISO('2021-09-13'),
+    date: DateTime.fromISO('2021-09-13', { zone: 'utc' }),
     isSkipped: false,
     slug: null,
     movies: [],

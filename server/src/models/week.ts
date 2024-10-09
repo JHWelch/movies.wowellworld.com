@@ -139,16 +139,11 @@ export class Week {
       .reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 
-  // get startTime (): number {
-  //   const firstTime = this.movies.find((movie) => movie.time)
+  get startTime (): DateTime {
+    const firstTime = this.movies.find((movie) => movie.time)
 
-  //   const minutes = timeStringAsMinutes(firstTime?.time ?? '6:00 PM')
+    const minutes = timeStringAsMinutes(firstTime?.time ?? '6:00 PM')
 
-  //   console.log(this.date)
-
-  //   return DateTime.fromJSDate(this.date)
-  //     .setZone('America/Chicago', { keepLocalTime: true })
-  //     .plus({ minutes })
-  //     .toUnixInteger()
-  // }
+    return this.date.plus({ minutes })
+  }
 }
