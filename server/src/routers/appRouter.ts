@@ -13,6 +13,7 @@ import { parseManifest } from '@server/config/vite'
 import { HttpVerb, Route, registerRoutes } from '@server/routers/routes'
 import SubscriptionController from '@server/controllers/subscriptionController'
 import { CronController } from '@server/controllers/cronController'
+import WeekEventController from '@server/controllers/weekEventController'
 
 export default function createAppRouter (
   config: Config,
@@ -51,6 +52,7 @@ function routes (
   const subscriptionController = new SubscriptionController(firestore)
   const suggestionController = new SuggestionController(notion)
   const weekController = new WeekController(firestore)
+  const weekEventController = new WeekEventController(firestore)
 
   return [
     new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
@@ -80,5 +82,6 @@ function routes (
       subscriptionController.destroy,
     ),
     new Route(CronController.PATHS.reminders, cronController.reminders),
+    new Route(WeekEventController.PATHS.show, weekEventController.show),
   ]
 }

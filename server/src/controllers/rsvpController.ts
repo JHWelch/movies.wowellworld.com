@@ -3,7 +3,6 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '@server/helpers/validation'
 import { Week } from '@server/models/week'
-import { icalGenerator } from '@server/data/icalGenerator'
 
 export default class RsvpController {
   static PATHS = {
@@ -89,7 +88,6 @@ export default class RsvpController {
       theme: week.theme,
       weekId: week.dateString,
       movies: movies,
-      ics: icalGenerator(week),
     })
   }
 

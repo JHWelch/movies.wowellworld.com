@@ -7,7 +7,6 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
-import { icalGenerator } from '@server/data/icalGenerator'
 import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
@@ -156,7 +155,6 @@ describe('store', () => {
                 year: '1999',
                 time: '8:00 PM',
               }],
-              ics: icalGenerator(week),
             },
           },
         },
