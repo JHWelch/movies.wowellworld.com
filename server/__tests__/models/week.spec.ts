@@ -2,13 +2,14 @@ import { it, describe, expect, beforeEach } from '@jest/globals'
 import { Week } from '@server/models/week'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import WeekFactory from '@tests/support/factories/weekFactory'
+import { DateTime } from 'luxon'
 
 describe('dateString', () => {
   let week: Week
 
   beforeEach(() => {
     week = new WeekFactory().make({
-      date: new Date('2021-09-13'),
+      date: DateTime.fromISO('2021-09-13'),
     })
   })
 
@@ -73,5 +74,21 @@ describe('totalLength', () => {
       45 + 15 +
       100
     )
+  })
+})
+
+describe('startTime', () => {
+  describe('with start time', () => {
+    it('returns the start time', () => {
+      const week = new WeekFactory().make({
+        date: DateTime.fromISO('2021-09-13'),
+        movies: [
+          new MovieFactory().make({ length: 105, time: '6:00 PM' }),
+          new MovieFactory().make({ length: 120, time: '8:00 PM' }),
+        ],
+      })
+
+      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T18:00:00'))
+    })
   })
 })

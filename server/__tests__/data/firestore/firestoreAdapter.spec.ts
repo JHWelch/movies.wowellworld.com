@@ -24,6 +24,8 @@ import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'
 import { RichText } from '@shared/dtos'
+import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 let firestore: FirestoreAdapter
 
@@ -89,21 +91,21 @@ describe('getUpcomingWeeks', () => {
   beforeEach(() => {
     FirebaseMock.mockWeeks([
       {
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
         slug: null,
         styledTheme: [],
       }, {
-        date: new Date('2021-01-08'),
+        date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
         isSkipped: true,
         theme: 'theme2',
         slug: null,
         styledTheme: [],
       }, {
-        date: new Date('2021-01-15'),
+        date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
@@ -120,17 +122,18 @@ describe('getUpcomingWeeks', () => {
       new Week({
         id: 'id1',
         theme: 'theme1',
-        date: new Date('2021-01-01') }),
+        date: DateTime.fromISO('2021-01-01', TZ),
+      }),
       new Week({
         id: 'id2',
         theme: 'theme2',
-        date: new Date('2021-01-08'),
+        date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
       }),
       new Week({
         id: 'id3',
         theme: 'theme3',
-        date: new Date('2021-01-15'),
+        date: DateTime.fromISO('2021-01-15', TZ),
         slug: 'slug',
         styledTheme: styled,
       }),
@@ -152,19 +155,19 @@ describe('getPastWeeks', () => {
   beforeEach(() => {
     FirebaseMock.mockWeeks([
       {
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
         slug: null,
       }, {
-        date: new Date('2021-01-08'),
+        date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
         slug: null,
       }, {
-        date: new Date('2021-01-15'),
+        date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
@@ -177,9 +180,9 @@ describe('getPastWeeks', () => {
     const weeks = await firestore.getPastWeeks()
 
     expect(weeks).toEqual([
-      new Week({ id: 'id1', theme: 'theme1',date:  new Date('2021-01-01') }),
-      new Week({ id: 'id2', theme: 'theme2',date:  new Date('2021-01-08') }),
-      new Week({ id: 'id3', theme: 'theme3',date:  new Date('2021-01-15') }),
+      new Week({ id: 'id1', theme: 'theme1',date:  DateTime.fromISO('2021-01-01', TZ) }),
+      new Week({ id: 'id2', theme: 'theme2',date:  DateTime.fromISO('2021-01-08', TZ) }),
+      new Week({ id: 'id3', theme: 'theme3',date:  DateTime.fromISO('2021-01-15', TZ) }),
     ])
   })
 
@@ -201,7 +204,7 @@ describe('getWeek', () => {
   describe('when the week exists', () => {
     beforeEach(() => {
       FirebaseMock.mockGetWeek({
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
@@ -213,7 +216,7 @@ describe('getWeek', () => {
       const week = await firestore.getWeek('2021-01-01')
 
       expect(week).toEqual(
-        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
+        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
       )
     })
   })
@@ -233,9 +236,9 @@ describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () => {
       await firestore.cacheWeeks([
-        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
-        new Week({ id: 'id2', theme: 'theme2', date: new Date('2021-01-08') }),
-        new Week({ id: 'id3', theme: 'theme3', date: new Date('2021-01-15') }),
+        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
+        new Week({ id: 'id2', theme: 'theme2', date: DateTime.fromISO('2021-01-08', TZ) }),
+        new Week({ id: 'id3', theme: 'theme3', date: DateTime.fromISO('2021-01-15', TZ) }),
       ])
 
       expect(transaction.set)
@@ -273,7 +276,7 @@ describe('cacheWeeks', () => {
     const weekWithMovie = new Week({
       id: 'id1',
       theme: 'theme1',
-      date: new Date('2021-01-01'),
+      date: DateTime.fromISO('2021-01-01', TZ),
       movies: [movie],
     })
 
@@ -298,7 +301,7 @@ describe('cacheWeeks', () => {
       firestore = new FirestoreAdapter(mockConfig({ nodeEnv: 'development' }))
 
       await firestore.cacheWeeks([
-        new Week({ id: 'id1', theme: 'theme1', date: new Date('2021-01-01') }),
+        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
       ])
 
       expect(transaction.set)

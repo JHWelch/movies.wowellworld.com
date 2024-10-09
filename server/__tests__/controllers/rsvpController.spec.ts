@@ -9,6 +9,9 @@ import { Request } from 'express'
 import { Week } from '@server/models/week'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import { DateTime } from 'luxon'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { TZ } from '@server/config/tz'
 
 const { res, mockClear } = getMockRes()
 
@@ -39,7 +42,7 @@ describe('store', () => {
   describe('has correct week', () => {
     beforeEach(() => {
       week = new WeekFactory().make({
-        date: new Date('2021-01-01'),
+        date: DateTime.fromISO('2021-01-01', TZ),
         theme: 'theme1',
       })
       week.movies = [
@@ -129,36 +132,36 @@ describe('store', () => {
       )
     })
 
-    // it('sends a confirmation email to the user', async () => {
-    //   await new RsvpController(firestoreAdapter).store(req, res)
+    it('sends a confirmation email to the user', async () => {
+      await new RsvpController(firestoreAdapter).store(req, res)
 
-    //   expect(res.status).toHaveBeenCalledWith(201)
-    //   expect(addDoc).toHaveBeenCalledWith(
-    //     FirebaseMock.mockCollection('mail'),
-    //     {
-    //       to: 'test@example.com',
-    //       template: {
-    //         name: 'rsvpConfirmation',
-    //         data: {
-    //           date: 'Friday, January 1',
-    //           theme: 'theme1',
-    //           weekId: '2021-01-01',
-    //           movies: [{
-    //             title: 'movie1',
-    //             posterPath: TMDB_POSTER_URL + '300/poster1.png',
-    //             year: '2021',
-    //             time: '6:00 PM',
-    //           }, {
-    //             title: 'movie2',
-    //             posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
-    //             year: '1999',
-    //             time: '8:00 PM',
-    //           }],
-    //         },
-    //       },
-    //     },
-    //   )
-    // })
+      expect(res.status).toHaveBeenCalledWith(201)
+      expect(addDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockCollection('mail'),
+        {
+          to: 'test@example.com',
+          template: {
+            name: 'rsvpConfirmation',
+            data: {
+              date: 'Friday, January 1',
+              theme: 'theme1',
+              weekId: '2021-01-01',
+              movies: [{
+                title: 'movie1',
+                posterPath: TMDB_POSTER_URL + '300/poster1.png',
+                year: '2021',
+                time: '6:00 PM',
+              }, {
+                title: 'movie2',
+                posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
+                year: '1999',
+                time: '8:00 PM',
+              }],
+            },
+          },
+        },
+      )
+    })
 
     describe('reminders are enabled', () => {
       beforeEach(() => {

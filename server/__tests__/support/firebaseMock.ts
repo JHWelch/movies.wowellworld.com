@@ -9,6 +9,8 @@ import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
 import { Week } from '@server/models/week'
 import { Movie } from '@server/models/movie'
 import { RichText } from '@shared/dtos'
+import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 export class FirebaseMock {
   static mockWeeks (weeks: FirebaseWeek[]) {
@@ -18,7 +20,7 @@ export class FirebaseMock {
           data: () => ({
             id: week.id,
             theme: week.theme,
-            date: Timestamp.fromDate(week.date),
+            date: Timestamp.fromDate(week.date.toJSDate()),
             isSkipped: week.isSkipped,
             slug: week.slug,
             styledTheme: week.styledTheme ?? [],
@@ -34,7 +36,7 @@ export class FirebaseMock {
       data: () => (week ? {
         id: week.id,
         theme: week.theme,
-        date: Timestamp.fromDate(week.date),
+        date: Timestamp.fromDate(week.date.toJSDate()),
         isSkipped: week.isSkipped,
         movies: week.movies ?? [],
       } : undefined),
@@ -83,7 +85,9 @@ export class FirebaseMock {
     new Week({
       id: week.id,
       theme: week.theme,
-      date: new Date(week.date),
+      date: week.date instanceof Date
+        ? DateTime.fromJSDate(week.date)
+        : DateTime.fromISO(week.date, TZ),
       movies: week.movies ?? [],
       isSkipped: week.isSkipped ?? false,
       slug: week.slug ?? null,
@@ -102,7 +106,7 @@ export class FirebaseMock {
 type FirebaseWeek = {
   id: string,
   theme: string,
-  date: Date,
+  date: DateTime,
   slug?: string | null,
   isSkipped: boolean,
   movies?: FirebaseMovie[],

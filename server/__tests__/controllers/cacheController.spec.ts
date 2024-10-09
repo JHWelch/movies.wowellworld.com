@@ -26,6 +26,8 @@ import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import MockDate from 'mockdate'
 import { RichText } from '@shared/dtos'
+import { DateTime } from 'luxon'
+import { TZ } from '@server/config/tz'
 
 let notionMock: NotionMock
 
@@ -219,7 +221,7 @@ describe('cacheWeeks', () => {
         new Week({
           id: 'id1',
           theme: 'theme1',
-          date: new Date('2021-01-01'),
+          date: DateTime.fromISO('2021-01-01', TZ),
           movies: [expected],
         }).toFirebaseDTO(),
       )
@@ -270,7 +272,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2021-01-01'),
+            date: DateTime.fromISO('2021-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
@@ -309,7 +311,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2021-01-01'),
+            date: DateTime.fromISO('2021-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
@@ -342,7 +344,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2021-01-01'),
+            date: DateTime.fromISO('2021-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
@@ -373,7 +375,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2021-01-01'),
+            date: DateTime.fromISO('2021-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
@@ -404,7 +406,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2021-01-01'),
+            date: DateTime.fromISO('2021-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
@@ -436,7 +438,7 @@ describe('cacheWeeks', () => {
           new Week({
             id: 'id1',
             theme: 'theme1',
-            date: new Date('2020-01-01'),
+            date: DateTime.fromISO('2020-01-01', TZ),
             movies: expected,
           }).toFirebaseDTO(),
         )
