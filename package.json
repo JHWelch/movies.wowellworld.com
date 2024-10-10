@@ -14,6 +14,7 @@
     "build:server": "npm run --prefix server build",
     "build:client": "npm run --prefix client build",
     "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
+    "clean" : "rm -rf built",
     "link:emails": "ln -s ../emails built/emails",
     "start": "node built/server/src/index.js",
     "test": "npm run test:server && npm run test:client",
