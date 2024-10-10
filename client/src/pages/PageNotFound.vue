@@ -1,19 +1,81 @@
 <script setup lang="ts">
 import MovieItem from '@client/components/MovieItem.vue'
+import { computed } from 'vue'
 
-const movie = {
-  title: 'Gone with the Wind',
-  director: 'Victor Fleming',
-  year: 1939,
-  length: 233,
-  url: 'https://www.themoviedb.org/movie/770-gone-with-the-wind',
-  posterUrl: 'https://www.themoviedb.org/t/p/w500/lNz2Ow0wGCAvzckW7EOjE03KcYv.jpg',
+const movieCommon = {
   time:  null,
   theaterName:  null,
   showingUrl:  null,
   isFieldTrip: false,
   displayLength:  null,
 }
+
+const movies = [
+  {
+    title: 'Gone with the Wind',
+    director: 'Victor Fleming',
+    year: 1939,
+    length: 233,
+    url: 'https://www.themoviedb.org/movie/770-gone-with-the-wind',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/lNz2Ow0wGCAvzckW7EOjE03KcYv.jpg',
+  },
+  {
+    title: 'Missing Link',
+    director: 'Chris Butler',
+    year: 2019,
+    length: 95,
+    url: 'https://www.themoviedb.org/movie/458253-missing-link',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/f8TS62mpfoY9oz5N6oPj3HSjwPm.jpg',
+  },
+  {
+    title: 'Finding Nemo',
+    director: 'Andrew Stanton',
+    year: 2003,
+    length: 100,
+    url: 'https://www.themoviedb.org/movie/12-finding-nemo',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/eHuGQ10FUzK1mdOY69wF5pGgEf5.jpg',
+  },
+  {
+    title: 'The Searchers',
+    director: 'John Ford',
+    year: 1956,
+    length: 119,
+    url: 'https://www.themoviedb.org/movie/3114-the-searchers',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/jLBmgW0epNzJ1N9uzaVCjbyT94v.jpg',
+  },
+  {
+    title: 'The Lost Boys',
+    director: 'Joel Schumacher',
+    year: 1987,
+    length: 97,
+    url: 'https://www.themoviedb.org/movie/1547-the-lost-boys',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/jpYDxlZgDryBOFRS6iTHKwYUU6T.jpg',
+  },
+  {
+    title: 'Lost in Translation',
+    director: 'Sofia Coppola',
+    year: 2003,
+    length: 102,
+    url: 'https://www.themoviedb.org/movie/153-lost-in-translation',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/4k4Yz08WGfbu8ITIjaG99XTeco8.jpg',
+  },
+  {
+    title: 'Gone Girl',
+    director: 'David Fincher',
+    year: 2014,
+    length: 149,
+    url: 'https://www.themoviedb.org/movie/210577-gone-girl',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/ts996lKsxvjkO2yiYG0ht4qAicO.jpg',
+  },
+  {
+    title: 'Missing',
+    director: 'Will Merrick',
+    year: 2023,
+    length: 111,
+    url: 'https://www.themoviedb.org/movie/768362-missing',
+    posterUrl: 'https://www.themoviedb.org/t/p/w500/wEOUYSU5Uf8J7152PT6jdb5233Y.jpg',
+  },
+]
 
 const week = {
   id: '303',
@@ -23,8 +85,10 @@ const week = {
   isSkipped: false,
   slug: null,
   styledTheme: [],
-  movies: [movie],
+  movies: [],
 }
+
+const movie = computed(() => movies[Math.floor(Math.random()*movies.length)])
 </script>
 
 <template>
@@ -34,7 +98,10 @@ const week = {
     </h1>
 
     <MovieItem
-      :movie="movie"
+      :movie="{
+        ...movie,
+        ...movieCommon,
+      }"
       :show-event-details="false"
       :week="week"
     />
