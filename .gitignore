@@ -5,3 +5,4 @@ node_modules
 
 built
 emails/built
+.DS_Store
