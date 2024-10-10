@@ -3,10 +3,6 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { icalGenerator } from '@server/data/icalGenerator'
 
 export default class WeekEventController {
-  static PATHS = {
-    show: '/weeks/:weekId/event',
-  }
-
   constructor (
     private firestore: FirestoreAdapter,
   ) {}
