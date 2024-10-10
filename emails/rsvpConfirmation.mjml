@@ -77,7 +77,7 @@
     </mj-section>
 
     <mj-section full-width="full-width" background-color="#F9FAFB">
-      {{#each movies}}
+      <mj-raw>{{#each movies}}</mj-raw>
         <mj-column width="50%">
           <mj-text
             align="center"
@@ -94,16 +94,16 @@
             width="220px"
           />
         </mj-column>
-      {{/each}}
+      <mj-raw>{{/each}}</mj-raw>
     </mj-section>
 
     <mj-section full-width="full-width" background-color="#e9d5ff">
       <mj-column width="400px">
-        {{#each movies}}
+        <mj-raw>{{#each movies}}</mj-raw>
           <mj-text font-size="16px" padding="15px 25px">
             <b>{{time}}</b> - <i>{{title}} ({{year}})</i>
           </mj-text>
-        {{/each}}
+        <mj-raw>{{/each}}</mj-raw>
       </mj-column>
     </mj-section>
 
