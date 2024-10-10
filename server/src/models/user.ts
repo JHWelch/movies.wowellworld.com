@@ -21,6 +21,5 @@ export default class User {
     reminders: this.reminders,
   })
 
-  unsubscribeUrl = (): string =>
-    SubscriptionController.PATHS.destroy + `?token=${this.id}`
+  unsubscribeUrl = (): string => `/unsubscribe?token=${this.id}`
 }

@@ -13,11 +13,6 @@ import { Week } from '@server/models/week'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 
 export default class CacheController {
-  static PATHS = {
-    weeks: '/api/cache/weeks',
-    emailTemplates: '/api/cache/email-templates',
-  }
-
   constructor (
     private firestore: FirestoreAdapter,
     private notionAdapter: NotionAdapter,

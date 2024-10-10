@@ -2,8 +2,6 @@ import { Request, Response } from 'express'
 import Config from '@server/config/config'
 
 export default class CalendarController {
-  static PATH = '/calendar'
-
   constructor (
     private config: Config,
   ) {}

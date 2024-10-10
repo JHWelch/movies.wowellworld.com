@@ -8,10 +8,6 @@ export default class SuggestionController {
     private notion: NotionAdapter,
   ) {}
 
-  static PATHS = {
-    store: '/suggestions',
-  }
-
   store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
