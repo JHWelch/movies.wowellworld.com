@@ -5,11 +5,6 @@ import { validate } from '@server/helpers/validation'
 import { withMessage } from '@server/helpers/messageBuilder'
 
 export default class SubscriptionController {
-  static PATHS = {
-    store: '/api/subscriptions',
-    destroy: '/unsubscribe',
-  }
-
   static readonly SUCCESS_MESSAGE = {
     message: 'Thank you for signing up! See you soon.',
   }

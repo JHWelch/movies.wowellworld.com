@@ -4,10 +4,6 @@ import Config from '@server/config/config'
 import { tomorrow } from '@server/data/dateUtils'
 
 class CronController {
-  static PATHS = {
-    reminders: '/cron/reminders',
-  }
-
   constructor (
     protected config: Config,
     protected firestore: FirestoreAdapter,

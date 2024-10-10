@@ -5,10 +5,6 @@ import { validate } from '@server/helpers/validation'
 import { Week } from '@server/models/week'
 
 export default class RsvpController {
-  static PATHS = {
-    store: '/api/weeks/:weekId/rsvp',
-  }
-
   constructor (
     private firestore: FirestoreAdapter,
   ) {}

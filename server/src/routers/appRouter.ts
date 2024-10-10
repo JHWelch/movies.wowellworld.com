@@ -55,33 +55,16 @@ function routes (
   const weekEventController = new WeekEventController(firestore)
 
   return [
-    new Route(HealthCheckController.PATHS.index, HealthCheckController.index),
+    new Route('/health_check', HealthCheckController.index),
     new Route('/api/weeks', weekController.index),
-    new Route(RsvpController.PATHS.store, rsvpController.store, HttpVerb.POST),
-    new Route(CacheController.PATHS.weeks, cacheController.cacheWeeks),
-    new Route(
-      CacheController.PATHS.emailTemplates,
-      cacheController.cacheEmailTemplates,
-    ),
-    new Route(
-      SuggestionController.PATHS.store,
-      suggestionController.store,
-      HttpVerb.POST,
-    ),
-    new Route(
-      CalendarController.PATH,
-      calendarController.index,
-    ),
-    new Route(
-      SubscriptionController.PATHS.store,
-      subscriptionController.store,
-      HttpVerb.POST,
-    ),
-    new Route(
-      SubscriptionController.PATHS.destroy,
-      subscriptionController.destroy,
-    ),
-    new Route(CronController.PATHS.reminders, cronController.reminders),
-    new Route(WeekEventController.PATHS.show, weekEventController.show),
+    new Route('/api/weeks/:weekId/rsvp', rsvpController.store, HttpVerb.POST),
+    new Route('/api/cache/weeks', cacheController.cacheWeeks),
+    new Route('/api/cache/email-templates', cacheController.cacheEmailTemplates),
+    new Route('/suggestions', suggestionController.store, HttpVerb.POST),
+    new Route('/calendar', calendarController.index),
+    new Route('/api/subscriptions', subscriptionController.store, HttpVerb.POST),
+    new Route('/unsubscribe', subscriptionController.destroy),
+    new Route('/cron/reminders', cronController.reminders),
+    new Route('/weeks/:weekId/event', weekEventController.show),
   ]
 }
