@@ -8,12 +8,14 @@
 
   <title>Thursday Night Movie Club</title>
 
-  <link rel="stylesheet" href="/made-with/made-with.css">
-
   <link rel="icon" href="https://fav.farm/🎥" />
   <% if (environment === 'production') { %>
     <link rel="stylesheet" href="/<%= manifest['src/main.ts'].css %>">
   <% } %>
+
+  <link rel="stylesheet" href="/made-with/made-with.css">
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 </head>
   <body>
     <div id="app"></div>
