@@ -25,7 +25,7 @@ export default function createAppRouter (
 
   registerRoutes(router, routes(config, firestore, notion, tmdb))
 
-  router.all('*', (_req, res) => {
+  router.all(/(.*)/, (_req, res) => {
     try {
       res.render('index.html.ejs', {
         environment: config.nodeEnv,
