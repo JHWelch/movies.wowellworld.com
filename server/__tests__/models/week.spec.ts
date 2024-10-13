@@ -79,7 +79,7 @@ describe('totalLength', () => {
 
 describe('startTime', () => {
   describe('with start time', () => {
-    it('returns the start time', () => {
+    it('returns 30 minutes before start time', () => {
       const week = new WeekFactory().make({
         date: DateTime.fromISO('2021-09-13'),
         movies: [
@@ -88,7 +88,7 @@ describe('startTime', () => {
         ],
       })
 
-      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T18:00:00'))
+      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T17:30:00'))
     })
   })
 })

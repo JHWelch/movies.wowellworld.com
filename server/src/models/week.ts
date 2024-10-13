@@ -144,6 +144,6 @@ export class Week {
 
     const minutes = timeStringAsMinutes(firstTime?.time ?? '6:00 PM')
 
-    return this.date.plus({ minutes })
+    return this.date.plus({ minutes: minutes - 30 })
   }
 }
