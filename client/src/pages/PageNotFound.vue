@@ -92,8 +92,8 @@ const movie = computed(() => movies[Math.floor(Math.random()*movies.length)])
 </script>
 
 <template>
-  <div class="flex flex-col items-center min-h-screen pt-10 space-y-10">
-    <h1 class="font-bold text-8xl four-oh-four">
+  <div class="flex flex-col items-center py-10 space-y-10 lg:flex-row lg:space-x-32 lg:justify-center lg:space-y-0">
+    <h1 class="font-bold text-8xl four-oh-four lg:text-9xl xl:text-[150px]">
       404
     </h1>
 
@@ -113,5 +113,10 @@ const movie = computed(() => movies[Math.floor(Math.random()*movies.length)])
   position: relative;
   color: theme('colors.brat.950');
   text-shadow: 6px 6px 0 theme('colors.brat.500');
+}
+@media (min-width: 1024px){
+  .four-oh-four {
+    text-shadow: 9px 9px 0 theme('colors.brat.500');
+  }
 }
 </style>
