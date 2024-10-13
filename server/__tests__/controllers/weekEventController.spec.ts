@@ -26,8 +26,9 @@ describe('show', () => {
   let week: Week
 
   beforeEach(() => {
-    firestoreAdapter = new FirestoreAdapter(mockConfig())
-    directoryPath.mockReturnValue(__dirname + '/../../src/data')
+    firestoreAdapter = new FirestoreAdapter(mockConfig());
+    (directoryPath as unknown as jest.Mock)
+      .mockReturnValue(__dirname + '/../../src/data')
   })
 
   describe('has correct week', () => {
