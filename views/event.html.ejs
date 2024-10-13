@@ -1,0 +1,16 @@
+<html><body>
+  <p>Come one, come all (okay maybe not all) to the Welch-Cowell/Cowell-Welch/Wowell household for a recurring Thursday Night Movie Club!</p>
+
+  <p>This week\'s theme is <b><%= theme %></b>.</p>
+
+  <ul>
+    <% movies.forEach(function(movie){ %>
+      <li>
+        <b><%= movie.time %></b>
+        -
+        <i><%= movie.title %></i>
+        (<%= movie.year %>)
+      </li>
+    <% }); %>
+  </ul>
+</body></html>

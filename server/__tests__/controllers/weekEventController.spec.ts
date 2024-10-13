@@ -11,6 +11,7 @@ import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import directoryPath from '@server/helpers/directoryPath'
 
 const { res, mockClear } = getMockRes()
 
@@ -26,6 +27,7 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
+    directoryPath.mockReturnValue(__dirname + '/../../src/data')
   })
 
   describe('has correct week', () => {
@@ -67,9 +69,8 @@ describe('show', () => {
       await new WeekEventController(firestoreAdapter).show(req, res)
 
       expect(res.type).toHaveBeenCalledWith('text/calendar')
-      expect(res.send).toHaveBeenCalledWith(icalGenerator(week))
+      expect(res.send).toHaveBeenCalledWith(await icalGenerator(week))
     })
-
   })
 
   describe('week does not exist', () => {

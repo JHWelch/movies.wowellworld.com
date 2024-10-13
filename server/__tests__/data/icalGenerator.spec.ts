@@ -1,14 +1,16 @@
 import { beforeEach, expect, it } from '@jest/globals'
 import { icalGenerator } from '@server/data/icalGenerator'
+import directoryPath from '@server/helpers/directoryPath'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MockDate from 'mockdate'
 
 beforeEach(() => {
   MockDate.set('2021-01-01')
+  directoryPath.mockReturnValue(__dirname + '/../../src/data')
 })
 
-it('can generate an ical file from a week', () => {
+it('can generate an ical file from a week', async () => {
   const week = new WeekFactory().make()
   week.movies = [
     new MovieFactory().make({
@@ -38,5 +40,5 @@ it('can generate an ical file from a week', () => {
     }),
   ]
 
-  expect(icalGenerator(week)).toMatchSnapshot()
+  expect(await icalGenerator(week)).toMatchSnapshot()
 })
