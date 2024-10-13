@@ -27,7 +27,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(90 + 120 + 15)
+    expect(week.totalLength).toEqual(30 + 90 + 120 + 15)
   })
 
   it('calculates total length with no times with many movies', () => {
@@ -41,6 +41,7 @@ describe('totalLength', () => {
     })
 
     expect(week.totalLength).toEqual(
+      30 +
       90 + 15 +
       120 + 15 +
       45 + 15 +
@@ -56,7 +57,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(240)
+    expect(week.totalLength).toEqual(30 + 240)
   })
 
   it('calculates total length with times on some', () => {
@@ -70,6 +71,7 @@ describe('totalLength', () => {
     })
 
     expect(week.totalLength).toEqual(
+      30 +
       240 + 15 +
       45 + 15 +
       100
@@ -79,7 +81,7 @@ describe('totalLength', () => {
 
 describe('startTime', () => {
   describe('with start time', () => {
-    it('returns the start time', () => {
+    it('returns 30 minutes before start time', () => {
       const week = new WeekFactory().make({
         date: DateTime.fromISO('2021-09-13'),
         movies: [
@@ -88,7 +90,7 @@ describe('startTime', () => {
         ],
       })
 
-      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T18:00:00'))
+      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T17:30:00'))
     })
   })
 })

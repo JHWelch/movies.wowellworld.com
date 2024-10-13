@@ -14,6 +14,7 @@ import {
 import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
+import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 
 export type MovieConstructor = {
   title: string,
@@ -198,5 +199,13 @@ export class Movie {
     this.notionId ??= other.notionId
     this.theaterName ??= other.theaterName
     this.showingUrl ??= other.showingUrl
+  }
+
+  get timeAsMinutes (): number {
+    if (!this.time) {
+      return 0
+    }
+
+    return timeStringAsMinutes(this.time)
   }
 }

@@ -18,6 +18,6 @@ export default class WeekEventController {
       return
     }
 
-    res.type('text/calendar').send(icalGenerator(week))
+    res.type('text/calendar').send(await icalGenerator(week))
   }
 }

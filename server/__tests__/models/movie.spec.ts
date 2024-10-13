@@ -175,3 +175,16 @@ describe('emailPosterUrl', () => {
     })
   })
 })
+
+describe('timeAsMinutes', () => {
+  it('returns the time as minutes', () => {
+    expect(new MovieFactory().state({ time: '12:00 AM' }).make().timeAsMinutes)
+      .toBe(0)
+    expect(new MovieFactory().state({ time: '6:40 AM' }).make().timeAsMinutes)
+      .toBe(400)
+    expect(new MovieFactory().state({ time: '12:00 PM' }).make().timeAsMinutes)
+      .toBe(720)
+    expect(new MovieFactory().state({ time: '6:30 PM' }).make().timeAsMinutes)
+      .toBe(1110)
+  })
+})

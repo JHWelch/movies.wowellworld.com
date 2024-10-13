@@ -116,6 +116,7 @@ export class Week {
   }
 
   get totalLength (): number {
+    const beforeTime = 30
     const firstTimeIndex = this.movies.findIndex((movie) => movie.time)
     const lastTimeIndex = this.movies.length - 1 - this.movies
       .slice()
@@ -123,20 +124,18 @@ export class Week {
       .findIndex((movie) => movie.time)
 
     if (firstTimeIndex === -1 || lastTimeIndex === -1) {
-      const breaks = (this.movies.length - 1) * 15
-
-      return this.movies
-        .reduce((total, movie) => (movie.length ?? 0) + total, 0) + breaks
+      return beforeTime
+        + this.sumLengths(this.movies)
+        + this.breaks(this.movies)
     }
 
-    const firstTime = timeStringAsMinutes(this.movies[firstTimeIndex].time ?? '')
-    const lastTime = timeStringAsMinutes(this.movies[lastTimeIndex].time ?? '')
-
     const moviesPostTime = this.movies.slice(lastTimeIndex)
-    const breaks = (moviesPostTime.length - 1) * 15
 
-    return lastTime - firstTime + breaks + moviesPostTime
-      .reduce((total, movie) => (movie.length ?? 0) + total, 0)
+    return beforeTime
+      - this.movies[firstTimeIndex].timeAsMinutes
+      + this.movies[lastTimeIndex].timeAsMinutes
+      + this.sumLengths(moviesPostTime)
+      + this.breaks(moviesPostTime)
   }
 
   get startTime (): DateTime {
@@ -144,6 +143,14 @@ export class Week {
 
     const minutes = timeStringAsMinutes(firstTime?.time ?? '6:00 PM')
 
-    return this.date.plus({ minutes })
+    return this.date.plus({ minutes: minutes - 30 })
+  }
+
+  private breaks (movies: Movie[]): number {
+    return (movies.length - 1) * 15
+  }
+
+  private sumLengths (movies: Movie[]): number {
+    return movies.reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 }
