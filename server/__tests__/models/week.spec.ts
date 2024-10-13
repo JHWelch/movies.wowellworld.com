@@ -27,7 +27,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(90 + 120 + 15)
+    expect(week.totalLength).toEqual(30 + 90 + 120 + 15)
   })
 
   it('calculates total length with no times with many movies', () => {
@@ -41,6 +41,7 @@ describe('totalLength', () => {
     })
 
     expect(week.totalLength).toEqual(
+      30 +
       90 + 15 +
       120 + 15 +
       45 + 15 +
@@ -56,7 +57,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(240)
+    expect(week.totalLength).toEqual(30 + 240)
   })
 
   it('calculates total length with times on some', () => {
@@ -70,6 +71,7 @@ describe('totalLength', () => {
     })
 
     expect(week.totalLength).toEqual(
+      30 +
       240 + 15 +
       45 + 15 +
       100

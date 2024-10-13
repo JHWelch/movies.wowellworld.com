@@ -116,6 +116,7 @@ export class Week {
   }
 
   get totalLength (): number {
+    const beforeTime = 30
     const firstTimeIndex = this.movies.findIndex((movie) => movie.time)
     const lastTimeIndex = this.movies.length - 1 - this.movies
       .slice()
@@ -125,7 +126,7 @@ export class Week {
     if (firstTimeIndex === -1 || lastTimeIndex === -1) {
       const breaks = (this.movies.length - 1) * 15
 
-      return this.movies
+      return beforeTime + this.movies
         .reduce((total, movie) => (movie.length ?? 0) + total, 0) + breaks
     }
 
@@ -135,7 +136,7 @@ export class Week {
     const moviesPostTime = this.movies.slice(lastTimeIndex)
     const breaks = (moviesPostTime.length - 1) * 15
 
-    return lastTime - firstTime + breaks + moviesPostTime
+    return beforeTime + lastTime - firstTime + breaks + moviesPostTime
       .reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 

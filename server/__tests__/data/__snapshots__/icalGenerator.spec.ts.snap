@@ -11,7 +11,7 @@ BEGIN:VEVENT
 UID:2021-09-13@movies.wowellworld.com
 SUMMARY:Movie Nights: theme
 DTSTAMP:20210101T000000Z
-DTSTART:20210913T180000Z
+DTSTART:20210913T173000Z
 DESCRIPTION:Come one\\, come all (okay maybe not all) to the Welch-Cowell/Co
 	well-Welch/Wowell household for a recurring Thursday Night Movie Club!\\n\\n
 	This week's theme is theme.\\n\\n6:00 PM - Labyrinth (1986)\\n8:00 PM - The N
@@ -28,7 +28,7 @@ X-ALT-DESC;FMTTYPE=text/html:<p><html><body>   <p>Come one, come all (okay
 	 <i>Labyrinth</i>         (1986)       </li>            <li>         <b>8:
 	00 PM</b>         -         <i>The NeverEnding Story</i>         (1984)   
 	    </li>        </ul> </body></html> </p>
-DURATION:PT210M
+DURATION:PT240M
 END:VEVENT
 END:VCALENDAR
 "
