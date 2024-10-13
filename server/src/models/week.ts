@@ -129,13 +129,11 @@ export class Week {
         + this.breaks(this.movies)
     }
 
-    const firstTime = timeStringAsMinutes(this.movies[firstTimeIndex].time ?? '')
-    const lastTime = timeStringAsMinutes(this.movies[lastTimeIndex].time ?? '')
     const moviesPostTime = this.movies.slice(lastTimeIndex)
 
     return beforeTime
-      + lastTime
-      - firstTime
+      - this.movies[firstTimeIndex].timeAsMinutes
+      + this.movies[lastTimeIndex].timeAsMinutes
       + this.sumLengths(moviesPostTime)
       + this.breaks(moviesPostTime)
   }
