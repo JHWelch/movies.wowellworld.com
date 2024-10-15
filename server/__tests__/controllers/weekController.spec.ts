@@ -14,6 +14,7 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import { query } from 'firebase/firestore'
 
 const { res, mockClear } = getMockRes()
 
@@ -93,6 +94,16 @@ describe('index', () => {
         },
       ])
     })
+
+    it('should query firebase with limit', async () => {
+      await new WeekController(firestore).index(req, res)
+
+      expect(query).toHaveBeenCalledWith(
+        { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+        { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+        { fieldPath: 'date' },
+      )
+    })
   })
 
   describe('called with past filter', () => {
@@ -159,6 +170,57 @@ describe('index', () => {
           slug: 'slug3',
         },
       ])
+    })
+  })
+
+  describe('called with limit', () => {
+    let firestore: FirestoreAdapter
+    let req: Request
+
+    beforeEach(() => {
+      firestore = new FirestoreAdapter(mockConfig())
+      FirebaseMock.mockWeeks([
+        {
+          date: DateTime.fromISO('2021-01-01', TZ),
+          id: 'id1',
+          isSkipped: false,
+          slug: null,
+          theme: 'theme1',
+        },
+      ])
+      req = getMockReq()
+    })
+
+    it('should return all future weeks', async () => {
+      req.query = { limit: '1' }
+
+      await new WeekController(firestore).index(req, res)
+
+      expect(res.json).toHaveBeenCalledWith([
+        {
+          id: 'id1',
+          weekId: '2021-01-01',
+          date: 'Friday, January 1',
+          isSkipped: false,
+          slug: null,
+          movies: [],
+          theme: 'theme1',
+          styledTheme: [],
+        },
+      ])
+    })
+
+    it('should query firebase with limit', async () => {
+      req.query = { limit: '1' }
+
+      await new WeekController(firestore).index(req, res)
+
+      expect(query).toHaveBeenCalledWith(
+        { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+        { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+        { fieldPath: 'date' },
+        { limit: 1 },
+      )
     })
   })
 })
