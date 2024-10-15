@@ -149,6 +149,17 @@ describe('getUpcomingWeeks', () => {
       { fieldPath: 'date' },
     )
   })
+
+  it('can limit return to a number of weeks', async () => {
+    await firestore.getUpcomingWeeks({ limit: 3 })
+
+    expect(query).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+      { fieldPath: 'date' },
+      { limit: 3 },
+    )
+  })
 })
 
 describe('getPastWeeks', () => {

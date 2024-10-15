@@ -65,11 +65,12 @@ export default class FirestoreAdapter {
     ))
   }
 
-  getUpcomingWeeks = async (): Promise<Week[]> => {
+  getUpcomingWeeks = async (args: { limit?: number } = {}): Promise<Week[]> => {
     return this.getWeeks(query(
       this.weekCollection,
       where('date', '>=', this.today()),
       orderBy('date'),
+      ...(args.limit ? [limit(args.limit)] : []),
     ))
   }
 
