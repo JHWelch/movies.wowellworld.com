@@ -31,6 +31,10 @@ export type MovieConstructor = {
   showingUrl?: string | null,
 }
 
+export type MovieDtoOptions = {
+  posterWidth: Width
+}
+
 export class Movie {
   public title: string = ''
   public director: string | null = null
@@ -129,13 +133,15 @@ export class Movie {
   emailPosterUrl = () => this.posterPath ? this.posterUrl('w300') : ''
 
   private tmdbUrl = (width: Width): string =>
-    TMDB_POSTER_URL + width.toString()
+    TMDB_POSTER_URL + width
 
   toString (): string {
     return `${this.title} (${this.year})`
   }
 
-  toDTO (): MovieDto {
+  toDTO ({ posterWidth }: MovieDtoOptions = {
+    posterWidth: 'w500',
+  }): MovieDto {
     return {
       title: this.title,
       director: this.director,
@@ -143,7 +149,7 @@ export class Movie {
       length: this.length,
       time: this.time,
       url: this.url,
-      posterUrl: this.posterUrl(),
+      posterUrl: this.posterUrl(posterWidth),
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),
