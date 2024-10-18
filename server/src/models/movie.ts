@@ -15,6 +15,7 @@ import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
+import { Width } from '@server/types/tmdb'
 
 export type MovieConstructor = {
   title: string,
@@ -113,7 +114,7 @@ export class Movie {
       : `${this.length}m`
   }
 
-  posterUrl = (): string => {
+  posterUrl = (width: Width = 'w500'): string => {
     if (!this.posterPath){
       return ''
     }
@@ -122,14 +123,12 @@ export class Movie {
       return this.posterPath
     }
 
-    return `${this.tmdbUrl(500)}${this.posterPath}`
+    return `${this.tmdbUrl(width)}${this.posterPath}`
   }
 
-  emailPosterUrl = (): string => this.posterPath
-    ? `${this.tmdbUrl(300)}${this.posterPath}`
-    : ''
+  emailPosterUrl = () => this.posterPath ? this.posterUrl('w300') : ''
 
-  private tmdbUrl = (width: number): string =>
+  private tmdbUrl = (width: Width): string =>
     TMDB_POSTER_URL + width.toString()
 
   toString (): string {
