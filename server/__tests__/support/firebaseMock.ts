@@ -24,7 +24,7 @@ export class FirebaseMock {
             isSkipped: week.isSkipped,
             slug: week.slug,
             styledTheme: week.styledTheme ?? [],
-            movies: [],
+            movies: week.movies ?? [],
           }),
         })),
       }
@@ -103,7 +103,7 @@ export class FirebaseMock {
   })
 }
 
-type FirebaseWeek = {
+export type FirebaseWeek = {
   id: string,
   theme: string,
   date: DateTime,
@@ -113,7 +113,7 @@ type FirebaseWeek = {
   styledTheme?: RichText[],
 }
 
-type FirebaseMovie = {
+export type FirebaseMovie = {
   director: string,
   length: number,
   notionId: string,
@@ -127,13 +127,13 @@ type FirebaseMovie = {
   year: number | null,
 }
 
-type FirebaseUser = {
+export type FirebaseUser = {
   id: string,
   email: string,
   reminders: boolean,
 }
 
-type FirebaseWeekConstructor = {
+export type FirebaseWeekConstructor = {
   id: string,
   theme: string,
   date: Date|string,

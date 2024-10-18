@@ -15,6 +15,7 @@ import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
+import { Width } from '@server/types/tmdb'
 
 export type MovieConstructor = {
   title: string,
@@ -28,6 +29,10 @@ export type MovieConstructor = {
   notionId?: string | null,
   theaterName?: string | null,
   showingUrl?: string | null,
+}
+
+export type MovieDtoOptions = {
+  posterWidth: Width
 }
 
 export class Movie {
@@ -113,7 +118,7 @@ export class Movie {
       : `${this.length}m`
   }
 
-  posterUrl = (): string => {
+  posterUrl = (width: Width = 'w500'): string => {
     if (!this.posterPath){
       return ''
     }
@@ -122,21 +127,21 @@ export class Movie {
       return this.posterPath
     }
 
-    return `${this.tmdbUrl(500)}${this.posterPath}`
+    return `${this.tmdbUrl(width)}${this.posterPath}`
   }
 
-  emailPosterUrl = (): string => this.posterPath
-    ? `${this.tmdbUrl(300)}${this.posterPath}`
-    : ''
+  emailPosterUrl = () => this.posterPath ? this.posterUrl('w300') : ''
 
-  private tmdbUrl = (width: number): string =>
-    TMDB_POSTER_URL + width.toString()
+  private tmdbUrl = (width: Width): string =>
+    TMDB_POSTER_URL + width
 
   toString (): string {
     return `${this.title} (${this.year})`
   }
 
-  toDTO (): MovieDto {
+  toDTO ({ posterWidth }: MovieDtoOptions = {
+    posterWidth: 'w500',
+  }): MovieDto {
     return {
       title: this.title,
       director: this.director,
@@ -144,7 +149,7 @@ export class Movie {
       length: this.length,
       time: this.time,
       url: this.url,
-      posterUrl: this.posterUrl(),
+      posterUrl: this.posterUrl(posterWidth),
       theaterName: this.theaterName,
       showingUrl: this.showingUrl,
       isFieldTrip: this.isFieldTrip(),

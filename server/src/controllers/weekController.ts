@@ -1,5 +1,6 @@
 import { type Request, type Response } from 'express'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
+import { isWidth, Width } from '@server/types/tmdb'
 
 export default class WeekController {
   constructor (
@@ -7,21 +8,25 @@ export default class WeekController {
   ) {}
 
   index = async (req: Request, res: Response): Promise<void> => {
-    const { past, limit } = this.parseIndexQuery(req)
+    const { past, limit, posterWidth } = this.parseIndexQuery(req)
 
     const weeks = past
       ? await this.firestore.getPastWeeks()
       : await this.firestore.getUpcomingWeeks({ limit })
 
-    res.json(weeks.map((week) => week.toDTO()))
+    res.json(weeks.map((week) => week.toDTO({
+      movies: { posterWidth },
+    })))
   }
 
   parseIndexQuery = (req: Request): {
     past: boolean,
     limit?: number,
+    posterWidth: Width,
   } =>
     ({
       past: req.query.past === 'true',
       limit: req.query.limit ? parseInt(req.query.limit as string) : undefined,
+      posterWidth: isWidth(req.query.posterWidth) ? req.query.posterWidth : 'w500',
     })
 }

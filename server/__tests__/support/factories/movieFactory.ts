@@ -1,5 +1,6 @@
 import { Movie, MovieConstructor } from '@server/models/movie'
 import Factory from '@tests/support/factories/factory'
+import { FirebaseMovie } from '@tests/support/firebaseMock'
 
 export default class MovieFactory extends Factory<Movie, MovieConstructor> {
   protected _make = () => new Movie(this._state)
@@ -23,5 +24,21 @@ export default class MovieFactory extends Factory<Movie, MovieConstructor> {
       theaterName: undefined,
       showingUrl: null,
     })
+  }
+
+  asFirebaseMovie (): FirebaseMovie {
+    return {
+      title: this._state.title,
+      director: this._state.director,
+      year: this._state.year,
+      length: this._state.length,
+      time: this._state.time,
+      url: this._state.url,
+      tmdbId: this._state.tmdbId,
+      posterPath: this._state.posterPath,
+      notionId: this._state.notionId,
+      theaterName: this._state.theaterName,
+      showingUrl: this._state.showingUrl,
+    }
   }
 }

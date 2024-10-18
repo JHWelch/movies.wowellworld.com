@@ -2,7 +2,7 @@ import {
   DatabaseObjectResponse,
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
-import { Movie } from '@server/models/movie'
+import { Movie, MovieDtoOptions } from '@server/models/movie'
 import type WeekProperties from '@server/types/weekProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
@@ -19,6 +19,10 @@ export type WeekConstructor = {
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
+}
+
+export type WeekDtoOptions = {
+  movies: MovieDtoOptions
 }
 
 export class Week {
@@ -82,13 +86,15 @@ export class Week {
     return `${this.theme}`
   }
 
-  toDTO (): WeekDto {
+  toDTO ({ movies }: WeekDtoOptions = {
+    movies: { posterWidth: 'w500' },
+  }): WeekDto {
     return {
       id: this.id,
       weekId: this.dateString,
       theme: this.theme,
       date: this.displayDate(),
-      movies: this.movies.map((movie) => movie.toDTO()),
+      movies: this.movies.map((movie) => movie.toDTO(movies)),
       slug: this.slug,
       isSkipped: this.isSkipped,
       styledTheme: this.styledTheme,
