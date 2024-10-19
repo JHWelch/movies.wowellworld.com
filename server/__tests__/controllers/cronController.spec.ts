@@ -98,12 +98,12 @@ describe('reminders', () => {
                 unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id1',
                 movies: [{
                   title: 'movie1',
-                  posterPath: TMDB_POSTER_URL + '300/poster1.png',
+                  posterPath: TMDB_POSTER_URL + 'w300/poster1.png',
                   year: '2021',
                   time: '6:00 PM',
                 }, {
                   title: 'movie2',
-                  posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
+                  posterPath: TMDB_POSTER_URL + 'w300/poster2.jpg',
                   year: '1999',
                   time: '8:00 PM',
                 }],
@@ -125,12 +125,12 @@ describe('reminders', () => {
                 unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id2',
                 movies: [{
                   title: 'movie1',
-                  posterPath: TMDB_POSTER_URL + '300/poster1.png',
+                  posterPath: TMDB_POSTER_URL + 'w300/poster1.png',
                   year: '2021',
                   time: '6:00 PM',
                 }, {
                   title: 'movie2',
-                  posterPath: TMDB_POSTER_URL + '300/poster2.jpg',
+                  posterPath: TMDB_POSTER_URL + 'w300/poster2.jpg',
                   year: '1999',
                   time: '8:00 PM',
                 }],

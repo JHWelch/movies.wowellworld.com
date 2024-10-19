@@ -135,7 +135,15 @@ describe('posterUrl', () => {
     const movie = new MovieFactory().make()
 
     expect(movie.posterUrl()).toEqual(
-      `${TMDB_POSTER_URL}500${movie.posterPath}`,
+      `${TMDB_POSTER_URL}w500${movie.posterPath}`,
+    )
+  })
+
+  it('can accept a different width', () => {
+    const movie = new MovieFactory().make()
+
+    expect(movie.posterUrl('w92')).toEqual(
+      `${TMDB_POSTER_URL}w92${movie.posterPath}`,
     )
   })
 
@@ -163,7 +171,7 @@ describe('emailPosterUrl', () => {
     const movie = new MovieFactory().make()
 
     expect(movie.emailPosterUrl()).toEqual(
-      `${TMDB_POSTER_URL}300${movie.posterPath}`,
+      `${TMDB_POSTER_URL}w300${movie.posterPath}`,
     )
   })
 

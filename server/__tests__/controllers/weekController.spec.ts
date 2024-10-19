@@ -15,6 +15,7 @@ import { mockConfig } from '@tests/support/mockConfig'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 import { query } from 'firebase/firestore'
+import MovieFactory from '@tests/support/factories/movieFactory'
 
 const { res, mockClear } = getMockRes()
 
@@ -221,6 +222,48 @@ describe('index', () => {
         { fieldPath: 'date' },
         { limit: 1 },
       )
+    })
+  })
+
+  describe('called with custom width', () => {
+    let firestore: FirestoreAdapter
+    let req: Request
+    let movie: MovieFactory
+
+    beforeEach(() => {
+      firestore = new FirestoreAdapter(mockConfig())
+
+      movie = new MovieFactory()
+      FirebaseMock.mockWeeks([{
+        date: DateTime.fromISO('2021-01-01', TZ),
+        id: 'id1',
+        isSkipped: false,
+        theme: 'theme1',
+        movies: [
+          movie.asFirebaseMovie(),
+        ],
+      }])
+      req = getMockReq()
+    })
+
+    it('should return all future weeks', async () => {
+      req.query = { posterWidth: 'w185' }
+
+      await new WeekController(firestore).index(req, res)
+
+      const expected = movie.make()
+      expect(res.json).toHaveBeenCalledWith([{
+        id: 'id1',
+        weekId: '2021-01-01',
+        date: 'Friday, January 1',
+        isSkipped: false,
+        slug: null,
+        movies: [
+          expected.toDTO({ posterWidth: 'w185' }),
+        ],
+        theme: 'theme1',
+        styledTheme: [],
+      }])
     })
   })
 })
