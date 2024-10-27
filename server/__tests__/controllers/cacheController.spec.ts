@@ -207,7 +207,10 @@ describe('cacheWeeks', () => {
   describe('when cache lastUpdated already exists', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
-      FirebaseMock.mockGetGlobal('lastUpdated', '2021-01-01T00:00:00.000Z')
+      FirebaseMock.mockGetGlobal(
+        'lastUpdated',
+        Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z'))
+      )
       notionMock.mockQuery([
         NotionMock.mockWeek({
           id: 'id1',

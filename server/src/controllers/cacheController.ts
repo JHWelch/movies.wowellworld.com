@@ -21,9 +21,10 @@ export default class CacheController {
   ) {}
 
   cacheWeeks = async (_req: Request, res: Response): Promise<void> => {
-    const lastUpdated = await this.firestore.getGlobal('lastUpdated')
+    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as Timestamp | undefined
 
-    const weeks = await this.notionAdapter.getWeeks(lastUpdated?.toString())
+    const weeks = await this.notionAdapter
+      .getWeeks(lastUpdated?.toDate().toISOString())
 
     if (!weeks.length) {
       res.sendStatus(200)
