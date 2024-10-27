@@ -28,6 +28,7 @@ import MockDate from 'mockdate'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import { setDoc, Timestamp } from 'firebase/firestore'
 
 let notionMock: NotionMock
 
@@ -116,12 +117,14 @@ describe('cacheWeeks', () => {
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
+          lastEditedTime: '2022-08-12T15:45:00.000Z',
         }),
         NotionMock.mockWeek({
           id: 'id2',
           date: '2021-01-08',
           theme: 'theme2',
           skipped: true,
+          lastEditedTime: '2023-08-12T15:45:00.000Z',
         }),
         NotionMock.mockWeek({
           id: 'id3',
@@ -129,6 +132,7 @@ describe('cacheWeeks', () => {
           theme: 'theme3',
           slug: 'slug',
           styledTheme: styled,
+          lastEditedTime: '2021-08-12T15:45:00.000Z',
         }),
       ])
     })
@@ -145,6 +149,7 @@ describe('cacheWeeks', () => {
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
+            lastEditedTime: '2022-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -155,6 +160,7 @@ describe('cacheWeeks', () => {
             theme: 'theme2',
             date: '2021-01-08',
             isSkipped: true,
+            lastEditedTime: '2023-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -166,11 +172,12 @@ describe('cacheWeeks', () => {
             date: '2021-01-15',
             slug: 'slug',
             styledTheme: styled,
+            lastEditedTime: '2021-08-12T15:45:00.000Z',
           }),
         )
     })
 
-    it('should call query with the correct parameters', async () => {
+    it('calls query with the correct parameters', async () => {
       await newCacheController().cacheWeeks(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
@@ -186,9 +193,18 @@ describe('cacheWeeks', () => {
         }],
       })
     })
+
+    it('stores the lastUpdated date in firestore', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')) },
+      )
+    })
   })
 
-  describe('when cache lastUpdated already exists ', () => {
+  describe('when cache lastUpdated already exists', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       FirebaseMock.mockGetGlobal('lastUpdated', '2021-01-01T00:00:00.000Z')
@@ -197,17 +213,20 @@ describe('cacheWeeks', () => {
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
+          lastEditedTime: '2022-08-12T15:45:00.000Z',
         }),
         NotionMock.mockWeek({
           id: 'id2',
           date: '2021-01-08',
           theme: 'theme2',
+          lastEditedTime: '2023-08-12T15:45:00.000Z',
           skipped: true,
         }),
         NotionMock.mockWeek({
           id: 'id3',
           date: '2021-01-15',
           theme: 'theme3',
+          lastEditedTime: '2021-08-12T15:45:00.000Z',
           slug: 'slug',
         }),
       ])
@@ -225,6 +244,7 @@ describe('cacheWeeks', () => {
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
+            lastEditedTime: '2022-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -235,6 +255,7 @@ describe('cacheWeeks', () => {
             theme: 'theme2',
             date: '2021-01-08',
             isSkipped: true,
+            lastEditedTime: '2023-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -245,6 +266,7 @@ describe('cacheWeeks', () => {
             theme: 'theme3',
             date: '2021-01-15',
             slug: 'slug',
+            lastEditedTime: '2021-08-12T15:45:00.000Z',
           }),
         )
     })
@@ -281,6 +303,15 @@ describe('cacheWeeks', () => {
         }],
       })
     })
+
+    it('updates the lastUpdated date in firestore', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')) },
+      )
+    })
   })
 
   describe('movies without directors', () => {
@@ -315,6 +346,7 @@ describe('cacheWeeks', () => {
           date: '2021-01-01',
           theme: 'theme1',
           movies: [notionResponse],
+          lastEditedTime: DateTime.now().toISO(),
         }),
       ])
       notionMock.mockRetrieve(notionResponse)

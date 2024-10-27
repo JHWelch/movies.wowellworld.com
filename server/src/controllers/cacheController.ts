@@ -11,6 +11,7 @@ import emails from '@server/emails/emails'
 import directoryPath from '@server/helpers/directoryPath'
 import { Week } from '@server/models/week'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
+import { Timestamp } from 'firebase/firestore'
 
 export default class CacheController {
   constructor (
@@ -38,6 +39,12 @@ export default class CacheController {
       ...moviesWithoutDetails,
       ...moviesWithoutTimes,
     ])
+
+    const newUpdated = weeks.reduce((latest, week) => {
+      return week.lastUpdated > latest ? week.lastUpdated : latest
+    }, weeks[0].lastUpdated ?? null)
+
+    await this.firestore.setGlobal('lastUpdated', Timestamp.fromDate(newUpdated.toJSDate()))
 
     await this.firestore.cacheWeeks(weeks)
 
