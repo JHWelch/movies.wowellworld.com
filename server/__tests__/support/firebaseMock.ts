@@ -33,6 +33,9 @@ export class FirebaseMock {
             slug: week.slug,
             styledTheme: week.styledTheme ?? [],
             movies: week.movies ?? [],
+            lastUpdated: week.lastEditedTime
+              ? Timestamp.fromDate(new Date(week.lastEditedTime))
+              : Timestamp.now(),
           }),
         })),
       }
@@ -47,6 +50,9 @@ export class FirebaseMock {
         date: Timestamp.fromDate(week.date.toJSDate()),
         isSkipped: week.isSkipped,
         movies: week.movies ?? [],
+        lastUpdated: week.lastEditedTime
+          ? Timestamp.fromDate(new Date(week.lastEditedTime))
+          : Timestamp.now(),
       } : undefined),
       exists: () => Boolean(week),
     }))
@@ -119,6 +125,7 @@ export type FirebaseWeek = {
   isSkipped: boolean,
   movies?: FirebaseMovie[],
   styledTheme?: RichText[],
+  lastEditedTime?: string,
 }
 
 export type FirebaseMovie = {

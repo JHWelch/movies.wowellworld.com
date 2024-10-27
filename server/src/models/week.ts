@@ -70,6 +70,7 @@ export class Week {
       isSkipped: record.isSkipped,
       slug: record.slug,
       styledTheme: record.styledTheme,
+      lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })

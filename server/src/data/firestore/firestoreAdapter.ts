@@ -57,7 +57,10 @@ export default class FirestoreAdapter {
     return document.data().value
   }
 
-  setGlobal = async (key: string, value: Primitive): Promise<void> => {
+  setGlobal = async (
+    key: string,
+    value: Primitive|Timestamp,
+  ): Promise<void> => {
     setDoc(doc(
       this.firestore,
       this.globalsCollectionName,

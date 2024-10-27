@@ -28,8 +28,10 @@ import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
 let firestore: FirestoreAdapter
+let now: DateTime
 
 beforeAll(() => {
+  now = DateTime.now()
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
@@ -97,6 +99,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme1',
         slug: null,
         styledTheme: [],
+        lastEditedTime: '2022-08-12T15:45:00.000Z',
       }, {
         date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
@@ -104,6 +107,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme2',
         slug: null,
         styledTheme: [],
+        lastEditedTime: '2023-08-12T15:45:00.000Z',
       }, {
         date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
@@ -111,6 +115,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme3',
         slug: 'slug',
         styledTheme: styled,
+        lastEditedTime: '2021-08-12T15:45:00.000Z',
       },
     ])
   })
@@ -123,12 +128,14 @@ describe('getUpcomingWeeks', () => {
         id: 'id1',
         theme: 'theme1',
         date: DateTime.fromISO('2021-01-01', TZ),
+        lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
       }),
       new Week({
         id: 'id2',
         theme: 'theme2',
         date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
+        lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
       }),
       new Week({
         id: 'id3',
@@ -136,6 +143,7 @@ describe('getUpcomingWeeks', () => {
         date: DateTime.fromISO('2021-01-15', TZ),
         slug: 'slug',
         styledTheme: styled,
+        lastUpdated: DateTime.fromISO('2021-08-12T15:45:00.000Z'),
       }),
     ])
   })
@@ -171,18 +179,21 @@ describe('getPastWeeks', () => {
         isSkipped: false,
         theme: 'theme1',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       }, {
         date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       }, {
         date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       },
     ])
   })
@@ -191,9 +202,24 @@ describe('getPastWeeks', () => {
     const weeks = await firestore.getPastWeeks()
 
     expect(weeks).toEqual([
-      new Week({ id: 'id1', theme: 'theme1',date:  DateTime.fromISO('2021-01-01', TZ) }),
-      new Week({ id: 'id2', theme: 'theme2',date:  DateTime.fromISO('2021-01-08', TZ) }),
-      new Week({ id: 'id3', theme: 'theme3',date:  DateTime.fromISO('2021-01-15', TZ) }),
+      new Week({
+        id: 'id1',
+        theme: 'theme1',
+        date: DateTime.fromISO('2021-01-01', TZ),
+        lastUpdated: now,
+      }),
+      new Week({
+        id: 'id2',
+        theme: 'theme2',
+        date: DateTime.fromISO('2021-01-08', TZ),
+        lastUpdated: now,
+      }),
+      new Week({
+        id: 'id3',
+        theme: 'theme3',
+        date: DateTime.fromISO('2021-01-15', TZ),
+        lastUpdated: now,
+      }),
     ])
   })
 
@@ -220,6 +246,7 @@ describe('getWeek', () => {
         isSkipped: false,
         theme: 'theme1',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       })
     })
 
@@ -227,7 +254,12 @@ describe('getWeek', () => {
       const week = await firestore.getWeek('2021-01-01')
 
       expect(week).toEqual(
-        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
+        new Week({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          lastUpdated: now,
+        }),
       )
     })
   })
@@ -666,9 +698,7 @@ describe ('setGlobal', () => {
 
     expect(setDoc).toHaveBeenCalledWith(
       FirebaseMock.mockDoc('globals', 'testKey'),
-      {
-        value: 'testValue',
-      },
+      { value: 'testValue' },
     )
   })
 })
