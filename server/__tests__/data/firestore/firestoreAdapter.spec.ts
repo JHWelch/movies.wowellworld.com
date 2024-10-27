@@ -671,12 +671,22 @@ describe ('setGlobal', () => {
       },
     )
   })
+})
 
+describe('getGlobal', () => {
   it('can get a value from globals', async () => {
     FirebaseMock.mockGetGlobal('testKey', 'testValue')
 
     const value = await firestore.getGlobal('testKey')
 
     expect(value).toEqual('testValue')
+  })
+
+  it('will return null if the value does not exist', async () => {
+    FirebaseMock.mockGetGlobal('testKey')
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toBeNull()
   })
 })
