@@ -114,6 +114,7 @@ export class Week {
       slug: this.slug,
       isSkipped: this.isSkipped,
       styledTheme: this.styledTheme,
+      lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
     }
   }
 

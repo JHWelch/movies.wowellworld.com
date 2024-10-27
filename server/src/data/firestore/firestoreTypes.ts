@@ -9,6 +9,7 @@ export type FirestoreWeek = {
   slug: string | null;
   styledTheme: RichText[];
   movies: FirestoreMovie[];
+  lastUpdated: Timestamp;
 }
 
 export type FirestoreMovie = {

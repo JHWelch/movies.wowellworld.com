@@ -155,6 +155,7 @@ describe('getWeeks', () => {
       href: null,
     },
   ]
+
   beforeEach(() => {
     notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([

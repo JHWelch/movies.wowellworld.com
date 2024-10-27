@@ -106,6 +106,9 @@ export class FirebaseMock {
       isSkipped: week.isSkipped ?? false,
       slug: week.slug ?? null,
       styledTheme: week.styledTheme ?? [],
+      lastUpdated: week.lastEditedTime
+        ? typeof week.lastEditedTime === 'string' ? DateTime.fromISO(week.lastEditedTime) : week.lastEditedTime
+        : DateTime.now(),
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -156,4 +159,5 @@ export type FirebaseWeekConstructor = {
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
+  lastEditedTime?: DateTime|string,
 }

@@ -279,9 +279,24 @@ describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () => {
       await firestore.cacheWeeks([
-        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
-        new Week({ id: 'id2', theme: 'theme2', date: DateTime.fromISO('2021-01-08', TZ) }),
-        new Week({ id: 'id3', theme: 'theme3', date: DateTime.fromISO('2021-01-15', TZ) }),
+        new Week({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          lastUpdated: now.minus({ days: 1 }),
+        }),
+        new Week({
+          id: 'id2',
+          theme: 'theme2',
+          date: DateTime.fromISO('2021-01-08', TZ),
+          lastUpdated: now.minus({ days: 10 }),
+        }),
+        new Week({
+          id: 'id3',
+          theme: 'theme3',
+          date: DateTime.fromISO('2021-01-15', TZ),
+          lastUpdated: now.minus({ days: 20 }),
+        }),
       ])
 
       expect(transaction.set)
@@ -291,6 +306,7 @@ describe('cacheWeeks', () => {
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
+            lastEditedTime: now.minus({ days: 1 }),
           }),
         )
       expect(transaction.set)
@@ -300,6 +316,7 @@ describe('cacheWeeks', () => {
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
+            lastEditedTime: now.minus({ days: 10 }),
           }),
         )
       expect(transaction.set)
@@ -309,6 +326,7 @@ describe('cacheWeeks', () => {
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
+            lastEditedTime: now.minus({ days: 20 }),
           }),
         )
     })
