@@ -314,6 +314,27 @@ describe('cacheWeeks', () => {
     })
   })
 
+  describe('when no movies are returned', () => {
+    beforeEach(() => {
+      notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated')
+      notionMock.mockQuery([])
+    })
+
+    it('does not store any weeks', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(transaction.set).not.toHaveBeenCalled()
+    })
+
+    it('does not update lastUpdated', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(setDoc).not.toHaveBeenCalled()
+    })
+  })
+
   describe('movies without directors', () => {
     let expected: Movie
 

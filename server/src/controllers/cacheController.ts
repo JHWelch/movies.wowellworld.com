@@ -25,6 +25,11 @@ export default class CacheController {
 
     const weeks = await this.notionAdapter.getWeeks(lastUpdated?.toString())
 
+    if (!weeks.length) {
+      res.sendStatus(200)
+      return
+    }
+
     const moviesWithoutDetails = weeks.flatMap(week => week.movies
       .filter(movie => !movie.director && !movie.posterPath))
     await this.fillMovieDetails(moviesWithoutDetails)
@@ -42,7 +47,7 @@ export default class CacheController {
 
     const newUpdated = weeks.reduce((latest, week) => {
       return week.lastUpdated > latest ? week.lastUpdated : latest
-    }, weeks[0].lastUpdated ?? null)
+    }, weeks[0].lastUpdated)
 
     await this.firestore.setGlobal('lastUpdated', Timestamp.fromDate(newUpdated.toJSDate()))
 
