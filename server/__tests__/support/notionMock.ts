@@ -13,6 +13,8 @@ import {
   WithAuth,
   nCheckbox,
   nDate,
+  nFormula,
+  nLastEditedTime,
   nRelation,
   nRichText,
   nTitle,
@@ -94,6 +96,8 @@ export class NotionMock {
     slug?: string | null
     movies?: NotionMovie[]
     styledTheme?: RichText[]
+    lastEditedTime?: string
+    lastEditedMovieTime?: string
   }): PageObjectResponse => pageObjectResponse(
     week.id,
     {
@@ -103,6 +107,8 @@ export class NotionMock {
       Slug: nRichText(week.slug ?? null),
       Movies: nRelation(week.movies ?? []),
       'Styled Theme': nRichText(week.styledTheme ?? []),
+      'Last edited time': nLastEditedTime(week.lastEditedTime ?? ''),
+      'Last edited movie time': nFormula(week.lastEditedMovieTime ?? ''),
     }
   )
 }
