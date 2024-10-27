@@ -1,7 +1,9 @@
 import { it, describe, expect, beforeEach } from '@jest/globals'
+import { TZ } from '@server/config/tz'
 import { Week } from '@server/models/week'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import WeekFactory from '@tests/support/factories/weekFactory'
+import { NotionMock } from '@tests/support/notionMock'
 import { DateTime } from 'luxon'
 
 describe('dateString', () => {
@@ -91,6 +93,50 @@ describe('startTime', () => {
       })
 
       expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T17:30:00'))
+    })
+  })
+})
+
+describe('fromNotion', () => {
+  it('can create a week from a notion object', () => {
+    expect(Week.fromNotion(NotionMock.mockWeek({
+      id: 'weekId3',
+      date: '2021-01-15',
+      theme: 'theme3',
+      lastEditedTime: '2022-08-12T15:45:00.000Z',
+    }))).toEqual({
+      id: 'weekId3',
+      date: DateTime.fromISO('2021-01-15', TZ),
+      isSkipped: false,
+      slug: null,
+      movies: [],
+      theme: 'theme3',
+      styledTheme: [],
+      lastUpdated: '2022-08-12T15:45:00.000Z',
+    })
+  })
+
+  it('does not use lastEditedMovieTime if lastEditedTime is higher', () => {
+    expect(Week.fromNotion(NotionMock.mockWeek({
+      id: 'weekId3',
+      date: '2021-01-15',
+      theme: 'theme3',
+      lastEditedTime: '2022-08-12T15:45:00.000Z',
+      lastEditedMovieTime: '2021-08-12T15:45:00.000Z',
+    }))).toMatchObject({
+      lastUpdated: '2022-08-12T15:45:00.000Z',
+    })
+  })
+
+  it('uses lastEditedMovieTime if it is higher than lastEditedTime', () => {
+    expect(Week.fromNotion(NotionMock.mockWeek({
+      id: 'weekId3',
+      date: '2021-01-15',
+      theme: 'theme3',
+      lastEditedTime: '2021-08-12T15:45:00.000Z',
+      lastEditedMovieTime: '2023-08-12T15:45:00.000Z',
+    }))).toMatchObject({
+      lastUpdated: '2023-08-12T15:45:00.000Z',
     })
   })
 })

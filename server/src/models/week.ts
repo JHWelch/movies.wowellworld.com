@@ -19,6 +19,7 @@ export type WeekConstructor = {
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
+  lastUpdated?: string,
 }
 
 export type WeekDtoOptions = {
@@ -33,6 +34,7 @@ export class Week {
   public isSkipped: boolean = false
   public slug: string | null = null
   public movies: Movie[] = []
+  public lastUpdated: string = ''
 
   constructor (week: WeekConstructor) {
     Object.keys(week).forEach((key) => {
@@ -49,6 +51,13 @@ export class Week {
   ): Week {
     const properties = record.properties as unknown as WeekProperties
 
+    const lastUpdatedWeek = properties['Last edited time']?.date?.start
+    const lastUpdatedMovie = properties['Last edited movie time']?.date?.start
+
+    const lastUpdated = lastUpdatedWeek > (lastUpdatedMovie ?? '')
+      ? lastUpdatedWeek
+      : lastUpdatedMovie
+
     return new Week({
       id: record.id,
       theme: properties.Theme.title[0].plain_text,
@@ -56,6 +65,7 @@ export class Week {
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
       styledTheme: properties['Styled Theme']?.rich_text,
+      lastUpdated,
     })
   }
 
