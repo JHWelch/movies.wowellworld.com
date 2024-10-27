@@ -112,7 +112,7 @@ describe('fromNotion', () => {
       movies: [],
       theme: 'theme3',
       styledTheme: [],
-      lastUpdated: '2022-08-12T15:45:00.000Z',
+      lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
     })
   })
 
@@ -122,9 +122,9 @@ describe('fromNotion', () => {
       date: '2021-01-15',
       theme: 'theme3',
       lastEditedTime: '2022-08-12T15:45:00.000Z',
-      lastEditedMovieTime: '2021-08-12T15:45:00.000Z',
+      lastEditedMovieTime: '2021-08-12T15:45:00.000+00:00',
     }))).toMatchObject({
-      lastUpdated: '2022-08-12T15:45:00.000Z',
+      lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
     })
   })
 
@@ -134,9 +134,9 @@ describe('fromNotion', () => {
       date: '2021-01-15',
       theme: 'theme3',
       lastEditedTime: '2021-08-12T15:45:00.000Z',
-      lastEditedMovieTime: '2023-08-12T15:45:00.000Z',
+      lastEditedMovieTime: '2023-08-12T15:45:00.000+00:00',
     }))).toMatchObject({
-      lastUpdated: '2023-08-12T15:45:00.000Z',
+      lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
     })
   })
 })
