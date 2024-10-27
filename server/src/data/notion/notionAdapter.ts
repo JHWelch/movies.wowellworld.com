@@ -47,7 +47,7 @@ export default class NotionAdapter {
     return record != null ? await this.recordToWeek(record) : null
   }
 
-  async getWeeks (after?: string): Promise<Week[]> {
+  async getWeeks (after?: string | null): Promise<Week[]> {
     const results: (PageObjectResponse
       | PartialPageObjectResponse
       | DatabaseObjectResponse
@@ -103,7 +103,7 @@ export default class NotionAdapter {
     return movie.id
   }
 
-  private weekFilter = (after?: string): QueryDatabaseParameters['filter'] => after
+  private weekFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after
     ? {
       and: [
         {

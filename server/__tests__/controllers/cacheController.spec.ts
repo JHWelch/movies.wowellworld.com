@@ -110,6 +110,7 @@ describe('cacheWeeks', () => {
 
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated')
       notionMock.mockQuery([
         NotionMock.mockWeek({
           id: 'id1',
@@ -167,6 +168,118 @@ describe('cacheWeeks', () => {
             styledTheme: styled,
           }),
         )
+    })
+
+    it('should call query with the correct parameters', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'NOTION_WEEK_DATABASE_ID',
+        page_size: 100,
+        filter: {
+          property: 'Date',
+          date: { is_not_empty: true },
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
+    })
+  })
+
+  describe('when cache lastUpdated already exists ', () => {
+    beforeEach(() => {
+      notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated', '2021-01-01T00:00:00.000Z')
+      notionMock.mockQuery([
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+        }),
+        NotionMock.mockWeek({
+          id: 'id2',
+          date: '2021-01-08',
+          theme: 'theme2',
+          skipped: true,
+        }),
+        NotionMock.mockWeek({
+          id: 'id3',
+          date: '2021-01-15',
+          theme: 'theme3',
+          slug: 'slug',
+        }),
+      ])
+    })
+
+    it('updates all weeks in firestore', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(transaction.set).toHaveBeenCalledTimes(3)
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
+          FirebaseMock.mockWeek({
+            id: 'id1',
+            theme: 'theme1',
+            date: '2021-01-01',
+          }),
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-08'),
+          FirebaseMock.mockWeek({
+            id: 'id2',
+            theme: 'theme2',
+            date: '2021-01-08',
+            isSkipped: true,
+          }),
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-15'),
+          FirebaseMock.mockWeek({
+            id: 'id3',
+            theme: 'theme3',
+            date: '2021-01-15',
+            slug: 'slug',
+          }),
+        )
+    })
+
+    it('should call query with the correct parameters', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'NOTION_WEEK_DATABASE_ID',
+        page_size: 100,
+        filter: {
+          and: [
+            {
+              property: 'Date',
+              date: { is_not_empty: true },
+            },
+            {
+              or: [
+                {
+                  property: 'Last edited time',
+                  date: { after: '2021-01-01T00:00:00.000Z' },
+                },
+                {
+                  property: 'Last edited movie time',
+                  date: { after: '2021-01-01T00:00:00.000Z' },
+                },
+              ],
+            },
+          ],
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
     })
   })
 
