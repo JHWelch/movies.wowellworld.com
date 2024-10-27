@@ -11,6 +11,7 @@ import {
   getDocs,
   limit,
   orderBy,
+  Primitive,
   query,
   Query,
   runTransaction,
@@ -27,6 +28,7 @@ import { DateTime } from 'luxon'
 import { CHICAGO } from '@server/config/tz'
 
 export default class FirestoreAdapter {
+  static readonly GLOBALS_COLLECTION_NAME = 'globals'
   static readonly MAIL_COLLECTION_NAME = 'mail'
   static readonly RSVPS_COLLECTION_NAME = 'rsvps'
   static readonly TEMPLATES_COLLECTION_NAME = 'mail-templates'
@@ -39,6 +41,28 @@ export default class FirestoreAdapter {
   constructor (config: Config) {
     this.config = config
     this.firestore = setupFirestore(config)
+  }
+
+  getGlobal = async (key: string): Promise<Primitive|null> => {
+    const document = await getDoc(doc(
+      this.firestore,
+      this.globalsCollectionName,
+      key,
+    ))
+
+    if (!document.exists()) {
+      return null
+    }
+
+    return document.data().value
+  }
+
+  setGlobal = async (key: string, value: Primitive): Promise<void> => {
+    setDoc(doc(
+      this.firestore,
+      this.globalsCollectionName,
+      key,
+    ), { value })
   }
 
   cacheWeeks = async (weeks: Week[]): Promise<void> => {
@@ -215,6 +239,10 @@ export default class FirestoreAdapter {
 
   get adminEmail (): string {
     return this.config.adminEmail
+  }
+
+  private get globalsCollectionName (): string {
+    return this.collectionName(FirestoreAdapter.GLOBALS_COLLECTION_NAME)
   }
 
   private get mailCollectionName (): string {

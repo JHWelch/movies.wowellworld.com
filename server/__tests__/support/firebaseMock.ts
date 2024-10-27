@@ -3,6 +3,7 @@ import {
   getDoc,
   Timestamp,
   WithFieldValue,
+  Primitive,
 } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
@@ -13,6 +14,13 @@ import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
 export class FirebaseMock {
+  static mockGetGlobal (key: string, value: Primitive) {
+    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+      data: () => ({ value }),
+      exists: () => true,
+    }))
+  }
+
   static mockWeeks (weeks: FirebaseWeek[]) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => {
       return {

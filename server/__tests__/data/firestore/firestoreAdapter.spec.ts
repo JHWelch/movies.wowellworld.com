@@ -659,3 +659,24 @@ describe('updateTemplates', () => {
     )
   })
 })
+
+describe ('setGlobal', () => {
+  it('can store a value in globals', async () => {
+    await firestore.setGlobal('testKey', 'testValue')
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('globals', 'testKey'),
+      {
+        value: 'testValue',
+      },
+    )
+  })
+
+  it('can get a value from globals', async () => {
+    FirebaseMock.mockGetGlobal('testKey', 'testValue')
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toEqual('testValue')
+  })
+})
