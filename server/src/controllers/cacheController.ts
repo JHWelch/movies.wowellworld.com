@@ -12,6 +12,7 @@ import directoryPath from '@server/helpers/directoryPath'
 import { Week } from '@server/models/week'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Timestamp } from 'firebase/firestore'
+import { CacheWeeksOutput, MovieDto } from '@shared/dtos'
 
 export default class CacheController {
   constructor (
@@ -27,12 +28,9 @@ export default class CacheController {
       .getWeeks(lastUpdated?.toDate().toISOString())
 
     if (!weeks.length) {
-      res.status(200).json({
-        updatedWeeks: 0,
-        previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
-        newLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
-        tmdbMoviesSynced: [],
-      })
+      res.status(200).json(this.cacheWeeksOutput({
+        previousLastUpdated: lastUpdated?.toDate(),
+      }))
       return
     }
 
@@ -59,12 +57,12 @@ export default class CacheController {
 
     await this.firestore.cacheWeeks(weeks)
 
-    res.status(200).json({
+    res.status(200).json(this.cacheWeeksOutput({
       updatedWeeks: weeks.length,
-      previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
-      newLastUpdated: newUpdated.toJSDate().toISOString(),
-      tmdbMoviesSynced: moviesWithoutDetails.map(movie => movie.toDTO()),
-    })
+      previousLastUpdated: lastUpdated?.toDate(),
+      newLastUpdated: newUpdated.toJSDate(),
+      tmdbMoviesSynced: moviesWithoutDetails,
+    }))
   }
 
   cacheEmailTemplates = async (_req: Request, res: Response): Promise<void> => {
@@ -119,4 +117,18 @@ export default class CacheController {
   ): Promise<UpdatePageResponse[]> => Promise.all(
     movies.map(this.notionAdapter.setMovie),
   )
+
+  private cacheWeeksOutput = (input: {
+    updatedWeeks?: number,
+    previousLastUpdated?: Date | null,
+    newLastUpdated?: Date | null,
+    tmdbMoviesSynced?: Movie[],
+  } = {}): CacheWeeksOutput => ({
+    updatedWeeks: input.updatedWeeks ?? 0,
+    previousLastUpdated: input.previousLastUpdated?.toISOString() ?? null,
+    newLastUpdated: input.newLastUpdated?.toISOString()
+      ?? input.previousLastUpdated?.toISOString()
+      ?? null,
+    tmdbMoviesSynced: input.tmdbMoviesSynced?.map(movie => movie.toDTO()) ?? [],
+  })
 }
