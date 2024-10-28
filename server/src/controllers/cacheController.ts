@@ -27,7 +27,11 @@ export default class CacheController {
       .getWeeks(lastUpdated?.toDate().toISOString())
 
     if (!weeks.length) {
-      res.sendStatus(200)
+      res.status(200).json({
+        updatedWeeks: 0,
+        previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
+        newLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
+      })
       return
     }
 
@@ -54,7 +58,11 @@ export default class CacheController {
 
     await this.firestore.cacheWeeks(weeks)
 
-    res.sendStatus(200)
+    res.status(200).json({
+      updatedWeeks: weeks.length,
+      previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
+      newLastUpdated: newUpdated.toJSDate().toISOString(),
+    })
   }
 
   cacheEmailTemplates = async (_req: Request, res: Response): Promise<void> => {
