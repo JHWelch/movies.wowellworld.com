@@ -145,6 +145,7 @@ describe('cacheWeeks', () => {
         updatedWeeks: 3,
         previousLastUpdated: null,
         newLastUpdated: '2023-08-12T15:45:00.000Z',
+        tmdbMoviesSynced: [],
       })
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
@@ -248,6 +249,7 @@ describe('cacheWeeks', () => {
         updatedWeeks: 3,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2023-08-12T15:45:00.000Z',
+        tmdbMoviesSynced: [],
       })
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
@@ -345,6 +347,7 @@ describe('cacheWeeks', () => {
         updatedWeeks: 0,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2021-01-01T00:00:00.000Z',
+        tmdbMoviesSynced: [],
       })
       expect(transaction.set).not.toHaveBeenCalled()
     })
@@ -398,10 +401,21 @@ describe('cacheWeeks', () => {
       tmdbMock.mockMovieDetails(tmdb)
     })
 
-    it('stores data from tmdb in firestore', async () => {
+    it('returns the updated data', async () => {
       await newCacheController().cacheWeeks(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 1,
+        previousLastUpdated: '2021-01-01T00:00:00.000Z',
+        newLastUpdated: '2021-01-01T00:00:00.000Z',
+        tmdbMoviesSynced: [expected.toDTO()],
+      })
+    })
+
+    it('stores data from tmdb in firestore', async () => {
+      await newCacheController().cacheWeeks(req, res)
+
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
@@ -417,7 +431,6 @@ describe('cacheWeeks', () => {
     it('updates the movie in notion', async () => {
       await newCacheController().cacheWeeks(req, res)
 
-      expect(res.status).toHaveBeenCalledWith(200)
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
     })
   })

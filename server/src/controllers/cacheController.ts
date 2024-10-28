@@ -31,6 +31,7 @@ export default class CacheController {
         updatedWeeks: 0,
         previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
         newLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
+        tmdbMoviesSynced: [],
       })
       return
     }
@@ -62,6 +63,7 @@ export default class CacheController {
       updatedWeeks: weeks.length,
       previousLastUpdated: lastUpdated?.toDate().toISOString() ?? null,
       newLastUpdated: newUpdated.toJSDate().toISOString(),
+      tmdbMoviesSynced: moviesWithoutDetails.map(movie => movie.toDTO()),
     })
   }
 
