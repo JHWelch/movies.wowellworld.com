@@ -711,12 +711,27 @@ describe('updateTemplates', () => {
 })
 
 describe ('setGlobal', () => {
-  it('can store a value in globals', async () => {
-    await firestore.setGlobal('testKey', 'testValue')
+  it.each([
+    ['string'],
+    [1],
+    [true],
+    [Timestamp.fromDate(new Date())],
+  ])('can store a primitive value in globals', async (data) => {
+    await firestore.setGlobal('testKey', data)
 
     expect(setDoc).toHaveBeenCalledWith(
       FirebaseMock.mockDoc('globals', 'testKey'),
-      { value: 'testValue' },
+      { value: data },
+    )
+  })
+
+  it('can store an object in globals', async () => {
+    const expected = { key: 'value', nested: { key: 'value' } }
+    await firestore.setGlobal('testKey', expected)
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('globals', 'testKey'),
+      { value: expected },
     )
   })
 })

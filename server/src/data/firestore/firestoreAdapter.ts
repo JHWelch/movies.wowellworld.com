@@ -18,6 +18,7 @@ import {
   setDoc,
   Timestamp,
   where,
+  WithFieldValue,
 } from 'firebase/firestore'
 import { Week } from '@server/models/week'
 import setupFirestore from '@server/config/firestore'
@@ -57,9 +58,9 @@ export default class FirestoreAdapter {
     return document.data().value
   }
 
-  setGlobal = async (
+  setGlobal = async <AppDataType>(
     key: string,
-    value: Primitive|Timestamp,
+    value: Primitive|Timestamp|WithFieldValue<AppDataType>,
   ): Promise<void> => {
     setDoc(doc(
       this.firestore,
