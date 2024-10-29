@@ -4,6 +4,7 @@ import FormInput from '@components/form/FormInput.vue'
 import { ErrorBag, Errors } from '@client/types'
 import { notifications } from '@client/state/notificationState'
 import { fireConfetti } from '@client/utilities/confetti'
+import { jsonHeaders } from '@client/data/headers'
 
 const isOpen = ref<boolean>(false)
 const email = ref<string>('')
@@ -23,9 +24,7 @@ const handleErrors = (data: ErrorBag) => {
 const subscribe = async () => {
   const response = await fetch('/api/subscriptions', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: jsonHeaders,
     body: JSON.stringify({ email: email.value }),
   })
 
