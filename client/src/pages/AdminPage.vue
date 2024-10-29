@@ -16,7 +16,7 @@ const cacheWeeks = () => {
   cacheWeeksLoading.value = true
 
   fetch('/api/cache/weeks', {
-    method: 'GET',
+    method: 'POST',
     headers: jsonHeaders,
   })
     .then(response => {

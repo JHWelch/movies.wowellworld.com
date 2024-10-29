@@ -58,7 +58,7 @@ function routes (
     new Route('/health_check', HealthCheckController.index),
     new Route('/api/weeks', weekController.index),
     new Route('/api/weeks/:weekId/rsvp', rsvpController.store, HttpVerb.POST),
-    new Route('/api/cache/weeks', cacheController.cacheWeeks),
+    new Route('/api/cache/weeks', cacheController.cacheWeeks, HttpVerb.POST),
     new Route('/api/cache/email-templates', cacheController.cacheEmailTemplates),
     new Route('/suggestions', suggestionController.store, HttpVerb.POST),
     new Route('/calendar', calendarController.index),
