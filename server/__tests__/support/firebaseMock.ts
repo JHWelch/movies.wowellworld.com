@@ -14,7 +14,10 @@ import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
 export class FirebaseMock {
-  static mockGetGlobal (key: string, value?: Primitive|Timestamp) {
+  static mockGetGlobal <AppDataType>(
+    key: string,
+    value?: Primitive|Timestamp|WithFieldValue<AppDataType>,
+  ) {
     (getDoc as unknown as jest.Mock).mockImplementation(() => ({
       data: () => (value ? { value } : undefined),
       exists: () => Boolean(value),

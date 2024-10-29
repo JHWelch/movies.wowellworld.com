@@ -737,12 +737,26 @@ describe ('setGlobal', () => {
 })
 
 describe('getGlobal', () => {
-  it('can get a value from globals', async () => {
-    FirebaseMock.mockGetGlobal('testKey', 'testValue')
+  it.each([
+    ['string'],
+    [1],
+    [true],
+    [Timestamp.fromDate(new Date())],
+  ])('can get a primitive value from globals', async (data) => {
+    FirebaseMock.mockGetGlobal('testKey', data)
 
     const value = await firestore.getGlobal('testKey')
 
-    expect(value).toEqual('testValue')
+    expect(value).toEqual(data)
+  })
+
+  it('can get an object from globals', async () => {
+    const expected = { key: 'value', nested: { key: 'value' } }
+    FirebaseMock.mockGetGlobal('testKey', expected)
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toEqual(expected)
   })
 
   it('will return null if the value does not exist', async () => {

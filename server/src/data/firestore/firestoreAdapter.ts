@@ -44,7 +44,9 @@ export default class FirestoreAdapter {
     this.firestore = setupFirestore(config)
   }
 
-  getGlobal = async (key: string): Promise<Primitive|null> => {
+  getGlobal = async <AppDataType>(
+    key: string
+  ): Promise<Primitive|Timestamp|WithFieldValue<AppDataType>|null> => {
     const document = await getDoc(doc(
       this.firestore,
       this.globalsCollectionName,
