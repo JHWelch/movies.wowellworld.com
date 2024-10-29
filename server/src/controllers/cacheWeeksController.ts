@@ -6,15 +6,12 @@ import {
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { Movie } from '@server/models/movie'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
-import fs from 'fs'
-import emails from '@server/emails/emails'
-import directoryPath from '@server/helpers/directoryPath'
 import { Week } from '@server/models/week'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Timestamp } from 'firebase/firestore'
-import { CacheWeeksOutput, MovieDto } from '@shared/dtos'
+import { CacheWeeksOutput } from '@shared/dtos'
 
-export default class CacheController {
+export default class CacheWeeksController {
   constructor (
     private firestore: FirestoreAdapter,
     private notionAdapter: NotionAdapter,
@@ -64,21 +61,6 @@ export default class CacheController {
       tmdbMoviesSynced: moviesWithoutDetails,
     }))
   }
-
-  cacheEmailTemplates = async (_req: Request, res: Response): Promise<void> => {
-    this.firestore.updateTemplates(emails.templates.map(email => ({
-      name: email.name,
-      data: {
-        ...email.data,
-        html: this.getHtml(email.name),
-      },
-    })))
-
-    res.sendStatus(200)
-  }
-
-  private getHtml = (name: string | null): string =>
-    fs.readFileSync(`${directoryPath()}/../../../emails/built/${name}.html`, 'utf8')
 
   private fillMovieDetails = (movies: Movie[]): Promise<void[]> =>
     Promise.all(movies.map<Promise<void>>(async movie => {

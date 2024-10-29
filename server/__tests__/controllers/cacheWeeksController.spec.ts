@@ -647,19 +647,3 @@ describe('cacheWeeks', () => {
     })
   })
 })
-
-describe('cacheEmailTemplates', () => {
-  it('uploads email templates to firestore', async () => {
-    jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
-    await newCacheController().cacheEmailTemplates(req, res)
-
-    expect(res.sendStatus).toHaveBeenCalledWith(200)
-    expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('mail-templates', 'reminder'),
-      {
-        subject: 'Reminder: {{ theme }} is Tomorrow',
-        html: 'html',
-      },
-    )
-  })
-})
