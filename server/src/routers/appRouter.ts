@@ -1,7 +1,7 @@
 import WeekController from '@server/controllers/weekController'
 import { Router } from 'express'
 import type NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheController'
+import CacheController from '@server/controllers/cacheWeekController'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import RsvpController from '@server/controllers/rsvpController'

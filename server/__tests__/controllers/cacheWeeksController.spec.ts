@@ -10,7 +10,7 @@ import {
 import { NotionMock } from '@tests/support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheController'
+import CacheController from '@server/controllers/cacheWeekController'
 import { transaction } from '@mocks/firebase/firestore'
 import { Request } from 'express'
 import { Week } from '@server/models/week'
