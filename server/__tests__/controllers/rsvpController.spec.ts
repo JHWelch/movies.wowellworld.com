@@ -12,12 +12,14 @@ import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { TZ } from '@server/config/tz'
+import MockDate from 'mockdate'
 
 const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
   jest.clearAllMocks()
   mockClear()
+  MockDate.set('2021-01-01')
 })
 
 const mockBody = ({
