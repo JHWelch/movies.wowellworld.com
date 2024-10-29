@@ -9,7 +9,7 @@ export default class CacheEmailTemplatesController {
     private firestore: FirestoreAdapter,
   ) {}
 
-  cacheEmailTemplates = async (_req: Request, res: Response): Promise<void> => {
+  store = async (_req: Request, res: Response): Promise<void> => {
     this.firestore.updateTemplates(emails.templates.map(email => ({
       name: email.name,
       data: {

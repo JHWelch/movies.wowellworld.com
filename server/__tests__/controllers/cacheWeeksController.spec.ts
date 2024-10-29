@@ -61,7 +61,7 @@ afterEach(() => {
   jest.restoreAllMocks()
 })
 
-describe('cacheWeeks', () => {
+describe('store', () => {
   beforeAll(() => {
     jest.mock('@notionhq/client')
     notionMock = new NotionMock()
@@ -138,7 +138,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates all weeks in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
@@ -184,7 +184,7 @@ describe('cacheWeeks', () => {
     })
 
     it('calls query with the correct parameters', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
         database_id: 'NOTION_WEEK_DATABASE_ID',
@@ -201,7 +201,7 @@ describe('cacheWeeks', () => {
     })
 
     it('stores the lastUpdated date in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
@@ -242,7 +242,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates all weeks in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
@@ -287,7 +287,7 @@ describe('cacheWeeks', () => {
     })
 
     it('should call query with the correct parameters', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
         database_id: 'NOTION_WEEK_DATABASE_ID',
@@ -320,7 +320,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates the lastUpdated date in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
@@ -340,7 +340,7 @@ describe('cacheWeeks', () => {
     })
 
     it('does not store any weeks', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
@@ -353,7 +353,7 @@ describe('cacheWeeks', () => {
     })
 
     it('does not update lastUpdated', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(setDoc).not.toHaveBeenCalled()
     })
@@ -402,7 +402,7 @@ describe('cacheWeeks', () => {
     })
 
     it('returns the updated data', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
@@ -414,7 +414,7 @@ describe('cacheWeeks', () => {
     })
 
     it('stores data from tmdb in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
@@ -429,7 +429,7 @@ describe('cacheWeeks', () => {
     })
 
     it('updates the movie in notion', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
     })
@@ -463,7 +463,7 @@ describe('cacheWeeks', () => {
       })
 
       it('updates times when adding to firebase', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
@@ -479,7 +479,7 @@ describe('cacheWeeks', () => {
       })
 
       it('updates the movie in notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(notionMock.update)
@@ -502,7 +502,7 @@ describe('cacheWeeks', () => {
       })
 
       it('rounds to nearest 5 minute interval', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
@@ -535,7 +535,7 @@ describe('cacheWeeks', () => {
       })
 
       it('assigns all other proper times', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
@@ -567,7 +567,7 @@ describe('cacheWeeks', () => {
       })
 
       it('caches without update and does not update notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
@@ -598,7 +598,7 @@ describe('cacheWeeks', () => {
       })
 
       it('skips the movie', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
@@ -630,7 +630,7 @@ describe('cacheWeeks', () => {
       })
 
       it('caches without update and does not update notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(

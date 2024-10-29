@@ -50,7 +50,7 @@ afterEach(() => {
 describe('cacheEmailTemplates', () => {
   it('uploads email templates to firestore', async () => {
     jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
-    await newCacheController().cacheEmailTemplates(req, res)
+    await newCacheController().store(req, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(200)
     expect(transaction.set).toHaveBeenCalledWith(

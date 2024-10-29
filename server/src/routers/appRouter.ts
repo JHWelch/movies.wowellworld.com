@@ -1,7 +1,9 @@
+/* eslint-disable @stylistic/max-len */
 import WeekController from '@server/controllers/weekController'
 import { Router } from 'express'
 import type NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheWeeksController'
+import CacheWeeksController from '@server/controllers/cacheWeeksController'
+import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import RsvpController from '@server/controllers/rsvpController'
@@ -45,7 +47,8 @@ function routes (
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Route[] {
-  const cacheController = new CacheController(firestore, notion, tmdb)
+  const cacheWeeksController = new CacheWeeksController(firestore, notion, tmdb)
+  const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
   const cronController = new CronController(config, firestore)
   const rsvpController = new RsvpController(firestore)
@@ -58,8 +61,8 @@ function routes (
     new Route('/health_check', HealthCheckController.index),
     new Route('/api/weeks', weekController.index),
     new Route('/api/weeks/:weekId/rsvp', rsvpController.store, HttpVerb.POST),
-    new Route('/api/cache/weeks', cacheController.cacheWeeks, HttpVerb.POST),
-    new Route('/api/cache/email-templates', cacheController.cacheEmailTemplates),
+    new Route('/api/cache/weeks', cacheWeeksController.store, HttpVerb.POST),
+    new Route('/api/cache/email-templates', cacheEmailTemplatesController.store, HttpVerb.POST),
     new Route('/suggestions', suggestionController.store, HttpVerb.POST),
     new Route('/calendar', calendarController.index),
     new Route('/api/subscriptions', subscriptionController.store, HttpVerb.POST),

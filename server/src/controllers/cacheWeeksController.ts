@@ -18,7 +18,7 @@ export default class CacheWeeksController {
     private tmdbAdapter: TmdbAdapter,
   ) {}
 
-  cacheWeeks = async (_req: Request, res: Response): Promise<void> => {
+  store = async (_req: Request, res: Response): Promise<void> => {
     const lastUpdated = await this.firestore.getGlobal('lastUpdated') as Timestamp | undefined
 
     const weeks = await this.notionAdapter
