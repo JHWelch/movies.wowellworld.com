@@ -7,7 +7,6 @@ import {
   it,
   jest,
 } from '@jest/globals'
-import { NotionMock } from '@tests/support/notionMock'
 import { getMockRes } from '@jest-mock/express'
 import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import { transaction } from '@mocks/firebase/firestore'
@@ -17,8 +16,6 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import fs from 'fs'
 import MockDate from 'mockdate'
-
-let notionMock: NotionMock
 
 const { res, mockClear } = getMockRes()
 let req: Request
@@ -34,7 +31,6 @@ beforeAll(() => {
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
   MockDate.set('2021-01-01')
-  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
