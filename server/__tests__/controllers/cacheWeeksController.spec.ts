@@ -39,6 +39,7 @@ const newCacheController = () => {
   const firestore = new FirestoreAdapter(config)
   const notion = new NotionAdapter(config)
   const tmdbAdapter = new TmdbAdapter(config)
+
   return new CacheController(firestore, notion, tmdbAdapter)
 }
 
@@ -47,6 +48,8 @@ beforeAll(() => {
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
   MockDate.set('2021-01-01T00:00:00.000Z')
+  jest.mock('@notionhq/client')
+  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
@@ -60,12 +63,31 @@ afterEach(() => {
   jest.restoreAllMocks()
 })
 
-describe('store', () => {
-  beforeAll(() => {
-    jest.mock('@notionhq/client')
-    notionMock = new NotionMock()
+describe('show', () => {
+  beforeEach(() => {
+    req = getMockReq()
+    FirebaseMock.mockGetGlobal('lastUpdated', {
+      updatedWeeks: 3,
+      previousLastUpdated: null,
+      newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+      tmdbMoviesSynced: [],
+    })
   })
 
+  it('returns the lastUpdated data', async () => {
+    await newCacheController().show(req, res)
+
+    expect(res.status).toHaveBeenCalledWith(200)
+    expect(res.json).toHaveBeenCalledWith({
+      updatedWeeks: 3,
+      previousLastUpdated: null,
+      newLastUpdated: '2021-01-01T00:00:00.000Z',
+      tmdbMoviesSynced: [],
+    })
+  })
+})
+
+describe('store', () => {
   beforeEach(() => {
     req = getMockReq()
   })

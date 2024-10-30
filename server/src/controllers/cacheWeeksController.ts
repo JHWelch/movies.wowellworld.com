@@ -19,6 +19,24 @@ export default class CacheWeeksController {
     private tmdbAdapter: TmdbAdapter,
   ) {}
 
+  show = async (_req: Request, res: Response): Promise<void> => {
+    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
+
+    if (!lastUpdated) {
+      res.status(200).json(null)
+
+      return
+    }
+
+    const { previousLastUpdated, newLastUpdated } = lastUpdated
+
+    res.status(200).json({
+      ...lastUpdated,
+      previousLastUpdated: previousLastUpdated?.toDate().toISOString() ?? null,
+      newLastUpdated: newLastUpdated?.toDate().toISOString() ?? null,
+    })
+  }
+
   store = async (_req: Request, res: Response): Promise<void> => {
     const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
     const previousLastUpdated = lastUpdated?.newLastUpdated?.toDate()
