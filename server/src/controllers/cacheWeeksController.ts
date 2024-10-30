@@ -50,16 +50,18 @@ export default class CacheWeeksController {
       return week.lastUpdated > latest ? week.lastUpdated : latest
     }, weeks[0].lastUpdated)
 
-    await this.firestore.setGlobal('lastUpdated', Timestamp.fromDate(newUpdated.toJSDate()))
-
-    await this.firestore.cacheWeeks(weeks)
-
-    res.status(200).json(this.cacheWeeksOutput({
+    const metadata = this.cacheWeeksOutput({
       updatedWeeks: weeks.length,
       previousLastUpdated: lastUpdated?.toDate(),
       newLastUpdated: newUpdated.toJSDate(),
       tmdbMoviesSynced: moviesWithoutDetails,
-    }))
+    })
+    await Promise.all([
+      this.firestore.setGlobal('lastUpdated', metadata),
+      this.firestore.cacheWeeks(weeks),
+    ])
+
+    res.status(200).json(metadata)
   }
 
   private fillMovieDetails = (movies: Movie[]): Promise<void[]> =>

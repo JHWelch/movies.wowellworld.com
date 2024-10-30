@@ -204,19 +204,19 @@ describe('store', () => {
       })
     })
 
-    // it('stores the lastUpdated date in firestore', async () => {
-    //   await newCacheController().store(req, res)
+    it('stores the lastUpdated metadata in firestore', async () => {
+      await newCacheController().store(req, res)
 
-    //   expect(setDoc).toHaveBeenCalledWith(
-    //     FirebaseMock.mockDoc('globals', 'lastUpdated'),
-    //     { value: {
-    //       updatedWeeks: 3,
-    //       previousLastUpdated: null,
-    //       newLastUpdated: '2023-08-12T15:45:00.000Z',
-    //       tmdbMoviesSynced: [],
-    //     } },
-    //   )
-    // })
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: {
+          updatedWeeks: 3,
+          previousLastUpdated: null,
+          newLastUpdated: '2023-08-12T15:45:00.000Z',
+          tmdbMoviesSynced: [],
+        } },
+      )
+    })
   })
 
   describe('when cache lastUpdated already exists', () => {
@@ -250,7 +250,7 @@ describe('store', () => {
       ])
     })
 
-    it('updates all weeks in firestore', async () => {
+    it('returns the updated data', async () => {
       await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
@@ -260,6 +260,11 @@ describe('store', () => {
         newLastUpdated: '2023-08-12T15:45:00.000Z',
         tmdbMoviesSynced: [],
       })
+    })
+
+    it('updates all weeks in firestore', async () => {
+      await newCacheController().store(req, res)
+
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
@@ -333,7 +338,12 @@ describe('store', () => {
 
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
-        { value: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')) },
+        { value: {
+          updatedWeeks: 3,
+          previousLastUpdated: '2021-01-01T00:00:00.000Z',
+          newLastUpdated: '2023-08-12T15:45:00.000Z',
+          tmdbMoviesSynced: [],
+        } },
       )
     })
   })
