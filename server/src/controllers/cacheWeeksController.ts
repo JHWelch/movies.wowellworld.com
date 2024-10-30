@@ -10,6 +10,7 @@ import { Week } from '@server/models/week'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Timestamp } from 'firebase/firestore'
 import { CacheWeeksOutput } from '@shared/dtos'
+import { LastUpdated } from '@server/data/globals/types'
 
 export default class CacheWeeksController {
   constructor (
@@ -25,9 +26,11 @@ export default class CacheWeeksController {
       .getWeeks(lastUpdated?.toDate().toISOString())
 
     if (!weeks.length) {
-      res.status(200).json(this.cacheWeeksOutput({
+      const { dto, meta } = this.generateCacheWeeksData({
         previousLastUpdated: lastUpdated?.toDate(),
-      }))
+      })
+      this.firestore.setGlobal('lastUpdated', meta)
+      res.status(200).json(dto)
       return
     }
 
@@ -50,18 +53,18 @@ export default class CacheWeeksController {
       return week.lastUpdated > latest ? week.lastUpdated : latest
     }, weeks[0].lastUpdated)
 
-    const metadata = this.cacheWeeksOutput({
+    const { dto, meta } = this.generateCacheWeeksData({
       updatedWeeks: weeks.length,
       previousLastUpdated: lastUpdated?.toDate(),
       newLastUpdated: newUpdated.toJSDate(),
       tmdbMoviesSynced: moviesWithoutDetails,
     })
     await Promise.all([
-      this.firestore.setGlobal('lastUpdated', metadata),
+      this.firestore.setGlobal('lastUpdated', meta),
       this.firestore.cacheWeeks(weeks),
     ])
 
-    res.status(200).json(metadata)
+    res.status(200).json(dto)
   }
 
   private fillMovieDetails = (movies: Movie[]): Promise<void[]> =>
@@ -102,17 +105,40 @@ export default class CacheWeeksController {
     movies.map(this.notionAdapter.setMovie),
   )
 
-  private cacheWeeksOutput = (input: {
+  private generateCacheWeeksData = (input: {
     updatedWeeks?: number,
     previousLastUpdated?: Date | null,
     newLastUpdated?: Date | null,
     tmdbMoviesSynced?: Movie[],
-  } = {}): CacheWeeksOutput => ({
-    updatedWeeks: input.updatedWeeks ?? 0,
-    previousLastUpdated: input.previousLastUpdated?.toISOString() ?? null,
-    newLastUpdated: input.newLastUpdated?.toISOString()
-      ?? input.previousLastUpdated?.toISOString()
-      ?? null,
-    tmdbMoviesSynced: input.tmdbMoviesSynced?.map(movie => movie.toDTO()) ?? [],
-  })
+  } ): { dto: CacheWeeksOutput, meta: LastUpdated } => {
+    const baseData = {
+      updatedWeeks: input.updatedWeeks ?? 0,
+      previousLastUpdated: input.previousLastUpdated ?? null,
+      newLastUpdated: input.newLastUpdated
+        ?? input.previousLastUpdated
+        ?? null,
+      tmdbMoviesSynced: input.tmdbMoviesSynced?.map(
+        movie => movie.toDTO()
+      ) ?? [],
+    }
+
+    return {
+      dto: {
+        ...baseData,
+        previousLastUpdated: baseData
+          .previousLastUpdated?.toISOString() ?? null,
+        newLastUpdated: baseData
+          .newLastUpdated?.toISOString() ?? null,
+      },
+      meta: {
+        ...baseData,
+        previousLastUpdated: baseData.previousLastUpdated
+          ? Timestamp.fromDate(baseData.previousLastUpdated)
+          : null,
+        newLastUpdated: baseData.newLastUpdated
+          ? Timestamp.fromDate(baseData.newLastUpdated)
+          : null,
+      },
+    }
+  }
 }

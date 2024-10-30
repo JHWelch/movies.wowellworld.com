@@ -212,7 +212,7 @@ describe('store', () => {
         { value: {
           updatedWeeks: 3,
           previousLastUpdated: null,
-          newLastUpdated: '2023-08-12T15:45:00.000Z',
+          newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
           tmdbMoviesSynced: [],
         } },
       )
@@ -340,8 +340,8 @@ describe('store', () => {
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
         { value: {
           updatedWeeks: 3,
-          previousLastUpdated: '2021-01-01T00:00:00.000Z',
-          newLastUpdated: '2023-08-12T15:45:00.000Z',
+          previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
           tmdbMoviesSynced: [],
         } },
       )
@@ -371,10 +371,18 @@ describe('store', () => {
       expect(transaction.set).not.toHaveBeenCalled()
     })
 
-    it('does not update lastUpdated', async () => {
+    it('updates lastUpdated', async () => {
       await newCacheController().store(req, res)
 
-      expect(setDoc).not.toHaveBeenCalled()
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: {
+          updatedWeeks: 0,
+          previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          tmdbMoviesSynced: [],
+        } }
+      )
     })
   })
 
