@@ -222,10 +222,12 @@ describe('store', () => {
   describe('when cache lastUpdated already exists', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
-      FirebaseMock.mockGetGlobal(
-        'lastUpdated',
-        Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z'))
-      )
+      FirebaseMock.mockGetGlobal('lastUpdated', {
+        updatedWeeks: 3,
+        previousLastUpdated: null,
+        newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+        tmdbMoviesSynced: [],
+      })
       notionMock.mockQuery([
         NotionMock.mockWeek({
           id: 'id1',
@@ -351,10 +353,12 @@ describe('store', () => {
   describe('when no movies are returned', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
-      FirebaseMock.mockGetGlobal(
-        'lastUpdated',
-        Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z'))
-      )
+      FirebaseMock.mockGetGlobal('lastUpdated',{
+        updatedWeeks: 3,
+        previousLastUpdated: null,
+        newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+        tmdbMoviesSynced: [],
+      })
       notionMock.mockQuery([])
     })
 

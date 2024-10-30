@@ -26,11 +26,13 @@ import User from '@server/models/user'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import MockDate from 'mockdate'
 
 let firestore: FirestoreAdapter
 let now: DateTime
 
 beforeAll(() => {
+  MockDate.set('2021-01-01T00:00:00.000Z')
   now = DateTime.now()
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')

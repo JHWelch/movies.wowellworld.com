@@ -20,17 +20,18 @@ export default class CacheWeeksController {
   ) {}
 
   store = async (_req: Request, res: Response): Promise<void> => {
-    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as Timestamp | undefined
+    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
+    const previousLastUpdated = lastUpdated?.newLastUpdated?.toDate()
 
     const weeks = await this.notionAdapter
-      .getWeeks(lastUpdated?.toDate().toISOString())
+      .getWeeks(previousLastUpdated?.toISOString())
 
     if (!weeks.length) {
-      const { dto, meta } = this.generateCacheWeeksData({
-        previousLastUpdated: lastUpdated?.toDate(),
-      })
-      this.firestore.setGlobal('lastUpdated', meta)
+      const { dto, meta } = this.generateCacheWeeksData({ previousLastUpdated })
+      await this.firestore.setGlobal('lastUpdated', meta)
+
       res.status(200).json(dto)
+
       return
     }
 
@@ -54,8 +55,8 @@ export default class CacheWeeksController {
     }, weeks[0].lastUpdated)
 
     const { dto, meta } = this.generateCacheWeeksData({
+      previousLastUpdated,
       updatedWeeks: weeks.length,
-      previousLastUpdated: lastUpdated?.toDate(),
       newLastUpdated: newUpdated.toJSDate(),
       tmdbMoviesSynced: moviesWithoutDetails,
     })
