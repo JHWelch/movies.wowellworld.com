@@ -6,10 +6,10 @@ import { ErrorBag } from '@client/types'
 import { jsonHeaders } from '@client/data/headers'
 
 type SuggestionFormData = {
-  theme?: string,
-  submitted_by?: string,
-  movie1?: string,
-  movie2?: string,
+  theme?: string
+  submitted_by?: string
+  movie1?: string
+  movie2?: string
 }
 
 const errors = ref<SuggestionFormData>({})

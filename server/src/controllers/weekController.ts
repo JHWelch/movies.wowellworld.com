@@ -20,9 +20,9 @@ export default class WeekController {
   }
 
   parseIndexQuery = (req: Request): {
-    past: boolean,
-    limit?: number,
-    posterWidth: Width,
+    past: boolean
+    limit?: number
+    posterWidth: Width
   } =>
     ({
       past: req.query.past === 'true',

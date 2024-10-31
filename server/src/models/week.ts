@@ -12,14 +12,14 @@ import { DateTime } from 'luxon'
 import { CHICAGO, TZ } from '@server/config/tz'
 
 export type WeekConstructor = {
-  id: string,
-  theme: string,
-  date: DateTime,
-  styledTheme?: RichText[],
-  isSkipped?: boolean,
-  slug?: string | null,
-  movies?: Movie[],
-  lastUpdated?: DateTime,
+  id: string
+  theme: string
+  date: DateTime
+  styledTheme?: RichText[]
+  isSkipped?: boolean
+  slug?: string | null
+  movies?: Movie[]
+  lastUpdated?: DateTime
 }
 
 export type WeekDtoOptions = {

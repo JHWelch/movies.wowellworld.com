@@ -115,8 +115,8 @@ export class FirebaseMock {
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
-    firestore: { firestore: 'firestore' },
-    collectionPath: string,
+    firestore: { firestore: 'firestore' }
+    collectionPath: string
   } => ({
     firestore: { firestore: 'firestore' },
     collectionPath,
@@ -124,43 +124,43 @@ export class FirebaseMock {
 }
 
 export type FirebaseWeek = {
-  id: string,
-  theme: string,
-  date: DateTime,
-  slug?: string | null,
-  isSkipped: boolean,
-  movies?: FirebaseMovie[],
-  styledTheme?: RichText[],
-  lastEditedTime?: string,
+  id: string
+  theme: string
+  date: DateTime
+  slug?: string | null
+  isSkipped: boolean
+  movies?: FirebaseMovie[]
+  styledTheme?: RichText[]
+  lastEditedTime?: string
 }
 
 export type FirebaseMovie = {
-  director: string,
-  length: number,
-  notionId: string,
-  posterPath: string,
-  showingUrl: string | null,
-  theaterName: string | null,
-  time: string | null,
-  title: string,
-  tmdbId: number | null,
-  url: string | null,
-  year: number | null,
+  director: string
+  length: number
+  notionId: string
+  posterPath: string
+  showingUrl: string | null
+  theaterName: string | null
+  time: string | null
+  title: string
+  tmdbId: number | null
+  url: string | null
+  year: number | null
 }
 
 export type FirebaseUser = {
-  id: string,
-  email: string,
-  reminders: boolean,
+  id: string
+  email: string
+  reminders: boolean
 }
 
 export type FirebaseWeekConstructor = {
-  id: string,
-  theme: string,
-  date: Date|string,
-  styledTheme?: RichText[],
-  isSkipped?: boolean,
-  slug?: string | null,
-  movies?: Movie[],
-  lastEditedTime?: DateTime|string,
+  id: string
+  theme: string
+  date: Date|string
+  styledTheme?: RichText[]
+  isSkipped?: boolean
+  slug?: string | null
+  movies?: Movie[]
+  lastEditedTime?: DateTime|string
 }

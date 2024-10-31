@@ -39,7 +39,7 @@ const mapErrors = (errors: Array<z.ZodIssue>): ErrorResponse => {
 
 type ErrorResponse = {
   errors: {
-    [key: string]: string,
+    [key: string]: string
   }
 }
 

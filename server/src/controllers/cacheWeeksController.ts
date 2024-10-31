@@ -50,6 +50,7 @@ export default class CacheWeeksController {
       res.status(200).json(dto)
 
       await this.firestore.setGlobal('lastUpdated', meta)
+
       return
     }
 
@@ -125,10 +126,10 @@ export default class CacheWeeksController {
   )
 
   private generateCacheWeeksData = (input: {
-    updatedWeeks?: number,
-    previousLastUpdated?: Date | null,
-    newLastUpdated?: Date | null,
-    tmdbMoviesSynced?: Movie[],
+    updatedWeeks?: number
+    previousLastUpdated?: Date | null
+    newLastUpdated?: Date | null
+    tmdbMoviesSynced?: Movie[]
   } ): { dto: CacheWeeksOutput, meta: LastUpdated } => {
     const baseData = {
       updatedWeeks: input.updatedWeeks ?? 0,

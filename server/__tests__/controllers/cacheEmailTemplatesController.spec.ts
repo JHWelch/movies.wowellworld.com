@@ -23,6 +23,7 @@ let req: Request
 const newCacheController = () => {
   const config = mockConfig()
   const firestore = new FirestoreAdapter(config)
+
   return new CacheEmailTemplatesController(firestore)
 }
 

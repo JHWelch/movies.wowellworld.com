@@ -1,26 +1,26 @@
 export type MovieResponseTmdb = {
-  adult: boolean,
-  backdrop_path: string | null,
-  id: number,
-  original_language: string,
-  original_title: string,
-  overview: string,
-  popularity: number,
-  poster_path: string | null,
-  release_date: string,
-  title: string,
-  video: boolean,
-  vote_average: number,
-  vote_count: number,
+  adult: boolean
+  backdrop_path: string | null
+  id: number
+  original_language: string
+  original_title: string
+  overview: string
+  popularity: number
+  poster_path: string | null
+  release_date: string
+  title: string
+  video: boolean
+  vote_average: number
+  vote_count: number
   credits: {
     crew: CrewResponseTmdb[]
-  } | undefined,
-  runtime: number | null | undefined,
+  } | undefined
+  runtime: number | null | undefined
 }
 
 export type CrewResponseTmdb = {
-  name: string,
-  job: string,
+  name: string
+  job: string
 }
 
 type CreditsTmdb = {
@@ -28,10 +28,10 @@ type CreditsTmdb = {
 }
 
 export type SearchResponseTmdb = {
-  page: number,
-  results: MovieResponseTmdb[],
-  total_pages: number,
-  total_results: number,
+  page: number
+  results: MovieResponseTmdb[]
+  total_pages: number
+  total_results: number
 }
 
 export function isMovieResponseTmdb (

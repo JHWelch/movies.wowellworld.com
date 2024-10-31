@@ -9,9 +9,9 @@ import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { jsonHeaders } from '@client/data/headers'
 
 type RsvpForm = {
-  name: string,
-  email?: string,
-  reminders: boolean,
+  name: string
+  email?: string
+  reminders: boolean
 }
 
 const errors = ref<Errors>({})

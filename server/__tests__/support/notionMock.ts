@@ -90,9 +90,9 @@ export class NotionMock {
   }
 
   static mockWeek = (week: {
-    id: string,
-    date: string,
-    theme: string,
+    id: string
+    date: string
+    theme: string
     skipped?: boolean
     slug?: string | null
     movies?: NotionMovie[]

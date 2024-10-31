@@ -33,9 +33,9 @@ const newSuggestionController = () => {
 }
 
 interface MockBodyArgs {
-  theme?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  submitted_by?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  movies?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  theme?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  submitted_by?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  movies?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const mockBody = ({
