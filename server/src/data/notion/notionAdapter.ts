@@ -8,6 +8,7 @@ import {
   type PageObjectResponse,
   type PartialPageObjectResponse,
   type UpdatePageResponse,
+  QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import type WeekProperties from '@server/types/weekProperties'
 import Config from '@server/config/config'
@@ -46,7 +47,7 @@ export default class NotionAdapter {
     return record != null ? await this.recordToWeek(record) : null
   }
 
-  async getWeeks (): Promise<Week[]> {
+  async getWeeks (after?: string | null): Promise<Week[]> {
     const results: (PageObjectResponse
       | PartialPageObjectResponse
       | DatabaseObjectResponse
@@ -58,10 +59,7 @@ export default class NotionAdapter {
       const records = await this.#notion.databases.query({
         database_id: this.#weekDatabaseId,
         page_size: 100,
-        filter: {
-          property: 'Date',
-          date: { is_not_empty: true },
-        },
+        filter: this.weekFilter(after),
         sorts: [{
           property: 'Date',
           direction: 'ascending',
@@ -105,7 +103,33 @@ export default class NotionAdapter {
     return movie.id
   }
 
-  recordToWeek = async (record: NotionQueryResponse): Promise<Week> => {
+  private weekFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after
+    ? {
+      and: [
+        {
+          property: 'Date',
+          date: { is_not_empty: true },
+        },
+        {
+          or: [
+            {
+              property: 'Last edited time',
+              date: { after },
+            },
+            {
+              property: 'Last edited movie time',
+              date: { after },
+            },
+          ],
+        },
+      ],
+    }
+    : {
+      property: 'Date',
+      date: { is_not_empty: true },
+    }
+
+  private recordToWeek = async (record: NotionQueryResponse): Promise<Week> => {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }

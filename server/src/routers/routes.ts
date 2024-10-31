@@ -6,6 +6,22 @@ class Route {
     public handler: RouteHandler,
     public method: HttpVerb = HttpVerb.GET,
   ) {}
+
+  static get (path: string, handler: RouteHandler): Route {
+    return new Route(path, handler, HttpVerb.GET)
+  }
+
+  static post (path: string, handler: RouteHandler): Route {
+    return new Route(path, handler, HttpVerb.POST)
+  }
+
+  static put (path: string, handler: RouteHandler): Route {
+    return new Route(path, handler, HttpVerb.PUT)
+  }
+
+  static delete (path: string, handler: RouteHandler): Route {
+    return new Route(path, handler, HttpVerb.DELETE)
+  }
 }
 
 enum HttpVerb {

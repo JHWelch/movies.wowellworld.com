@@ -27,4 +27,18 @@ export default interface WeekProperties {
   'Styled Theme': {
     rich_text: Array<TextRichTextItemResponse>
   }
+  'Last edited time': {
+    last_edited_time: string
+  }
+  'Last edited movie time': {
+    formula: {
+      type: 'string',
+      string: string | null
+    } | {
+      type: 'date',
+      date: {
+        start: string
+      }
+    }
+  }
 }

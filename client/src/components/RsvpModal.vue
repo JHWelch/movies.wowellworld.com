@@ -6,6 +6,7 @@ import FormCheckbox from '@components/form/FormCheckbox.vue'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
+import { jsonHeaders } from '@client/data/headers'
 
 type RsvpForm = {
   name: string,
@@ -37,10 +38,7 @@ const rsvp = async () => {
   const response = await fetch(
     '/api/weeks/' + rsvpModal.week.weekId + '/rsvp', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers: jsonHeaders,
       body: JSON.stringify(formData.value),
     })
 

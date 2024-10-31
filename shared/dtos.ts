@@ -44,3 +44,10 @@ export type RichText = {
   plain_text: string;
   href: string | null;
 }
+
+export type CacheWeeksOutput = {
+  updatedWeeks: number
+  previousLastUpdated: string | null
+  newLastUpdated: string | null
+  tmdbMoviesSynced: MovieDto[]
+}

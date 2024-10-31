@@ -10,7 +10,7 @@ import {
 import { NotionMock } from '@tests/support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheController'
+import CacheController from '@server/controllers/cacheWeeksController'
 import { transaction } from '@mocks/firebase/firestore'
 import { Request } from 'express'
 import { Week } from '@server/models/week'
@@ -22,12 +22,12 @@ import { mockFetch } from '@tests/support/fetchMock'
 import { Movie } from '@server/models/movie'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
-import fs from 'fs'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import MockDate from 'mockdate'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import { setDoc, Timestamp } from 'firebase/firestore'
 
 let notionMock: NotionMock
 
@@ -39,6 +39,7 @@ const newCacheController = () => {
   const firestore = new FirestoreAdapter(config)
   const notion = new NotionAdapter(config)
   const tmdbAdapter = new TmdbAdapter(config)
+
   return new CacheController(firestore, notion, tmdbAdapter)
 }
 
@@ -46,7 +47,9 @@ beforeAll(() => {
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
-  MockDate.set('2021-01-01')
+  MockDate.set('2021-01-01T00:00:00.000Z')
+  jest.mock('@notionhq/client')
+  notionMock = new NotionMock()
 })
 
 beforeEach(() => {
@@ -60,12 +63,31 @@ afterEach(() => {
   jest.restoreAllMocks()
 })
 
-describe('cacheWeeks', () => {
-  beforeAll(() => {
-    jest.mock('@notionhq/client')
-    notionMock = new NotionMock()
+describe('show', () => {
+  beforeEach(() => {
+    req = getMockReq()
+    FirebaseMock.mockGetGlobal('lastUpdated', {
+      updatedWeeks: 3,
+      previousLastUpdated: null,
+      newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+      tmdbMoviesSynced: [],
+    })
   })
 
+  it('returns the lastUpdated data', async () => {
+    await newCacheController().show(req, res)
+
+    expect(res.status).toHaveBeenCalledWith(200)
+    expect(res.json).toHaveBeenCalledWith({
+      updatedWeeks: 3,
+      previousLastUpdated: null,
+      newLastUpdated: '2021-01-01T00:00:00.000Z',
+      tmdbMoviesSynced: [],
+    })
+  })
+})
+
+describe('store', () => {
   beforeEach(() => {
     req = getMockReq()
   })
@@ -110,17 +132,20 @@ describe('cacheWeeks', () => {
 
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated')
       notionMock.mockQuery([
         NotionMock.mockWeek({
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
+          lastEditedTime: '2022-08-12T15:45:00.000Z',
         }),
         NotionMock.mockWeek({
           id: 'id2',
           date: '2021-01-08',
           theme: 'theme2',
           skipped: true,
+          lastEditedTime: '2023-08-12T15:45:00.000Z',
         }),
         NotionMock.mockWeek({
           id: 'id3',
@@ -128,14 +153,26 @@ describe('cacheWeeks', () => {
           theme: 'theme3',
           slug: 'slug',
           styledTheme: styled,
+          lastEditedTime: '2021-08-12T15:45:00.000Z',
         }),
       ])
     })
 
-    it('updates all weeks in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+    it('returns the updated data', async () => {
+      await newCacheController().store(req, res)
 
-      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 3,
+        previousLastUpdated: null,
+        newLastUpdated: '2023-08-12T15:45:00.000Z',
+        tmdbMoviesSynced: [],
+      })
+    })
+
+    it('updates all weeks in firestore', async () => {
+      await newCacheController().store(req, res)
+
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
@@ -144,6 +181,7 @@ describe('cacheWeeks', () => {
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
+            lastEditedTime: '2022-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -154,6 +192,7 @@ describe('cacheWeeks', () => {
             theme: 'theme2',
             date: '2021-01-08',
             isSkipped: true,
+            lastEditedTime: '2023-08-12T15:45:00.000Z',
           }),
         )
       expect(transaction.set)
@@ -165,8 +204,211 @@ describe('cacheWeeks', () => {
             date: '2021-01-15',
             slug: 'slug',
             styledTheme: styled,
+            lastEditedTime: '2021-08-12T15:45:00.000Z',
           }),
         )
+    })
+
+    it('calls query with the correct parameters', async () => {
+      await newCacheController().store(req, res)
+
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'NOTION_WEEK_DATABASE_ID',
+        page_size: 100,
+        filter: {
+          property: 'Date',
+          date: { is_not_empty: true },
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
+    })
+
+    it('stores the lastUpdated metadata in firestore', async () => {
+      await newCacheController().store(req, res)
+
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: {
+          updatedWeeks: 3,
+          previousLastUpdated: null,
+          newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
+          tmdbMoviesSynced: [],
+        } },
+      )
+    })
+  })
+
+  describe('when cache lastUpdated already exists', () => {
+    beforeEach(() => {
+      notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated', {
+        updatedWeeks: 3,
+        previousLastUpdated: null,
+        newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+        tmdbMoviesSynced: [],
+      })
+      notionMock.mockQuery([
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+          lastEditedTime: '2022-08-12T15:45:00.000Z',
+        }),
+        NotionMock.mockWeek({
+          id: 'id2',
+          date: '2021-01-08',
+          theme: 'theme2',
+          lastEditedTime: '2023-08-12T15:45:00.000Z',
+          skipped: true,
+        }),
+        NotionMock.mockWeek({
+          id: 'id3',
+          date: '2021-01-15',
+          theme: 'theme3',
+          lastEditedTime: '2021-08-12T15:45:00.000Z',
+          slug: 'slug',
+        }),
+      ])
+    })
+
+    it('returns the updated data', async () => {
+      await newCacheController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 3,
+        previousLastUpdated: '2021-01-01T00:00:00.000Z',
+        newLastUpdated: '2023-08-12T15:45:00.000Z',
+        tmdbMoviesSynced: [],
+      })
+    })
+
+    it('updates all weeks in firestore', async () => {
+      await newCacheController().store(req, res)
+
+      expect(transaction.set).toHaveBeenCalledTimes(3)
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-01'),
+          FirebaseMock.mockWeek({
+            id: 'id1',
+            theme: 'theme1',
+            date: '2021-01-01',
+            lastEditedTime: '2022-08-12T15:45:00.000Z',
+          }),
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-08'),
+          FirebaseMock.mockWeek({
+            id: 'id2',
+            theme: 'theme2',
+            date: '2021-01-08',
+            isSkipped: true,
+            lastEditedTime: '2023-08-12T15:45:00.000Z',
+          }),
+        )
+      expect(transaction.set)
+        .toHaveBeenCalledWith(
+          FirebaseMock.mockDoc('weeks', '2021-01-15'),
+          FirebaseMock.mockWeek({
+            id: 'id3',
+            theme: 'theme3',
+            date: '2021-01-15',
+            slug: 'slug',
+            lastEditedTime: '2021-08-12T15:45:00.000Z',
+          }),
+        )
+    })
+
+    it('should call query with the correct parameters', async () => {
+      await newCacheController().store(req, res)
+
+      expect(notionMock.query).toHaveBeenCalledWith({
+        database_id: 'NOTION_WEEK_DATABASE_ID',
+        page_size: 100,
+        filter: {
+          and: [
+            {
+              property: 'Date',
+              date: { is_not_empty: true },
+            },
+            {
+              or: [
+                {
+                  property: 'Last edited time',
+                  date: { after: '2021-01-01T00:00:00.000Z' },
+                },
+                {
+                  property: 'Last edited movie time',
+                  date: { after: '2021-01-01T00:00:00.000Z' },
+                },
+              ],
+            },
+          ],
+        },
+        sorts: [{
+          property: 'Date',
+          direction: 'ascending',
+        }],
+      })
+    })
+
+    it('updates the lastUpdated date in firestore', async () => {
+      await newCacheController().store(req, res)
+
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: {
+          updatedWeeks: 3,
+          previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
+          tmdbMoviesSynced: [],
+        } },
+      )
+    })
+  })
+
+  describe('when no movies are returned', () => {
+    beforeEach(() => {
+      notionMock.mockIsFullPageOrDatabase(true)
+      FirebaseMock.mockGetGlobal('lastUpdated',{
+        updatedWeeks: 3,
+        previousLastUpdated: null,
+        newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+        tmdbMoviesSynced: [],
+      })
+      notionMock.mockQuery([])
+    })
+
+    it('does not store any weeks', async () => {
+      await newCacheController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 0,
+        previousLastUpdated: '2021-01-01T00:00:00.000Z',
+        newLastUpdated: '2021-01-01T00:00:00.000Z',
+        tmdbMoviesSynced: [],
+      })
+      expect(transaction.set).not.toHaveBeenCalled()
+    })
+
+    it('updates lastUpdated', async () => {
+      await newCacheController().store(req, res)
+
+      expect(setDoc).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('globals', 'lastUpdated'),
+        { value: {
+          updatedWeeks: 0,
+          previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
+          tmdbMoviesSynced: [],
+        } }
+      )
     })
   })
 
@@ -202,6 +444,7 @@ describe('cacheWeeks', () => {
           date: '2021-01-01',
           theme: 'theme1',
           movies: [notionResponse],
+          lastEditedTime: DateTime.now().toISO(),
         }),
       ])
       notionMock.mockRetrieve(notionResponse)
@@ -211,10 +454,21 @@ describe('cacheWeeks', () => {
       tmdbMock.mockMovieDetails(tmdb)
     })
 
-    it('stores data from tmdb in firestore', async () => {
-      await newCacheController().cacheWeeks(req, res)
+    it('returns the updated data', async () => {
+      await newCacheController().store(req, res)
 
-      expect(res.sendStatus).toHaveBeenCalledWith(200)
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 1,
+        previousLastUpdated: '2021-01-01T00:00:00.000Z',
+        newLastUpdated: '2021-01-01T00:00:00.000Z',
+        tmdbMoviesSynced: [expected.toDTO()],
+      })
+    })
+
+    it('stores data from tmdb in firestore', async () => {
+      await newCacheController().store(req, res)
+
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('weeks', '2021-01-01'),
@@ -228,9 +482,8 @@ describe('cacheWeeks', () => {
     })
 
     it('updates the movie in notion', async () => {
-      await newCacheController().cacheWeeks(req, res)
+      await newCacheController().store(req, res)
 
-      expect(res.sendStatus).toHaveBeenCalledWith(200)
       expect(notionMock.update).toHaveBeenCalledWith(expected.toNotion())
     })
   })
@@ -263,9 +516,9 @@ describe('cacheWeeks', () => {
       })
 
       it('updates times when adding to firebase', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
@@ -279,9 +532,9 @@ describe('cacheWeeks', () => {
       })
 
       it('updates the movie in notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(notionMock.update)
           .toHaveBeenCalledWith(expected[0].toNotion())
         expect(notionMock.update)
@@ -302,9 +555,9 @@ describe('cacheWeeks', () => {
       })
 
       it('rounds to nearest 5 minute interval', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
@@ -335,9 +588,9 @@ describe('cacheWeeks', () => {
       })
 
       it('assigns all other proper times', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
@@ -367,9 +620,9 @@ describe('cacheWeeks', () => {
       })
 
       it('caches without update and does not update notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
           new Week({
@@ -398,9 +651,9 @@ describe('cacheWeeks', () => {
       })
 
       it('skips the movie', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2021-01-01'),
           new Week({
@@ -430,9 +683,9 @@ describe('cacheWeeks', () => {
       })
 
       it('caches without update and does not update notion', async () => {
-        await newCacheController().cacheWeeks(req, res)
+        await newCacheController().store(req, res)
 
-        expect(res.sendStatus).toHaveBeenCalledWith(200)
+        expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
           FirebaseMock.mockDoc('weeks', '2020-01-01'),
           new Week({
@@ -445,21 +698,5 @@ describe('cacheWeeks', () => {
         expect(notionMock.update).not.toHaveBeenCalled()
       })
     })
-  })
-})
-
-describe('cacheEmailTemplates', () => {
-  it('uploads email templates to firestore', async () => {
-    jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
-    await newCacheController().cacheEmailTemplates(req, res)
-
-    expect(res.sendStatus).toHaveBeenCalledWith(200)
-    expect(transaction.set).toHaveBeenCalledWith(
-      FirebaseMock.mockDoc('mail-templates', 'reminder'),
-      {
-        subject: 'Reminder: {{ theme }} is Tomorrow',
-        html: 'html',
-      },
-    )
   })
 })

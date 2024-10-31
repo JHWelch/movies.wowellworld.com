@@ -4,6 +4,7 @@ import { VueWrapper, mount } from '@vue/test-utils'
 import ReminderSubscribe from '@client/components/ReminderSubscribe.vue'
 import { Mock, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { jsonHeaders } from '@client/data/headers'
 
 let wrapper: VueWrapper
 
@@ -67,7 +68,7 @@ describe('press the "Get Reminders" button', () => {
     it('makes a POST request to the API', async () => {
       expect(fetch).toHaveBeenCalledWith('/api/subscriptions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders,
         body: JSON.stringify({ email: 'test@example.com' }),
       })
     })
