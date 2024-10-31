@@ -5,9 +5,9 @@ import {
 import { Movie } from '@server/models/movie'
 
 export const nCheckbox = (checked: boolean): {
-  type: 'checkbox';
-  checkbox: boolean;
-  id: string;
+  type: 'checkbox'
+  checkbox: boolean
+  id: string
 } => ({
   checkbox: checked,
   type: 'checkbox',
@@ -15,13 +15,13 @@ export const nCheckbox = (checked: boolean): {
 })
 
 export const nDate = (start: string): {
-  type: 'date';
+  type: 'date'
   date: {
-    start: string,
-    end: null,
-    time_zone: null,
-  };
-  id: string;
+    start: string
+    end: null
+    time_zone: null
+  }
+  id: string
 } => ({
   type: 'date',
   date: {
@@ -33,9 +33,9 @@ export const nDate = (start: string): {
 })
 
 export const nNumber = (number: number | null): {
-  type: 'number';
-  number: number | null;
-  id: string;
+  type: 'number'
+  number: number | null
+  id: string
 } => ({
   type: 'number',
   number: number,
@@ -45,9 +45,9 @@ export const nNumber = (number: number | null): {
 export const nRichText = (
   text: string | RichTextItemResponse[] | null,
 ): {
-  type: 'rich_text';
-  rich_text: Array<RichTextItemResponse>;
-  id: string;
+  type: 'rich_text'
+  rich_text: Array<RichTextItemResponse>
+  id: string
 } => ({
   type: 'rich_text',
   rich_text: Array.isArray(text)
@@ -57,9 +57,9 @@ export const nRichText = (
 })
 
 export const nTitle = (title: string): {
-  type: 'title';
-  title: Array<RichTextItemResponse>;
-  id: string;
+  type: 'title'
+  title: Array<RichTextItemResponse>
+  id: string
 } => ({
   type: 'title',
   title: [richTextItem(title)],
@@ -85,9 +85,9 @@ export const richTextItem = (text: string): RichTextItemResponse => ({
 })
 
 export const nUrl = (url: string | null): {
-  type: 'url';
-  url: string | null;
-  id: string;
+  type: 'url'
+  url: string | null
+  id: string
 } => ({
   url,
   type: 'url',
@@ -95,11 +95,11 @@ export const nUrl = (url: string | null): {
 })
 
 export const nRelation = (relation: NotionMovie[]): {
-  type: 'relation';
+  type: 'relation'
   relation: {
-    id: string;
-  }[];
-  id: string;
+    id: string
+  }[]
+  id: string
 } => ({
   type: 'relation',
   relation: relation.map(movie => movie.toPageObjectResponse()),
@@ -107,9 +107,9 @@ export const nRelation = (relation: NotionMovie[]): {
 })
 
 export const nLastEditedTime = (time: string): {
-  type: 'last_edited_time';
-  last_edited_time: string;
-  id: string;
+  type: 'last_edited_time'
+  last_edited_time: string
+  id: string
 } => ({
   type: 'last_edited_time',
   last_edited_time: time,
@@ -124,12 +124,12 @@ export const nFormula = (result: string | null): {
   }| {
     type: 'date'
     date: {
-      start: string;
+      start: string
       end: string | null
       time_zone: null
     }
   }
-  id: string;
+  id: string
 } => result
   ? {
     type: 'formula',
@@ -192,20 +192,20 @@ export type QueryBody = {
 }
 
 export type WithAuth<P> = P & {
-  auth?: string;
+  auth?: string
 }
 
 type NotionMovieConstructor = {
-  id: string,
-  title: string,
-  director?: string | null,
-  year?: number | null,
-  length?: number | null,
-  time?: string | null,
-  url?: string | null,
-  posterPath?: string | null,
-  theaterName?: string | null,
-  showingUrl?: string | null,
+  id: string
+  title: string
+  director?: string | null
+  year?: number | null
+  length?: number | null
+  time?: string | null
+  url?: string | null
+  posterPath?: string | null
+  theaterName?: string | null
+  showingUrl?: string | null
 }
 
 export class NotionMovie {

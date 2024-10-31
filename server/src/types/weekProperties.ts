@@ -32,10 +32,10 @@ export default interface WeekProperties {
   }
   'Last edited movie time': {
     formula: {
-      type: 'string',
+      type: 'string'
       string: string | null
     } | {
-      type: 'date',
+      type: 'date'
       date: {
         start: string
       }

@@ -27,9 +27,9 @@ const mockBody = ({
   email = 'test@example.com',
   reminders = false,
 }: {
-  name?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  reminders?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  name?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  reminders?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 } = {}) => ({ name, email, reminders })
 
 describe('store', () => {

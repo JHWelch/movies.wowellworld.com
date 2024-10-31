@@ -18,17 +18,17 @@ import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Width } from '@server/types/tmdb'
 
 export type MovieConstructor = {
-  title: string,
-  director?: string | null,
-  year?: number | null,
-  length?: number | null,
-  time?: string | null,
-  url?: string | null,
-  posterPath?: string | null,
-  tmdbId?: number | null,
-  notionId?: string | null,
-  theaterName?: string | null,
-  showingUrl?: string | null,
+  title: string
+  director?: string | null
+  year?: number | null
+  length?: number | null
+  time?: string | null
+  url?: string | null
+  posterPath?: string | null
+  tmdbId?: number | null
+  notionId?: string | null
+  theaterName?: string | null
+  showingUrl?: string | null
 }
 
 export type MovieDtoOptions = {

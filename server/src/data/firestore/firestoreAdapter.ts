@@ -200,8 +200,8 @@ export default class FirestoreAdapter {
   sendEmailTemplates = async (
     templateName: string,
     emails: {
-      to: string,
-      data: Record<string, unknown>,
+      to: string
+      data: Record<string, unknown>
     }[],
   ): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
@@ -223,8 +223,8 @@ export default class FirestoreAdapter {
     })
   }
   updateTemplates = async (templates: {
-    name: string,
-    data: Record<string, unknown>,
+    name: string
+    data: Record<string, unknown>
   }[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
       templates.forEach((template) => {
@@ -293,9 +293,9 @@ export default class FirestoreAdapter {
 }
 
 export type EmailMessage = {
-  subject: string,
-  text: string,
-  html: string,
+  subject: string
+  text: string
+  html: string
 }
 
 type Collection = CollectionReference<DocumentData,DocumentData>

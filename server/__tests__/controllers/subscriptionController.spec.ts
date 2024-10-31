@@ -33,7 +33,7 @@ beforeEach(() => {
 })
 
 interface MockBodyArgs {
-  email?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  email?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const mockBody = ({

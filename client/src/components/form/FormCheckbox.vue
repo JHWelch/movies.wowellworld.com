@@ -2,9 +2,9 @@
 import { computed } from 'vue'
 
 const props = defineProps<{
-  name: string,
-  description: string,
-  label?: string,
+  name: string
+  description: string
+  label?: string
 }>()
 
 defineEmits([

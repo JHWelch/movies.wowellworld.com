@@ -3,7 +3,7 @@ import 'vitest'
 
 declare module '@vue/test-utils' {
   interface VueWrapper {
-    byTestId(id: string): DOMWrapper<Element>;
+    byTestId(id: string): DOMWrapper<Element>
   }
 }
 

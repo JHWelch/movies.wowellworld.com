@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 withDefaults(defineProps<{
-  name: string,
-  hideLabel?: boolean,
-  label?: string,
-  type?: string,
-  error?: string,
-  placeholder?: string,
-  required?: boolean,
+  name: string
+  hideLabel?: boolean
+  label?: string
+  type?: string
+  error?: string
+  placeholder?: string
+  required?: boolean
 }>(), {
   hideLabel: false,
   type: 'text',
