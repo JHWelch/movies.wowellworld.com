@@ -3,6 +3,7 @@ import {
   getDoc,
   Timestamp,
   WithFieldValue,
+  Primitive,
 } from 'firebase/firestore'
 import { jest } from '@jest/globals'
 import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
@@ -13,6 +14,16 @@ import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
 export class FirebaseMock {
+  static mockGetGlobal <AppDataType>(
+    key: string,
+    value?: Primitive|Timestamp|WithFieldValue<AppDataType>,
+  ) {
+    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+      data: () => (value ? { value } : undefined),
+      exists: () => Boolean(value),
+    }))
+  }
+
   static mockWeeks (weeks: FirebaseWeek[]) {
     (getDocs as unknown as jest.Mock).mockImplementation(() => {
       return {
@@ -25,6 +36,9 @@ export class FirebaseMock {
             slug: week.slug,
             styledTheme: week.styledTheme ?? [],
             movies: week.movies ?? [],
+            lastUpdated: week.lastEditedTime
+              ? Timestamp.fromDate(new Date(week.lastEditedTime))
+              : Timestamp.now(),
           }),
         })),
       }
@@ -39,6 +53,9 @@ export class FirebaseMock {
         date: Timestamp.fromDate(week.date.toJSDate()),
         isSkipped: week.isSkipped,
         movies: week.movies ?? [],
+        lastUpdated: week.lastEditedTime
+          ? Timestamp.fromDate(new Date(week.lastEditedTime))
+          : Timestamp.now(),
       } : undefined),
       exists: () => Boolean(week),
     }))
@@ -92,6 +109,9 @@ export class FirebaseMock {
       isSkipped: week.isSkipped ?? false,
       slug: week.slug ?? null,
       styledTheme: week.styledTheme ?? [],
+      lastUpdated: week.lastEditedTime
+        ? typeof week.lastEditedTime === 'string' ? DateTime.fromISO(week.lastEditedTime) : week.lastEditedTime
+        : DateTime.now(),
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -111,6 +131,7 @@ export type FirebaseWeek = {
   isSkipped: boolean,
   movies?: FirebaseMovie[],
   styledTheme?: RichText[],
+  lastEditedTime?: string,
 }
 
 export type FirebaseMovie = {
@@ -141,4 +162,5 @@ export type FirebaseWeekConstructor = {
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
+  lastEditedTime?: DateTime|string,
 }

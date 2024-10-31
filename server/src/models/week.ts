@@ -19,6 +19,7 @@ export type WeekConstructor = {
   isSkipped?: boolean,
   slug?: string | null,
   movies?: Movie[],
+  lastUpdated?: DateTime,
 }
 
 export type WeekDtoOptions = {
@@ -33,6 +34,7 @@ export class Week {
   public isSkipped: boolean = false
   public slug: string | null = null
   public movies: Movie[] = []
+  public lastUpdated: DateTime = DateTime.now()
 
   constructor (week: WeekConstructor) {
     Object.keys(week).forEach((key) => {
@@ -56,6 +58,7 @@ export class Week {
       isSkipped: properties.Skipped.checkbox,
       slug: properties.Slug?.rich_text[0]?.plain_text,
       styledTheme: properties['Styled Theme']?.rich_text,
+      lastUpdated: this.parseLastUpdated(properties),
     })
   }
 
@@ -67,6 +70,7 @@ export class Week {
       isSkipped: record.isSkipped,
       slug: record.slug,
       styledTheme: record.styledTheme,
+      lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })
@@ -110,6 +114,7 @@ export class Week {
       slug: this.slug,
       isSkipped: this.isSkipped,
       styledTheme: this.styledTheme,
+      lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
     }
   }
 
@@ -158,5 +163,23 @@ export class Week {
 
   private sumLengths (movies: Movie[]): number {
     return movies.reduce((total, movie) => (movie.length ?? 0) + total, 0)
+  }
+
+  private static parseLastUpdated (properties: WeekProperties): DateTime {
+    const lastUpdatedMovieProp = properties['Last edited movie time']
+
+    const lastUpdatedWeek = DateTime
+      .fromISO(properties['Last edited time'].last_edited_time)
+    const lastUpdatedMovie = lastUpdatedMovieProp.formula.type === 'date'
+      ? DateTime.fromISO(lastUpdatedMovieProp.formula.date.start)
+      : null
+
+    if (! lastUpdatedMovie) {
+      return lastUpdatedWeek
+    }
+
+    return lastUpdatedWeek > lastUpdatedMovie
+      ? lastUpdatedWeek
+      : lastUpdatedMovie
   }
 }

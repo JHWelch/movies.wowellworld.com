@@ -1,7 +1,9 @@
+/* eslint-disable @stylistic/max-len */
 import WeekController from '@server/controllers/weekController'
 import { Router } from 'express'
 import type NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheController'
+import CacheWeeksController from '@server/controllers/cacheWeeksController'
+import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import RsvpController from '@server/controllers/rsvpController'
@@ -10,7 +12,7 @@ import SuggestionController from '@server/controllers/suggestionController'
 import Config from '@server/config/config'
 import CalendarController from '@server/controllers/calendarController'
 import { parseManifest } from '@server/config/vite'
-import { HttpVerb, Route, registerRoutes } from '@server/routers/routes'
+import { Route, registerRoutes } from '@server/routers/routes'
 import SubscriptionController from '@server/controllers/subscriptionController'
 import { CronController } from '@server/controllers/cronController'
 import WeekEventController from '@server/controllers/weekEventController'
@@ -45,7 +47,8 @@ function routes (
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Route[] {
-  const cacheController = new CacheController(firestore, notion, tmdb)
+  const cacheWeeksController = new CacheWeeksController(firestore, notion, tmdb)
+  const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
   const cronController = new CronController(config, firestore)
   const rsvpController = new RsvpController(firestore)
@@ -55,16 +58,17 @@ function routes (
   const weekEventController = new WeekEventController(firestore)
 
   return [
-    new Route('/health_check', HealthCheckController.index),
-    new Route('/api/weeks', weekController.index),
-    new Route('/api/weeks/:weekId/rsvp', rsvpController.store, HttpVerb.POST),
-    new Route('/api/cache/weeks', cacheController.cacheWeeks),
-    new Route('/api/cache/email-templates', cacheController.cacheEmailTemplates),
-    new Route('/suggestions', suggestionController.store, HttpVerb.POST),
-    new Route('/calendar', calendarController.index),
-    new Route('/api/subscriptions', subscriptionController.store, HttpVerb.POST),
-    new Route('/unsubscribe', subscriptionController.destroy),
-    new Route('/cron/reminders', cronController.reminders),
-    new Route('/weeks/:weekId/event', weekEventController.show),
+    Route.get('/health_check', HealthCheckController.index),
+    Route.get('/api/weeks', weekController.index),
+    Route.post('/api/weeks/:weekId/rsvp', rsvpController.store),
+    Route.get('/api/cache/weeks', cacheWeeksController.show),
+    Route.post('/api/cache/weeks', cacheWeeksController.store),
+    Route.post('/api/cache/email-templates', cacheEmailTemplatesController.store),
+    Route.post('/suggestions', suggestionController.store),
+    Route.get('/calendar', calendarController.index),
+    Route.post('/api/subscriptions', subscriptionController.store),
+    Route.get('/unsubscribe', subscriptionController.destroy),
+    Route.get('/cron/reminders', cronController.reminders),
+    Route.get('/weeks/:weekId/event', weekEventController.show),
   ]
 }

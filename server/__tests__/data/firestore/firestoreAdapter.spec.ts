@@ -26,10 +26,14 @@ import User from '@server/models/user'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import MockDate from 'mockdate'
 
 let firestore: FirestoreAdapter
+let now: DateTime
 
 beforeAll(() => {
+  MockDate.set('2021-01-01T00:00:00.000Z')
+  now = DateTime.now()
   jest.mock('firebase-admin/app')
   jest.mock('firebase/app')
   jest.mock('firebase/firestore')
@@ -97,6 +101,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme1',
         slug: null,
         styledTheme: [],
+        lastEditedTime: '2022-08-12T15:45:00.000Z',
       }, {
         date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
@@ -104,6 +109,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme2',
         slug: null,
         styledTheme: [],
+        lastEditedTime: '2023-08-12T15:45:00.000Z',
       }, {
         date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
@@ -111,6 +117,7 @@ describe('getUpcomingWeeks', () => {
         theme: 'theme3',
         slug: 'slug',
         styledTheme: styled,
+        lastEditedTime: '2021-08-12T15:45:00.000Z',
       },
     ])
   })
@@ -123,12 +130,14 @@ describe('getUpcomingWeeks', () => {
         id: 'id1',
         theme: 'theme1',
         date: DateTime.fromISO('2021-01-01', TZ),
+        lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
       }),
       new Week({
         id: 'id2',
         theme: 'theme2',
         date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
+        lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
       }),
       new Week({
         id: 'id3',
@@ -136,6 +145,7 @@ describe('getUpcomingWeeks', () => {
         date: DateTime.fromISO('2021-01-15', TZ),
         slug: 'slug',
         styledTheme: styled,
+        lastUpdated: DateTime.fromISO('2021-08-12T15:45:00.000Z'),
       }),
     ])
   })
@@ -171,18 +181,21 @@ describe('getPastWeeks', () => {
         isSkipped: false,
         theme: 'theme1',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       }, {
         date: DateTime.fromISO('2021-01-08', TZ),
         id: 'id2',
         isSkipped: false,
         theme: 'theme2',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       }, {
         date: DateTime.fromISO('2021-01-15', TZ),
         id: 'id3',
         isSkipped: false,
         theme: 'theme3',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       },
     ])
   })
@@ -191,9 +204,24 @@ describe('getPastWeeks', () => {
     const weeks = await firestore.getPastWeeks()
 
     expect(weeks).toEqual([
-      new Week({ id: 'id1', theme: 'theme1',date:  DateTime.fromISO('2021-01-01', TZ) }),
-      new Week({ id: 'id2', theme: 'theme2',date:  DateTime.fromISO('2021-01-08', TZ) }),
-      new Week({ id: 'id3', theme: 'theme3',date:  DateTime.fromISO('2021-01-15', TZ) }),
+      new Week({
+        id: 'id1',
+        theme: 'theme1',
+        date: DateTime.fromISO('2021-01-01', TZ),
+        lastUpdated: now,
+      }),
+      new Week({
+        id: 'id2',
+        theme: 'theme2',
+        date: DateTime.fromISO('2021-01-08', TZ),
+        lastUpdated: now,
+      }),
+      new Week({
+        id: 'id3',
+        theme: 'theme3',
+        date: DateTime.fromISO('2021-01-15', TZ),
+        lastUpdated: now,
+      }),
     ])
   })
 
@@ -220,6 +248,7 @@ describe('getWeek', () => {
         isSkipped: false,
         theme: 'theme1',
         slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
       })
     })
 
@@ -227,7 +256,12 @@ describe('getWeek', () => {
       const week = await firestore.getWeek('2021-01-01')
 
       expect(week).toEqual(
-        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
+        new Week({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          lastUpdated: now,
+        }),
       )
     })
   })
@@ -247,9 +281,24 @@ describe('cacheWeeks', () => {
   describe('when the cache is empty', () => {
     it('updates all weeks in firestore', async () => {
       await firestore.cacheWeeks([
-        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
-        new Week({ id: 'id2', theme: 'theme2', date: DateTime.fromISO('2021-01-08', TZ) }),
-        new Week({ id: 'id3', theme: 'theme3', date: DateTime.fromISO('2021-01-15', TZ) }),
+        new Week({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          lastUpdated: now.minus({ days: 1 }),
+        }),
+        new Week({
+          id: 'id2',
+          theme: 'theme2',
+          date: DateTime.fromISO('2021-01-08', TZ),
+          lastUpdated: now.minus({ days: 10 }),
+        }),
+        new Week({
+          id: 'id3',
+          theme: 'theme3',
+          date: DateTime.fromISO('2021-01-15', TZ),
+          lastUpdated: now.minus({ days: 20 }),
+        }),
       ])
 
       expect(transaction.set)
@@ -259,6 +308,7 @@ describe('cacheWeeks', () => {
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
+            lastEditedTime: now.minus({ days: 1 }),
           }),
         )
       expect(transaction.set)
@@ -268,6 +318,7 @@ describe('cacheWeeks', () => {
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
+            lastEditedTime: now.minus({ days: 10 }),
           }),
         )
       expect(transaction.set)
@@ -277,6 +328,7 @@ describe('cacheWeeks', () => {
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
+            lastEditedTime: now.minus({ days: 20 }),
           }),
         )
     })
@@ -657,5 +709,63 @@ describe('updateTemplates', () => {
         html: 'new html 2',
       },
     )
+  })
+})
+
+describe ('setGlobal', () => {
+  it.each([
+    ['string'],
+    [1],
+    [true],
+    [Timestamp.fromDate(new Date())],
+  ])('can store a primitive value in globals', async (data) => {
+    await firestore.setGlobal('testKey', data)
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('globals', 'testKey'),
+      { value: data },
+    )
+  })
+
+  it('can store an object in globals', async () => {
+    const expected = { key: 'value', nested: { key: 'value' } }
+    await firestore.setGlobal('testKey', expected)
+
+    expect(setDoc).toHaveBeenCalledWith(
+      FirebaseMock.mockDoc('globals', 'testKey'),
+      { value: expected },
+    )
+  })
+})
+
+describe('getGlobal', () => {
+  it.each([
+    ['string'],
+    [1],
+    [true],
+    [Timestamp.fromDate(new Date())],
+  ])('can get a primitive value from globals', async (data) => {
+    FirebaseMock.mockGetGlobal('testKey', data)
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toEqual(data)
+  })
+
+  it('can get an object from globals', async () => {
+    const expected = { key: 'value', nested: { key: 'value' } }
+    FirebaseMock.mockGetGlobal('testKey', expected)
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toEqual(expected)
+  })
+
+  it('will return null if the value does not exist', async () => {
+    FirebaseMock.mockGetGlobal('testKey')
+
+    const value = await firestore.getGlobal('testKey')
+
+    expect(value).toBeNull()
   })
 })

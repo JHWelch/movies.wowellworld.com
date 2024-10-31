@@ -106,6 +106,49 @@ export const nRelation = (relation: NotionMovie[]): {
   id: 'mockedId',
 })
 
+export const nLastEditedTime = (time: string): {
+  type: 'last_edited_time';
+  last_edited_time: string;
+  id: string;
+} => ({
+  type: 'last_edited_time',
+  last_edited_time: time,
+  id: 'mockedId',
+})
+
+export const nFormula = (result: string | null): {
+  type: 'formula'
+  formula: {
+    type: 'string'
+    string: string | null
+  }| {
+    type: 'date'
+    date: {
+      start: string;
+      end: string | null
+      time_zone: null
+    }
+  }
+  id: string;
+} => result
+  ? {
+    type: 'formula',
+    formula: {
+      type: 'date',
+      date: {
+        start: result,
+        end: null,
+        time_zone: null,
+      },
+    },
+    id: 'mockId',
+  }
+  : {
+    type: 'formula',
+    formula: { type: 'string', string: null },
+    id: 'mockId',
+  }
+
 export const pageObjectResponse = (
   id: string,
   properties: PageObjectResponse['properties'],

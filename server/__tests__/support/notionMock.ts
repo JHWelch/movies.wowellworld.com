@@ -13,11 +13,14 @@ import {
   WithAuth,
   nCheckbox,
   nDate,
+  nFormula,
+  nLastEditedTime,
   nRelation,
   nRichText,
   nTitle,
   pageObjectResponse,
 } from '@tests/support/notionHelpers'
+import { DateTime } from 'luxon'
 
 export class NotionMock {
   create: jest.MockedFunction<typeof Client.prototype.pages.create>
@@ -94,6 +97,8 @@ export class NotionMock {
     slug?: string | null
     movies?: NotionMovie[]
     styledTheme?: RichText[]
+    lastEditedTime?: string
+    lastEditedMovieTime?: string
   }): PageObjectResponse => pageObjectResponse(
     week.id,
     {
@@ -103,6 +108,8 @@ export class NotionMock {
       Slug: nRichText(week.slug ?? null),
       Movies: nRelation(week.movies ?? []),
       'Styled Theme': nRichText(week.styledTheme ?? []),
+      'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
+      'Last edited movie time': nFormula(week.lastEditedMovieTime ? week.lastEditedMovieTime ?? DateTime.now().toISO() : null),
     }
   )
 }

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import FormInput from '@components/form/FormInput.vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import { ErrorBag } from '@client/types'
+import { jsonHeaders } from '@client/data/headers'
 
 type SuggestionFormData = {
   theme?: string,
@@ -45,10 +46,7 @@ const submit = async () => {
   submitting.value = true
   const response = await fetch('/suggestions' , {
     method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
+    headers: jsonHeaders,
     body: JSON.stringify({
       theme: formData.value.theme,
       submitted_by: formData.value.submitted_by,

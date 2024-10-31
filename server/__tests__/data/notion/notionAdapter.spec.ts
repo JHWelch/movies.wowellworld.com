@@ -92,7 +92,7 @@ describe('getWeek', () => {
       const notion = new NotionAdapter(mockConfig())
       const week = await notion.getWeek('2021-01-01')
 
-      expect(week).toEqual({
+      expect(week).toMatchObject({
         date: DateTime.fromISO('2021-01-01', TZ),
         id: 'weekId',
         isSkipped: false,
@@ -155,6 +155,7 @@ describe('getWeeks', () => {
       href: null,
     },
   ]
+
   beforeEach(() => {
     notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([
@@ -162,12 +163,14 @@ describe('getWeeks', () => {
         id: 'weekId3',
         date: '2021-01-15',
         theme: 'theme3',
+        lastEditedTime: '2022-08-12T15:45:00.000Z',
       }),
       NotionMock.mockWeek({
         id: 'weekId2',
         date: '2021-01-08',
         theme: 'theme2',
         skipped: true,
+        lastEditedTime: '2023-08-12T15:45:00.000Z',
       }),
       NotionMock.mockWeek({
         id: 'weekId1',
@@ -175,6 +178,7 @@ describe('getWeeks', () => {
         theme: 'theme1',
         slug: 'weekSlug',
         styledTheme: styled,
+        lastEditedTime: '2021-08-12T15:45:00.000Z',
       }),
     ])
   })
@@ -192,6 +196,7 @@ describe('getWeeks', () => {
         movies: [],
         theme: 'theme3',
         styledTheme: [],
+        lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
       }, {
         id: 'weekId2',
         date: DateTime.fromISO('2021-01-08', TZ),
@@ -200,6 +205,7 @@ describe('getWeeks', () => {
         movies: [],
         theme: 'theme2',
         styledTheme: [],
+        lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
       }, {
         id: 'weekId1',
         date: DateTime.fromISO('2021-01-01', TZ),
@@ -208,6 +214,7 @@ describe('getWeeks', () => {
         movies: [],
         theme: 'theme1',
         styledTheme: styled,
+        lastUpdated: DateTime.fromISO('2021-08-12T15:45:00.000Z'),
       },
     ])
   })

@@ -5,6 +5,7 @@ import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import createAppRouter from '@server/routers/appRouter'
 import Config from '@server/config/config'
 import cronMiddleware from '@server/middleware/cronMiddleware'
+import passwordMiddleware from '@server/middleware/passwordMiddleware'
 
 export default class Application {
   constructor (
@@ -15,6 +16,7 @@ export default class Application {
     private tmdb: TmdbAdapter,
   ) {
     express.use('/cron', cronMiddleware)
+    express.use('/api/cache', passwordMiddleware(config))
     express.use(createAppRouter(config, firestore, notion, tmdb))
   }
 
