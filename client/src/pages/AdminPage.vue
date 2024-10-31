@@ -116,7 +116,10 @@ const displayNewLastUpdated = computed(
             </div>
           </div>
 
-          <div v-else>
+          <div
+            v-else
+            class="flex flex-col space-y-4"
+          >
             <FormInput
               v-model="password"
               name="password"
@@ -127,7 +130,7 @@ const displayNewLastUpdated = computed(
             />
 
             <button
-              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
               :disabled="cacheWeeksLoading"
               data-testid="unlock-button"
               @click="() => cacheWeeks(true)"
