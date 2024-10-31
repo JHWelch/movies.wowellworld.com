@@ -19,7 +19,6 @@ describe('unauthed page', () => {
 
     expect(wrapper.text()).not.toContain('Sync Weeks')
   })
-
 })
 
 describe('authentication problems', () => {
