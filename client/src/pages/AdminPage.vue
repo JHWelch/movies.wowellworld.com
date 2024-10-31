@@ -51,12 +51,8 @@ cacheWeeks(true)
         </h1>
 
         <div class="flex flex-col px-4 py-4 mt-6 space-y-4 rounded-md shadow-sm bg-brat-500 min-w-96">
-          <h2 class="text-xl">
-            Sync Data
-          </h2>
-
           <button
-            class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-black rounded-md h-14 md:w-auto bg-brat-300 hover:bg-brat-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-400"
+            class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-black text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
             :disabled="cacheWeeksLoading"
             @click="() => cacheWeeks()"
           >
@@ -72,20 +68,30 @@ cacheWeeks(true)
 
           <div
             v-if="cacheWeeksOutput"
-            class="flex w-full px-4 py-2 mt-2 text-left rounded-md bg-brat-300"
+            class="flex w-full"
           >
-            <div>
-              <div class="flex justify-between space-x-4">
+            <div class="grid w-full grid-cols-2 gap-4">
+              <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
                 <div class="font-semibold">
                   Weeks Cached
                 </div>
 
-                <div class="text-center">
+                <div class="text-6xl">
                   {{ cacheWeeksOutput.updatedWeeks }}
                 </div>
               </div>
 
-              <div class="flex justify-between space-x-4">
+              <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
+                <div class="font-semibold">
+                  Movies Populated
+                </div>
+
+                <div class="text-6xl">
+                  {{ cacheWeeksOutput.tmdbMoviesSynced.length }}
+                </div>
+              </div>
+
+              <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
                 <div class="font-semibold">
                   Previous Last Updated
                 </div>
@@ -95,7 +101,7 @@ cacheWeeks(true)
                 </div>
               </div>
 
-              <div class="flex justify-between space-x-4">
+              <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
                 <div class="font-semibold">
                   Current Last Updated
                 </div>
