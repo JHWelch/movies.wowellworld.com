@@ -5,18 +5,13 @@ import { CacheWeeksOutput } from '@shared/dtos'
 import { computed, ref } from 'vue'
 
 const cacheWeeksLoading = ref<boolean>(false)
-const cacheWeeksOutput = ref<CacheWeeksOutput | null>({
-  updatedWeeks: 0,
-  previousLastUpdated: null,
-  newLastUpdated: null,
-  tmdbMoviesSynced: [],
-})
+const cacheWeeksOutput = ref<CacheWeeksOutput | null>(null)
 
-const cacheWeeks = () => {
+const cacheWeeks = (fetchOnly: boolean = false) => {
   cacheWeeksLoading.value = true
 
   fetch('/api/cache/weeks', {
-    method: 'POST',
+    method: fetchOnly ? 'GET' : 'POST',
     headers: jsonHeaders,
   })
     .then(response => {
@@ -43,6 +38,8 @@ const displayPreviousLastUpdated = computed(
 const displayNewLastUpdated = computed(
   () => formattedDate(cacheWeeksOutput.value?.newLastUpdated)
 )
+
+cacheWeeks(true)
 </script>
 
 <template>
@@ -61,7 +58,7 @@ const displayNewLastUpdated = computed(
           <button
             class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-black rounded-md h-14 md:w-auto bg-brat-300 hover:bg-brat-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-400"
             :disabled="cacheWeeksLoading"
-            @click="cacheWeeks"
+            @click="() => cacheWeeks()"
           >
             <span>
               {{ cacheWeeksLoading ? 'Syncing Weeks' : 'Sync Weeks' }}
@@ -73,42 +70,42 @@ const displayNewLastUpdated = computed(
             />
           </button>
 
-          <table
+          <div
             v-if="cacheWeeksOutput"
             class="flex w-full px-4 py-2 mt-2 text-left rounded-md bg-brat-300"
           >
-            <tbody>
-              <tr class="flex justify-between space-x-4">
-                <td class="font-semibold">
+            <div>
+              <div class="flex justify-between space-x-4">
+                <div class="font-semibold">
                   Weeks Cached
-                </td>
+                </div>
 
-                <td class="text-center">
+                <div class="text-center">
                   {{ cacheWeeksOutput.updatedWeeks }}
-                </td>
-              </tr>
+                </div>
+              </div>
 
-              <tr class="flex justify-between space-x-4">
-                <td class="font-semibold">
+              <div class="flex justify-between space-x-4">
+                <div class="font-semibold">
                   Previous Last Updated
-                </td>
+                </div>
 
-                <td class="text-right">
+                <div class="text-right">
                   {{ displayPreviousLastUpdated }}
-                </td>
-              </tr>
+                </div>
+              </div>
 
-              <tr class="flex justify-between space-x-4">
-                <td class="font-semibold">
+              <div class="flex justify-between space-x-4">
+                <div class="font-semibold">
                   Current Last Updated
-                </td>
+                </div>
 
-                <td class="text-right">
+                <div class="text-right">
                   {{ displayNewLastUpdated }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
