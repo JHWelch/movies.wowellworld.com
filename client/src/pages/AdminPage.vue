@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Info from '@client/components/admin/Info.vue'
 import FormInput from '@client/components/form/FormInput.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ArrowPathIcon, LockClosedIcon } from '@heroicons/vue/24/solid'
@@ -23,8 +24,6 @@ const cacheWeeks = (fetchOnly: boolean = false) => {
   })
     .then(response => {
       if([401, 403].includes(response.status)) {
-        console.error('Unauthorized to fetch week data: ', response.status, response.statusText)
-
         return response.json()
       }
 
@@ -90,42 +89,29 @@ const displayNewLastUpdated = computed(
               />
             </button>
 
-            <div
-              class="flex w-full"
-            >
+            <div class="flex w-full">
               <div class="grid w-full grid-cols-2 gap-4">
-                <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Weeks Cached
-                  </div>
-                  <div class="text-6xl">
-                    {{ cacheWeeksOutput.updatedWeeks }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Movies Populated
-                  </div>
-                  <div class="text-6xl">
-                    {{ cacheWeeksOutput.tmdbMoviesSynced.length }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Previous Last Updated
-                  </div>
-                  <div class="text-right">
-                    {{ displayPreviousLastUpdated }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Current Last Updated
-                  </div>
-                  <div class="text-right">
-                    {{ displayNewLastUpdated }}
-                  </div>
-                </div>
+                <Info
+                  title="Weeks Cached"
+                  :value="cacheWeeksOutput.updatedWeeks.toString()"
+                />
+
+                <Info
+                  title="Movies Populated"
+                  :value="cacheWeeksOutput.tmdbMoviesSynced.length.toString()"
+                />
+
+                <Info
+                  title="Previous Last Updated"
+                  :value="displayPreviousLastUpdated"
+                  :style="'large'"
+                />
+
+                <Info
+                  title="Current Last Updated"
+                  :value="displayNewLastUpdated"
+                  :style="'large'"
+                />
               </div>
             </div>
           </div>
