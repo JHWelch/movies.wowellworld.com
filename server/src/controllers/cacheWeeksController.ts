@@ -50,6 +50,7 @@ export default class CacheWeeksController {
       res.status(200).json(dto)
 
       await this.firestore.setGlobal('lastUpdated', meta)
+
       return
     }
 
