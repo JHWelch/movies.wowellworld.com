@@ -46,10 +46,10 @@ export default class CacheWeeksController {
 
     if (!weeks.length) {
       const { dto, meta } = this.generateCacheWeeksData({ previousLastUpdated })
-      await this.firestore.setGlobal('lastUpdated', meta)
 
       res.status(200).json(dto)
 
+      await this.firestore.setGlobal('lastUpdated', meta)
       return
     }
 
