@@ -6,7 +6,7 @@ const passwordMiddleware = (config: Config) => (
   response: Response,
   next: NextFunction,
 ): void => {
-  if (!request.headers || !request.headers['authorization']) {
+  if (!request.headers || request.headers['authorization'] === undefined) {
     response.status(401).json({
       error: 'Something went wrong authenticating you',
     })
