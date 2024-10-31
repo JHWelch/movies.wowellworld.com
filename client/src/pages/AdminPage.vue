@@ -2,7 +2,7 @@
 import Info from '@client/components/admin/Info.vue'
 import FormInput from '@client/components/form/FormInput.vue'
 import { jsonHeaders } from '@client/data/headers'
-import { ArrowPathIcon, LockClosedIcon } from '@heroicons/vue/24/solid'
+import { ArrowPathIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/vue/24/solid'
 import { CacheWeeksOutput } from '@shared/dtos'
 import { computed, ref } from 'vue'
 
@@ -75,7 +75,7 @@ const displayNewLastUpdated = computed(
             class="flex flex-col space-y-4"
           >
             <button
-              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
               @click="() => cacheWeeks()"
             >
@@ -130,16 +130,18 @@ const displayNewLastUpdated = computed(
             />
 
             <button
-              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
               data-testid="unlock-button"
               @click="() => cacheWeeks(true)"
             >
-              <span>Unlock</span>
+              <span>
+                {{ cacheWeeksLoading ? 'Unlocking' : 'Unlock' }}
+              </span>
 
-              <ArrowPathIcon
+              <LockOpenIcon
                 v-if="cacheWeeksLoading"
-                class="w-6 h-6 animate-spin"
+                class="w-6 h-6"
               />
 
               <LockClosedIcon
