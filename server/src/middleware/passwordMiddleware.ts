@@ -7,13 +7,15 @@ const passwordMiddleware = (config: Config) => (
   next: NextFunction,
 ): void => {
   if (!request.headers || !request.headers['authorization']) {
-    response.status(401).json({ error: 'Unauthorized' })
+    response.status(401).json({
+      error: 'Something went wrong authenticating you',
+    })
 
     return
   }
 
   if (request.headers['authorization'] !== config.apiPassword) {
-    response.status(403).json({ error: 'Forbidden' })
+    response.status(403).json({ error: 'Password incorrect' })
 
     return
   }
