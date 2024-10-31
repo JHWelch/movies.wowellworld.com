@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import Info from '@client/components/admin/Info.vue'
 import FormInput from '@client/components/form/FormInput.vue'
 import { jsonHeaders } from '@client/data/headers'
-import { ArrowPathIcon, LockClosedIcon } from '@heroicons/vue/24/solid'
+import { ArrowPathIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/vue/24/solid'
 import { CacheWeeksOutput } from '@shared/dtos'
 import { computed, ref } from 'vue'
 
@@ -23,8 +24,6 @@ const cacheWeeks = (fetchOnly: boolean = false) => {
   })
     .then(response => {
       if([401, 403].includes(response.status)) {
-        console.error('Unauthorized to fetch week data: ', response.status, response.statusText)
-
         return response.json()
       }
 
@@ -76,7 +75,7 @@ const displayNewLastUpdated = computed(
             class="flex flex-col space-y-4"
           >
             <button
-              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
               @click="() => cacheWeeks()"
             >
@@ -90,47 +89,37 @@ const displayNewLastUpdated = computed(
               />
             </button>
 
-            <div
-              class="flex w-full"
-            >
+            <div class="flex w-full">
               <div class="grid w-full grid-cols-2 gap-4">
-                <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Weeks Cached
-                  </div>
-                  <div class="text-6xl">
-                    {{ cacheWeeksOutput.updatedWeeks }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Movies Populated
-                  </div>
-                  <div class="text-6xl">
-                    {{ cacheWeeksOutput.tmdbMoviesSynced.length }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Previous Last Updated
-                  </div>
-                  <div class="text-right">
-                    {{ displayPreviousLastUpdated }}
-                  </div>
-                </div>
-                <div class="flex flex-col items-center w-full col-span-2 p-3 rounded-md bg-brat-300">
-                  <div class="font-semibold">
-                    Current Last Updated
-                  </div>
-                  <div class="text-right">
-                    {{ displayNewLastUpdated }}
-                  </div>
-                </div>
+                <Info
+                  title="Weeks Cached"
+                  :value="cacheWeeksOutput.updatedWeeks.toString()"
+                />
+
+                <Info
+                  title="Movies Populated"
+                  :value="cacheWeeksOutput.tmdbMoviesSynced.length.toString()"
+                />
+
+                <Info
+                  title="Previous Last Updated"
+                  :value="displayPreviousLastUpdated"
+                  :style="'large'"
+                />
+
+                <Info
+                  title="Current Last Updated"
+                  :value="displayNewLastUpdated"
+                  :style="'large'"
+                />
               </div>
             </div>
           </div>
 
-          <div v-else>
+          <div
+            v-else
+            class="flex flex-col space-y-4"
+          >
             <FormInput
               v-model="password"
               name="password"
@@ -141,15 +130,18 @@ const displayNewLastUpdated = computed(
             />
 
             <button
-              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
+              data-testid="unlock-button"
               @click="() => cacheWeeks(true)"
             >
-              <span>Unlock</span>
+              <span>
+                {{ cacheWeeksLoading ? 'Unlocking' : 'Unlock' }}
+              </span>
 
-              <ArrowPathIcon
+              <LockOpenIcon
                 v-if="cacheWeeksLoading"
-                class="w-6 h-6 animate-spin"
+                class="w-6 h-6"
               />
 
               <LockClosedIcon
