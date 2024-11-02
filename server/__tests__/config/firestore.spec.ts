@@ -11,12 +11,22 @@ beforeEach(() => {
 
 describe('setupFirestore', () => {
   it('initializes the firestore', () => {
-    const firestore = setupFirestore(mockConfig())
+    const firestore = setupFirestore(mockConfig({
+      googleCloudProject: 'GOOGLE_CLOUD_PROJECT',
+    }))
 
-    expect (applicationDefault).toHaveBeenCalledTimes(1)
-    expect (initializeApp).toHaveBeenCalledTimes(1)
-    expect (getFirestore).toHaveBeenCalledTimes(1)
+    expect(applicationDefault).toHaveBeenCalledTimes(1)
+    expect(initializeApp).toHaveBeenCalledWith({
+      credential: { applicationDefault: true },
+      projectId: 'GOOGLE_CLOUD_PROJECT',
+    })
+    expect(getFirestore).toHaveBeenCalledWith({ initialize: {
+      credential: { applicationDefault: true },
+      projectId: 'GOOGLE_CLOUD_PROJECT',
+    } })
     expect(firestore).toBeDefined()
+
+    expect(connectFirestoreEmulator).not.toHaveBeenCalled()
   })
 
   it('connects to the firestore emulator in development', () => {
