@@ -358,26 +358,6 @@ describe('cacheWeeks', () => {
         }),
       )
   })
-
-  describe('when mode is development', () => {
-    it('uses the development collection', async () => {
-      firestore = new FirestoreAdapter(mockConfig({ nodeEnv: 'development' }))
-
-      await firestore.cacheWeeks([
-        new Week({ id: 'id1', theme: 'theme1', date: DateTime.fromISO('2021-01-01', TZ) }),
-      ])
-
-      expect(transaction.set)
-        .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks-dev', '2021-01-01'),
-          FirebaseMock.mockWeek({
-            id: 'id1',
-            theme: 'theme1',
-            date: '2021-01-01',
-          }),
-        )
-    })
-  })
 })
 
 describe('createUser', () => {

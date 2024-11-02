@@ -29,12 +29,12 @@ import { DateTime } from 'luxon'
 import { CHICAGO } from '@server/config/tz'
 
 export default class FirestoreAdapter {
-  static readonly GLOBALS_COLLECTION_NAME = 'globals'
-  static readonly MAIL_COLLECTION_NAME = 'mail'
-  static readonly RSVPS_COLLECTION_NAME = 'rsvps'
-  static readonly TEMPLATES_COLLECTION_NAME = 'mail-templates'
-  static readonly USERS_COLLECTION_NAME = 'users'
-  static readonly WEEKS_COLLECTION_NAME = 'weeks'
+  static readonly globalsCollectionName = 'globals'
+  static readonly mailCollectionName = 'mail'
+  static readonly rsvpsCollectionName = 'rsvps'
+  static readonly templatesCollectionName = 'mail-templates'
+  static readonly usersCollectionName = 'users'
+  static readonly weeksCollectionName = 'weeks'
 
   private config: Config
   private firestore: FirestoreType
@@ -49,7 +49,7 @@ export default class FirestoreAdapter {
   ): Promise<Primitive|Timestamp|WithFieldValue<AppDataType>|null> => {
     const document = await getDoc(doc(
       this.firestore,
-      this.globalsCollectionName,
+      FirestoreAdapter.globalsCollectionName,
       key,
     ))
 
@@ -66,7 +66,7 @@ export default class FirestoreAdapter {
   ): Promise<void> => {
     setDoc(doc(
       this.firestore,
-      this.globalsCollectionName,
+      FirestoreAdapter.globalsCollectionName,
       key,
     ), { value })
   }
@@ -76,7 +76,7 @@ export default class FirestoreAdapter {
       weeks.forEach((week: Week) => {
         const ref = doc(
           this.firestore,
-          this.weeksCollectionName,
+          FirestoreAdapter.weeksCollectionName,
           week.dateString,
         )
         transaction.set(ref, week.toFirebaseDTO())
@@ -167,13 +167,17 @@ export default class FirestoreAdapter {
   updateUser = async (user: User): Promise<void> => {
     setDoc(doc(
       this.firestore,
-      this.usersCollectionName,
+      FirestoreAdapter.usersCollectionName,
       user.id,
     ), user.toFirebaseDTO())
   }
 
   deleteUser = async (id: string): Promise<void> => {
-    await deleteDoc(doc(this.firestore, this.usersCollectionName, id))
+    await deleteDoc(doc(
+      this.firestore,
+      FirestoreAdapter.usersCollectionName,
+      id,
+    ))
   }
 
   sendEmail = async (to: string, message: EmailMessage): Promise<void> => {
@@ -208,7 +212,7 @@ export default class FirestoreAdapter {
       emails.forEach((email) => {
         const ref = doc(
           this.firestore,
-          this.mailCollectionName,
+          FirestoreAdapter.mailCollectionName,
           randomUUID(),
         )
 
@@ -230,7 +234,7 @@ export default class FirestoreAdapter {
       templates.forEach((template) => {
         transaction.set(doc(
           this.firestore,
-          this.templatesCollectionName,
+          FirestoreAdapter.templatesCollectionName,
           template.name,
         ), template.data)
       })
@@ -247,48 +251,20 @@ export default class FirestoreAdapter {
     return this.config.adminEmail
   }
 
-  private get globalsCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.GLOBALS_COLLECTION_NAME)
-  }
-
-  private get mailCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.MAIL_COLLECTION_NAME)
-  }
-
-  private get rsvpsCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.RSVPS_COLLECTION_NAME)
-  }
-
-  private get templatesCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.TEMPLATES_COLLECTION_NAME)
-  }
-
-  private get usersCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.USERS_COLLECTION_NAME)
-  }
-
-  private get weeksCollectionName (): string {
-    return this.collectionName(FirestoreAdapter.WEEKS_COLLECTION_NAME)
-  }
-
   private get mailCollection (): Collection {
-    return collection(this.firestore, this.mailCollectionName)
+    return collection(this.firestore, FirestoreAdapter.mailCollectionName)
   }
 
   private get rsvpCollection (): Collection {
-    return collection(this.firestore, this.rsvpsCollectionName)
+    return collection(this.firestore, FirestoreAdapter.rsvpsCollectionName)
   }
 
   private get usersCollection (): Collection {
-    return collection(this.firestore, this.usersCollectionName)
+    return collection(this.firestore, FirestoreAdapter.usersCollectionName)
   }
 
   private get weekCollection (): Collection {
-    return collection(this.firestore, this.weeksCollectionName)
-  }
-
-  private collectionName (name: string): string {
-    return this.config.isProduction ? name : `${name}-dev`
+    return collection(this.firestore, FirestoreAdapter.weeksCollectionName)
   }
 }
 
