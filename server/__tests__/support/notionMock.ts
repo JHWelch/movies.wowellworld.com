@@ -22,19 +22,24 @@ import {
 } from '@tests/support/notionHelpers'
 import { DateTime } from 'luxon'
 
+type CreateType = typeof Client.prototype.pages.create
+type UpdateType = typeof Client.prototype.pages.update
+type QueryType = typeof Client.prototype.databases.query
+type RetrieveType = typeof Client.prototype.pages.retrieve
+
 export class NotionMock {
-  create: jest.MockedFunction<typeof Client.prototype.pages.create>
-  update: jest.MockedFunction<typeof Client.prototype.pages.update>
-  query: jest.MockedFunction<typeof Client.prototype.databases.query>
-  retrieve: jest.MockedFunction<typeof Client.prototype.pages.retrieve>
+  create: jest.MockedFunction<CreateType>
+  update: jest.MockedFunction<UpdateType>
+  query: jest.MockedFunction<QueryType>
+  retrieve: jest.MockedFunction<RetrieveType>
 
   constructor () {
-    this.create = jest.fn<typeof Client.prototype.pages.create>()
-    this.update = jest.fn<typeof Client.prototype.pages.update>()
-    this.retrieve = jest.fn<typeof Client.prototype.pages.retrieve>()
-    this.query = jest.fn<typeof Client.prototype.databases.query>();
+    this.create = jest.fn<CreateType>()
+    this.update = jest.fn<UpdateType>()
+    this.retrieve = jest.fn<RetrieveType>()
+    this.query = jest.fn<QueryType>()
 
-    (Client as unknown as jest.Mock).mockImplementation(() => ({
+    ;(Client as unknown as jest.Mock).mockImplementation(() => ({
       pages: {
         create: this.create,
         update: this.update,
@@ -44,24 +49,15 @@ export class NotionMock {
     }))
   }
 
-  mockNotionEnv = () => {
-    process.env = {
-      NOTION_TOKEN: 'NOTION_TOKEN',
-      DATABASE_ID: 'DATABASE_ID',
-    }
-  }
-
-  mockIsFullPageOrDatabase = (response: boolean) => {
+  mockIsFullPageOrDatabase = (response: boolean) =>
     (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
-  }
 
-  mockRetrieve = (movie: NotionMovie | undefined = undefined) => {
+  mockRetrieve = (movie?: NotionMovie) => {
     const notionMovie = movie ?? NotionMovie.demo()
 
     this.retrieve.mockImplementationOnce(async (
       _args: WithAuth<GetPageParameters>,
-    ): Promise<GetPageResponse> =>
-      notionMovie.toPageObjectResponse())
+    ): Promise<GetPageResponse> => notionMovie.toPageObjectResponse())
 
     return { pages: { retrieve: this.retrieve } }
   }
@@ -99,17 +95,14 @@ export class NotionMock {
     styledTheme?: RichText[]
     lastEditedTime?: string
     lastEditedMovieTime?: string
-  }): PageObjectResponse => pageObjectResponse(
-    week.id,
-    {
-      Date: nDate(week.date),
-      Theme: nTitle(week.theme),
-      Skipped: nCheckbox(week.skipped ?? false),
-      Slug: nRichText(week.slug ?? null),
-      Movies: nRelation(week.movies ?? []),
-      'Styled Theme': nRichText(week.styledTheme ?? []),
-      'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
-      'Last edited movie time': nFormula(week.lastEditedMovieTime ? week.lastEditedMovieTime ?? DateTime.now().toISO() : null),
-    }
-  )
+  }): PageObjectResponse => pageObjectResponse(week.id, {
+    Date: nDate(week.date),
+    Theme: nTitle(week.theme),
+    Skipped: nCheckbox(week.skipped ?? false),
+    Slug: nRichText(week.slug ?? null),
+    Movies: nRelation(week.movies ?? []),
+    'Styled Theme': nRichText(week.styledTheme ?? []),
+    'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
+    'Last edited movie time': nFormula(week.lastEditedMovieTime ? week.lastEditedMovieTime ?? DateTime.now().toISO() : null),
+  })
 }
