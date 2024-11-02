@@ -9,10 +9,11 @@ An integration with [Notion](https://notion.so) to display weekly movie nights u
 ### .env
 
 ```sh
+cd server
 cp .env.example .env
 ```
 
-Update `.env` to match Notion database.
+Update `.env` to include secrets.
 
 ### Build for Development
 
@@ -20,6 +21,12 @@ To build assets for development and serve on port `PORT`.
 
 ```sh
 npm run dev
+```
+
+### Testing
+
+```sh
+npm test
 ```
 
 ### Linting & Fixing
@@ -40,6 +47,8 @@ This application is split into two parts:
 - `client` - The Vue application served by the Express server that handles the UI.
 
 Each part has its own `package.json` and `node_modules` directory, however both can be installed with a single `npm install` command.
+
+You can find specific scripts for each part in their respective `package.json` files.
 
 ## Deploy to App Engine
 
