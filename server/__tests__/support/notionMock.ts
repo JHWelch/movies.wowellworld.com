@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals'
-import { Client, isFullPageOrDatabase } from '@notionhq/client'
+import { Client as _Client, isFullPageOrDatabase as _isFullPageOrDatabase } from '@notionhq/client'
 import {
   GetPageParameters,
   GetPageResponse,
@@ -22,6 +22,9 @@ import {
 } from '@tests/support/notionHelpers'
 import { DateTime } from 'luxon'
 
+const Client = _Client as unknown as jest.Mock
+const isFullPageOrDatabase = _isFullPageOrDatabase as unknown as jest.Mock
+
 type CreateType = typeof Client.prototype.pages.create
 type UpdateType = typeof Client.prototype.pages.update
 type QueryType = typeof Client.prototype.databases.query
@@ -39,7 +42,7 @@ export class NotionMock {
     this.retrieve = jest.fn<RetrieveType>()
     this.query = jest.fn<QueryType>()
 
-    ;(Client as unknown as jest.Mock).mockImplementation(() => ({
+    Client.mockImplementation(() => ({
       pages: {
         create: this.create,
         update: this.update,
@@ -50,7 +53,7 @@ export class NotionMock {
   }
 
   mockIsFullPageOrDatabase = (response: boolean) =>
-    (isFullPageOrDatabase as unknown as jest.Mock).mockReturnValue(response)
+    isFullPageOrDatabase.mockReturnValue(response)
 
   mockRetrieve = (movie?: NotionMovie) => {
     const notionMovie = movie ?? NotionMovie.demo()
@@ -103,6 +106,6 @@ export class NotionMock {
     Movies: nRelation(week.movies ?? []),
     'Styled Theme': nRichText(week.styledTheme ?? []),
     'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
-    'Last edited movie time': nFormula(week.lastEditedMovieTime ? week.lastEditedMovieTime ?? DateTime.now().toISO() : null),
+    'Last edited movie time': nFormula(week.lastEditedMovieTime || null),
   })
 }

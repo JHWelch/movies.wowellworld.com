@@ -11,7 +11,9 @@ import WeekFactory from '@tests/support/factories/weekFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
-import directoryPath from '@server/helpers/directoryPath'
+import _directoryPath from '@server/helpers/directoryPath'
+
+const directoryPath = _directoryPath as jest.Mock
 
 const { res, mockClear } = getMockRes()
 
@@ -26,9 +28,8 @@ describe('show', () => {
   let week: Week
 
   beforeEach(() => {
-    firestoreAdapter = new FirestoreAdapter(mockConfig());
-    (directoryPath as unknown as jest.Mock)
-      .mockReturnValue(__dirname + '/../../src/data')
+    firestoreAdapter = new FirestoreAdapter(mockConfig())
+    directoryPath.mockReturnValue(__dirname + '/../../src/data')
   })
 
   describe('has correct week', () => {
