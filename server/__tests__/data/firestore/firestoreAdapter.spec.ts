@@ -93,33 +93,31 @@ describe('getUpcomingWeeks', () => {
   ]
 
   beforeEach(() => {
-    FirebaseMock.mockWeeks([
-      {
-        date: DateTime.fromISO('2021-01-01', TZ),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-        slug: null,
-        styledTheme: [],
-        lastEditedTime: '2022-08-12T15:45:00.000Z',
-      }, {
-        date: DateTime.fromISO('2021-01-08', TZ),
-        id: 'id2',
-        isSkipped: true,
-        theme: 'theme2',
-        slug: null,
-        styledTheme: [],
-        lastEditedTime: '2023-08-12T15:45:00.000Z',
-      }, {
-        date: DateTime.fromISO('2021-01-15', TZ),
-        id: 'id3',
-        isSkipped: false,
-        theme: 'theme3',
-        slug: 'slug',
-        styledTheme: styled,
-        lastEditedTime: '2021-08-12T15:45:00.000Z',
-      },
-    ])
+    FirebaseMock.mockWeeks([{
+      date: DateTime.fromISO('2021-01-01', TZ),
+      id: 'id1',
+      isSkipped: false,
+      theme: 'theme1',
+      slug: null,
+      styledTheme: [],
+      lastEditedTime: '2022-08-12T15:45:00.000Z',
+    }, {
+      date: DateTime.fromISO('2021-01-08', TZ),
+      id: 'id2',
+      isSkipped: true,
+      theme: 'theme2',
+      slug: null,
+      styledTheme: [],
+      lastEditedTime: '2023-08-12T15:45:00.000Z',
+    }, {
+      date: DateTime.fromISO('2021-01-15', TZ),
+      id: 'id3',
+      isSkipped: false,
+      theme: 'theme3',
+      slug: 'slug',
+      styledTheme: styled,
+      lastEditedTime: '2021-08-12T15:45:00.000Z',
+    }])
   })
 
   it('should return all future weeks', async () => {
@@ -174,30 +172,28 @@ describe('getUpcomingWeeks', () => {
 
 describe('getPastWeeks', () => {
   beforeEach(() => {
-    FirebaseMock.mockWeeks([
-      {
-        date: DateTime.fromISO('2021-01-01', TZ),
-        id: 'id1',
-        isSkipped: false,
-        theme: 'theme1',
-        slug: null,
-        lastEditedTime: now.toISO() ?? undefined,
-      }, {
-        date: DateTime.fromISO('2021-01-08', TZ),
-        id: 'id2',
-        isSkipped: false,
-        theme: 'theme2',
-        slug: null,
-        lastEditedTime: now.toISO() ?? undefined,
-      }, {
-        date: DateTime.fromISO('2021-01-15', TZ),
-        id: 'id3',
-        isSkipped: false,
-        theme: 'theme3',
-        slug: null,
-        lastEditedTime: now.toISO() ?? undefined,
-      },
-    ])
+    FirebaseMock.mockWeeks([{
+      date: DateTime.fromISO('2021-01-01', TZ),
+      id: 'id1',
+      isSkipped: false,
+      theme: 'theme1',
+      slug: null,
+      lastEditedTime: now.toISO() ?? undefined,
+    }, {
+      date: DateTime.fromISO('2021-01-08', TZ),
+      id: 'id2',
+      isSkipped: false,
+      theme: 'theme2',
+      slug: null,
+      lastEditedTime: now.toISO() ?? undefined,
+    }, {
+      date: DateTime.fromISO('2021-01-15', TZ),
+      id: 'id3',
+      isSkipped: false,
+      theme: 'theme3',
+      slug: null,
+      lastEditedTime: now.toISO() ?? undefined,
+    }])
   })
 
   it ('should return only past weeks', async () => {
@@ -253,9 +249,7 @@ describe('getWeek', () => {
     })
 
     it('returns the week', async () => {
-      const week = await firestore.getWeek('2021-01-01')
-
-      expect(week).toEqual(
+      expect(await firestore.getWeek('2021-01-01')).toEqual(
         new Week({
           id: 'id1',
           theme: 'theme1',
@@ -362,10 +356,7 @@ describe('cacheWeeks', () => {
 
 describe('createUser', () => {
   it('creates a user in firestore', async () => {
-    await firestore.createUser(
-      'test@example.com',
-      true,
-    )
+    await firestore.createUser('test@example.com', true)
 
     expect(addDoc).toHaveBeenCalledWith(
       FirebaseMock.mockCollection('users'),
@@ -549,27 +540,22 @@ describe('sendEmailTemplate', () => {
           ],
         })
 
-      expect(addDoc).toHaveBeenCalledWith(
-        FirebaseMock.mockCollection('mail'),
-        {
-          to: 'jsmith@example.com',
-          template: {
-            name: 'rsvpConfirmation',
-            data: {
-              date: 'Thursday, January 1st',
-              theme: 'test theme',
-              movies: [
-                {
-                  title: 'test title',
-                  year: '2021',
-                  time: '6:00pm',
-                  posterPath: 'https://example.com/poster.jpg',
-                },
-              ],
-            },
+      expect(addDoc).toHaveBeenCalledWith(FirebaseMock.mockCollection('mail'), {
+        to: 'jsmith@example.com',
+        template: {
+          name: 'rsvpConfirmation',
+          data: {
+            date: 'Thursday, January 1st',
+            theme: 'test theme',
+            movies: [{
+              title: 'test title',
+              year: '2021',
+              time: '6:00pm',
+              posterPath: 'https://example.com/poster.jpg',
+            }],
           },
         },
-      )
+      })
     })
   })
 })
@@ -659,21 +645,19 @@ describe('sendEmailTemplates', () => {
 
 describe('updateTemplates', () => {
   it('should update the templates with new data', async () => {
-    await firestore.updateTemplates([
-      {
-        name: 'templateId',
-        data: {
-          subject: 'new subject',
-          html: 'new html',
-        },
-      }, {
-        name: 'templateId2',
-        data: {
-          subject: 'new subject 2',
-          html: 'new html 2',
-        },
+    await firestore.updateTemplates([{
+      name: 'templateId',
+      data: {
+        subject: 'new subject',
+        html: 'new html',
       },
-    ])
+    }, {
+      name: 'templateId2',
+      data: {
+        subject: 'new subject 2',
+        html: 'new html 2',
+      },
+    }])
 
     expect(transaction.set).toHaveBeenCalledWith(
       FirebaseMock.mockDoc('mail-templates', 'templateId'),

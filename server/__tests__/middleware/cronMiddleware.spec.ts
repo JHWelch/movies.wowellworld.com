@@ -18,13 +18,12 @@ describe('Request has no headers', () => {
   })
 
   it('returns missing error', async () => {
-    const expectedResponse = {
-      error: 'Missing X-Appengine-Cron header',
-    }
     cronMiddleware(req, res, nextFunction)
 
     expect(res.status).toBeCalledWith(401)
-    expect(res.json).toBeCalledWith(expectedResponse)
+    expect(res.json).toBeCalledWith({
+      error: 'Missing X-Appengine-Cron header',
+    })
   })
 })
 
@@ -36,23 +35,20 @@ describe('Request missing X-Appengine-Cron header', () => {
   })
 
   it('returns missing error', async () => {
-    const expectedResponse = {
-      error: 'Missing X-Appengine-Cron header',
-    }
     cronMiddleware(req, res, nextFunction)
 
     expect(res.status).toBeCalledWith(401)
-    expect(res.json).toBeCalledWith(expectedResponse)
+    expect(res.json).toBeCalledWith({
+      error: 'Missing X-Appengine-Cron header',
+    })
   })
 })
 
 describe('X-Appengine-Cron is set', () => {
   beforeEach(() => {
-    req = getMockReq({
-      headers: {
-        'x-appengine-cron': 'true',
-      },
-    })
+    req = getMockReq({ headers: {
+      'x-appengine-cron': 'true',
+    } })
   })
 
   it('lets the request continue', async () => {

@@ -244,33 +244,29 @@ export class NotionMovie {
     })
   }
 
-  static demo (): NotionMovie {
-    return new NotionMovie({
-      id: 'movieId',
-      title: 'movieTitle',
-      director: 'movieDirector',
-      year: 2021,
-      length: 120,
-      time: '8:00 PM',
-      url: 'movieUrl',
-      posterPath: 'moviePosterPath',
-      theaterName: 'movieTheaterName',
-      showingUrl: 'movieShowingUrl',
-    })
-  }
+  static demo = () => new NotionMovie({
+    id: 'movieId',
+    title: 'movieTitle',
+    director: 'movieDirector',
+    year: 2021,
+    length: 120,
+    time: '8:00 PM',
+    url: 'movieUrl',
+    posterPath: 'moviePosterPath',
+    theaterName: 'movieTheaterName',
+    showingUrl: 'movieShowingUrl',
+  })
 
-  static fromMovie (movie: Movie): NotionMovie {
-    return new NotionMovie({
-      id: movie.notionId || '',
-      title: movie.title,
-      director: movie.director,
-      year: movie.year,
-      length: movie.length,
-      time: movie.time,
-      url: movie.url,
-      posterPath: movie.posterPath,
-      theaterName: movie.theaterName,
-      showingUrl: movie.showingUrl,
-    })
-  }
+  static fromMovie = (movie: Movie) => new NotionMovie({
+    id: movie.notionId || '',
+    title: movie.title,
+    director: movie.director,
+    year: movie.year,
+    length: movie.length,
+    time: movie.time,
+    url: movie.url,
+    posterPath: movie.posterPath,
+    theaterName: movie.theaterName,
+    showingUrl: movie.showingUrl,
+  })
 }
