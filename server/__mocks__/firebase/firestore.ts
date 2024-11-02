@@ -12,6 +12,7 @@ export const transaction = {
 module.exports = {
   addDoc: jest.fn(),
   and: jest.fn((...filters: any[]) => ({ and: filters })),
+  connectFirestoreEmulator: jest.fn().mockImplementation((app, _, __) => app),
   collection: jest.fn((firestore: any, collectionPath: string) => ({
     collectionPath,
     firestore,
