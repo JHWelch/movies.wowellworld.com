@@ -1,4 +1,4 @@
-import { getFirestore, Firestore } from 'firebase/firestore'
+import { getFirestore, Firestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import Config from '@server/config/config'
@@ -9,7 +9,11 @@ export default function setupFirestore (config: Config): Firestore {
     projectId: config.googleCloudProject,
   }
 
-  const app = initializeApp(firebaseConfig)
+  const app = getFirestore(initializeApp(firebaseConfig))
 
-  return getFirestore(app)
+  if (!config.isProduction) {
+    connectFirestoreEmulator(app, 'localhost', 8888)
+  }
+
+  return app
 }
