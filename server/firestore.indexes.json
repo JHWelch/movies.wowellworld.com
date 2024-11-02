@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "weeks",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isSkipped",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "weeks-dev",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "isSkipped",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "date",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
