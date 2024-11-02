@@ -1,6 +1,6 @@
 import {
-  getDocs,
-  getDoc,
+  getDocs as _getDocs,
+  getDoc as _getDoc,
   Timestamp,
   WithFieldValue,
   Primitive,
@@ -13,40 +13,41 @@ import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
+const getDocs = _getDocs as jest.Mock
+const getDoc = _getDoc as jest.Mock
+
 export class FirebaseMock {
-  static mockGetGlobal <AppDataType>(
+  static mockGetGlobal<AppDataType> (
     key: string,
     value?: Primitive|Timestamp|WithFieldValue<AppDataType>,
   ) {
-    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+    getDoc.mockImplementation(() => ({
       data: () => (value ? { value } : undefined),
       exists: () => Boolean(value),
     }))
   }
 
   static mockWeeks (weeks: FirebaseWeek[]) {
-    (getDocs as unknown as jest.Mock).mockImplementation(() => {
-      return {
-        docs: weeks.map((week) => ({
-          data: () => ({
-            id: week.id,
-            theme: week.theme,
-            date: Timestamp.fromDate(week.date.toJSDate()),
-            isSkipped: week.isSkipped,
-            slug: week.slug,
-            styledTheme: week.styledTheme ?? [],
-            movies: week.movies ?? [],
-            lastUpdated: week.lastEditedTime
-              ? Timestamp.fromDate(new Date(week.lastEditedTime))
-              : Timestamp.now(),
-          }),
-        })),
-      }
-    })
+    getDocs.mockImplementation(() => ({
+      docs: weeks.map((week) => ({
+        data: () => ({
+          id: week.id,
+          theme: week.theme,
+          date: Timestamp.fromDate(week.date.toJSDate()),
+          isSkipped: week.isSkipped,
+          slug: week.slug,
+          styledTheme: week.styledTheme ?? [],
+          movies: week.movies ?? [],
+          lastUpdated: week.lastEditedTime
+            ? Timestamp.fromDate(new Date(week.lastEditedTime))
+            : Timestamp.now(),
+        }),
+      })),
+    }))
   }
 
   static mockGetWeek (week?: FirebaseWeek) {
-    (getDoc as unknown as jest.Mock).mockImplementation(() => ({
+    getDoc.mockImplementation(() => ({
       data: () => (week ? {
         id: week.id,
         theme: week.theme,
@@ -62,7 +63,7 @@ export class FirebaseMock {
   }
 
   static mockGetUserByEmail (user?: FirebaseUser) {
-    (getDocs as unknown as jest.Mock).mockImplementation(() => ({
+    getDocs.mockImplementation(() => ({
       docs: user ? [{
         id: user.id,
         data: () => ({
@@ -74,7 +75,7 @@ export class FirebaseMock {
   }
 
   static mockGetUsers (users: FirebaseUser[]) {
-    (getDocs as unknown as jest.Mock).mockImplementation(() => ({
+    getDocs.mockImplementation(() => ({
       docs: users.map((user) => ({
         id: user.id,
         data: () => ({
