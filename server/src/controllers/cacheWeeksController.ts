@@ -152,13 +152,12 @@ export default class CacheWeeksController {
       },
       meta: {
         ...baseData,
-        previousLastUpdated: baseData.previousLastUpdated
-          ? Timestamp.fromDate(baseData.previousLastUpdated)
-          : null,
-        newLastUpdated: baseData.newLastUpdated
-          ? Timestamp.fromDate(baseData.newLastUpdated)
-          : null,
+        previousLastUpdated: this.dateToTimestamp(baseData.previousLastUpdated),
+        newLastUpdated: this.dateToTimestamp(baseData.newLastUpdated),
       },
     }
   }
+
+  private dateToTimestamp = (date: Date | null): Timestamp | null =>
+    date ? Timestamp.fromDate(date) : null
 }
