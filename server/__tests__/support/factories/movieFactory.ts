@@ -19,26 +19,22 @@ export default class MovieFactory extends Factory<Movie, MovieConstructor> {
     showingUrl: 'Showing Url',
   }
 
-  noFields (): MovieFactory {
-    return this.state({
-      theaterName: undefined,
-      showingUrl: null,
-    })
-  }
+  noFields = (): MovieFactory => this.state({
+    theaterName: undefined,
+    showingUrl: null,
+  })
 
-  asFirebaseMovie (): FirebaseMovie {
-    return {
-      title: this._state.title,
-      director: this._state.director,
-      year: this._state.year,
-      length: this._state.length,
-      time: this._state.time,
-      url: this._state.url,
-      tmdbId: this._state.tmdbId,
-      posterPath: this._state.posterPath,
-      notionId: this._state.notionId,
-      theaterName: this._state.theaterName,
-      showingUrl: this._state.showingUrl,
-    }
-  }
+  asFirebaseMovie = (): FirebaseMovie => ({
+    title: this._state.title,
+    director: this._state.director,
+    year: this._state.year,
+    length: this._state.length,
+    time: this._state.time,
+    url: this._state.url,
+    tmdbId: this._state.tmdbId,
+    posterPath: this._state.posterPath,
+    notionId: this._state.notionId,
+    theaterName: this._state.theaterName,
+    showingUrl: this._state.showingUrl,
+  })
 }

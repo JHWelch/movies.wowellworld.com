@@ -14,6 +14,7 @@ import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 
+let notion: NotionAdapter
 let notionMock: NotionMock
 
 beforeAll(() => {
@@ -86,10 +87,10 @@ describe('getWeek', () => {
   describe('when the week exists', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
+      notion = new NotionAdapter(mockConfig())
     })
 
     it('should return the week', async () => {
-      const notion = new NotionAdapter(mockConfig())
       const week = await notion.getWeek('2021-01-01')
 
       expect(week).toMatchObject({
@@ -107,11 +108,10 @@ describe('getWeek', () => {
   describe('when the week does not exist', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(false)
+      notion = new NotionAdapter(mockConfig())
     })
 
     it('should throw an error', async () => {
-      const notion = new NotionAdapter(mockConfig())
-
       expect(notion.getWeek('2021-01-01'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
@@ -181,10 +181,10 @@ describe('getWeeks', () => {
         lastEditedTime: '2021-08-12T15:45:00.000Z',
       }),
     ])
+    notion = new NotionAdapter(mockConfig())
   })
 
   it('should return the weeks', async () => {
-    const notion = new NotionAdapter(mockConfig())
     const weeks = await notion.getWeeks()
 
     expect(weeks).toEqual([
@@ -220,7 +220,6 @@ describe('getWeeks', () => {
   })
 
   it('should call query with the correct parameters', async () => {
-    const notion = new NotionAdapter(mockConfig())
     await notion.getWeeks()
 
     expect(notionMock.query).toHaveBeenCalledWith({
@@ -239,9 +238,12 @@ describe('getWeeks', () => {
 })
 
 describe('setMovie', () => {
+  beforeEach(() => {
+    notion = new NotionAdapter(mockConfig())
+  })
+
   it('should call the update method with the correct parameters', async () => {
     const movie = new MovieFactory().make()
-    const notion = new NotionAdapter(mockConfig())
 
     await notion.setMovie(movie)
 
@@ -252,10 +254,10 @@ describe('setMovie', () => {
 describe('createMovie', () => {
   beforeEach(() => {
     notionMock.mockCreate('movieId')
+    notion = new NotionAdapter(mockConfig())
   })
 
   it('should call the create method with the correct parameters', async () => {
-    const notion = new NotionAdapter(mockConfig())
     await notion.createMovie('Movie Title')
 
     expect(notionMock.create).toHaveBeenCalledWith({
@@ -267,8 +269,6 @@ describe('createMovie', () => {
   })
 
   it('should return the movie id', async () => {
-    const notion = new NotionAdapter(mockConfig())
-
     const movieId = await notion.createMovie('Movie Title')
 
     expect(movieId).toEqual('movieId')
@@ -276,8 +276,11 @@ describe('createMovie', () => {
 })
 
 describe('createWeek', () => {
+  beforeEach(() => {
+    notion = new NotionAdapter(mockConfig())
+  })
+
   it('should call the create method with the correct parameters', async () => {
-    const notion = new NotionAdapter(mockConfig())
     await notion.createWeek('Theme', ['movieId1', 'movieId2'], 'Anonymous')
 
     expect(notionMock.create).toHaveBeenCalledWith({

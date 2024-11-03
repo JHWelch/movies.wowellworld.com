@@ -1,14 +1,15 @@
 import { beforeEach, expect, it, jest } from '@jest/globals'
 import { icalGenerator } from '@server/data/icalGenerator'
-import directoryPath from '@server/helpers/directoryPath'
+import _directoryPath from '@server/helpers/directoryPath'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import WeekFactory from '@tests/support/factories/weekFactory'
 import MockDate from 'mockdate'
 
+const directoryPath = _directoryPath as jest.Mock
+
 beforeEach(() => {
-  MockDate.set('2021-01-01');
-  (directoryPath as unknown as jest.Mock)
-    .mockReturnValue(__dirname + '/../../src/data')
+  MockDate.set('2021-01-01')
+  directoryPath.mockReturnValue(__dirname + '/../../src/data')
 })
 
 it('can generate an ical file from a week', async () => {

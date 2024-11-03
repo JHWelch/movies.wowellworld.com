@@ -27,7 +27,9 @@ describe('Request has no headers', () => {
     passwordMiddleware(mockConfig())(req, res, nextFunction)
 
     expect(res.status).toBeCalledWith(401)
-    expect(res.json).toBeCalledWith({ error: 'Something went wrong authenticating you' })
+    expect(res.json).toBeCalledWith({
+      error: 'Something went wrong authenticating you',
+    })
   })
 })
 
@@ -42,7 +44,9 @@ describe('Request missing Authorization header', () => {
     passwordMiddleware(mockConfig())(req, res, nextFunction)
 
     expect(res.status).toBeCalledWith(401)
-    expect(res.json).toBeCalledWith({ error: 'Something went wrong authenticating you' })
+    expect(res.json).toBeCalledWith({
+      error: 'Something went wrong authenticating you',
+    })
   })
 })
 
@@ -64,11 +68,9 @@ describe('password is set and correct', () => {
 
 describe('password is empty string', () => {
   beforeEach(() => {
-    req = getMockReq({
-      headers: {
-        authorization: '',
-      },
-    })
+    req = getMockReq({ headers: {
+      authorization: '',
+    } })
   })
 
   it('returns Forbidden', async () => {
@@ -81,11 +83,9 @@ describe('password is empty string', () => {
 
 describe('password is set and incorrect', () => {
   beforeEach(() => {
-    req = getMockReq({
-      headers: {
-        authorization: 'WRONG_PASSWORD',
-      },
-    })
+    req = getMockReq({ headers: {
+      authorization: 'WRONG_PASSWORD',
+    } })
   })
 
   it('returns Forbidden', async () => {

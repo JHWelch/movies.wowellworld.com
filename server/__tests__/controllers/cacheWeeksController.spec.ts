@@ -54,7 +54,6 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.clearAllMocks()
-  notionMock.mockNotionEnv()
   mockClear()
   jest.mock('@server/helpers/directoryPath')
 })
