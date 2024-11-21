@@ -11,32 +11,33 @@ updates:
     schedule:
       interval: weekly
     groups:
-      development-dependencies:
-        dependency-type: development
-      production-dependencies:
-        dependency-type: production
+      actions-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
     groups:
-      development-dependencies:
-        dependency-type: development
-      production-dependencies:
-        dependency-type: production
+      global-npm-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: npm
     directory: /client
     schedule:
       interval: weekly
     groups:
-      development-dependencies:
-        dependency-type: development
-      production-dependencies:
-        dependency-type: production
+      client-npm-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: npm
     directory: /server
     schedule:
       interval: weekly
+    groups:
+      server-npm-dependencies:
+        patterns:
+          - "*"
