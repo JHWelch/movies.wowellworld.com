@@ -32,8 +32,8 @@
   "license": "MIT",
   "devDependencies": {
     "@jhwelch/eslint-config": "^3.0.0",
-    "concurrently": "^9.0.1",
-    "eslint": "^9.13.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.15.0",
     "mjml": "^4.14.1"
   }
 }
