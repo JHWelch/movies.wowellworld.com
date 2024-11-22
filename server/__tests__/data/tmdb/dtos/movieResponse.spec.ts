@@ -18,6 +18,8 @@ describe('fromTmdbResponse', () => {
       video: false,
       vote_average: 7.282,
       vote_count: 3953,
+      runtime: 97,
+      credits: { crew: [], cast: [] },
     })
 
     expect(response.adult).toEqual(false)
@@ -44,57 +46,57 @@ describe('fromTmdbResponse', () => {
       response = MovieResponse.fromTmdbResponse({
         adult: false,
         backdrop_path: '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
-        belongs_to_collection: null,
-        budget: 12000000,
-        genres: [
-          {
-            id: 35,
-            name: 'Comedy',
-          },
-          {
-            id: 10749,
-            name: 'Romance',
-          },
-        ],
-        homepage: '',
+        // belongs_to_collection: null,
+        // budget: 12000000,
+        // genres: [
+        //   {
+        //     id: 35,
+        //     name: 'Comedy',
+        //   },
+        //   {
+        //     id: 10749,
+        //     name: 'Romance',
+        //   },
+        // ],
+        // homepage: '',
         id: 9603,
-        imdb_id: 'tt0112697',
+        // imdb_id: 'tt0112697',
         original_language: 'en',
         original_title: 'Clueless',
         overview: 'Shallow, rich and socially successful Cher is at the top...',
         popularity: 32.244,
         poster_path: '/8AwVTcgpTnmeOs4TdTWqcFDXEsA.jpg',
-        production_companies: [
-          {
-            id: 4,
-            logo_path: '/gz66EfNoYPqHTYI4q9UEN4CbHRc.png',
-            name: 'Paramount',
-            origin_country: 'US',
-          },
-        ],
-        production_countries: [
-          {
-            iso_3166_1: 'US',
-            name: 'United States of America',
-          },
-        ],
+        // production_companies: [
+        //   {
+        //     id: 4,
+        //     logo_path: '/gz66EfNoYPqHTYI4q9UEN4CbHRc.png',
+        //     name: 'Paramount',
+        //     origin_country: 'US',
+        //   },
+        // ],
+        // production_countries: [
+        //   {
+        //     iso_3166_1: 'US',
+        //     name: 'United States of America',
+        //   },
+        // ],
         release_date: '1995-07-19',
-        revenue: 56631572,
+        // revenue: 56631572,
         runtime: 97,
-        spoken_languages: [
-          {
-            english_name: 'Spanish',
-            iso_639_1: 'es',
-            name: 'Español',
-          },
-          {
-            english_name: 'English',
-            iso_639_1: 'en',
-            name: 'English',
-          },
-        ],
-        status: 'Released',
-        tagline: 'Sex. Clothes. Popularity. Is there a problem here?',
+        // spoken_languages: [
+        //   {
+        //     english_name: 'Spanish',
+        //     iso_639_1: 'es',
+        //     name: 'Español',
+        //   },
+        //   {
+        //     english_name: 'English',
+        //     iso_639_1: 'en',
+        //     name: 'English',
+        //   },
+        // ],
+        // status: 'Released',
+        // tagline: 'Sex. Clothes. Popularity. Is there a problem here?',
         title: 'Clueless',
         video: false,
         vote_average: 7.282,

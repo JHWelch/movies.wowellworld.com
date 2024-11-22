@@ -1,6 +1,6 @@
 import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
 import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
-import { MovieResponseTmdb, isMovieResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
+import { MovieResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
 
 export default class MovieResponse {
   constructor (

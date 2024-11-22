@@ -12,9 +12,7 @@ export type MovieResponseTmdb = {
   video: boolean
   vote_average: number
   vote_count: number
-  credits: {
-    crew: CrewResponseTmdb[]
-  } | undefined
+  credits: CreditsTmdb | undefined
   runtime: number | null | undefined
 }
 
@@ -31,12 +29,39 @@ export type CollectionResponseTmdb = {
 
 export type ResponseTmdb = MovieResponseTmdb | CollectionResponseTmdb
 
+export type CastResponseTmdb = {
+  name: string
+  adult?: boolean
+  gender?: number
+  id?: number
+  known_for_department?: string
+  original_name?: string
+  popularity?: number
+  profile_path?: string | null
+  credit_id?: string
+  cast_id?: number
+  department?: string
+  character?: string
+  order?: number
+}
+
 export type CrewResponseTmdb = {
   name: string
   job: string
+  adult?: boolean
+  gender?: number
+  id?: number
+  known_for_department?: string
+  original_name?: string
+  popularity?: number
+  profile_path?: string | null
+  credit_id?: string
+  cast_id?: number
+  department?: string
 }
 
 type CreditsTmdb = {
+  cast: CastResponseTmdb[]
   crew: CrewResponseTmdb[]
 }
 
