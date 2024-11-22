@@ -1,5 +1,5 @@
 import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
-import { isSearchResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
+import { isMovieResponseTmdb, isSearchResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
 
 export default class SearchResponse {
   constructor (
@@ -16,7 +16,9 @@ export default class SearchResponse {
 
     return new SearchResponse(
       tmdbResponse.page,
-      tmdbResponse.results.map( MovieResponse.fromTmdbResponse),
+      tmdbResponse.results
+        .filter(isMovieResponseTmdb)
+        .map(MovieResponse.fromTmdbResponse),
       tmdbResponse.total_pages,
       tmdbResponse.total_results,
     )

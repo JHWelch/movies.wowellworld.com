@@ -21,11 +21,7 @@ export default class MovieResponse {
     public readonly runtime: number | null | undefined = null,
   ) {}
 
-  static fromTmdbResponse (tmdbResponse: unknown): MovieResponse {
-    if (!isMovieResponseTmdb(tmdbResponse)) {
-      throw new Error('Invalid response')
-    }
-
+  static fromTmdbResponse (tmdbResponse: MovieResponseTmdb): MovieResponse {
     return new MovieResponse(
       tmdbResponse.adult,
       tmdbResponse.backdrop_path,
