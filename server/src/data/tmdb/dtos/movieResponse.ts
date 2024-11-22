@@ -1,6 +1,6 @@
 import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
 import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
-import { MovieResponseTmdb, isMovieResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
+import { MovieResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
 
 export default class MovieResponse {
   constructor (
@@ -21,11 +21,7 @@ export default class MovieResponse {
     public readonly runtime: number | null | undefined = null,
   ) {}
 
-  static fromTmdbResponse (tmdbResponse: unknown): MovieResponse {
-    if (!isMovieResponseTmdb(tmdbResponse)) {
-      throw new Error('Invalid response')
-    }
-
+  static fromTmdbResponse (tmdbResponse: MovieResponseTmdb): MovieResponse {
     return new MovieResponse(
       tmdbResponse.adult,
       tmdbResponse.backdrop_path,

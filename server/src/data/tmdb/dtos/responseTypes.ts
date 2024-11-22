@@ -12,31 +12,69 @@ export type MovieResponseTmdb = {
   video: boolean
   vote_average: number
   vote_count: number
-  credits: {
-    crew: CrewResponseTmdb[]
-  } | undefined
+  credits: CreditsTmdb | undefined
   runtime: number | null | undefined
+}
+
+export type CollectionResponseTmdb = {
+  adult: boolean
+  backdrop_path: string | null
+  id: number
+  original_language: string
+  original_title: string
+  overview: string
+  poster_path: string | null
+  title: string
+}
+
+export type ResponseTmdb = MovieResponseTmdb | CollectionResponseTmdb
+
+export type CastResponseTmdb = {
+  name: string
+  adult?: boolean
+  gender?: number
+  id?: number
+  known_for_department?: string
+  original_name?: string
+  popularity?: number
+  profile_path?: string | null
+  credit_id?: string
+  cast_id?: number
+  department?: string
+  character?: string
+  order?: number
 }
 
 export type CrewResponseTmdb = {
   name: string
   job: string
+  adult?: boolean
+  gender?: number
+  id?: number
+  known_for_department?: string
+  original_name?: string
+  popularity?: number
+  profile_path?: string | null
+  credit_id?: string
+  cast_id?: number
+  department?: string
 }
 
 type CreditsTmdb = {
+  cast: CastResponseTmdb[]
   crew: CrewResponseTmdb[]
 }
 
 export type SearchResponseTmdb = {
   page: number
-  results: MovieResponseTmdb[]
+  results: ResponseTmdb[]
   total_pages: number
   total_results: number
 }
 
-export function isMovieResponseTmdb (
+export function isCollectionResponseTmdb (
   movie: unknown,
-): movie is MovieResponseTmdb {
+): movie is CollectionResponseTmdb {
   return (
     !!movie &&
     typeof movie === 'object' &&
@@ -46,24 +84,32 @@ export function isMovieResponseTmdb (
     'original_language' in movie &&
     'original_title' in movie &&
     'overview' in movie &&
-    'popularity' in movie &&
     'poster_path' in movie &&
-    'release_date' in movie &&
     'title' in movie &&
-    'video' in movie &&
-    'vote_average' in movie &&
-    'vote_count' in movie &&
-    (!('credits' in movie) || isCreditsTmdb(movie.credits)) &&
     typeof movie.adult === 'boolean' &&
     (typeof movie.backdrop_path === 'string' || movie.backdrop_path === null) &&
     typeof movie.id === 'number' &&
     typeof movie.original_language === 'string' &&
     typeof movie.original_title === 'string' &&
     typeof movie.overview === 'string' &&
-    typeof movie.popularity === 'number' &&
     (typeof movie.poster_path === 'string' || movie.poster_path === null) &&
+    typeof movie.title === 'string'
+  )
+}
+
+export function isMovieResponseTmdb (
+  movie: unknown,
+): movie is MovieResponseTmdb {
+  return (
+    isCollectionResponseTmdb(movie) &&
+    'popularity' in movie &&
+    'release_date' in movie &&
+    'video' in movie &&
+    'vote_average' in movie &&
+    'vote_count' in movie &&
+    (!('credits' in movie) || isCreditsTmdb(movie.credits)) &&
+    typeof movie.popularity === 'number' &&
     typeof movie.release_date === 'string' &&
-    typeof movie.title === 'string' &&
     typeof movie.video === 'boolean' &&
     typeof movie.vote_average === 'number' &&
     typeof movie.vote_count === 'number' &&
@@ -110,7 +156,7 @@ export function isSearchResponseTmdb (
     typeof response.page === 'number' &&
     Array.isArray(response.results) &&
     response.results.reduce(
-      (acc: boolean, movie: unknown) => acc && isMovieResponseTmdb(movie),
+      (acc: boolean, movie: unknown) => acc && isCollectionResponseTmdb(movie),
       true,
     ) &&
     typeof response.total_pages === 'number' &&
