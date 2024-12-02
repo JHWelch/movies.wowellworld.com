@@ -7,7 +7,7 @@ import {
   it,
   jest,
 } from '@jest/globals'
-import { getMockRes } from '@jest-mock/express'
+import { getMockReq, getMockRes } from '@jest-mock/express'
 import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import { transaction } from '@mocks/firebase/firestore'
 import { Request } from 'express'
@@ -38,6 +38,7 @@ beforeEach(() => {
   jest.clearAllMocks()
   mockClear()
   jest.mock('@server/helpers/directoryPath')
+  req = getMockReq()
 })
 
 afterEach(() => {
