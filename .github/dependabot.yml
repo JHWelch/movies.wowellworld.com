@@ -9,7 +9,7 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
       actions-dependencies:
         patterns:
@@ -18,26 +18,29 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
-      global-npm-dependencies:
-        patterns:
-          - "*"
+      global-development-dependencies:
+        dependency-type: development
+      global-production-dependencies:
+        dependency-type: production
 
   - package-ecosystem: npm
     directory: /client
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
-      client-npm-dependencies:
-        patterns:
-          - "*"
+      client-development-dependencies:
+        dependency-type: development
+      client-production-dependencies:
+        dependency-type: production
 
   - package-ecosystem: npm
     directory: /server
     schedule:
-      interval: weekly
+      interval: monthly
     groups:
-      server-npm-dependencies:
-        patterns:
-          - "*"
+      server-development-dependencies:
+        dependency-type: development
+      server-production-dependencies:
+        dependency-type: production
