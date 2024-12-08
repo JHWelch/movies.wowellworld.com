@@ -138,6 +138,7 @@ describe('store', () => {
           date: '2021-01-01',
           theme: 'theme1',
           lastEditedTime: '2022-08-12T15:45:00.000Z',
+          submittedBy: 'submittedBy',
         }),
         NotionMock.mockWeek({
           id: 'id2',
@@ -181,6 +182,7 @@ describe('store', () => {
             theme: 'theme1',
             date: '2021-01-01',
             lastEditedTime: '2022-08-12T15:45:00.000Z',
+            submittedBy: 'submittedBy',
           }),
         )
       expect(transaction.set)
