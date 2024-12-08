@@ -26,6 +26,13 @@ defineProps<{
           />
 
           <Theme :week="week" />
+
+          <span
+            v-if="week.submittedBy"
+            class="text-lg font-light text-purp-dark"
+          >
+            Programmed By {{ week.submittedBy }}
+          </span>
         </h3>
 
         <button

@@ -58,3 +58,32 @@ describe('is skipped', () => {
     expect(wrapper.findComponent(SkippedBanner).exists()).toBe(true)
   })
 })
+
+describe('does not has submitted by', () => {
+  it('does not show Programmed By', () => {
+    const week = new WeekFactory().build({ submittedBy: null })
+    const wrapper = mount(WeekItem, {
+      props: {
+        week: week,
+        showEventDetails: true,
+      },
+    })
+
+    expect(wrapper.text()).not.toContain('Programmed By')
+  })
+})
+
+describe('has submitted by', () => {
+  it('shows Programmed By', () => {
+    const week = new WeekFactory().build({ submittedBy: 'John Doe' })
+    const wrapper = mount(WeekItem, {
+      props: {
+        week: week,
+        showEventDetails: true,
+      },
+    })
+
+    expect(wrapper.text()).toContain('Programmed By')
+    expect(wrapper.text()).toContain('John Doe')
+  })
+})
