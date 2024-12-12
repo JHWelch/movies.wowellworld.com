@@ -60,7 +60,7 @@ describe('is skipped', () => {
 })
 
 describe('does not has submitted by', () => {
-  it('does not show Programmed By', () => {
+  it('does not show Programming By', () => {
     const week = new WeekFactory().build({ submittedBy: null })
     const wrapper = mount(WeekItem, {
       props: {
@@ -69,12 +69,12 @@ describe('does not has submitted by', () => {
       },
     })
 
-    expect(wrapper.text()).not.toContain('Programmed By')
+    expect(wrapper.text()).not.toContain('Programming By')
   })
 })
 
 describe('has submitted by', () => {
-  it('shows Programmed By', () => {
+  it('shows Programming By', () => {
     const week = new WeekFactory().build({ submittedBy: 'John Doe' })
     const wrapper = mount(WeekItem, {
       props: {
@@ -83,7 +83,7 @@ describe('has submitted by', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('Programmed By')
+    expect(wrapper.text()).toContain('Programming By')
     expect(wrapper.text()).toContain('John Doe')
   })
 })

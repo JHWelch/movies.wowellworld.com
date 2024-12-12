@@ -29,9 +29,10 @@ defineProps<{
 
           <span
             v-if="week.submittedBy"
-            class="text-lg font-light text-purp-dark"
+            class="text-lg text-purp-dark"
           >
-            Programmed By {{ week.submittedBy }}
+            Programming By
+            <span class="font-semibold">{{ week.submittedBy }}</span>
           </span>
         </h3>
 
