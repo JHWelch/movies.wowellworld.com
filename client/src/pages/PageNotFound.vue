@@ -84,6 +84,7 @@ const week = {
   date: '1939-12-15',
   isSkipped: false,
   slug: null,
+  submittedBy: null,
   styledTheme: [],
   movies: [],
 }
