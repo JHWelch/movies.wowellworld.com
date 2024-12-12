@@ -10,6 +10,13 @@
   font-family: Inter, sans-serif;
   font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
 }
+@layer base {
+  @font-face {
+    font-family: 'Playwrite';
+    font-weight: 100 400;
+    src: url(/fonts/PlaywriteCO.ttf) format('truetype');
+  }
+}
 @supports (font-variation-settings: normal) {
   :root { font-family: InterVariable, sans-serif; }
 }

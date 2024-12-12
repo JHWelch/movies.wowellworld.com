@@ -5,6 +5,9 @@ export default {
     './src/**/*.ts',
   ],
   theme: {
+    fontFamily: {
+      playwrite: ['Playwrite', 'sans-serif'],
+    },
     extend: {
       colors: {
         brat: {
