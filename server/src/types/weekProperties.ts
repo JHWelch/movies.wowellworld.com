@@ -27,6 +27,11 @@ export default interface WeekProperties {
   'Styled Theme': {
     rich_text: Array<TextRichTextItemResponse>
   }
+  'Submitted By': {
+    rich_text: Array<{
+      plain_text: string
+    }>
+  }
   'Last edited time': {
     last_edited_time: string
   }

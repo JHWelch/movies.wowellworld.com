@@ -74,6 +74,7 @@ describe('index', () => {
           movies: [],
           theme: 'theme1',
           styledTheme: [],
+          submittedBy: null,
         }, {
           id: 'id2',
           weekId: '2021-01-08',
@@ -83,6 +84,7 @@ describe('index', () => {
           movies: [],
           theme: 'theme2',
           styledTheme: [],
+          submittedBy: null,
         }, {
           id: 'id3',
           weekId: '2021-01-15',
@@ -92,6 +94,7 @@ describe('index', () => {
           movies: [],
           theme: 'theme3',
           styledTheme: [],
+          submittedBy: null,
         },
       ])
     })
@@ -132,6 +135,7 @@ describe('index', () => {
           isSkipped: true,
           theme: 'theme3',
           slug: 'slug3',
+          submittedBy: 'Jordan',
         },
       ])
       req = getMockReq()
@@ -151,6 +155,7 @@ describe('index', () => {
           theme: 'theme1',
           styledTheme: [],
           slug: 'slug1',
+          submittedBy: null,
         }, {
           id: 'id2',
           weekId: '2021-01-08',
@@ -160,6 +165,7 @@ describe('index', () => {
           theme: 'theme2',
           styledTheme: [],
           slug: null,
+          submittedBy: null,
         }, {
           id: 'id3',
           weekId: '2021-01-15',
@@ -169,6 +175,7 @@ describe('index', () => {
           theme: 'theme3',
           styledTheme: [],
           slug: 'slug3',
+          submittedBy: 'Jordan',
         },
       ])
     })
@@ -180,15 +187,14 @@ describe('index', () => {
 
     beforeEach(() => {
       firestore = new FirestoreAdapter(mockConfig())
-      FirebaseMock.mockWeeks([
-        {
-          date: DateTime.fromISO('2021-01-01', TZ),
-          id: 'id1',
-          isSkipped: false,
-          slug: null,
-          theme: 'theme1',
-        },
-      ])
+      FirebaseMock.mockWeeks([{
+        date: DateTime.fromISO('2021-01-01', TZ),
+        id: 'id1',
+        isSkipped: false,
+        slug: null,
+        theme: 'theme1',
+        submittedBy: 'Jordan',
+      }])
       req = getMockReq()
     })
 
@@ -197,18 +203,17 @@ describe('index', () => {
 
       await new WeekController(firestore).index(req, res)
 
-      expect(res.json).toHaveBeenCalledWith([
-        {
-          id: 'id1',
-          weekId: '2021-01-01',
-          date: 'Friday, January 1',
-          isSkipped: false,
-          slug: null,
-          movies: [],
-          theme: 'theme1',
-          styledTheme: [],
-        },
-      ])
+      expect(res.json).toHaveBeenCalledWith([{
+        id: 'id1',
+        weekId: '2021-01-01',
+        date: 'Friday, January 1',
+        isSkipped: false,
+        slug: null,
+        movies: [],
+        theme: 'theme1',
+        styledTheme: [],
+        submittedBy: 'Jordan',
+      }])
     })
 
     it('should query firebase with limit', async () => {
@@ -239,6 +244,7 @@ describe('index', () => {
         id: 'id1',
         isSkipped: false,
         theme: 'theme1',
+        submittedBy: 'Jordan',
         movies: [
           movie.asFirebaseMovie(),
         ],
@@ -263,6 +269,7 @@ describe('index', () => {
         ],
         theme: 'theme1',
         styledTheme: [],
+        submittedBy: 'Jordan',
       }])
     })
   })

@@ -138,6 +138,7 @@ describe('store', () => {
           date: '2021-01-01',
           theme: 'theme1',
           lastEditedTime: '2022-08-12T15:45:00.000Z',
+          submittedBy: 'submittedBy',
         }),
         NotionMock.mockWeek({
           id: 'id2',
@@ -181,6 +182,7 @@ describe('store', () => {
             theme: 'theme1',
             date: '2021-01-01',
             lastEditedTime: '2022-08-12T15:45:00.000Z',
+            submittedBy: 'submittedBy',
           }),
         )
       expect(transaction.set)
@@ -371,7 +373,7 @@ describe('store', () => {
     })
   })
 
-  describe('when no movies are returned', () => {
+  describe('when no weeks are returned', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       FirebaseMock.mockGetGlobal('lastUpdated',{
@@ -408,6 +410,78 @@ describe('store', () => {
           tmdbMoviesSynced: [],
         } }
       )
+    })
+  })
+
+  describe('movies with all details', () => {
+    let expected: Movie
+
+    const movieDetails = {
+      title: 'movieTitle',
+      director: 'movieDirector',
+      year: 2021,
+      length: 90,
+      time: '6:00 PM',
+      url: 'https://www.themoviedb.org/movie/1234',
+      posterPath: '/poster.jpg',
+      theaterName: 'movieTheaterName',
+      showingUrl: 'movieShowingUrl',
+    }
+
+    beforeEach(() => {
+      expected = new Movie({
+        notionId: 'notionId',
+        ...movieDetails,
+      })
+      const notionResponse = new NotionMovie({
+        id: 'notionId',
+        ...movieDetails,
+      })
+      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockQuery([
+        NotionMock.mockWeek({
+          id: 'id1',
+          date: '2021-01-01',
+          theme: 'theme1',
+          movies: [notionResponse],
+          lastEditedTime: DateTime.now().toISO(),
+        }),
+      ])
+      notionMock.mockRetrieve(notionResponse)
+      req = getMockReq()
+    })
+
+    it('returns the updated data', async () => {
+      await newCacheController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.json).toHaveBeenCalledWith({
+        updatedWeeks: 1,
+        previousLastUpdated: '2021-01-01T00:00:00.000Z',
+        newLastUpdated: '2021-01-01T00:00:00.000Z',
+        tmdbMoviesSynced: [],
+      })
+    })
+
+    it('stores data from tmdb in firestore', async () => {
+      await newCacheController().store(req, res)
+
+      expect(transaction.set).toHaveBeenCalledTimes(1)
+      expect(transaction.set).toHaveBeenCalledWith(
+        FirebaseMock.mockDoc('weeks', '2021-01-01'),
+        new Week({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          movies: [expected],
+        }).toFirebaseDTO(),
+      )
+    })
+
+    it('does not update the movie in notion', async () => {
+      await newCacheController().store(req, res)
+
+      expect(notionMock.update).not.toHaveBeenCalled()
     })
   })
 

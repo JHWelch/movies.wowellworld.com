@@ -103,6 +103,7 @@ describe('fromNotion', () => {
       id: 'weekId3',
       date: '2021-01-15',
       theme: 'theme3',
+      submittedBy: 'submittedBy',
       lastEditedTime: '2022-08-12T15:45:00.000Z',
     }))).toEqual({
       id: 'weekId3',
@@ -113,6 +114,7 @@ describe('fromNotion', () => {
       theme: 'theme3',
       styledTheme: [],
       lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
+      submittedBy: 'submittedBy',
     })
   })
 

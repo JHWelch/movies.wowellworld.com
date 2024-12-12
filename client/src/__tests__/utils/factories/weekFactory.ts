@@ -11,6 +11,7 @@ export default class WeekFactory extends Factory<WeekDto> {
     slug: null,
     styledTheme: [],
     movies: [],
+    submittedBy: null,
   }
 
   public withMovies = (movies: MovieDto[]): WeekFactory => {

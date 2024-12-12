@@ -98,6 +98,7 @@ export class NotionMock {
     styledTheme?: RichText[]
     lastEditedTime?: string
     lastEditedMovieTime?: string
+    submittedBy?: string | null
   }): PageObjectResponse => pageObjectResponse(week.id, {
     Date: nDate(week.date),
     Theme: nTitle(week.theme),
@@ -107,5 +108,6 @@ export class NotionMock {
     'Styled Theme': nRichText(week.styledTheme ?? []),
     'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
     'Last edited movie time': nFormula(week.lastEditedMovieTime || null),
+    'Submitted By': nRichText(week.submittedBy ?? null),
   })
 }

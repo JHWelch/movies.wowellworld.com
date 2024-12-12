@@ -21,6 +21,7 @@ export type WeekDto = {
   slug: string | null
   styledTheme: RichText[]
   movies: MovieDto[]
+  submittedBy: string | null
 }
 
 export type TextStyle = {

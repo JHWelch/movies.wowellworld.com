@@ -171,6 +171,7 @@ describe('getWeeks', () => {
         theme: 'theme2',
         skipped: true,
         lastEditedTime: '2023-08-12T15:45:00.000Z',
+        submittedBy: 'submittedBy',
       }),
       NotionMock.mockWeek({
         id: 'weekId1',
@@ -197,6 +198,7 @@ describe('getWeeks', () => {
         theme: 'theme3',
         styledTheme: [],
         lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
+        submittedBy: null,
       }, {
         id: 'weekId2',
         date: DateTime.fromISO('2021-01-08', TZ),
@@ -206,6 +208,7 @@ describe('getWeeks', () => {
         theme: 'theme2',
         styledTheme: [],
         lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
+        submittedBy: 'submittedBy',
       }, {
         id: 'weekId1',
         date: DateTime.fromISO('2021-01-01', TZ),
@@ -215,6 +218,7 @@ describe('getWeeks', () => {
         theme: 'theme1',
         styledTheme: styled,
         lastUpdated: DateTime.fromISO('2021-08-12T15:45:00.000Z'),
+        submittedBy: null,
       },
     ])
   })

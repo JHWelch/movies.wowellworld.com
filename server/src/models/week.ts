@@ -20,6 +20,7 @@ export type WeekConstructor = {
   slug?: string | null
   movies?: Movie[]
   lastUpdated?: DateTime
+  submittedBy?: string | null
 }
 
 export type WeekDtoOptions = {
@@ -35,6 +36,7 @@ export class Week {
   public slug: string | null = null
   public movies: Movie[] = []
   public lastUpdated: DateTime = DateTime.now()
+  public submittedBy: string | null = null
 
   constructor (week: WeekConstructor) {
     Object.keys(week).forEach((key) => {
@@ -59,6 +61,7 @@ export class Week {
       slug: properties.Slug?.rich_text[0]?.plain_text,
       styledTheme: properties['Styled Theme']?.rich_text,
       lastUpdated: this.parseLastUpdated(properties),
+      submittedBy: properties['Submitted By']?.rich_text[0]?.plain_text,
     })
   }
 
@@ -71,6 +74,7 @@ export class Week {
       slug: record.slug,
       styledTheme: record.styledTheme,
       lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
+      submittedBy: record.submittedBy,
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })
@@ -87,7 +91,7 @@ export class Week {
   }
 
   toString (): string {
-    return `${this.theme}`
+    return this.theme
   }
 
   toDTO ({ movies }: WeekDtoOptions = {
@@ -102,6 +106,7 @@ export class Week {
       slug: this.slug,
       isSkipped: this.isSkipped,
       styledTheme: this.styledTheme,
+      submittedBy: this.submittedBy,
     }
   }
 
@@ -115,6 +120,7 @@ export class Week {
       isSkipped: this.isSkipped,
       styledTheme: this.styledTheme,
       lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
+      submittedBy: this.submittedBy,
     }
   }
 

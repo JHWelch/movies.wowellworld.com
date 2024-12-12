@@ -38,6 +38,7 @@ export class FirebaseMock {
           slug: week.slug,
           styledTheme: week.styledTheme ?? [],
           movies: week.movies ?? [],
+          submittedBy: week.submittedBy ?? null,
           lastUpdated: week.lastEditedTime
             ? Timestamp.fromDate(new Date(week.lastEditedTime))
             : Timestamp.now(),
@@ -113,6 +114,7 @@ export class FirebaseMock {
       lastUpdated: week.lastEditedTime
         ? typeof week.lastEditedTime === 'string' ? DateTime.fromISO(week.lastEditedTime) : week.lastEditedTime
         : DateTime.now(),
+      submittedBy: week.submittedBy ?? null,
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -133,6 +135,7 @@ export type FirebaseWeek = {
   movies?: FirebaseMovie[]
   styledTheme?: RichText[]
   lastEditedTime?: string
+  submittedBy?: string | null
 }
 
 export type FirebaseMovie = {
@@ -164,4 +167,5 @@ export type FirebaseWeekConstructor = {
   slug?: string | null
   movies?: Movie[]
   lastEditedTime?: DateTime|string
+  submittedBy?: string | null
 }

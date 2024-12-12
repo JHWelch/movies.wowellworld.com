@@ -10,6 +10,7 @@ export type FirestoreWeek = {
   styledTheme: RichText[]
   movies: FirestoreMovie[]
   lastUpdated: Timestamp
+  submittedBy: string | null
 }
 
 export type FirestoreMovie = {
