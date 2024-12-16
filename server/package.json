@@ -29,7 +29,7 @@
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
-    "express": "^5.0.0",
+    "express": "^5.0.1",
     "firebase": "^11.0.2",
     "firebase-admin": "^13.0.1",
     "ics": "^3.8.1",
