@@ -27,16 +27,16 @@
     "@jhwelch/made-with": "^0.0.3",
     "@notionhq/client": "^2.2.5",
     "body-parser": "^1.20.2",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^5.0.1",
-    "firebase": "^11.0.2",
-    "firebase-admin": "^13.0.1",
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2",
     "ics": "^3.8.1",
     "luxon": "^3.5.0",
     "path": "^0.12.7",
     "url": "^0.11.0",
-    "zod": "^3.22.3"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@jest-mock/express": "^2.0.2",
