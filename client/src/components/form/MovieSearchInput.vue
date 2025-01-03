@@ -22,17 +22,22 @@ defineEmits([
 ])
 const searchTerm = ref<string>('')
 const searching = ref<boolean>(false)
-const search = () => {
+const movies = ref<MovieSearchDto[]>([])
+const searchError = ref<string | undefined>(undefined)
+const search = debounce(async () => {
   searching.value = true
 
-  fetch(`/api/movies?search=${searchTerm.value}`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-      searching.value = false
-    })
-}
+  const response = await fetch(`/api/movies?search=${searchTerm.value}`)
+  const data = await response.json()
 
+  if (response.ok) {
+    movies.value = data.movies
+  } else {
+    searchError.value = data.error
+  }
+
+  searching.value = false
+}, 500)
 </script>
 
 <template>
@@ -42,7 +47,7 @@ const search = () => {
     :hide-label="hideLabel"
     :label="label"
     type="text"
-    :error="error"
+    :error="error ?? searchError"
     :placeholder="placeholder"
     :required="required"
     @enter="$emit('enter')"
