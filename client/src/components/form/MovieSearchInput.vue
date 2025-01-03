@@ -50,35 +50,53 @@ const search = debounce(async () => {
 </script>
 
 <template>
-  <FormInput
-    v-model="searchTerm"
-    :name="name"
-    :hide-label="hideLabel"
-    :label="label"
-    type="text"
-    :error="error ?? searchError"
-    :placeholder="placeholder"
-    :required="required"
-    @enter="$emit('enter')"
-    @clear-error="$emit('clear-error')"
-    @input="search"
-  />
+  <div class="relative">
+    <FormInput
+      v-model="searchTerm"
+      :name="name"
+      :hide-label="hideLabel"
+      :label="label"
+      type="text"
+      :error="error ?? searchError"
+      :placeholder="placeholder"
+      :required="required"
+      @enter="$emit('enter')"
+      @clear-error="$emit('clear-error')"
+      @input="search"
+    />
 
-  <div v-if="searching">
-    <LoadingIcon />
-  </div>
-
-  <ul v-if="movies.length">
-    <li
-      v-for="movie in movies"
-      :key="movie.tmdbId"
+    <div
+      v-if="searching"
+      class="absolute top-0 right-0 mt-2 mr-2"
     >
-      <img
-        :src="movie.posterPath"
-        alt="Movie Poster"
-      >
+      <LoadingIcon />
+    </div>
 
-      {{ movie.title }} - {{ movie.year }}
-    </li>
-  </ul>
+    <ul
+      v-if="movies.length"
+      class="absolute z-10 w-full p-2 mt-1 space-y-1 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-96"
+    >
+      <li
+        v-for="movie in movies"
+        :key="movie.tmdbId"
+        class="flex items-center space-x-2"
+      >
+        <img
+          :src="movie.posterPath"
+          alt="Movie Poster"
+        >
+
+        <div class="flex justify-between w-full">
+          <span
+            class="italic"
+            v-text="movie.title"
+          />
+
+          <span
+            v-text="movie.year"
+          />
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
