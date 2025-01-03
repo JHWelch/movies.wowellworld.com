@@ -4,6 +4,7 @@ import FormInput from '@components/form/FormInput.vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import { ErrorBag } from '@client/types'
 import { jsonHeaders } from '@client/data/headers'
+import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 
 type SuggestionFormData = {
   theme?: string
@@ -94,7 +95,7 @@ const submit = async () => {
         @clear-error="errors.theme = ''"
       />
 
-      <FormInput
+      <MovieSearchInput
         v-model="formData.movie1"
         name="movie1"
         label="First Movie"
@@ -103,7 +104,7 @@ const submit = async () => {
         @clear-error="errors.movie1 = ''"
       />
 
-      <FormInput
+      <MovieSearchInput
         v-model="formData.movie2"
         name="movie2"
         label="Second Movie"
