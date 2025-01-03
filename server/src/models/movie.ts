@@ -12,10 +12,10 @@ import {
   notionUrl,
 } from '@server/data/notion/notionFormatters'
 import { FirestoreMovie } from '@server/data/firestore/firestoreTypes'
-import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { MovieDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Width } from '@server/types/tmdb'
+import { posterUrl } from '@server/data/tmdb/helpers'
 
 export type MovieConstructor = {
   title: string
@@ -118,22 +118,9 @@ export class Movie {
       : `${this.length}m`
   }
 
-  posterUrl = (width: Width = 'w500'): string => {
-    if (!this.posterPath){
-      return ''
-    }
-
-    if (this.posterPath.startsWith('/events/')) {
-      return this.posterPath
-    }
-
-    return `${this.tmdbUrl(width)}${this.posterPath}`
-  }
+  posterUrl = (width: Width = 'w500') => posterUrl(this.posterPath, width)
 
   emailPosterUrl = () => this.posterPath ? this.posterUrl('w300') : ''
-
-  private tmdbUrl = (width: Width): string =>
-    TMDB_POSTER_URL + width
 
   toString (): string {
     return `${this.title} (${this.year})`
