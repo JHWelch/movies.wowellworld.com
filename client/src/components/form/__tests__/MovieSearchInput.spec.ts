@@ -1,8 +1,12 @@
 /** @vitest-environment jsdom */
 
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MovieSearchInput from '@components/form/MovieSearchInput.vue'
+
+beforeEach(() => {
+  vi.mock('lodash.debounce')
+})
 
 describe('input passthrough', () => {
   it('should pass through props to input', () => {

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import FormInput from '@components/form/FormInput.vue'
+import { MovieSearchDto } from '@shared/dtos'
 import { ref } from 'vue'
+import LoadingIcon from '@components/icons/LoadingIcon.vue'
+import debounce from 'lodash.debounce'
 
 withDefaults(defineProps<{
   name: string
