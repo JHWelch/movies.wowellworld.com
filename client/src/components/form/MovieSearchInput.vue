@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import FormInput from '@components/form/FormInput.vue'
+import { ref } from 'vue'
 
 withDefaults(defineProps<{
   name: string
@@ -19,10 +20,24 @@ defineEmits([
   'clear-error',
   'enter',
 ])
+const searchTerm = ref<string>('')
+const searching = ref<boolean>(false)
+const search = () => {
+  searching.value = true
+
+  fetch(`/api/movies?search=${searchTerm.value}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      searching.value = false
+    })
+}
+
 </script>
 
 <template>
   <FormInput
+    v-model="searchTerm"
     :name="name"
     :hide-label="hideLabel"
     :label="label"
@@ -32,5 +47,6 @@ defineEmits([
     :required="required"
     @enter="$emit('enter')"
     @clear-error="$emit('clear-error')"
+    @input="search"
   />
 </template>

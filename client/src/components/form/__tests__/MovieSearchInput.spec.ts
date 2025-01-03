@@ -25,3 +25,19 @@ describe('input passthrough', () => {
     expect(error.text()).toBe('Error message')
   })
 })
+
+describe('user types in search', () => {
+  it('searches for matching movies', async () => {
+    window.fetch.mockResponseOnce(JSON.stringify({ movies: [] }))
+
+    const wrapper = mount(MovieSearchInput, {
+      props: { name: 'search' },
+    })
+
+    const input = wrapper.find('#search')
+    await input.setValue('The Matrix')
+    const request = window.fetch.requests()[0]
+
+    expect(request.url).toBe('/api/movies?search=The%20Matrix')
+  })
+})
