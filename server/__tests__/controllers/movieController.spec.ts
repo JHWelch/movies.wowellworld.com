@@ -65,13 +65,13 @@ describe('show', () => {
           title: 'Movie Title 1',
           year: 2021,
           tmdbId: 1234,
-          posterPath: posterUrl('/path/to/poster1.jpg', 'w154'),
+          posterPath: posterUrl('/path/to/poster1.jpg', 'w45'),
         },
         {
           title: 'Movie Title 2',
           year: 2022,
           tmdbId: 5678,
-          posterPath: posterUrl('/path/to/poster2.jpg', 'w154'),
+          posterPath: posterUrl('/path/to/poster2.jpg', 'w45'),
         },
       ] })
     })

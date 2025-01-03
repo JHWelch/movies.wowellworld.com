@@ -65,7 +65,7 @@ export default class MovieResponse {
       title: this.title,
       year: parseInt(this.releaseDate.split('-')[0]),
       tmdbId: this.id,
-      posterPath: posterUrl(this.posterPath, 'w154'),
+      posterPath: posterUrl(this.posterPath, 'w45'),
     }
   }
 }
