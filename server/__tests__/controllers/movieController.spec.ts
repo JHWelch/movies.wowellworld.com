@@ -56,4 +56,14 @@ describe('show', () => {
       }] })
     })
   })
+
+  describe('no search provided', () => {
+    it('returns a 400 error', async () => {
+      req.query = {}
+      await newMovieController().show(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(400)
+      expect(res.json).toHaveBeenCalledWith({ error: 'No search query provided' })
+    })
+  })
 })
