@@ -41,19 +41,38 @@ describe('show', () => {
 
   describe('movies found', () => {
     it('returns a list of searched movies', async () => {
-      const movie = new MovieFactory().make()
+      const movie1 = new MovieFactory().make({
+        title: 'Movie Title 1',
+        year: 2021,
+        tmdbId: 1234,
+        posterPath: '/path/to/poster1.jpg',
+      })
+      const movie2 = new MovieFactory().make({
+        title: 'Movie Title 2',
+        year: 2022,
+        tmdbId: 5678,
+        posterPath: '/path/to/poster2.jpg',
+      })
       const tmdbMock = new TmdbMock(mockFetch())
-      tmdbMock.mockSearchMovie(movie)
+      tmdbMock.mockSearchMovie([movie1, movie2])
 
-      req.query = { search: movie.title }
+      req.query = { search: 'Movie Title' }
       await newMovieController().show(req, res)
 
-      expect(res.json).toHaveBeenCalledWith({ movies: [{
-        title: movie.title,
-        year: movie.year,
-        tmdbId: movie.tmdbId,
-        posterPath: movie.posterPath,
-      }] })
+      expect(res.json).toHaveBeenCalledWith({ movies: [
+        {
+          title: 'Movie Title 1',
+          year: 2021,
+          tmdbId: 1234,
+          posterPath: '/path/to/poster1.jpg',
+        },
+        {
+          title: 'Movie Title 2',
+          year: 2022,
+          tmdbId: 5678,
+          posterPath: '/path/to/poster2.jpg',
+        },
+      ] })
     })
   })
 
