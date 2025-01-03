@@ -4,6 +4,10 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MovieSearchInput from '@components/form/MovieSearchInput.vue'
 
+const props = {
+  name: 'search',
+}
+
 beforeEach(() => {
   vi.mock('lodash.debounce')
 })
@@ -41,9 +45,7 @@ describe('user types in search', () => {
   it('searches for matching movies', async () => {
     window.fetch.mockResponseOnce(JSON.stringify({ movies: [] }))
 
-    const wrapper = mount(MovieSearchInput, {
-      props: { name: 'search' },
-    })
+    const wrapper = mount(MovieSearchInput, { props })
 
     const input = wrapper.find('#search')
     await input.setValue('The Matrix')
@@ -53,14 +55,20 @@ describe('user types in search', () => {
   })
 
   it('does not search if input is empty', async () => {
-    const wrapper = mount(MovieSearchInput, {
-      props: { name: 'search' },
-    })
+    const wrapper = mount(MovieSearchInput, { props })
 
     const input = wrapper.find('#search')
     await input.setValue('')
-    const request = window.fetch.requests()[0]
 
-    expect(request).toBeUndefined()
+    expect(window.fetch.requests()[0]).toBeUndefined()
+  })
+
+  it('does not search if input is less than 3 characters', async () => {
+    const wrapper = mount(MovieSearchInput, { props })
+
+    const input = wrapper.find('#search')
+    await input.setValue('Th')
+
+    expect(window.fetch.requests()[0]).toBeUndefined()
   })
 })

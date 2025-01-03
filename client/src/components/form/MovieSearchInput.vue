@@ -28,7 +28,7 @@ const searching = ref<boolean>(false)
 const movies = ref<MovieSearchDto[]>([])
 const searchError = ref<string | undefined>(undefined)
 const search = debounce(async () => {
-  if (!searchTerm.value) {
+  if (!searchTerm.value || searchTerm.value.length < 3) {
     movies.value = []
 
     return
