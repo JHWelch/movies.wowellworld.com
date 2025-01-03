@@ -71,4 +71,51 @@ describe('user types in search', () => {
 
     expect(window.fetch.requests()[0]).toBeUndefined()
   })
+
+  describe('movies returned', () => {
+    beforeEach(() => {
+      const response = {
+        movies: [
+          {
+            title: 'The Matrix',
+            year: 1999,
+            tmdbId: 603,
+            posterPath: '/dXNAPwY7VrqMAo51EKhhCJfaGb5.jpg',
+          },
+          {
+            title: 'The Matrix Reloaded',
+            year: 2003,
+            tmdbId: 604,
+            posterPath: '/9TGHDvWrqKBzwDxDodHYXEmOE6J.jpg',
+          },
+          {
+            title: 'The Matrix Revolutions',
+            year: 2003,
+            tmdbId: 605,
+            posterPath: '/cm14gG8xBghwIAy1GX0ryI2HA4U.jpg',
+          },
+        ],
+      }
+
+      window.fetch.mockResponseOnce(JSON.stringify(response))
+    })
+
+    it('displays movie information', async () => {
+      const wrapper = mount(MovieSearchInput, { props })
+
+      const input = wrapper.find('#search')
+      await input.setValue('The Matrix')
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.text()).toContain('The Matrix')
+      expect(wrapper.text()).toContain('1999')
+      expect(wrapper.html()).toContain('dXNAPwY7VrqMAo51EKhhCJfaGb5.jpg')
+      expect(wrapper.text()).toContain('The Matrix Reloaded')
+      expect(wrapper.text()).toContain('2003')
+      expect(wrapper.html()).toContain('9TGHDvWrqKBzwDxDodHYXEmOE6J.jpg')
+      expect(wrapper.text()).toContain('The Matrix Revolutions')
+      expect(wrapper.text()).toContain('2003')
+      expect(wrapper.html()).toContain('cm14gG8xBghwIAy1GX0ryI2HA4U.jpg')
+    })
+  })
 })

@@ -73,6 +73,11 @@ const search = debounce(async () => {
       v-for="movie in movies"
       :key="movie.tmdbId"
     >
+      <img
+        :src="movie.posterPath"
+        alt="Movie Poster"
+      >
+
       {{ movie.title }} - {{ movie.year }}
     </li>
   </ul>
