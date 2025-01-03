@@ -21,7 +21,8 @@ const handleErrors = (data: ErrorBag) => {
   }
 }
 
-const subscribe = async () => {
+const subscribe = async (event: KeyboardEvent) => {
+  event.stopPropagation()
   const response = await fetch('/api/subscriptions', {
     method: 'POST',
     headers: jsonHeaders,
@@ -70,7 +71,7 @@ const subscribe = async () => {
         :hide-label="true"
         :error="errors.email"
         @clear-error="errors = {}"
-        @enter="subscribe"
+        @keyup.enter="subscribe"
       />
 
       <button

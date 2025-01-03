@@ -19,7 +19,6 @@ withDefaults(defineProps<{
 defineEmits([
   'clear-error',
   'enter',
-  'input',
 ])
 
 const model = defineModel<string>()
@@ -59,7 +58,8 @@ const model = defineModel<string>()
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-brat-500': !error,
         }"
-        @input="$emit('input') && $emit('clear-error', name)"
+        v-bind="$attrs"
+        @input="$emit('clear-error', name)"
         @keyup.enter="$emit('enter')"
       >
 
