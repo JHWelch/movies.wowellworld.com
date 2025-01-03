@@ -14,6 +14,7 @@ import { mockFetch } from '@tests/support/fetchMock'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
+import { posterUrl } from '@server/data/tmdb/helpers'
 
 const { res, mockClear } = getMockRes()
 let req: Request
@@ -64,13 +65,13 @@ describe('show', () => {
           title: 'Movie Title 1',
           year: 2021,
           tmdbId: 1234,
-          posterPath: '/path/to/poster1.jpg',
+          posterPath: posterUrl('/path/to/poster1.jpg', 'w154'),
         },
         {
           title: 'Movie Title 2',
           year: 2022,
           tmdbId: 5678,
-          posterPath: '/path/to/poster2.jpg',
+          posterPath: posterUrl('/path/to/poster2.jpg', 'w154'),
         },
       ] })
     })
