@@ -31,6 +31,13 @@ describe('input passthrough', () => {
 })
 
 describe('user types in search', () => {
+  beforeEach(() => {
+    window.fetch.doMock()
+  })
+  afterEach(() => {
+    window.fetch.mockClear()
+  })
+
   it('searches for matching movies', async () => {
     window.fetch.mockResponseOnce(JSON.stringify({ movies: [] }))
 
@@ -43,5 +50,17 @@ describe('user types in search', () => {
     const request = window.fetch.requests()[0]
 
     expect(request.url).toBe('/api/movies?search=The%20Matrix')
+  })
+
+  it('does not search if input is empty', async () => {
+    const wrapper = mount(MovieSearchInput, {
+      props: { name: 'search' },
+    })
+
+    const input = wrapper.find('#search')
+    await input.setValue('')
+    const request = window.fetch.requests()[0]
+
+    expect(request).toBeUndefined()
   })
 })
