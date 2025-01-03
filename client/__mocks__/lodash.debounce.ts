@@ -1,4 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-const debounce = async (fn: Function, _wait: number) => await fn()
+const debounce = (fn: Function, _wait: number) => fn
 
 export default debounce

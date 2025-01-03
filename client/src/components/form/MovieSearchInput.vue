@@ -27,7 +27,7 @@ const searchTerm = ref<string>('')
 const searching = ref<boolean>(false)
 const movies = ref<MovieSearchDto[]>([])
 const searchError = ref<string | undefined>(undefined)
-const search = () => debounce(async () => {
+const search = debounce(async () => {
   if (!searchTerm.value) {
     movies.value = []
 
@@ -63,4 +63,17 @@ const search = () => debounce(async () => {
     @clear-error="$emit('clear-error')"
     @input="search"
   />
+
+  <div v-if="searching">
+    <LoadingIcon />
+  </div>
+
+  <ul v-if="movies.length">
+    <li
+      v-for="movie in movies"
+      :key="movie.tmdbId"
+    >
+      {{ movie.title }} - {{ movie.year }}
+    </li>
+  </ul>
 </template>
