@@ -66,7 +66,6 @@ describe('only name input', () => {
 
 describe('rsvp submit', () => {
   beforeEach(async () => {
-    window.fetch.doMock()
     vi.mock(import('@client/utilities/confetti'), () => ({
       fireConfetti: vi.fn(),
     }))
