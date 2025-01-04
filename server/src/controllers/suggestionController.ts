@@ -14,9 +14,13 @@ export default class SuggestionController {
 
     const { theme, movies, submitted_by } = req.body
 
-    const notionMovies = await Promise.all(movies.map(
-      (movie: string) => this.notion.createMovie(new Movie({ title: movie }))
-    ))
+    const notionMovies = await Promise.all(movies.map((movieData: {
+      title: string
+    }) => {
+      const movie = new Movie({ title: movieData.title })
+
+      return this.notion.createMovie(movie)
+    }))
 
     await this.notion.createWeek(theme, notionMovies, submitted_by)
 
@@ -27,7 +31,9 @@ export default class SuggestionController {
     validate(req, res, z.object({
       theme: z.string().min(1, { message: 'Required' }),
       submitted_by: z.string().min(1, { message: 'Required' }),
-      movies: z.array(z.string().min(1, { message: 'Required' }))
+      movies: z.array(z.object({
+        title: z.string().min(1, { message: 'Required' }),
+      }))
         .min(1, { message: 'Required' }),
     }))
 }

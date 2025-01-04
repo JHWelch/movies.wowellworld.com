@@ -43,8 +43,8 @@ const mockBody = ({
   theme = 'theme',
   submitted_by = 'submitted_by',
   movies = [
-    'movie1',
-    'movie2',
+    { title: 'movie1' },
+    { title: 'movie2' },
   ],
 }: MockBodyArgs = {}) => ({ theme, submitted_by, movies })
 
@@ -145,7 +145,7 @@ describe('store', () => {
       const req = getMockReq({
         body: mockBody({
           movies: [
-            '',
+            { title: '' },
           ],
         }),
       })
