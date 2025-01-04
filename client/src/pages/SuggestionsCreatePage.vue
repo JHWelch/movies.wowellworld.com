@@ -59,8 +59,8 @@ const submit = async () => {
       theme: formData.value.theme,
       submitted_by: formData.value.submitted_by,
       movies: [
-        formData.value.movie1.title,
-        formData.value.movie2.title,
+        formData.value.movie1,
+        formData.value.movie2,
       ],
     }),
   })
