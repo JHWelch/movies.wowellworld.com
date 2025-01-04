@@ -8,7 +8,7 @@
     "lint": "eslint",
     "fix": "npm run lint -- --fix",
     "conc": "concurrently --help",
-    "dev": "concurrently \"npm run dev:firebase\" \"sleep 2 && npm run dev:server\" \"npm run dev:client\"",
+    "dev": "concurrently -k -c \"#e7b885,#53ceff,#a4d4b8\"  \"npm run dev:firebase\" \"sleep 2 && npm run dev:server\" \"npm run dev:client\" --names=firebase,server,client",
     "dev:server": "npm run --prefix server dev",
     "dev:firebase": "npm run --prefix server firebase",
     "dev:client": "npm run --prefix client dev",
