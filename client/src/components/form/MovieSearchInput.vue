@@ -49,19 +49,22 @@ const search = debounce(async () => {
   searching.value = false
 }, 300)
 const selected = ref<number>(0)
+const select = (index: number) => {
+  selected.value = index
+  document.getElementById('movie-'+movies.value[index].tmdbId.toString())
+    ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+}
 const down = (event: KeyboardEvent) => {
   event.stopPropagation()
 
-  selected.value = selected.value < movies.value.length - 1
-    ? selected.value + 1
-    : 0
+  select(selected.value < movies.value.length - 1 ? selected.value + 1 : 0)
 }
 const up = (event: KeyboardEvent) => {
   event.stopPropagation()
 
-  selected.value = selected.value > 0
+  select(selected.value = selected.value > 0
     ? selected.value - 1
-    : movies.value.length - 1
+    : movies.value.length - 1)
 }
 const enter = (event: KeyboardEvent) => {
   event.stopPropagation()
@@ -113,6 +116,7 @@ const closeSearch = (event?: KeyboardEvent) => {
     >
       <li
         v-for="movie, i in movies"
+        :id="'movie-' + movie.tmdbId.toString()"
         :key="movie.tmdbId"
         :class="{
           'flex items-center space-x-2 p-2': true,
