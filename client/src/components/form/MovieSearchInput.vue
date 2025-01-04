@@ -46,7 +46,37 @@ const search = debounce(async () => {
   }
 
   searching.value = false
-}, 500)
+}, 300)
+const selected = ref<number>(0)
+const down = (event: KeyboardEvent) => {
+  event.stopPropagation()
+
+  selected.value = selected.value < movies.value.length - 1
+    ? selected.value + 1
+    : 0
+}
+const up = (event: KeyboardEvent) => {
+  event.stopPropagation()
+
+  selected.value = selected.value > 0
+    ? selected.value - 1
+    : movies.value.length - 1
+}
+const enter = (event: KeyboardEvent) => {
+  event.stopPropagation()
+
+  if (movies.value.length) {
+    searchTerm.value = movies.value[selected.value].title
+    movies.value = []
+  } else {
+    search()
+  }
+}
+const closeSearch = (event?: KeyboardEvent) => {
+  event?.stopPropagation()
+
+  movies.value = []
+}
 </script>
 
 <template>
@@ -60,9 +90,13 @@ const search = debounce(async () => {
       :error="error ?? searchError"
       :placeholder="placeholder"
       :required="required"
-      @enter="$emit('enter')"
       @clear-error="$emit('clear-error')"
       @input="search"
+      @keyup.down="down"
+      @keyup.up="up"
+      @keyup.enter="enter"
+      @keyup.esc="closeSearch"
+      @blur="closeSearch"
     />
 
     <div
@@ -74,12 +108,15 @@ const search = debounce(async () => {
 
     <ul
       v-if="movies.length"
-      class="absolute z-10 w-full p-2 mt-1 space-y-1 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-96"
+      class="absolute z-10 w-full mt-1 space-y-1 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-96"
     >
       <li
-        v-for="movie in movies"
+        v-for="movie, i in movies"
         :key="movie.tmdbId"
-        class="flex items-center space-x-2"
+        :class="{
+          'flex items-center space-x-2 p-2': true,
+          'bg-brat-300': selected === i,
+        }"
       >
         <img
           :src="movie.posterPath"
