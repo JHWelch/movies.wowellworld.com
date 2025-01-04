@@ -36,9 +36,6 @@ describe('input passthrough', () => {
 })
 
 describe('user types in search', () => {
-  beforeEach(() => {
-    window.fetch.doMock()
-  })
   afterEach(() => {
     window.fetch.mockClear()
   })
