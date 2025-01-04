@@ -122,6 +122,12 @@ const closeSearch = (event?: KeyboardEvent) => {
           'flex items-center space-x-2 p-2': true,
           'bg-brat-300': selected === i,
         }"
+        @mouseover="() => select(i)"
+        @click="(event) => {
+          event.stopPropagation()
+          searchTerm = movie.title
+          movies = []
+        }"
       >
         <img
           v-if="movie.posterPath"
