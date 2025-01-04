@@ -1,5 +1,5 @@
 import { Width } from '@server/types/tmdb'
-import { TMDB_POSTER_URL } from './constants'
+import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 
 const tmdbUrl = (width: Width): string =>
   TMDB_POSTER_URL + width
