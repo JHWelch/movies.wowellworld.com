@@ -13,6 +13,7 @@ import MovieFactory from '@tests/support/factories/movieFactory'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import { Movie } from '@server/models/movie'
 
 let notion: NotionAdapter
 let notionMock: NotionMock
@@ -262,18 +263,18 @@ describe('createMovie', () => {
   })
 
   it('should call the create method with the correct parameters', async () => {
-    await notion.createMovie('Movie Title')
+    const movie = new Movie({ title: 'Movie Title' })
+
+    await notion.createMovie(movie)
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
-      properties: {
-        Title: { title: [{ text: { content: 'Movie Title' } }] },
-      },
+      properties: movie.notionProperties(),
     })
   })
 
   it('should return the movie id', async () => {
-    const movieId = await notion.createMovie('Movie Title')
+    const movieId = await notion.createMovie(new Movie({ title: 'Movie Title' }))
 
     expect(movieId).toEqual('movieId')
   })

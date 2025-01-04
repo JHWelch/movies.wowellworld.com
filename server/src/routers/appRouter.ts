@@ -16,6 +16,7 @@ import { Route, registerRoutes } from '@server/routers/routes'
 import SubscriptionController from '@server/controllers/subscriptionController'
 import { CronController } from '@server/controllers/cronController'
 import WeekEventController from '@server/controllers/weekEventController'
+import MovieController from '@server/controllers/movieController'
 
 export default function createAppRouter (
   config: Config,
@@ -51,22 +52,26 @@ function routes (
   const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
   const cronController = new CronController(config, firestore)
+  const movieController = new MovieController(tmdb)
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
-  const suggestionController = new SuggestionController(notion)
+  const suggestionController = new SuggestionController(notion, tmdb)
   const weekController = new WeekController(firestore)
   const weekEventController = new WeekEventController(firestore)
 
   return [
     Route.get('/health_check', HealthCheckController.index),
+
     Route.get('/api/weeks', weekController.index),
     Route.post('/api/weeks/:weekId/rsvp', rsvpController.store),
     Route.get('/api/cache/weeks', cacheWeeksController.show),
     Route.post('/api/cache/weeks', cacheWeeksController.store),
     Route.post('/api/cache/email-templates', cacheEmailTemplatesController.store),
+    Route.post('/api/subscriptions', subscriptionController.store),
+    Route.get('/api/movies', movieController.show),
+
     Route.post('/suggestions', suggestionController.store),
     Route.get('/calendar', calendarController.index),
-    Route.post('/api/subscriptions', subscriptionController.store),
     Route.get('/unsubscribe', subscriptionController.destroy),
     Route.get('/cron/reminders', cronController.reminders),
     Route.get('/weeks/:weekId/event', weekEventController.show),

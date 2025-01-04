@@ -6,30 +6,29 @@ export class TmdbMock {
     private mockFetch: MockFetch,
   ) {}
 
-  mockSearchMovie (movie: Movie | undefined, id = 1234) {
+  mockSearchMovie (movie?: Movie | Movie[]) {
+    const movies = movie ? [movie].flat() : []
     this.mockFetch
       .mockImplementationOnce(async () => new Response(JSON.stringify({
         page: 1,
-        results: movie ? [
-          {
-            id: id,
-            original_title: movie.title,
-            poster_path: movie.posterPath,
-            release_date: `${movie.year}-07-19`,
-            title: movie.title,
-            adult: false,
-            backdrop_path: '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
-            genre_ids: [ 35, 10749 ],
-            original_language: 'en',
-            overview: 'Shallow, rich and socially successful Cher is at the...',
-            popularity: 32.244,
-            video: false,
-            vote_average: 7.282,
-            vote_count: 3953,
-          },
-        ] : [],
+        results: movies.map(movie => ({
+          id: movie.tmdbId,
+          original_title: movie.title,
+          poster_path: movie.posterPath,
+          release_date: `${movie.year}-07-19`,
+          title: movie.title,
+          adult: false,
+          backdrop_path: '/2FonLz0RPxbBriOlZ9mWhYdlqCp.jpg',
+          genre_ids: [ 35, 10749 ],
+          original_language: 'en',
+          overview: 'Shallow, rich and socially successful Cher is at the...',
+          popularity: 32.244,
+          video: false,
+          vote_average: 7.282,
+          vote_count: 3953,
+        })),
         total_pages: 1,
-        total_results: movie ? 1 : 0,
+        total_results: movies.length,
       })))
   }
 

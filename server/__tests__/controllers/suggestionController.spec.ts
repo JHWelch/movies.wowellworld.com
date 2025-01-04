@@ -11,12 +11,21 @@ import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { NotionMock } from '@tests/support/notionMock'
+import { Movie } from '@server/models/movie'
+import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
+import { TmdbMock } from '@tests/support/tmdbMock'
+import { mockFetch } from '@tests/support/fetchMock'
+import MovieFactory from '@tests/support/factories/movieFactory'
+import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
 
 const { res, mockClear } = getMockRes()
 
 let notionMock: NotionMock
 
 beforeAll(() => {
+  jest.mock('firebase-admin/app')
+  jest.mock('firebase/app')
+  jest.mock('firebase/firestore')
   jest.mock('@notionhq/client')
   notionMock = new NotionMock()
 })
@@ -28,8 +37,9 @@ beforeEach(() => {
 const newSuggestionController = () => {
   const config = mockConfig()
   const notion = new NotionAdapter(config)
+  const tmdb = new TmdbAdapter(config)
 
-  return new SuggestionController(notion)
+  return new SuggestionController(notion, tmdb)
 }
 
 interface MockBodyArgs {
@@ -42,8 +52,8 @@ const mockBody = ({
   theme = 'theme',
   submitted_by = 'submitted_by',
   movies = [
-    'movie1',
-    'movie2',
+    { title: 'movie1' },
+    { title: 'movie2' },
   ],
 }: MockBodyArgs = {}) => ({ theme, submitted_by, movies })
 
@@ -59,15 +69,11 @@ describe('store', () => {
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
-      properties: {
-        Title: { title: [{ text: { content: 'movie1' } }] },
-      },
+      properties: new Movie({ title: 'movie1' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
-      properties: {
-        Title: { title: [{ text: { content: 'movie2' } }] },
-      },
+      properties: new Movie({ title: 'movie2' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
@@ -93,6 +99,62 @@ describe('store', () => {
     expect(res.status).toHaveBeenCalledWith(201)
     expect(res.json).toHaveBeenCalledWith({
       message: 'Successfully created suggestion.',
+    })
+  })
+
+  describe('movie id is provided', () => {
+    let body: MockBodyArgs
+    let movie1: Movie
+    let movie2: Movie
+
+    beforeEach(() => {
+      body = mockBody()
+      body.movies[0].id = 123
+      body.movies[1].id = 456
+      const tmdbMock = new TmdbMock(mockFetch())
+
+      movie1 = new MovieFactory().tmdbFields().make({
+        title: 'movie1',
+        tmdbId: 123,
+        url: `${TMDB_MOVIE_URL}/123`,
+      })
+      movie2 = new MovieFactory().tmdbFields().make({
+        title: 'movie2',
+        tmdbId: 456,
+        url: `${TMDB_MOVIE_URL}/456`,
+      })
+      tmdbMock.mockMovieDetails(movie1, 123)
+      tmdbMock.mockMovieDetails(movie2, 456)
+    })
+
+    it('should create a new week and movies', async () => {
+      const req = getMockReq({ body })
+
+      notionMock.mockCreate('movieId1', 'movieId2')
+
+      await newSuggestionController().store(req, res)
+
+      expect(notionMock.create).toHaveBeenCalledWith({
+        parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+        properties: movie1.notionProperties(),
+      })
+      expect(notionMock.create).toHaveBeenCalledWith({
+        parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+        properties: movie2.notionProperties(),
+      })
+      expect(notionMock.create).toHaveBeenCalledWith({
+        parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
+        properties: {
+          Theme: { title: [{ text: { content: 'theme' } }] },
+          'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
+          Movies: {
+            relation: [
+              { id: 'movieId1' },
+              { id: 'movieId2' },
+            ],
+          },
+        },
+      })
     })
   })
 
@@ -148,7 +210,7 @@ describe('store', () => {
       const req = getMockReq({
         body: mockBody({
           movies: [
-            '',
+            { title: '' },
           ],
         }),
       })

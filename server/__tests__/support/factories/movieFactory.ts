@@ -24,6 +24,12 @@ export default class MovieFactory extends Factory<Movie, MovieConstructor> {
     showingUrl: null,
   })
 
+  tmdbFields = (): MovieFactory => this
+    .noFields()
+    .state({
+      time: undefined,
+    })
+
   asFirebaseMovie = (): FirebaseMovie => ({
     title: this._state.title,
     director: this._state.director,

@@ -1,6 +1,8 @@
 import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
 import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
 import { MovieResponseTmdb } from '@server/data/tmdb/dtos/responseTypes'
+import { MovieSearchDto } from '@shared/dtos'
+import { posterUrl } from '@server/data/tmdb/helpers'
 
 export default class MovieResponse {
   constructor (
@@ -56,5 +58,14 @@ export default class MovieResponse {
 
   get fullMovieUrl (): string {
     return `${TMDB_MOVIE_URL}/${this.id}`
+  }
+
+  toDto (): MovieSearchDto {
+    return {
+      title: this.title,
+      year: parseInt(this.releaseDate.split('-')[0]),
+      tmdbId: this.id,
+      posterPath: posterUrl(this.posterPath, 'w45'),
+    }
   }
 }

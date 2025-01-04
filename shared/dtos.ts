@@ -52,3 +52,10 @@ export type CacheWeeksOutput = {
   newLastUpdated: string | null
   tmdbMoviesSynced: MovieDto[]
 }
+
+export type MovieSearchDto = {
+  title: string
+  year: number
+  tmdbId: number
+  posterPath: string
+}

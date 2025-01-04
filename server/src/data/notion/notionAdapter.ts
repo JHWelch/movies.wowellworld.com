@@ -92,15 +92,13 @@ export default class NotionAdapter {
       },
     })
 
-  createMovie = async (title: string): Promise<string> => {
-    const movie = await this.#notion.pages.create({
+  createMovie = async (movie: Movie): Promise<string> => {
+    const notionMovie = await this.#notion.pages.create({
       parent: { database_id: this.#movieDatabaseId },
-      properties: {
-        Title: { title: [{ text: { content: title } }] },
-      },
+      properties: movie.notionProperties(),
     })
 
-    return movie.id
+    return notionMovie.id
   }
 
   private weekFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after

@@ -4,21 +4,29 @@ import FormInput from '@components/form/FormInput.vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import { ErrorBag } from '@client/types'
 import { jsonHeaders } from '@client/data/headers'
+import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
+import { MovieSearchInputData } from '@client/components/form/MovieSearchInput/types'
 
 type SuggestionFormData = {
+  theme: string
+  submitted_by: string
+  movie1: MovieSearchInputData
+  movie2: MovieSearchInputData
+}
+type SuggestionErrors = {
   theme?: string
   submitted_by?: string
   movie1?: string
   movie2?: string
 }
 
-const errors = ref<SuggestionFormData>({})
+const errors = ref<SuggestionErrors>({})
 
 const formData = ref<SuggestionFormData>({
   theme: '',
   submitted_by: '',
-  movie1: '',
-  movie2: '',
+  movie1: { title: '' },
+  movie2: { title: '' },
 })
 
 const submitting = ref<boolean>(false)
@@ -38,8 +46,8 @@ const handleErrors = (data: ErrorBag) => {
 }
 const disabled = computed(() => submitting.value
     || !formData.value.theme
-    || !formData.value.movie1
-    || !formData.value.movie2
+    || !formData.value.movie1.title
+    || !formData.value.movie2.title
     || !formData.value.submitted_by,
 )
 const submit = async () => {
@@ -94,7 +102,7 @@ const submit = async () => {
         @clear-error="errors.theme = ''"
       />
 
-      <FormInput
+      <MovieSearchInput
         v-model="formData.movie1"
         name="movie1"
         label="First Movie"
@@ -103,7 +111,7 @@ const submit = async () => {
         @clear-error="errors.movie1 = ''"
       />
 
-      <FormInput
+      <MovieSearchInput
         v-model="formData.movie2"
         name="movie2"
         label="Second Movie"
