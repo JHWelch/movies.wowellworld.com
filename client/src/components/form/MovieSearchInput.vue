@@ -24,7 +24,7 @@ defineEmits([
   'clear-error',
   'enter',
 ])
-const searchTerm = ref<string>('')
+const searchTerm = defineModel<string>()
 const searching = ref<boolean>(false)
 const movies = ref<MovieSearchDto[]>([])
 const searchError = ref<string | undefined>(undefined)
@@ -76,10 +76,12 @@ const enter = (event: KeyboardEvent) => {
     search()
   }
 }
-const closeSearch = (event?: KeyboardEvent) => {
+const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
   event?.stopPropagation()
 
-  movies.value = []
+  setTimeout(() => {
+    movies.value = []
+  }, timeout) // Timeout to allow click event to fire
 }
 </script>
 
@@ -100,12 +102,12 @@ const closeSearch = (event?: KeyboardEvent) => {
       @keyup.up="up"
       @keyup.enter="enter"
       @keyup.esc="closeSearch"
-      @blur="closeSearch"
+      @blur="(event: KeyboardEvent) => closeSearch(event, 200)"
     />
 
     <div
       v-if="searching"
-      class="absolute top-0 right-0 mt-2 mr-2"
+      class="absolute top-0 right-0 mt-0 mr-0"
     >
       <LoadingIcon />
     </div>
@@ -119,7 +121,7 @@ const closeSearch = (event?: KeyboardEvent) => {
         :id="'movie-' + movie.tmdbId.toString()"
         :key="movie.tmdbId"
         :class="{
-          'flex items-center space-x-2 p-2': true,
+          'flex items-center space-x-2 p-2 cursor-pointer': true,
           'bg-brat-300': selected === i,
         }"
         @mouseover="() => select(i)"
