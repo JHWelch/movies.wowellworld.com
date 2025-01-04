@@ -47,7 +47,7 @@ const search = debounce(async () => {
   }
 
   searching.value = false
-}, 300)
+}, 200)
 const selected = ref<number>(0)
 const select = (index: number) => {
   selected.value = index
