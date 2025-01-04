@@ -4,6 +4,7 @@ import { MovieSearchDto } from '@shared/dtos'
 import { ref } from 'vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import debounce from 'lodash.debounce'
+import { PhotoIcon } from '@heroicons/vue/24/solid'
 
 withDefaults(defineProps<{
   name: string
@@ -119,9 +120,17 @@ const closeSearch = (event?: KeyboardEvent) => {
         }"
       >
         <img
+          v-if="movie.posterPath"
           :src="movie.posterPath"
           alt="Movie Poster"
         >
+
+        <div
+          v-else
+          class="flex items-center justify-center w-[45px] bg-gray-200 h-[67.9972px] rounded-sm flex-shrink-0"
+        >
+          <PhotoIcon class="w-6 h-6 m-2 text-gray-600" />
+        </div>
 
         <div class="flex justify-between w-full">
           <span
