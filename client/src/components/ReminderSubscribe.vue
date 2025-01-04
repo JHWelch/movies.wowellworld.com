@@ -21,7 +21,7 @@ const handleErrors = (data: ErrorBag) => {
   }
 }
 
-const subscribe = async (event: KeyboardEvent) => {
+const subscribe = async (event: MouseEvent | KeyboardEvent) => {
   event.stopPropagation()
   const response = await fetch('/api/subscriptions', {
     method: 'POST',
