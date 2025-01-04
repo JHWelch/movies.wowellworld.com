@@ -55,7 +55,7 @@ function routes (
   const movieController = new MovieController(tmdb)
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
-  const suggestionController = new SuggestionController(notion)
+  const suggestionController = new SuggestionController(notion, tmdb)
   const weekController = new WeekController(firestore)
   const weekEventController = new WeekEventController(firestore)
 
