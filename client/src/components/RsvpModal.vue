@@ -44,14 +44,19 @@ const rsvp = async () => {
 
   const data = await response.json()
 
+  console.log(data)
+  console.log(response.ok)
+
   if (!response.ok) {
     handleErrors(data)
+    console.log(errors.value)
 
     return
   }
 
   fireConfetti()
   rsvpModal.close()
+  console.log(rsvpModal.show)
 
   localStorage.setItem('rsvp.name', formData.value.name)
   localStorage.setItem('rsvp.email', formData.value.email || '')
@@ -167,7 +172,7 @@ const disabled = computed(() => !formData.value.name
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
-                  @click="rsvp()"
+                  @click="rsvp"
                 >
                   RSVP!
                 </button>

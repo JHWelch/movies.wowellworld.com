@@ -1,9 +1,8 @@
-import createFetchMock from 'vitest-fetch-mock'
-import { expect, vi } from 'vitest'
-const fetchMocker = createFetchMock(vi)
+import { manageFetchMockGlobally } from '@fetch-mock/vitest'
+import { expect } from 'vitest'
 import { DOMWrapper, VueWrapper } from '@vue/test-utils'
 
-fetchMocker.enableMocks()
+// manageFetchMockGlobally()
 
 // Vue Wrapper helpers
 

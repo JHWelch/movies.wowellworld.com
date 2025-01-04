@@ -8,8 +8,6 @@ import { jsonHeaders } from '@client/data/headers'
 
 let wrapper: VueWrapper
 
-globalThis.fetch = vi.fn()
-
 beforeAll(() => {
   vi.mock('js-confetti', () => ({
     default: vi.fn().mockReturnValue({
