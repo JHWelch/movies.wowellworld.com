@@ -2,6 +2,7 @@ import { type Request, type Response } from 'express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { z } from 'zod'
 import { validate } from '@server/helpers/validation'
+import { Movie } from '@server/models/movie'
 
 export default class SuggestionController {
   constructor (
@@ -13,9 +14,9 @@ export default class SuggestionController {
 
     const { theme, movies, submitted_by } = req.body
 
-    const notionMovies = await Promise.all(
-      movies.map((movie: string) => this.notion.createMovie(movie)),
-    )
+    const notionMovies = await Promise.all(movies.map(
+      (movie: string) => this.notion.createMovie(new Movie({ title: movie }))
+    ))
 
     await this.notion.createWeek(theme, notionMovies, submitted_by)
 

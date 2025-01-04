@@ -11,6 +11,7 @@ import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { NotionMock } from '@tests/support/notionMock'
+import { Movie } from '@server/models/movie'
 
 const { res, mockClear } = getMockRes()
 
@@ -59,15 +60,11 @@ describe('store', () => {
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
-      properties: {
-        Title: { title: [{ text: { content: 'movie1' } }] },
-      },
+      properties: new Movie({ title: 'movie1' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
-      properties: {
-        Title: { title: [{ text: { content: 'movie2' } }] },
-      },
+      properties: new Movie({ title: 'movie2' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },

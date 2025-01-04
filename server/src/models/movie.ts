@@ -1,4 +1,5 @@
 import {
+  CreatePageParameters,
   UpdatePageParameters,
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
@@ -165,17 +166,21 @@ export class Movie {
 
     return {
       page_id: this.notionId,
-      properties: {
-        Title: notionTitle(this.title),
-        Director: notionRichText(this.director),
-        Year: notionNumber(this.year),
-        'Length (mins)': notionNumber(this.length),
-        URL: notionUrl(this.url),
-        Poster: notionUrl(this.posterPath),
-        'Theater Name': notionRichText(this.theaterName),
-        'Showing URL': notionUrl(this.showingUrl),
-        Time: notionRichText(this.time),
-      },
+      properties: this.notionProperties(),
+    }
+  }
+
+  notionProperties (): CreatePageParameters['properties'] & UpdatePageParameters['properties'] {
+    return {
+      Title: notionTitle(this.title),
+      Director: notionRichText(this.director),
+      Year: notionNumber(this.year),
+      'Length (mins)': notionNumber(this.length),
+      URL: notionUrl(this.url),
+      Poster: notionUrl(this.posterPath),
+      'Theater Name': notionRichText(this.theaterName),
+      'Showing URL': notionUrl(this.showingUrl),
+      Time: notionRichText(this.time),
     }
   }
 
