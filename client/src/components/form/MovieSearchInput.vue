@@ -112,7 +112,7 @@ const closeSearch = (event?: KeyboardEvent) => {
 
     <ul
       v-if="movies.length"
-      class="absolute z-10 w-full mt-1 space-y-1 overflow-y-auto bg-white border border-gray-300 rounded-md shadow-lg max-h-96"
+      class="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 divide-y rounded-md shadow-lg divide-solid max-h-96"
     >
       <li
         v-for="movie, i in movies"
