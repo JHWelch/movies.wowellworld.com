@@ -6,6 +6,7 @@ import MovieSearchInput from '@components/form/MovieSearchInput.vue'
 
 const props = {
   name: 'search',
+  modelValue: { title: '' },
 }
 
 beforeEach(() => {
@@ -16,7 +17,7 @@ describe('input passthrough', () => {
   it('should pass through props to input', () => {
     const wrapper = mount(MovieSearchInput, {
       props: {
-        name: 'search',
+        ...props,
         placeholder: 'Search for movies',
         label: 'Search',
         error: 'Error message',

@@ -5,6 +5,7 @@ import { ref } from 'vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import debounce from 'lodash.debounce'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
+import { MovieSearchInputData } from '@components/form/MovieSearchInput/types'
 
 withDefaults(defineProps<{
   name: string
@@ -24,12 +25,17 @@ defineEmits([
   'clear-error',
   'enter',
 ])
-const searchTerm = defineModel<string>()
+const data = defineModel<MovieSearchInputData>({ required: true })
+const setMovie = (movie: MovieSearchDto) => {
+  data.value.title = movie.title
+  data.value.id = movie.tmdbId
+  movies.value = []
+}
 const searching = ref<boolean>(false)
 const movies = ref<MovieSearchDto[]>([])
 const searchError = ref<string | undefined>(undefined)
 const search = debounce(async () => {
-  if (!searchTerm.value || searchTerm.value.length < 3) {
+  if (!data.value.title || data.value.title.length < 3) {
     movies.value = []
 
     return
@@ -37,13 +43,16 @@ const search = debounce(async () => {
 
   searching.value = true
 
-  const response = await fetch(`/api/movies?search=${searchTerm.value}`)
-  const data = await response.json()
-
-  if (response.ok) {
-    movies.value = data.movies
-  } else {
-    searchError.value = data.error
+  try {
+    const response = await fetch(`/api/movies?search=${data.value.title}`)
+    const json = await response.json()
+    if (response.ok) {
+      movies.value = json.movies
+    } else {
+      searchError.value = json.error
+    }
+  } catch (error) {
+    console.error(error)
   }
 
   searching.value = false
@@ -68,10 +77,10 @@ const up = (event: KeyboardEvent) => {
 }
 const enter = (event: KeyboardEvent) => {
   event.stopPropagation()
+  if (!data.value) return
 
   if (movies.value.length) {
-    searchTerm.value = movies.value[selected.value].title
-    movies.value = []
+    setMovie(movies.value[selected.value])
   } else {
     search()
   }
@@ -84,11 +93,10 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
   }, timeout) // Timeout to allow click event to fire
 }
 </script>
-
 <template>
   <div class="relative">
     <FormInput
-      v-model="searchTerm"
+      v-model="data.title"
       :name="name"
       :hide-label="hideLabel"
       :label="label"
@@ -127,8 +135,7 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
         @mouseover="() => select(i)"
         @click="(event) => {
           event.stopPropagation()
-          searchTerm = movie.title
-          movies = []
+          setMovie(movie)
         }"
       >
         <img
