@@ -167,7 +167,7 @@ const disabled = computed(() => !formData.value.name
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
-                  @click="rsvp()"
+                  @click="rsvp"
                 >
                   RSVP!
                 </button>

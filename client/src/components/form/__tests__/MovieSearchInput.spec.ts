@@ -1,8 +1,9 @@
 /** @vitest-environment jsdom */
 
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MovieSearchInput from '@components/form/MovieSearchInput.vue'
+import fetchMock from '@fetch-mock/vitest'
 
 const props = {
   name: 'search',
@@ -11,6 +12,10 @@ const props = {
 
 beforeEach(() => {
   vi.mock('lodash.debounce')
+})
+
+afterEach(() => {
+  fetchMock.mockReset()
 })
 
 describe('input passthrough', () => {
@@ -37,19 +42,18 @@ describe('input passthrough', () => {
 
 describe('user types in search', () => {
   afterEach(() => {
-    window.fetch.mockClear()
+    fetchMock.mockClear()
   })
 
   it('searches for matching movies', async () => {
-    window.fetch.mockResponseOnce(JSON.stringify({ movies: [] }))
+    fetchMock.mockGlobal().route('/api/movies?search=The%20Matrix', { movies: [] })
 
     const wrapper = mount(MovieSearchInput, { props })
 
     const input = wrapper.find('#search')
     await input.setValue('The Matrix')
-    const request = window.fetch.requests()[0]
 
-    expect(request.url).toBe('/api/movies?search=The%20Matrix')
+    expect({ fetchMock }).toHaveGot('/api/movies?search=The%20Matrix')
   })
 
   it('does not search if input is empty', async () => {
@@ -58,7 +62,7 @@ describe('user types in search', () => {
     const input = wrapper.find('#search')
     await input.setValue('')
 
-    expect(window.fetch.requests()[0]).toBeUndefined()
+    expect({ fetchMock }).not.toHaveGot()
   })
 
   it('does not search if input is less than 3 characters', async () => {
@@ -67,7 +71,7 @@ describe('user types in search', () => {
     const input = wrapper.find('#search')
     await input.setValue('Th')
 
-    expect(window.fetch.requests()[0]).toBeUndefined()
+    expect({ fetchMock }).not.toHaveGot()
   })
 
   describe('movies returned', () => {
@@ -95,7 +99,7 @@ describe('user types in search', () => {
         ],
       }
 
-      window.fetch.mockResponseOnce(JSON.stringify(response))
+      fetchMock.mockGlobal().route('/api/movies?search=The%20Matrix', response)
     })
 
     it('displays movie information', async () => {
@@ -103,7 +107,7 @@ describe('user types in search', () => {
 
       const input = wrapper.find('#search')
       await input.setValue('The Matrix')
-      await wrapper.vm.$nextTick()
+      await flushPromises()
 
       expect(wrapper.text()).toContain('The Matrix')
       expect(wrapper.text()).toContain('1999')

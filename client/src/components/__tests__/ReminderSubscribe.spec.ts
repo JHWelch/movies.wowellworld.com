@@ -1,14 +1,11 @@
 /** @vitest-environment jsdom */
 
-import { VueWrapper, mount } from '@vue/test-utils'
+import { VueWrapper, flushPromises, mount } from '@vue/test-utils'
 import ReminderSubscribe from '@client/components/ReminderSubscribe.vue'
-import { Mock, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { nextTick } from 'vue'
-import { jsonHeaders } from '@client/data/headers'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import fetchMock from '@fetch-mock/vitest'
 
 let wrapper: VueWrapper
-
-globalThis.fetch = vi.fn()
 
 beforeAll(() => {
   vi.mock('js-confetti', () => ({
@@ -20,6 +17,10 @@ beforeAll(() => {
 
 beforeEach(() => {
   wrapper = mount(ReminderSubscribe)
+})
+
+afterEach(() => {
+  fetchMock.mockReset()
 })
 
 it('renders "Get Reminders" button with unopened style', () => {
@@ -53,23 +54,18 @@ describe('press the "Get Reminders" button', () => {
 
   describe('enter email and subscribe with success', () => {
     beforeEach(async () => {
-      (fetch as Mock).mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve({
-          message: 'Thank you for signing up! See you soon.',
-        }),
+      fetchMock.mockGlobal().route('/api/subscriptions', {
+        message: 'Thank you for signing up! See you soon.',
       })
 
       await wrapper.find('input').setValue('test@example.com')
       await wrapper.byTestId('subscribe-button').trigger('click')
-      await nextTick()
+      await flushPromises()
     })
 
     it('makes a POST request to the API', async () => {
-      expect(fetch).toHaveBeenCalledWith('/api/subscriptions', {
-        method: 'POST',
-        headers: jsonHeaders,
-        body: JSON.stringify({ email: 'test@example.com' }),
+      expect({ fetchMock } ).toHavePosted('/api/subscriptions', {
+        body: { email: 'test@example.com' },
       })
     })
 
@@ -81,12 +77,12 @@ describe('press the "Get Reminders" button', () => {
 
   describe('when the request fails', () => {
     beforeEach(async () => {
-      (fetch as Mock).mockResolvedValue({
-        ok: false,
-        json: () => Promise.resolve({
+      fetchMock.mockGlobal().route('/api/subscriptions', {
+        status: 422,
+        body: {
           errors: { email: 'Already subscribed' },
           message: "You're already subscribed! Check your spam folder if you don't get the emails.",
-        }),
+        },
       })
 
       await wrapper.find('input').setValue('test@example.com')
