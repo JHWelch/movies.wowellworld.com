@@ -83,11 +83,11 @@ describe('rsvp submit', () => {
   })
 
   it('calls api with the correct data', async () => {
-    expect({ fetchMock }).toHavePosted('/api/weeks/2020-01-01/rsvp', {
+    expect({ fetchMock }).toHavePosted('/api/weeks/2020-01-01/rsvp', { body: {
       name: 'John Doe',
       email: 'jdoe@example.com',
       reminders: false,
-    })
+    } })
   })
 
   it('closes the modal', async () => {
