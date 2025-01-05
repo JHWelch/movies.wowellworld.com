@@ -1,11 +1,12 @@
 /** @vitest-environment jsdom */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
 import RsvpModal from '@components/RsvpModal.vue'
 import WeekFactory from '@tests/utils/factories/weekFactory'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
+import fetchMock from '@fetch-mock/vitest'
 
 afterEach(() => {
   localStorage.removeItem('rsvp.email')
@@ -69,7 +70,7 @@ describe('rsvp submit', () => {
     vi.mock(import('@client/utilities/confetti'), () => ({
       fireConfetti: vi.fn(),
     }))
-    window.fetch.mockResponseOnce(JSON.stringify({}))
+    fetchMock.mockGlobal().route('/api/weeks/2020-01-01/rsvp', {})
     const week = new WeekFactory().build({
       weekId: '2020-01-01',
     })
@@ -77,16 +78,12 @@ describe('rsvp submit', () => {
     const wrapper = mount(RsvpModal)
     await wrapper.byTestId('input-name').setValue('John Doe')
     await wrapper.byTestId('input-email').setValue('jdoe@example.com')
-
     await wrapper.byTestId('rsvp-button').trigger('click')
+    await flushPromises()
   })
 
   it('calls api with the correct data', async () => {
-    expect(window.fetch.requests().length).toEqual(1)
-    const request = window.fetch.requests()[0]
-    expect(request.method).toEqual('POST')
-    expect(request.url).toEqual('/api/weeks/2020-01-01/rsvp')
-    expect(await request.json()).toEqual({
+    expect({ fetchMock }).toHavePosted('/api/weeks/2020-01-01/rsvp', {
       name: 'John Doe',
       email: 'jdoe@example.com',
       reminders: false,

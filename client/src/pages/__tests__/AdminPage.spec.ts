@@ -1,10 +1,15 @@
 /** @vitest-environment jsdom */
 
-import { beforeEach, describe, expect, it } from 'vitest'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
 import AdminPage from '@pages/AdminPage.vue'
+import fetchMock from '@fetch-mock/vitest'
 
 let wrapper: VueWrapper
+
+afterEach(() => {
+  fetchMock.mockReset()
+})
 
 describe('unauthed page', () => {
   it('shows password form', () => {
@@ -24,14 +29,14 @@ describe('unauthed page', () => {
 describe('authentication problems', () => {
   describe('401', () => {
     beforeEach(async () => {
-      window.fetch.mockResponseOnce(JSON.stringify({
-        error: 'Something went wrong authenticating you',
-      }), {
+      fetchMock.mockGlobal().route('/api/cache/weeks', {
+        body: { error: 'Something went wrong authenticating you' },
         status: 401,
       })
       wrapper = mount(AdminPage)
       await wrapper.byTestId('input-password').setValue('password')
       await wrapper.byTestId('unlock-button').trigger('click')
+      await flushPromises()
     })
 
     it('does not shows admin content', async () => {
@@ -42,14 +47,14 @@ describe('authentication problems', () => {
 
   describe('403', () => {
     beforeEach(async () => {
-      window.fetch.mockResponseOnce(JSON.stringify({
-        error: 'Password incorrect',
-      }), {
+      fetchMock.mockGlobal().route('/api/cache/weeks', {
+        body: { error: 'Password incorrect' },
         status: 403,
       })
       wrapper = mount(AdminPage)
       await wrapper.byTestId('input-password').setValue('password')
       await wrapper.byTestId('unlock-button').trigger('click')
+      await flushPromises()
     })
 
     it('does not shows admin content', async () => {
@@ -61,16 +66,17 @@ describe('authentication problems', () => {
 
 describe('correct password - logged in', () => {
   beforeEach(async () => {
-    window.fetch.mockResponseOnce(JSON.stringify({
+    fetchMock.mockGlobal().route('/api/cache/weeks', {
       updatedWeeks: 15,
       previousLastUpdated: '2021-01-01T00:00:00.000Z',
       newLastUpdated: '2021-01-01T00:00:00.000Z',
       tmdbMoviesSynced: Array.from({ length: 32 }, () => {}),
-    }))
+    })
 
     wrapper = mount(AdminPage)
     await wrapper.byTestId('input-password').setValue('password')
     await wrapper.byTestId('unlock-button').trigger('click')
+    await flushPromises()
   })
 
   it('shows admin content', async () => {
