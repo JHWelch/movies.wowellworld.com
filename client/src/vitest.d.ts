@@ -63,7 +63,10 @@ interface CustomMatchers<R = unknown> {
   ) => R
 
   toHaveDeleted: (filter?: CallHistoryFilter, options?: UserRouteConfig) => R
-  toHaveLastDeleted: (filter?: CallHistoryFilter, options?: UserRouteConfig) => R
+  toHaveLastDeleted: (
+    filter?: CallHistoryFilter,
+    options?: UserRouteConfig,
+  ) => R
   toHaveNthDeleted: (
     n: number,
     filter?: CallHistoryFilter,
@@ -75,7 +78,10 @@ interface CustomMatchers<R = unknown> {
     options?: UserRouteConfig,
   ) => R
 
-  toHaveFetchedHead: (filter?: CallHistoryFilter, options?: UserRouteConfig) => R
+  toHaveFetchedHead: (
+    filter?: CallHistoryFilter,
+    options?: UserRouteConfig,
+  ) => R
   toHaveLastFetchedHead: (
     filter?: CallHistoryFilter,
     options?: UserRouteConfig,
@@ -92,7 +98,10 @@ interface CustomMatchers<R = unknown> {
   ) => R
 
   toHavePatched: (filter?: CallHistoryFilter, options?: UserRouteConfig) => R
-  toHaveLastPatched: (filter?: CallHistoryFilter, options?: UserRouteConfig) => R
+  toHaveLastPatched: (
+    filter?: CallHistoryFilter,
+    options?: UserRouteConfig,
+  ) => R
   toHaveNthPatched: (
     n: number,
     filter?: CallHistoryFilter,
