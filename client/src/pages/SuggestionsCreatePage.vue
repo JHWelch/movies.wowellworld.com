@@ -74,6 +74,8 @@ const submit = async () => {
     return
   }
 
+  localStorage.setItem('submitted_by', formData.value.submitted_by)
+
   window.location.href = '/?suggest_success'
 }
 </script>
@@ -84,7 +86,10 @@ const submit = async () => {
       Suggest a Movie Night&nbsp;Theme!
     </h1>
 
-    <form class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-brat-500 sm:mt-8">
+    <form
+      class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-brat-500 sm:mt-8"
+      @submit.prevent="submit"
+    >
       <FormInput
         v-model="formData.submitted_by"
         name="submitted_by"
