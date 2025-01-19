@@ -24,7 +24,7 @@ const errors = ref<SuggestionErrors>({})
 
 const formData = ref<SuggestionFormData>({
   theme: '',
-  submitted_by: '',
+  submitted_by: localStorage.getItem('submitted_by') || '',
   movie1: { title: '' },
   movie2: { title: '' },
 })
