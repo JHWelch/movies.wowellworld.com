@@ -1,9 +1,12 @@
 /** @vitest-environment jsdom */
 
-import { flushPromises, mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import SuggestionsCreatePage from '@pages/SuggestionsCreatePage.vue'
 import fetchMock from '@fetch-mock/vitest'
+import { ComponentPublicInstance } from 'vue'
+
+let wrapper: VueWrapper<ComponentPublicInstance<typeof SuggestionsCreatePage>>
 
 afterEach(() => {
   localStorage.clear()
@@ -11,7 +14,7 @@ afterEach(() => {
 
 describe('no value saved', () => {
   it('returns empty string with no default', () => {
-    const wrapper = mount(SuggestionsCreatePage)
+    wrapper = mount(SuggestionsCreatePage)
 
     expect(wrapper.vm.formData.submitted_by).toBe('')
   })
@@ -23,7 +26,7 @@ describe('value saved', () => {
   })
 
   it('should return saved value', () => {
-    const wrapper = mount(SuggestionsCreatePage)
+    wrapper = mount(SuggestionsCreatePage)
 
     expect(wrapper.vm.formData.submitted_by).toBe('John Smith')
   })
@@ -39,7 +42,7 @@ describe('submit', () => {
   })
 
   it('should save value to local storage', async () => {
-    const wrapper = mount(SuggestionsCreatePage)
+    wrapper = mount(SuggestionsCreatePage)
 
     await wrapper.find('#submitted_by').setValue('Jane Doe')
     await wrapper.find('#theme').setValue('Test Theme')
