@@ -33,15 +33,17 @@ describe('value saved', () => {
 })
 
 describe('submit', () => {
-  beforeEach(() => {
+  afterEach(() => {
+    fetchMock.mockReset()
+  })
+
+  beforeEach(async () => {
     fetchMock.mockGlobal().route('/suggestions', {})
     window.location = {
       ...window.location,
       href: '',
     }
-  })
 
-  it('should save value to local storage', async () => {
     wrapper = mount(SuggestionsCreatePage)
 
     await wrapper.find('#submitted_by').setValue('Jane Doe')
@@ -51,7 +53,23 @@ describe('submit', () => {
     await wrapper.find('form').trigger('submit')
 
     await flushPromises()
+  })
 
+  it('should save name to local storage', async () => {
     expect(localStorage.getItem('submitted_by')).toBe('Jane Doe')
+  })
+
+  it('should redirect to suggest_success', async () => {
+    expect(window.location.href).toBe('/?suggest_success')
+  })
+
+  it('should send POST request to /suggestions', async () => {
+    expect({ fetchMock }).toHavePosted('/suggestions', {
+      body: {
+        theme: 'Test Theme',
+        submitted_by: 'Jane Doe',
+        movies: [{ title: 'Test Movie 1' }, { title: 'Test Movie 2' }],
+      },
+    })
   })
 })
