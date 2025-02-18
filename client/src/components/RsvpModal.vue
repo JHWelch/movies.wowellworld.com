@@ -163,7 +163,7 @@ const disabled = computed(() => !formData.value.name
                   data-testid="rsvp-button"
                   :disabled="disabled"
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-sm bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
+                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-xs bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
@@ -174,7 +174,7 @@ const disabled = computed(() => !formData.value.name
 
                 <button
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                  class="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
                   @click="rsvpModal.close()"
                 >
                   Cancel

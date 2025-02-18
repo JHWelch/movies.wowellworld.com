@@ -54,7 +54,7 @@ const model = defineModel<string>()
         :aria-describedby="name + '-error'"
         :aria-invalid="error ? 'true' : 'false'"
         :class="{
-          'block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6': true,
+          'block w-full rounded-md border-0 py-1.5 shadow-xs ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6': true,
           'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'ring-gray-300 text-gray-900 placeholder:text-gray-400 focus:ring-brat-500': !error,
         }"

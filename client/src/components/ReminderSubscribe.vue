@@ -75,7 +75,7 @@ const subscribe = async (event: MouseEvent | KeyboardEvent) => {
       />
 
       <button
-        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-md text-mint bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500 h-9"
+        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-md text-mint bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500 h-9"
         data-testid="subscribe-button"
         @click="subscribe"
       >
