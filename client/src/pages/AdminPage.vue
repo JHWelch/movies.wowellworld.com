@@ -69,13 +69,13 @@ const displayNewLastUpdated = computed(
           Admin
         </h1>
 
-        <div class="flex flex-col px-4 py-4 rounded-md shadow-sm bg-brat-500 min-w-96">
+        <div class="flex flex-col px-4 py-4 rounded-md shadow-xs bg-brat-500 min-w-96">
           <div
             v-if="cacheWeeksOutput"
             class="flex flex-col space-y-4"
           >
             <button
-              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
               @click="() => cacheWeeks()"
             >
@@ -130,7 +130,7 @@ const displayNewLastUpdated = computed(
             />
 
             <button
-              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
+              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
               :disabled="cacheWeeksLoading"
               data-testid="unlock-button"
               @click="() => cacheWeeks(true)"
