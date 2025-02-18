@@ -148,7 +148,7 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
 
         <div
           v-else
-          class="flex items-center justify-center w-[45px] bg-gray-200 h-[67.9972px] rounded-sm flex-shrink-0"
+          class="flex items-center justify-center w-[45px] bg-gray-200 h-[67.9972px] rounded-xs shrink-0"
         >
           <PhotoIcon class="w-6 h-6 m-2 text-gray-600" />
         </div>

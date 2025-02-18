@@ -127,7 +127,7 @@ const submit = async () => {
 
       <button
         type="button"
-        class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold rounded-md shadow-sm text-mint bg-purp-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
+        class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold rounded-md shadow-xs text-mint bg-purp-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
         :disabled="disabled"
         :class="{
           'opacity-50 cursor-not-allowed': disabled,
