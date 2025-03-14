@@ -6,8 +6,8 @@ import {
   Primitive,
 } from 'firebase/firestore'
 import { jest } from '@jest/globals'
-import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
-import { Week } from '@server/models/week'
+import { FirestoreEvent } from '@server/data/firestore/firestoreTypes'
+import { Event } from '@server/models/event'
 import { Movie } from '@server/models/movie'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
@@ -27,39 +27,39 @@ export class FirebaseMock {
     }))
   }
 
-  static mockWeeks (weeks: FirebaseWeek[]) {
+  static mockEvents (events: FirebaseEvent[]) {
     getDocs.mockImplementation(() => ({
-      docs: weeks.map((week) => ({
+      docs: events.map((event) => ({
         data: () => ({
-          id: week.id,
-          theme: week.theme,
-          date: Timestamp.fromDate(week.date.toJSDate()),
-          isSkipped: week.isSkipped,
-          slug: week.slug,
-          styledTheme: week.styledTheme ?? [],
-          movies: week.movies ?? [],
-          submittedBy: week.submittedBy ?? null,
-          lastUpdated: week.lastEditedTime
-            ? Timestamp.fromDate(new Date(week.lastEditedTime))
+          id: event.id,
+          theme: event.theme,
+          date: Timestamp.fromDate(event.date.toJSDate()),
+          isSkipped: event.isSkipped,
+          slug: event.slug,
+          styledTheme: event.styledTheme ?? [],
+          movies: event.movies ?? [],
+          submittedBy: event.submittedBy ?? null,
+          lastUpdated: event.lastEditedTime
+            ? Timestamp.fromDate(new Date(event.lastEditedTime))
             : Timestamp.now(),
         }),
       })),
     }))
   }
 
-  static mockGetWeek (week?: FirebaseWeek) {
+  static mockGetEvent (event?: FirebaseEvent) {
     getDoc.mockImplementation(() => ({
-      data: () => (week ? {
-        id: week.id,
-        theme: week.theme,
-        date: Timestamp.fromDate(week.date.toJSDate()),
-        isSkipped: week.isSkipped,
-        movies: week.movies ?? [],
-        lastUpdated: week.lastEditedTime
-          ? Timestamp.fromDate(new Date(week.lastEditedTime))
+      data: () => (event ? {
+        id: event.id,
+        theme: event.theme,
+        date: Timestamp.fromDate(event.date.toJSDate()),
+        isSkipped: event.isSkipped,
+        movies: event.movies ?? [],
+        lastUpdated: event.lastEditedTime
+          ? Timestamp.fromDate(new Date(event.lastEditedTime))
           : Timestamp.now(),
       } : undefined),
-      exists: () => Boolean(week),
+      exists: () => Boolean(event),
     }))
   }
 
@@ -98,23 +98,23 @@ export class FirebaseMock {
     }
   }
 
-  static mockWeek = (
-    week: FirebaseWeekConstructor,
-  ): WithFieldValue<FirestoreWeek> =>
-    new Week({
-      id: week.id,
-      theme: week.theme,
-      date: week.date instanceof Date
-        ? DateTime.fromJSDate(week.date)
-        : DateTime.fromISO(week.date, TZ),
-      movies: week.movies ?? [],
-      isSkipped: week.isSkipped ?? false,
-      slug: week.slug ?? null,
-      styledTheme: week.styledTheme ?? [],
-      lastUpdated: week.lastEditedTime
-        ? typeof week.lastEditedTime === 'string' ? DateTime.fromISO(week.lastEditedTime) : week.lastEditedTime
+  static mockEvent = (
+    event: FirebaseEventConstructor,
+  ): WithFieldValue<FirestoreEvent> =>
+    new Event({
+      id: event.id,
+      theme: event.theme,
+      date: event.date instanceof Date
+        ? DateTime.fromJSDate(event.date)
+        : DateTime.fromISO(event.date, TZ),
+      movies: event.movies ?? [],
+      isSkipped: event.isSkipped ?? false,
+      slug: event.slug ?? null,
+      styledTheme: event.styledTheme ?? [],
+      lastUpdated: event.lastEditedTime
+        ? typeof event.lastEditedTime === 'string' ? DateTime.fromISO(event.lastEditedTime) : event.lastEditedTime
         : DateTime.now(),
-      submittedBy: week.submittedBy ?? null,
+      submittedBy: event.submittedBy ?? null,
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -126,7 +126,7 @@ export class FirebaseMock {
   })
 }
 
-export type FirebaseWeek = {
+export type FirebaseEvent = {
   id: string
   theme: string
   date: DateTime
@@ -158,7 +158,7 @@ export type FirebaseUser = {
   reminders: boolean
 }
 
-export type FirebaseWeekConstructor = {
+export type FirebaseEventConstructor = {
   id: string
   theme: string
   date: Date|string

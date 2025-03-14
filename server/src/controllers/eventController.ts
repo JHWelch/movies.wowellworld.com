@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { isWidth, Width } from '@server/types/tmdb'
 
-export default class WeekController {
+export default class EventController {
   constructor (
     protected firestore: FirestoreAdapter,
   ) {}
@@ -10,11 +10,11 @@ export default class WeekController {
   index = async (req: Request, res: Response): Promise<void> => {
     const { past, limit, posterWidth } = this.parseIndexQuery(req)
 
-    const weeks = past
-      ? await this.firestore.getPastWeeks()
-      : await this.firestore.getUpcomingWeeks({ limit })
+    const events = past
+      ? await this.firestore.getPastEvents()
+      : await this.firestore.getUpcomingEvents({ limit })
 
-    res.json(weeks.map((week) => week.toDTO({
+    res.json(events.map((event) => event.toDTO({
       movies: { posterWidth },
     })))
   }

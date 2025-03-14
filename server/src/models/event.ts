@@ -3,15 +3,15 @@ import {
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { Movie, MovieDtoOptions } from '@server/models/movie'
-import type WeekProperties from '@server/types/weekProperties'
+import type EventProperties from '@server/types/eventProperties'
 import { DocumentData, Timestamp, WithFieldValue } from 'firebase/firestore'
-import { FirestoreWeek } from '@server/data/firestore/firestoreTypes'
-import { RichText, WeekDto } from '@shared/dtos'
+import { FirestoreEvent } from '@server/data/firestore/firestoreTypes'
+import { RichText, EventDto } from '@shared/dtos'
 import { timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { DateTime } from 'luxon'
 import { CHICAGO, TZ } from '@server/config/tz'
 
-export type WeekConstructor = {
+export type EventConstructor = {
   id: string
   theme: string
   date: DateTime
@@ -23,11 +23,11 @@ export type WeekConstructor = {
   submittedBy?: string | null
 }
 
-export type WeekDtoOptions = {
+export type EventDtoOptions = {
   movies: MovieDtoOptions
 }
 
-export class Week {
+export class Event {
   public id: string = ''
   public theme: string = ''
   public date: DateTime = DateTime.now().setZone(CHICAGO)
@@ -38,22 +38,22 @@ export class Week {
   public lastUpdated: DateTime = DateTime.now()
   public submittedBy: string | null = null
 
-  constructor (week: WeekConstructor) {
-    Object.keys(week).forEach((key) => {
-      const typedKey = key as keyof WeekConstructor
-      if (week[typedKey] === undefined) {
-        delete week[typedKey]
+  constructor (event: EventConstructor) {
+    Object.keys(event).forEach((key) => {
+      const typedKey = key as keyof EventConstructor
+      if (event[typedKey] === undefined) {
+        delete event[typedKey]
       }
     })
-    Object.assign(this, week)
+    Object.assign(this, event)
   }
 
   static fromNotion (
     record: PageObjectResponse | DatabaseObjectResponse,
-  ): Week {
-    const properties = record.properties as unknown as WeekProperties
+  ): Event {
+    const properties = record.properties as unknown as EventProperties
 
-    return new Week({
+    return new Event({
       id: record.id,
       theme: properties.Theme.title[0].plain_text,
       date: DateTime.fromISO(properties.Date.date.start, TZ),
@@ -65,8 +65,8 @@ export class Week {
     })
   }
 
-  static fromFirebase (record: DocumentData): Week {
-    return new Week({
+  static fromFirebase (record: DocumentData): Event {
+    return new Event({
       id: record.id,
       theme: record.theme,
       date: DateTime.fromJSDate(record.date.toDate(), TZ),
@@ -84,7 +84,7 @@ export class Week {
     return this.date.toFormat('EEEE, LLLL d')
   }
 
-  setMovies (movies: Movie[]): Week {
+  setMovies (movies: Movie[]): Event {
     this.movies = movies
 
     return this
@@ -94,12 +94,12 @@ export class Week {
     return this.theme
   }
 
-  toDTO ({ movies }: WeekDtoOptions = {
+  toDTO ({ movies }: EventDtoOptions = {
     movies: { posterWidth: 'w500' },
-  }): WeekDto {
+  }): EventDto {
     return {
       id: this.id,
-      weekId: this.dateString,
+      eventId: this.dateString,
       theme: this.theme,
       date: this.displayDate(),
       movies: this.movies.map((movie) => movie.toDTO(movies)),
@@ -110,7 +110,7 @@ export class Week {
     }
   }
 
-  toFirebaseDTO (): WithFieldValue<FirestoreWeek> {
+  toFirebaseDTO (): WithFieldValue<FirestoreEvent> {
     return {
       id: this.id,
       theme: this.theme,
@@ -171,21 +171,21 @@ export class Week {
     return movies.reduce((total, movie) => (movie.length ?? 0) + total, 0)
   }
 
-  private static parseLastUpdated (properties: WeekProperties): DateTime {
+  private static parseLastUpdated (properties: EventProperties): DateTime {
     const lastUpdatedMovieProp = properties['Last edited movie time']
 
-    const lastUpdatedWeek = DateTime
+    const lastUpdatedEvent = DateTime
       .fromISO(properties['Last edited time'].last_edited_time)
     const lastUpdatedMovie = lastUpdatedMovieProp.formula.type === 'date'
       ? DateTime.fromISO(lastUpdatedMovieProp.formula.date.start)
       : null
 
     if (! lastUpdatedMovie) {
-      return lastUpdatedWeek
+      return lastUpdatedEvent
     }
 
-    return lastUpdatedWeek > lastUpdatedMovie
-      ? lastUpdatedWeek
+    return lastUpdatedEvent > lastUpdatedMovie
+      ? lastUpdatedEvent
       : lastUpdatedMovie
   }
 }

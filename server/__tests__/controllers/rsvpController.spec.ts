@@ -6,8 +6,8 @@ import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
-import { Week } from '@server/models/week'
-import WeekFactory from '@tests/support/factories/weekFactory'
+import { Event } from '@server/models/event'
+import EventFactory from '@tests/support/factories/eventFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
@@ -35,19 +35,19 @@ const mockBody = ({
 describe('store', () => {
   let firestoreAdapter: FirestoreAdapter
   let req: Request
-  let week: Week
+  let event: Event
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
   })
 
-  describe('has correct week', () => {
+  describe('has correct event', () => {
     beforeEach(() => {
-      week = new WeekFactory().make({
+      event = new EventFactory().make({
         date: DateTime.fromISO('2021-01-01', TZ),
         theme: 'theme1',
       })
-      week.movies = [
+      event.movies = [
         new MovieFactory().make({
           director: 'director1',
           length: 100,
@@ -76,13 +76,13 @@ describe('store', () => {
         }),
       ]
 
-      FirebaseMock.mockGetWeek({
-        date: week.date,
-        id: week.id,
-        isSkipped: week.isSkipped,
-        theme: week.theme,
-        slug: week.slug,
-        movies:  week.movies.map(movie => ({
+      FirebaseMock.mockGetEvent({
+        date: event.date,
+        id: event.id,
+        isSkipped: event.isSkipped,
+        theme: event.theme,
+        slug: event.slug,
+        movies:  event.movies.map(movie => ({
           director: movie.director ?? '',
           length: movie.length ?? 0,
           notionId: movie.notionId ?? '',
@@ -97,7 +97,7 @@ describe('store', () => {
         })),
       })
       req = getMockReq({
-        params: { weekId: '2021-01-01' },
+        params: { eventId: '2021-01-01' },
         body: mockBody(),
       })
     })
@@ -109,7 +109,7 @@ describe('store', () => {
       expect(addDoc).toHaveBeenCalledWith(
         FirebaseMock.mockCollection('rsvps'),
         {
-          week: '2021-01-01',
+          event: '2021-01-01',
           name: 'test name',
           email: 'test@example.com',
           createdAt: expect.any(Timestamp.constructor),
@@ -147,7 +147,7 @@ describe('store', () => {
             data: {
               date: 'Friday, January 1',
               theme: 'theme1',
-              weekId: '2021-01-01',
+              eventId: '2021-01-01',
               movies: [{
                 title: 'movie1',
                 posterPath: TMDB_POSTER_URL + 'w300/poster1.png',
@@ -182,7 +182,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2021-01-01',
+              event: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -219,7 +219,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2021-01-01',
+              event: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -256,7 +256,7 @@ describe('store', () => {
           expect(addDoc).toHaveBeenCalledWith(
             FirebaseMock.mockCollection('rsvps'),
             {
-              week: '2021-01-01',
+              event: '2021-01-01',
               name: 'test name',
               email: 'test@example.com',
               createdAt: expect.any(Timestamp.constructor),
@@ -299,7 +299,7 @@ describe('store', () => {
         expect(addDoc).toHaveBeenCalledWith(
           FirebaseMock.mockCollection('rsvps'),
           {
-            week: '2021-01-01',
+            event: '2021-01-01',
             name: 'test name',
             email: null,
             createdAt: expect.any(Timestamp.constructor),
@@ -391,11 +391,11 @@ describe('store', () => {
     })
   })
 
-  describe('week does not exist', () => {
+  describe('event does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek()
+      FirebaseMock.mockGetEvent()
       req = getMockReq({
-        params: { weekId: '2021-01-01' },
+        params: { eventId: '2021-01-01' },
         body: mockBody(),
       })
     })
@@ -405,7 +405,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(404)
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Week 2021-01-01 not found',
+        message: 'Event 2021-01-01 not found',
       })
     })
   })

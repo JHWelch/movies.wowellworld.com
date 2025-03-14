@@ -6,13 +6,13 @@ import {
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { Movie } from '@server/models/movie'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeStrings'
 import { Timestamp } from 'firebase/firestore'
-import { CacheWeeksOutput } from '@shared/dtos'
+import { CacheEventsOutput } from '@shared/dtos'
 import { LastUpdated } from '@server/data/globals/types'
 
-export default class CacheWeeksController {
+export default class CacheEventsController {
   constructor (
     private firestore: FirestoreAdapter,
     private notionAdapter: NotionAdapter,
@@ -41,11 +41,11 @@ export default class CacheWeeksController {
     const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
     const previousLastUpdated = lastUpdated?.newLastUpdated?.toDate()
 
-    const weeks = await this.notionAdapter
-      .getWeeks(previousLastUpdated?.toISOString())
+    const events = await this.notionAdapter
+      .getEvents(previousLastUpdated?.toISOString())
 
-    if (!weeks.length) {
-      const { dto, meta } = this.generateCacheWeeksData({ previousLastUpdated })
+    if (!events.length) {
+      const { dto, meta } = this.generateCacheEventsData({ previousLastUpdated })
 
       res.status(200).json(dto)
 
@@ -54,34 +54,34 @@ export default class CacheWeeksController {
       return
     }
 
-    const moviesWithoutDetails = weeks.flatMap(week => week.movies
+    const moviesWithoutDetails = events.flatMap(event => event.movies
       .filter(movie => !movie.director && !movie.posterPath))
     await this.fillMovieDetails(moviesWithoutDetails)
 
-    const weeksWithoutTimes = weeks.filter(week => !week.isSkipped
-      && !week.isPast
-      && week.movies.some(movie => !movie.time && movie.director))
+    const eventsWithoutTimes = events.filter(event => !event.isSkipped
+      && !event.isPast
+      && event.movies.some(movie => !movie.time && movie.director))
 
-    const moviesWithoutTimes = this.updateWeekTimes(weeksWithoutTimes)
+    const moviesWithoutTimes = this.updateEventTimes(eventsWithoutTimes)
 
     await this.updateNotionMovies([
       ...moviesWithoutDetails,
       ...moviesWithoutTimes,
     ])
 
-    const newUpdated = weeks.reduce((latest, week) => {
-      return week.lastUpdated > latest ? week.lastUpdated : latest
-    }, weeks[0].lastUpdated)
+    const newUpdated = events.reduce((latest, event) => {
+      return event.lastUpdated > latest ? event.lastUpdated : latest
+    }, events[0].lastUpdated)
 
-    const { dto, meta } = this.generateCacheWeeksData({
+    const { dto, meta } = this.generateCacheEventsData({
       previousLastUpdated,
-      updatedWeeks: weeks.length,
+      updatedEvents: events.length,
       newLastUpdated: newUpdated.toJSDate(),
       tmdbMoviesSynced: moviesWithoutDetails,
     })
     await Promise.all([
       this.firestore.setGlobal('lastUpdated', meta),
-      this.firestore.cacheWeeks(weeks),
+      this.firestore.cacheEvents(events),
     ])
 
     res.status(200).json(dto)
@@ -95,8 +95,8 @@ export default class CacheWeeksController {
       movie.merge(tmdbMovie)
     }))
 
-  private updateWeekTimes = (weeks: Week[]): Movie[] => weeks
-    .flatMap(week => this.updateMovieTimes(week.movies))
+  private updateEventTimes = (events: Event[]): Movie[] => events
+    .flatMap(event => this.updateMovieTimes(event.movies))
 
   private updateMovieTimes = (movies: Movie[]): Movie[] => {
     const firstMovieIndex = movies.findIndex(movie => movie.director)
@@ -125,14 +125,14 @@ export default class CacheWeeksController {
     movies.map(this.notionAdapter.setMovie),
   )
 
-  private generateCacheWeeksData = (input: {
-    updatedWeeks?: number
+  private generateCacheEventsData = (input: {
+    updatedEvents?: number
     previousLastUpdated?: Date | null
     newLastUpdated?: Date | null
     tmdbMoviesSynced?: Movie[]
-  } ): { dto: CacheWeeksOutput, meta: LastUpdated } => {
+  } ): { dto: CacheEventsOutput, meta: LastUpdated } => {
     const baseData = {
-      updatedWeeks: input.updatedWeeks ?? 0,
+      updatedEvents: input.updatedEvents ?? 0,
       previousLastUpdated: input.previousLastUpdated ?? null,
       newLastUpdated: input.newLastUpdated
         ?? input.previousLastUpdated

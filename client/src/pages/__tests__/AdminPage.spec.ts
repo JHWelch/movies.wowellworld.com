@@ -22,14 +22,14 @@ describe('unauthed page', () => {
   it('does not show admin content', () => {
     wrapper = mount(AdminPage)
 
-    expect(wrapper.text()).not.toContain('Sync Weeks')
+    expect(wrapper.text()).not.toContain('Sync Events')
   })
 })
 
 describe('authentication problems', () => {
   describe('401', () => {
     beforeEach(async () => {
-      fetchMock.mockGlobal().route('/api/cache/weeks', {
+      fetchMock.mockGlobal().route('/api/cache/events', {
         body: { error: 'Something went wrong authenticating you' },
         status: 401,
       })
@@ -40,14 +40,14 @@ describe('authentication problems', () => {
     })
 
     it('does not shows admin content', async () => {
-      expect(wrapper.text()).not.toContain('Sync Weeks')
+      expect(wrapper.text()).not.toContain('Sync Events')
       expect(wrapper.text()).toContain('Something went wrong authenticating you')
     })
   })
 
   describe('403', () => {
     beforeEach(async () => {
-      fetchMock.mockGlobal().route('/api/cache/weeks', {
+      fetchMock.mockGlobal().route('/api/cache/events', {
         body: { error: 'Password incorrect' },
         status: 403,
       })
@@ -58,7 +58,7 @@ describe('authentication problems', () => {
     })
 
     it('does not shows admin content', async () => {
-      expect(wrapper.text()).not.toContain('Sync Weeks')
+      expect(wrapper.text()).not.toContain('Sync Events')
       expect(wrapper.text()).toContain('Password incorrect')
     })
   })
@@ -66,8 +66,8 @@ describe('authentication problems', () => {
 
 describe('correct password - logged in', () => {
   beforeEach(async () => {
-    fetchMock.mockGlobal().route('/api/cache/weeks', {
-      updatedWeeks: 15,
+    fetchMock.mockGlobal().route('/api/cache/events', {
+      updatedEvents: 15,
       previousLastUpdated: '2021-01-01T00:00:00.000Z',
       newLastUpdated: '2021-01-01T00:00:00.000Z',
       tmdbMoviesSynced: Array.from({ length: 32 }, () => {}),
@@ -80,10 +80,10 @@ describe('correct password - logged in', () => {
   })
 
   it('shows admin content', async () => {
-    expect(wrapper.text()).toContain('Sync Weeks')
+    expect(wrapper.text()).toContain('Sync Events')
   })
 
-  it('shows updated weeks metadata', async () => {
+  it('shows updated events metadata', async () => {
     expect(wrapper.text()).toContain('15')
     expect(wrapper.text())
       .toContain(new Date('2021-01-01T00:00:00.000Z').toLocaleString())

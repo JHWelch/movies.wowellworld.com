@@ -1,6 +1,6 @@
 import { Client, isFullPageOrDatabase } from '@notionhq/client'
 import { Movie } from '@server/models/movie'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import {
   type DatabaseObjectResponse,
   type PartialDatabaseObjectResponse,
@@ -10,17 +10,17 @@ import {
   type UpdatePageResponse,
   QueryDatabaseParameters,
 } from '@notionhq/client/build/src/api-endpoints'
-import type WeekProperties from '@server/types/weekProperties'
+import type EventProperties from '@server/types/eventProperties'
 import Config from '@server/config/config'
 
 export default class NotionAdapter {
   #notion: Client
   #movieDatabaseId: string
-  #weekDatabaseId: string
+  #eventDatabaseId: string
 
   constructor (config: Config) {
     this.#movieDatabaseId = config.notionMovieDatabaseId
-    this.#weekDatabaseId = config.notionWeekDatabaseId
+    this.#eventDatabaseId = config.notionEventDatabaseId
     this.#notion = new Client({ auth: config.notionToken })
   }
 
@@ -33,9 +33,9 @@ export default class NotionAdapter {
     return Movie.fromNotion(page)
   }
 
-  async getWeek (date: string): Promise<Week | null> {
+  async getEvent (date: string): Promise<Event | null> {
     const records = await this.#notion.databases.query({
-      database_id: this.#weekDatabaseId,
+      database_id: this.#eventDatabaseId,
       filter: {
         property: 'Date',
         date: { equals: date },
@@ -44,10 +44,10 @@ export default class NotionAdapter {
 
     const record = records.results[0]
 
-    return record != null ? await this.recordToWeek(record) : null
+    return record != null ? await this.recordToEvent(record) : null
   }
 
-  async getWeeks (after?: string | null): Promise<Week[]> {
+  async getEvents (after?: string | null): Promise<Event[]> {
     const results: (PageObjectResponse
       | PartialPageObjectResponse
       | DatabaseObjectResponse
@@ -57,9 +57,9 @@ export default class NotionAdapter {
 
     while (hasMore) {
       const records = await this.#notion.databases.query({
-        database_id: this.#weekDatabaseId,
+        database_id: this.#eventDatabaseId,
         page_size: 100,
-        filter: this.weekFilter(after),
+        filter: this.eventFilter(after),
         sorts: [{
           property: 'Date',
           direction: 'ascending',
@@ -72,19 +72,19 @@ export default class NotionAdapter {
     }
 
     return await Promise.all(results
-      .map(async (record) => await this.recordToWeek(record)))
+      .map(async (record) => await this.recordToEvent(record)))
   }
 
   setMovie = (movie: Movie): Promise<UpdatePageResponse> =>
     this.#notion.pages.update(movie.toNotion())
 
-  createWeek = (
+  createEvent = (
     theme: string,
     movies: string[],
     submittedBy: string,
   ): Promise<CreatePageResponse> =>
     this.#notion.pages.create({
-      parent: { database_id: this.#weekDatabaseId },
+      parent: { database_id: this.#eventDatabaseId },
       properties: {
         Theme: { title: [{ text: { content: theme } }] },
         'Submitted By': { rich_text: [{ text: { content: submittedBy } }] },
@@ -101,7 +101,7 @@ export default class NotionAdapter {
     return notionMovie.id
   }
 
-  private weekFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after
+  private eventFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after
     ? {
       and: [
         {
@@ -127,19 +127,19 @@ export default class NotionAdapter {
       date: { is_not_empty: true },
     }
 
-  private recordToWeek = async (record: NotionQueryResponse): Promise<Week> => {
+  private recordToEvent = async (record: NotionQueryResponse): Promise<Event> => {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }
 
-    const properties = record.properties as unknown as WeekProperties
+    const properties = record.properties as unknown as EventProperties
 
     const movies = await Promise.all(
       properties.Movies.relation
         .map((relation) => this.getMovie(relation.id)),
     )
 
-    return Week.fromNotion(record).setMovies(movies)
+    return Event.fromNotion(record).setMovies(movies)
   }
 }
 

@@ -33,9 +33,9 @@ beforeEach(() => {
 describe('reminders', () => {
   describe('there is an event tomorrow', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
+      FirebaseMock.mockGetEvent({
         date: DateTime.fromISO('2021-01-01', TZ),
-        id: 'week-id1',
+        id: 'event-id1',
         isSkipped: false,
         theme: 'theme1',
         slug: null,
@@ -94,7 +94,7 @@ describe('reminders', () => {
               data: {
                 date: 'Friday, January 1',
                 theme: 'theme1',
-                weekId: '2021-01-01',
+                eventId: '2021-01-01',
                 unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id1',
                 movies: [{
                   title: 'movie1',
@@ -121,7 +121,7 @@ describe('reminders', () => {
               data: {
                 date: 'Friday, January 1',
                 theme: 'theme1',
-                weekId: '2021-01-01',
+                eventId: '2021-01-01',
                 unsubscribeUrl: config.appUrl + '/unsubscribe?token=user-id2',
                 movies: [{
                   title: 'movie1',
@@ -144,7 +144,7 @@ describe('reminders', () => {
 
   describe('there is no event tomorrow', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek()
+      FirebaseMock.mockGetEvent()
     })
 
     it('should return 200', async () => {
@@ -158,8 +158,8 @@ describe('reminders', () => {
 
   describe('the event is skipped', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
-        id: 'week-id1',
+      FirebaseMock.mockGetEvent({
+        id: 'event-id1',
         theme: 'theme1',
         date: DateTime.fromISO('2021-01-01', TZ),
         slug: null,

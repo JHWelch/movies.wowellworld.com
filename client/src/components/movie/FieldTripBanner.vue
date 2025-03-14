@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { TicketIcon } from '@heroicons/vue/24/outline'
-import { MovieDto, WeekDto } from '@shared/dtos'
+import { MovieDto, EventDto } from '@shared/dtos'
 
 defineProps<{
   movie: MovieDto
-  week: WeekDto
+  event: EventDto
 }>()
 </script>
 

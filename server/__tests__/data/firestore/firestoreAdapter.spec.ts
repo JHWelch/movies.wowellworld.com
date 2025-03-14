@@ -19,7 +19,7 @@ import {
 } from 'firebase/firestore'
 import { transaction } from '@mocks/firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import User from '@server/models/user'
@@ -54,12 +54,12 @@ describe('constructor', () => {
   })
 })
 
-describe('getUpcomingWeeks', () => {
+describe('getUpcomingEvents', () => {
   const styled: RichText[] = [
     {
       type: 'text',
       text: {
-        content: 'week',
+        content: 'event',
         link: null,
       },
       annotations: {
@@ -70,7 +70,7 @@ describe('getUpcomingWeeks', () => {
         code: false,
         color: 'default',
       },
-      plain_text: 'week',
+      plain_text: 'event',
       href: null,
     },
     {
@@ -93,7 +93,7 @@ describe('getUpcomingWeeks', () => {
   ]
 
   beforeEach(() => {
-    FirebaseMock.mockWeeks([{
+    FirebaseMock.mockEvents([{
       date: DateTime.fromISO('2021-01-01', TZ),
       id: 'id1',
       isSkipped: false,
@@ -120,24 +120,24 @@ describe('getUpcomingWeeks', () => {
     }])
   })
 
-  it('should return all future weeks', async () => {
-    const weeks = await firestore.getUpcomingWeeks()
+  it('should return all future events', async () => {
+    const events = await firestore.getUpcomingEvents()
 
-    expect(weeks).toEqual([
-      new Week({
+    expect(events).toEqual([
+      new Event({
         id: 'id1',
         theme: 'theme1',
         date: DateTime.fromISO('2021-01-01', TZ),
         lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
       }),
-      new Week({
+      new Event({
         id: 'id2',
         theme: 'theme2',
         date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
         lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
       }),
-      new Week({
+      new Event({
         id: 'id3',
         theme: 'theme3',
         date: DateTime.fromISO('2021-01-15', TZ),
@@ -149,20 +149,20 @@ describe('getUpcomingWeeks', () => {
   })
 
   it('should query with the correct constraints', async () => {
-    await firestore.getUpcomingWeeks()
+    await firestore.getUpcomingEvents()
 
     expect(query).toHaveBeenCalledWith(
-      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
     )
   })
 
-  it('can limit return to a number of weeks', async () => {
-    await firestore.getUpcomingWeeks({ limit: 3 })
+  it('can limit return to a number of events', async () => {
+    await firestore.getUpcomingEvents({ limit: 3 })
 
     expect(query).toHaveBeenCalledWith(
-      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
       { limit: 3 },
@@ -170,9 +170,9 @@ describe('getUpcomingWeeks', () => {
   })
 })
 
-describe('getPastWeeks', () => {
+describe('getPastEvents', () => {
   beforeEach(() => {
-    FirebaseMock.mockWeeks([{
+    FirebaseMock.mockEvents([{
       date: DateTime.fromISO('2021-01-01', TZ),
       id: 'id1',
       isSkipped: false,
@@ -196,23 +196,23 @@ describe('getPastWeeks', () => {
     }])
   })
 
-  it ('should return only past weeks', async () => {
-    const weeks = await firestore.getPastWeeks()
+  it ('should return only past events', async () => {
+    const events = await firestore.getPastEvents()
 
-    expect(weeks).toEqual([
-      new Week({
+    expect(events).toEqual([
+      new Event({
         id: 'id1',
         theme: 'theme1',
         date: DateTime.fromISO('2021-01-01', TZ),
         lastUpdated: now,
       }),
-      new Week({
+      new Event({
         id: 'id2',
         theme: 'theme2',
         date: DateTime.fromISO('2021-01-08', TZ),
         lastUpdated: now,
       }),
-      new Week({
+      new Event({
         id: 'id3',
         theme: 'theme3',
         date: DateTime.fromISO('2021-01-15', TZ),
@@ -222,10 +222,10 @@ describe('getPastWeeks', () => {
   })
 
   it('should query with the correct constraints', async () => {
-    await firestore.getPastWeeks()
+    await firestore.getPastEvents()
 
     expect(query).toHaveBeenCalledWith(
-      { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+      { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
       { and: [
         { fieldPath: 'date', opStr: '<', value: firestore.today() },
         { fieldPath: 'isSkipped', opStr: '==', value: false },
@@ -235,10 +235,10 @@ describe('getPastWeeks', () => {
   })
 })
 
-describe('getWeek', () => {
-  describe('when the week exists', () => {
+describe('getEvent', () => {
+  describe('when the event exists', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek({
+      FirebaseMock.mockGetEvent({
         date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
@@ -248,9 +248,9 @@ describe('getWeek', () => {
       })
     })
 
-    it('returns the week', async () => {
-      expect(await firestore.getWeek('2021-01-01')).toEqual(
-        new Week({
+    it('returns the event', async () => {
+      expect(await firestore.getEvent('2021-01-01')).toEqual(
+        new Event({
           id: 'id1',
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
@@ -260,34 +260,34 @@ describe('getWeek', () => {
     })
   })
 
-  describe('when the week does not exist', () => {
+  describe('when the event does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek()
+      FirebaseMock.mockGetEvent()
     })
 
     it('returns null', async () => {
-      expect(await firestore.getWeek('2021-01-01')).toBeNull()
+      expect(await firestore.getEvent('2021-01-01')).toBeNull()
     })
   })
 })
 
-describe('cacheWeeks', () => {
+describe('cacheEvents', () => {
   describe('when the cache is empty', () => {
-    it('updates all weeks in firestore', async () => {
-      await firestore.cacheWeeks([
-        new Week({
+    it('updates all events in firestore', async () => {
+      await firestore.cacheEvents([
+        new Event({
           id: 'id1',
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
           lastUpdated: now.minus({ days: 1 }),
         }),
-        new Week({
+        new Event({
           id: 'id2',
           theme: 'theme2',
           date: DateTime.fromISO('2021-01-08', TZ),
           lastUpdated: now.minus({ days: 10 }),
         }),
-        new Week({
+        new Event({
           id: 'id3',
           theme: 'theme3',
           date: DateTime.fromISO('2021-01-15', TZ),
@@ -297,8 +297,8 @@ describe('cacheWeeks', () => {
 
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          FirebaseMock.mockEvent({
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
@@ -307,8 +307,8 @@ describe('cacheWeeks', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-08'),
+          FirebaseMock.mockEvent({
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
@@ -317,8 +317,8 @@ describe('cacheWeeks', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-15'),
+          FirebaseMock.mockEvent({
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
@@ -328,23 +328,23 @@ describe('cacheWeeks', () => {
     })
   })
 
-  it('can update a week with movies', async () => {
+  it('can update a event with movies', async () => {
     const movie = new MovieFactory().make()
-    const weekWithMovie = new Week({
+    const eventWithMovie = new Event({
       id: 'id1',
       theme: 'theme1',
       date: DateTime.fromISO('2021-01-01', TZ),
       movies: [movie],
     })
 
-    await firestore.cacheWeeks([
-      weekWithMovie,
+    await firestore.cacheEvents([
+      eventWithMovie,
     ])
 
     expect(transaction.set)
       .toHaveBeenCalledWith(
-        FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        FirebaseMock.mockWeek({
+        FirebaseMock.mockDoc('events', '2021-01-01'),
+        FirebaseMock.mockEvent({
           id: 'id1',
           theme: 'theme1',
           date: '2021-01-01',
@@ -490,7 +490,7 @@ describe('createRsvp', () => {
     expect(addDoc).toHaveBeenCalledWith(
       FirebaseMock.mockCollection('rsvps'),
       {
-        week: '2023-01-01',
+        event: '2023-01-01',
         name: 'test name',
         email: 'test@example.com',
         createdAt: expect.any(Timestamp.constructor),

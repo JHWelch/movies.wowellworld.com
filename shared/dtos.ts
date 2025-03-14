@@ -12,9 +12,9 @@ export type MovieDto = {
   displayLength: string | null
 }
 
-export type WeekDto = {
+export type EventDto = {
   id: string
-  weekId: string
+  eventId: string
   theme: string
   date: string
   isSkipped: boolean
@@ -46,8 +46,8 @@ export type RichText = {
   href: string | null
 }
 
-export type CacheWeeksOutput = {
-  updatedWeeks: number
+export type CacheEventsOutput = {
+  updatedEvents: number
   previousLastUpdated: string | null
   newLastUpdated: string | null
   tmdbMoviesSynced: MovieDto[]

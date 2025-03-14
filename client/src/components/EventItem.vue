@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
-import { WeekDto } from '@shared/dtos'
+import { EventDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
 import MovieList from '@components/MovieList.vue'
 import SkippedBanner from '@components/SkippedBanner.vue'
-import Theme from '@components/week/Theme.vue'
+import Theme from '@components/event/Theme.vue'
 
 defineProps<{
-  week: WeekDto
+  event: EventDto
   showEventDetails: boolean
 }>()
 </script>
@@ -17,30 +17,30 @@ defineProps<{
     <div class="w-full max-w-4xl px-4 sm:px-8">
       <div class="flex flex-col gap-6 md:flex-row md:justify-between md:items-center">
         <h3
-          :id="week.slug ?? undefined"
+          :id="event.slug ?? undefined"
           class="flex flex-col"
         >
           <span
             class="text-lg font-light text-purp-dark"
-            v-text="week.date"
+            v-text="event.date"
           />
 
-          <Theme :week="week" />
+          <Theme :event="event" />
 
           <span
-            v-if="week.submittedBy"
+            v-if="event.submittedBy"
             class="mt-2 text-lg text-purp-dark font-playwrite font-extralight"
           >
             Programming By
-            <span class="font-normal">{{ week.submittedBy }}</span>
+            <span class="font-normal">{{ event.submittedBy }}</span>
           </span>
         </h3>
 
         <button
           v-if="showEventDetails"
-          v-show="!week.isSkipped"
+          v-show="!event.isSkipped"
           class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-black rounded-md h-14 md:w-auto bg-brat-500 hover:bg-brat-600 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500"
-          @click="rsvpModal.open(week)"
+          @click="rsvpModal.open(event)"
         >
           <span>RSVP</span>
 
@@ -50,13 +50,13 @@ defineProps<{
     </div>
 
     <SkippedBanner
-      v-if="week.isSkipped"
-      :theme="week.theme"
+      v-if="event.isSkipped"
+      :theme="event.theme"
     />
 
     <MovieList
-      v-if="!week.isSkipped"
-      :week="week"
+      v-if="!event.isSkipped"
+      :event="event"
       :show-event-details="showEventDetails"
     />
   </div>

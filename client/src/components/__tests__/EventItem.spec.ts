@@ -2,41 +2,41 @@
 
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import WeekItem from '@components/WeekItem.vue'
-import WeekFactory from '@tests/utils/factories/weekFactory'
+import EventItem from '@components/EventItem.vue'
+import EventFactory from '@client/__tests__/utils/factories/eventFactory'
 import SkippedBanner from '@components/SkippedBanner.vue'
 
-it('has id of the week\'s slug', () => {
-  const week = new WeekFactory().build({ slug: 'week-slug' })
-  const wrapper = mount(WeekItem, {
+it('has id of the event\'s slug', () => {
+  const event = new EventFactory().build({ slug: 'event-slug' })
+  const wrapper = mount(EventItem, {
     props: {
-      week: week,
+      event: event,
       showEventDetails: true,
     },
   })
 
-  expect(wrapper.find('#week-slug').exists()).toBe(true)
+  expect(wrapper.find('#event-slug').exists()).toBe(true)
 })
 
-it('has all week details', () => {
-  const week = new WeekFactory().build()
-  const wrapper = mount(WeekItem, {
+it('has all event details', () => {
+  const event = new EventFactory().build()
+  const wrapper = mount(EventItem, {
     props: {
-      week: week,
+      event: event,
       showEventDetails: true,
     },
   })
 
-  expect(wrapper.text()).toContain(week.theme)
-  expect(wrapper.text()).toContain(week.date)
+  expect(wrapper.text()).toContain(event.theme)
+  expect(wrapper.text()).toContain(event.date)
 })
 
 describe('is not skipped', () => {
   it('does not show skipped banner', () => {
-    const week = new WeekFactory().build()
-    const wrapper = mount(WeekItem, {
+    const event = new EventFactory().build()
+    const wrapper = mount(EventItem, {
       props: {
-        week: week,
+        event: event,
         showEventDetails: true,
       },
     })
@@ -47,10 +47,10 @@ describe('is not skipped', () => {
 
 describe('is skipped', () => {
   it('shows skipped banner', () => {
-    const week = new WeekFactory().build({ isSkipped: true })
-    const wrapper = mount(WeekItem, {
+    const event = new EventFactory().build({ isSkipped: true })
+    const wrapper = mount(EventItem, {
       props: {
-        week: week,
+        event: event,
         showEventDetails: true,
       },
     })
@@ -61,10 +61,10 @@ describe('is skipped', () => {
 
 describe('does not has submitted by', () => {
   it('does not show Programming By', () => {
-    const week = new WeekFactory().build({ submittedBy: null })
-    const wrapper = mount(WeekItem, {
+    const event = new EventFactory().build({ submittedBy: null })
+    const wrapper = mount(EventItem, {
       props: {
-        week: week,
+        event: event,
         showEventDetails: true,
       },
     })
@@ -75,10 +75,10 @@ describe('does not has submitted by', () => {
 
 describe('has submitted by', () => {
   it('shows Programming By', () => {
-    const week = new WeekFactory().build({ submittedBy: 'John Doe' })
-    const wrapper = mount(WeekItem, {
+    const event = new EventFactory().build({ submittedBy: 'John Doe' })
+    const wrapper = mount(EventItem, {
       props: {
-        week: week,
+        event: event,
         showEventDetails: true,
       },
     })

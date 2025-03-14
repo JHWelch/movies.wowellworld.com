@@ -26,7 +26,7 @@ describe('env variables all present', () => {
     expect(config.apiPassword).toBe('API_PASSWORD')
     expect(config.nodeEnv).toBe('production')
     expect(config.notionToken).toBe('NOTION_TOKEN')
-    expect(config.notionWeekDatabaseId).toBe('NOTION_WEEK_DATABASE_ID')
+    expect(config.notionEventDatabaseId).toBe('NOTION_WEEK_DATABASE_ID')
     expect(config.notionMovieDatabaseId).toBe('NOTION_MOVIE_DATABASE_ID')
     expect(config.port).toBe(3000)
     expect(config.googleCloudProject).toBe('GOOGLE_CLOUD_PROJECT')

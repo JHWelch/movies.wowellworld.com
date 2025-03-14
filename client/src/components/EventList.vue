@@ -2,9 +2,9 @@
 import { nextTick, ref, watch } from 'vue'
 import LoadingAnimation from '@components/LoadingAnimation.vue'
 import SectionTitle from '@components/SectionTitle.vue'
-import WeekItem from '@components/WeekItem.vue'
+import EventItem from '@components/EventItem.vue'
 import ErrorBanner from '@components/ErrorBanner.vue'
-import { WeekDto } from '@shared/dtos'
+import { EventDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
 
 const props = defineProps<{
@@ -13,11 +13,11 @@ const props = defineProps<{
   showEventDetails: boolean
 }>()
 
-const weeks = ref<WeekDto[]>([])
+const events = ref<EventDto[]>([])
 const loading = ref<boolean>(true)
 const error = ref<boolean>(false)
 
-const rsvpWeek = () => new URLSearchParams(window.location.search).get('rsvp')
+const rsvpEvent = () => new URLSearchParams(window.location.search).get('rsvp')
 
 const reload = () => {
   loading.value = true
@@ -25,7 +25,7 @@ const reload = () => {
   fetch(props.fetchUrl)
     .then(response => {
       if (!response.ok) {
-        console.error('Error fetching week data: ', response.status, response.statusText)
+        console.error('Error fetching event data: ', response.status, response.statusText)
         error.value = true
 
         return Promise.resolve([])
@@ -34,20 +34,20 @@ const reload = () => {
       return response.json()
     })
     .then(data => {
-      weeks.value = data
+      events.value = data
       loading.value = false
 
-      const rsvp_week = rsvpWeek()
-      if (!rsvp_week) { return }
+      const rsvp_event = rsvpEvent()
+      if (!rsvp_event) { return }
 
-      const week = weeks.value.find(week => week.weekId === rsvp_week)
-      if (!week) { return }
+      const event = events.value.find(event => event.eventId === rsvp_event)
+      if (!event) { return }
 
-      rsvpModal.open(week)
+      rsvpModal.open(event)
     })
 }
 
-watch(weeks, () => nextTick(() => setTimeout(() => {
+watch(events, () => nextTick(() => setTimeout(() => {
   const anchor = window.location.hash.substring(1)
   if (!anchor) { return }
 
@@ -70,7 +70,7 @@ reload()
     />
 
     <div
-      v-for="[index, week] in Object.entries(weeks)"
+      v-for="[index, event] in Object.entries(events)"
       :key="index"
     >
       <div>
@@ -79,8 +79,8 @@ reload()
           :section-title="sectionTitles[Number(index)]"
         />
 
-        <WeekItem
-          :week="week"
+        <EventItem
+          :event="event"
           :show-event-details="showEventDetails"
         />
       </div>

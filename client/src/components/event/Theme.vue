@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import { WeekDto } from '@shared/dtos'
+import { EventDto } from '@shared/dtos'
 
 defineProps<{
-  week: WeekDto
+  event: EventDto
 }>()
 
 </script>
 
 <template>
   <span
-    v-if="week.styledTheme.length > 0"
+    v-if="event.styledTheme.length > 0"
     class="text-3xl font-semibold"
     data-testid="theme"
   >
     <span
-      v-for="(theme, index) in week.styledTheme"
+      v-for="(theme, index) in event.styledTheme"
       :key="index"
       :class="{
         'font-bold': theme.annotations.bold,
@@ -32,6 +32,6 @@ defineProps<{
     class="text-3xl font-semibold"
     data-testid="theme"
   >
-    {{ week.isSkipped ? 'No movies this week!' : week.theme }}
+    {{ event.isSkipped ? 'No movies this week!' : event.theme }}
   </span>
 </template>

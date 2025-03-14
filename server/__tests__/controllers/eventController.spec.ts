@@ -6,7 +6,7 @@ import {
   it,
   jest,
 } from '@jest/globals'
-import WeekController from '@server/controllers/weekController'
+import EventController from '@server/controllers/eventController'
 import { Request } from 'express'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { FirebaseMock } from '@tests/support/firebaseMock'
@@ -37,7 +37,7 @@ describe('index', () => {
 
     beforeEach(() => {
       firestore = new FirestoreAdapter(mockConfig())
-      FirebaseMock.mockWeeks([
+      FirebaseMock.mockEvents([
         {
           date: DateTime.fromISO('2021-01-01', TZ),
           id: 'id1',
@@ -61,13 +61,13 @@ describe('index', () => {
       req = getMockReq()
     })
 
-    it('should return all future weeks', async () => {
-      await new WeekController(firestore).index(req, res)
+    it('should return all future events', async () => {
+      await new EventController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([
         {
           id: 'id1',
-          weekId: '2021-01-01',
+          eventId: '2021-01-01',
           date: 'Friday, January 1',
           isSkipped: false,
           slug: null,
@@ -77,7 +77,7 @@ describe('index', () => {
           submittedBy: null,
         }, {
           id: 'id2',
-          weekId: '2021-01-08',
+          eventId: '2021-01-08',
           date: 'Friday, January 8',
           isSkipped: false,
           slug: null,
@@ -87,7 +87,7 @@ describe('index', () => {
           submittedBy: null,
         }, {
           id: 'id3',
-          weekId: '2021-01-15',
+          eventId: '2021-01-15',
           date: 'Friday, January 15',
           isSkipped: false,
           slug: null,
@@ -100,10 +100,10 @@ describe('index', () => {
     })
 
     it('should query firebase with limit', async () => {
-      await new WeekController(firestore).index(req, res)
+      await new EventController(firestore).index(req, res)
 
       expect(query).toHaveBeenCalledWith(
-        { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+        { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
         { fieldPath: 'date', opStr: '>=', value: firestore.today() },
         { fieldPath: 'date' },
       )
@@ -116,7 +116,7 @@ describe('index', () => {
 
     beforeEach(() => {
       firestore = new FirestoreAdapter(mockConfig())
-      FirebaseMock.mockWeeks([
+      FirebaseMock.mockEvents([
         {
           date: DateTime.fromISO('2021-01-01', TZ),
           id: 'id1',
@@ -141,14 +141,14 @@ describe('index', () => {
       req = getMockReq()
     })
 
-    it ('should return only past weeks', async () => {
+    it ('should return only past events', async () => {
       req.query = { past: 'true' }
-      await new WeekController(firestore).index(req, res)
+      await new EventController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([
         {
           id: 'id1',
-          weekId: '2021-01-01',
+          eventId: '2021-01-01',
           date: 'Friday, January 1',
           isSkipped: false,
           movies: [],
@@ -158,7 +158,7 @@ describe('index', () => {
           submittedBy: null,
         }, {
           id: 'id2',
-          weekId: '2021-01-08',
+          eventId: '2021-01-08',
           date: 'Friday, January 8',
           isSkipped: false,
           movies: [],
@@ -168,7 +168,7 @@ describe('index', () => {
           submittedBy: null,
         }, {
           id: 'id3',
-          weekId: '2021-01-15',
+          eventId: '2021-01-15',
           date: 'Friday, January 15',
           isSkipped: true,
           movies: [],
@@ -187,7 +187,7 @@ describe('index', () => {
 
     beforeEach(() => {
       firestore = new FirestoreAdapter(mockConfig())
-      FirebaseMock.mockWeeks([{
+      FirebaseMock.mockEvents([{
         date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
@@ -198,14 +198,14 @@ describe('index', () => {
       req = getMockReq()
     })
 
-    it('should return all future weeks', async () => {
+    it('should return all future events', async () => {
       req.query = { limit: '1' }
 
-      await new WeekController(firestore).index(req, res)
+      await new EventController(firestore).index(req, res)
 
       expect(res.json).toHaveBeenCalledWith([{
         id: 'id1',
-        weekId: '2021-01-01',
+        eventId: '2021-01-01',
         date: 'Friday, January 1',
         isSkipped: false,
         slug: null,
@@ -219,10 +219,10 @@ describe('index', () => {
     it('should query firebase with limit', async () => {
       req.query = { limit: '1' }
 
-      await new WeekController(firestore).index(req, res)
+      await new EventController(firestore).index(req, res)
 
       expect(query).toHaveBeenCalledWith(
-        { firestore: { firestore: 'firestore' }, collectionPath: 'weeks' },
+        { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
         { fieldPath: 'date', opStr: '>=', value: firestore.today() },
         { fieldPath: 'date' },
         { limit: 1 },
@@ -239,7 +239,7 @@ describe('index', () => {
       firestore = new FirestoreAdapter(mockConfig())
 
       movie = new MovieFactory()
-      FirebaseMock.mockWeeks([{
+      FirebaseMock.mockEvents([{
         date: DateTime.fromISO('2021-01-01', TZ),
         id: 'id1',
         isSkipped: false,
@@ -252,15 +252,15 @@ describe('index', () => {
       req = getMockReq()
     })
 
-    it('should return all future weeks', async () => {
+    it('should return all future events', async () => {
       req.query = { posterWidth: 'w185' }
 
-      await new WeekController(firestore).index(req, res)
+      await new EventController(firestore).index(req, res)
 
       const expected = movie.make()
       expect(res.json).toHaveBeenCalledWith([{
         id: 'id1',
-        weekId: '2021-01-01',
+        eventId: '2021-01-01',
         date: 'Friday, January 1',
         isSkipped: false,
         slug: null,

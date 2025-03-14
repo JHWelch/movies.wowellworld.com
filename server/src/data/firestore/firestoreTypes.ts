@@ -1,7 +1,7 @@
 import { RichText } from '@shared/dtos'
 import { Timestamp } from 'firebase/firestore'
 
-export type FirestoreWeek = {
+export type FirestoreEvent = {
   id: string
   theme: string
   date: Timestamp

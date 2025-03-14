@@ -1,9 +1,9 @@
 import Factory from '@tests/support/factories/factory'
-import { Week, WeekConstructor } from '@server/models/week'
+import { Event, EventConstructor } from '@server/models/event'
 import { DateTime } from 'luxon'
 
-export default class WeekFactory extends Factory<Week, WeekConstructor> {
-  protected _make = () => new Week(this._state)
+export default class EventFactory extends Factory<Event, EventConstructor> {
+  protected _make = () => new Event(this._state)
 
   protected _state = {
     id: 'id',

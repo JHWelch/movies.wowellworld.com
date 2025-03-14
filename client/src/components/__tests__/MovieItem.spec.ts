@@ -3,18 +3,18 @@
 import { expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MovieItem from '@components/MovieItem.vue'
-import WeekFactory from '@tests/utils/factories/weekFactory'
+import EventFactory from '@client/__tests__/utils/factories/eventFactory'
 import MovieFactory from '@tests/utils/factories/movieFactory'
 import IconLabel from '@components/IconLabel.vue'
 
 it('has all movie details', () => {
   const movie = new MovieFactory().build()
-  const week = new WeekFactory().withMovies([movie]).build()
+  const event = new EventFactory().withMovies([movie]).build()
   const wrapper = mount(MovieItem, {
     props: {
       movie: movie,
       showEventDetails: true,
-      week: week,
+      event: event,
     },
   })
 
@@ -33,12 +33,12 @@ it('does not show event details when not provided', () => {
     year: null,
     displayLength: null,
   })
-  const week = new WeekFactory().withMovies([movie]).build()
+  const event = new EventFactory().withMovies([movie]).build()
   const wrapper = mount(MovieItem, {
     props: {
       movie: movie,
       showEventDetails: true,
-      week: week,
+      event: event,
     },
   })
 

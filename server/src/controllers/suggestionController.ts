@@ -30,7 +30,7 @@ export default class SuggestionController {
       return await this.notion.createMovie(movie)
     }))
 
-    await this.notion.createWeek(theme, notionMovies, submitted_by)
+    await this.notion.createEvent(theme, notionMovies, submitted_by)
 
     res.status(201).json({ message: 'Successfully created suggestion.' })
   }

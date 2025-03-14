@@ -1,19 +1,19 @@
 import { reactive } from 'vue'
-import { WeekDto } from '@shared/dtos'
+import { EventDto } from '@shared/dtos'
 
 type RsvpModalState = {
   show: boolean
-  week?: WeekDto
-  open: (week?: WeekDto) => void
+  event?: EventDto
+  open: (event?: EventDto) => void
   close: () => void
 }
 
 export const rsvpModal: RsvpModalState = reactive<RsvpModalState>({
   show: false,
-  week: undefined,
-  open: (week?: WeekDto) => {
+  event: undefined,
+  open: (event?: EventDto) => {
     rsvpModal.show = true
-    rsvpModal.week = week
+    rsvpModal.event = event
   },
   close: () => rsvpModal.show = false,
 })

@@ -77,9 +77,9 @@ const movies = [
   },
 ]
 
-const week = {
+const event = {
   id: '303',
-  weekId: '404',
+  eventId: '404',
   theme: '404',
   date: '1939-12-15',
   isSkipped: false,
@@ -104,7 +104,7 @@ const movie = computed(() => movies[Math.floor(Math.random()*movies.length)])
         ...movieCommon,
       }"
       :show-event-details="false"
-      :week="week"
+      :event="event"
     />
   </div>
 </template>

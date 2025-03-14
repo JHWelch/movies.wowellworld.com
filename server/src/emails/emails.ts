@@ -11,7 +11,7 @@ export default {
         subject: 'Thanks for RSVPing to {{ theme }}',
         attachments: [{
           filename: 'invite.ics',
-          path: 'https://movies.wowellworld.com/weeks/{{ weekId }}/event',
+          path: 'https://movies.wowellworld.com/events/{{ eventId }}/event',
         }],
       },
     },

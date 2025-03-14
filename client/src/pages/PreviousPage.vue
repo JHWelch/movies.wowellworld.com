@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import WeekList from '@components/WeekList.vue'
+import EventList from '@components/EventList.vue'
 </script>
 
 <template>
   <div class="mt-10">
-    <WeekList
-      fetch-url="/api/weeks?past=true"
+    <EventList
+      fetch-url="/api/events?past=true"
       :show-event-details="false"
       :section-titles="{ 0: 'Past Releases' }"
     />

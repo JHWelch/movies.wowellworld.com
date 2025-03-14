@@ -65,7 +65,7 @@ export class NotionMock {
     return { pages: { retrieve: this.retrieve } }
   }
 
-  mockQuery = (weeks: PageObjectResponse[] = []) => {
+  mockQuery = (events: PageObjectResponse[] = []) => {
     this.query.mockImplementation(
       async (
         _args: WithAuth<QueryDatabaseParameters>,
@@ -75,7 +75,7 @@ export class NotionMock {
         object: 'list',
         next_cursor: null,
         has_more: false,
-        results: weeks,
+        results: events,
       }))
 
     return { databases: { query: this.query } }
@@ -88,7 +88,7 @@ export class NotionMock {
     }))
   }
 
-  static mockWeek = (week: {
+  static mockEvent = (event: {
     id: string
     date: string
     theme: string
@@ -99,15 +99,15 @@ export class NotionMock {
     lastEditedTime?: string
     lastEditedMovieTime?: string
     submittedBy?: string | null
-  }): PageObjectResponse => pageObjectResponse(week.id, {
-    Date: nDate(week.date),
-    Theme: nTitle(week.theme),
-    Skipped: nCheckbox(week.skipped ?? false),
-    Slug: nRichText(week.slug ?? null),
-    Movies: nRelation(week.movies ?? []),
-    'Styled Theme': nRichText(week.styledTheme ?? []),
-    'Last edited time': nLastEditedTime(week.lastEditedTime ?? DateTime.now().toISO()),
-    'Last edited movie time': nFormula(week.lastEditedMovieTime || null),
-    'Submitted By': nRichText(week.submittedBy ?? null),
+  }): PageObjectResponse => pageObjectResponse(event.id, {
+    Date: nDate(event.date),
+    Theme: nTitle(event.theme),
+    Skipped: nCheckbox(event.skipped ?? false),
+    Slug: nRichText(event.slug ?? null),
+    Movies: nRelation(event.movies ?? []),
+    'Styled Theme': nRichText(event.styledTheme ?? []),
+    'Last edited time': nLastEditedTime(event.lastEditedTime ?? DateTime.now().toISO()),
+    'Last edited movie time': nFormula(event.lastEditedMovieTime || null),
+    'Submitted By': nRichText(event.submittedBy ?? null),
   })
 }

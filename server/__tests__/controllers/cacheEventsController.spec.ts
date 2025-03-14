@@ -10,10 +10,10 @@ import {
 import { NotionMock } from '@tests/support/notionMock'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheController from '@server/controllers/cacheWeeksController'
+import CacheController from '@server/controllers/cacheEventsController'
 import { transaction } from '@mocks/firebase/firestore'
 import { Request } from 'express'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { NotionMovie } from '@tests/support/notionHelpers'
@@ -66,7 +66,7 @@ describe('show', () => {
   beforeEach(() => {
     req = getMockReq()
     FirebaseMock.mockGetGlobal('lastUpdated', {
-      updatedWeeks: 3,
+      updatedEvents: 3,
       previousLastUpdated: null,
       newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
       tmdbMoviesSynced: [],
@@ -78,7 +78,7 @@ describe('show', () => {
 
     expect(res.status).toHaveBeenCalledWith(200)
     expect(res.json).toHaveBeenCalledWith({
-      updatedWeeks: 3,
+      updatedEvents: 3,
       previousLastUpdated: null,
       newLastUpdated: '2021-01-01T00:00:00.000Z',
       tmdbMoviesSynced: [],
@@ -96,7 +96,7 @@ describe('store', () => {
       {
         type: 'text',
         text: {
-          content: 'week',
+          content: 'event',
           link: null,
         },
         annotations: {
@@ -107,7 +107,7 @@ describe('store', () => {
           code: false,
           color: 'default',
         },
-        plain_text: 'week',
+        plain_text: 'event',
         href: null,
       },
       {
@@ -133,21 +133,21 @@ describe('store', () => {
       notionMock.mockIsFullPageOrDatabase(true)
       FirebaseMock.mockGetGlobal('lastUpdated')
       notionMock.mockQuery([
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
           lastEditedTime: '2022-08-12T15:45:00.000Z',
           submittedBy: 'submittedBy',
         }),
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id2',
           date: '2021-01-08',
           theme: 'theme2',
           skipped: true,
           lastEditedTime: '2023-08-12T15:45:00.000Z',
         }),
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id3',
           date: '2021-01-15',
           theme: 'theme3',
@@ -163,21 +163,21 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
-        updatedWeeks: 3,
+        updatedEvents: 3,
         previousLastUpdated: null,
         newLastUpdated: '2023-08-12T15:45:00.000Z',
         tmdbMoviesSynced: [],
       })
     })
 
-    it('updates all weeks in firestore', async () => {
+    it('updates all events in firestore', async () => {
       await newCacheController().store(req, res)
 
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          FirebaseMock.mockEvent({
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
@@ -187,8 +187,8 @@ describe('store', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-08'),
+          FirebaseMock.mockEvent({
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
@@ -198,8 +198,8 @@ describe('store', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-15'),
+          FirebaseMock.mockEvent({
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
@@ -233,7 +233,7 @@ describe('store', () => {
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
         { value: {
-          updatedWeeks: 3,
+          updatedEvents: 3,
           previousLastUpdated: null,
           newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
           tmdbMoviesSynced: [],
@@ -246,26 +246,26 @@ describe('store', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       FirebaseMock.mockGetGlobal('lastUpdated', {
-        updatedWeeks: 3,
+        updatedEvents: 3,
         previousLastUpdated: null,
         newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
         tmdbMoviesSynced: [],
       })
       notionMock.mockQuery([
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
           lastEditedTime: '2022-08-12T15:45:00.000Z',
         }),
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id2',
           date: '2021-01-08',
           theme: 'theme2',
           lastEditedTime: '2023-08-12T15:45:00.000Z',
           skipped: true,
         }),
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id3',
           date: '2021-01-15',
           theme: 'theme3',
@@ -280,21 +280,21 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
-        updatedWeeks: 3,
+        updatedEvents: 3,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2023-08-12T15:45:00.000Z',
         tmdbMoviesSynced: [],
       })
     })
 
-    it('updates all weeks in firestore', async () => {
+    it('updates all events in firestore', async () => {
       await newCacheController().store(req, res)
 
       expect(transaction.set).toHaveBeenCalledTimes(3)
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          FirebaseMock.mockEvent({
             id: 'id1',
             theme: 'theme1',
             date: '2021-01-01',
@@ -303,8 +303,8 @@ describe('store', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-08'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-08'),
+          FirebaseMock.mockEvent({
             id: 'id2',
             theme: 'theme2',
             date: '2021-01-08',
@@ -314,8 +314,8 @@ describe('store', () => {
         )
       expect(transaction.set)
         .toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-15'),
-          FirebaseMock.mockWeek({
+          FirebaseMock.mockDoc('events', '2021-01-15'),
+          FirebaseMock.mockEvent({
             id: 'id3',
             theme: 'theme3',
             date: '2021-01-15',
@@ -364,7 +364,7 @@ describe('store', () => {
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
         { value: {
-          updatedWeeks: 3,
+          updatedEvents: 3,
           previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
           newLastUpdated: Timestamp.fromDate(new Date('2023-08-12T15:45:00.000Z')),
           tmdbMoviesSynced: [],
@@ -373,11 +373,11 @@ describe('store', () => {
     })
   })
 
-  describe('when no weeks are returned', () => {
+  describe('when no events are returned', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       FirebaseMock.mockGetGlobal('lastUpdated',{
-        updatedWeeks: 3,
+        updatedEvents: 3,
         previousLastUpdated: null,
         newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
         tmdbMoviesSynced: [],
@@ -385,12 +385,12 @@ describe('store', () => {
       notionMock.mockQuery([])
     })
 
-    it('does not store any weeks', async () => {
+    it('does not store any events', async () => {
       await newCacheController().store(req, res)
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
-        updatedWeeks: 0,
+        updatedEvents: 0,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2021-01-01T00:00:00.000Z',
         tmdbMoviesSynced: [],
@@ -404,7 +404,7 @@ describe('store', () => {
       expect(setDoc).toHaveBeenCalledWith(
         FirebaseMock.mockDoc('globals', 'lastUpdated'),
         { value: {
-          updatedWeeks: 0,
+          updatedEvents: 0,
           previousLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
           newLastUpdated: Timestamp.fromDate(new Date('2021-01-01T00:00:00.000Z')),
           tmdbMoviesSynced: [],
@@ -439,7 +439,7 @@ describe('store', () => {
       })
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
@@ -456,7 +456,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
-        updatedWeeks: 1,
+        updatedEvents: 1,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2021-01-01T00:00:00.000Z',
         tmdbMoviesSynced: [],
@@ -468,8 +468,8 @@ describe('store', () => {
 
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
-        FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        new Week({
+        FirebaseMock.mockDoc('events', '2021-01-01'),
+        new Event({
           id: 'id1',
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
@@ -512,7 +512,7 @@ describe('store', () => {
       const notionResponse = new NotionMovie({ id: 'notionId', title: 'title' })
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id1',
           date: '2021-01-01',
           theme: 'theme1',
@@ -532,7 +532,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.json).toHaveBeenCalledWith({
-        updatedWeeks: 1,
+        updatedEvents: 1,
         previousLastUpdated: '2021-01-01T00:00:00.000Z',
         newLastUpdated: '2021-01-01T00:00:00.000Z',
         tmdbMoviesSynced: [expected.toDTO()],
@@ -544,8 +544,8 @@ describe('store', () => {
 
       expect(transaction.set).toHaveBeenCalledTimes(1)
       expect(transaction.set).toHaveBeenCalledWith(
-        FirebaseMock.mockDoc('weeks', '2021-01-01'),
-        new Week({
+        FirebaseMock.mockDoc('events', '2021-01-01'),
+        new Event({
           id: 'id1',
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
@@ -566,7 +566,7 @@ describe('store', () => {
       const notionResponse = movies.map(NotionMovie.fromMovie)
       notionMock.mockIsFullPageOrDatabase(true)
       notionMock.mockQuery([
-        NotionMock.mockWeek({
+        NotionMock.mockEvent({
           id: 'id1',
           date,
           theme: 'theme1',
@@ -594,8 +594,8 @@ describe('store', () => {
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2021-01-01', TZ),
@@ -633,8 +633,8 @@ describe('store', () => {
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2021-01-01', TZ),
@@ -666,8 +666,8 @@ describe('store', () => {
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledTimes(1)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2021-01-01', TZ),
@@ -697,8 +697,8 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2021-01-01', TZ),
@@ -728,8 +728,8 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2021-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2021-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2021-01-01', TZ),
@@ -760,8 +760,8 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(200)
         expect(transaction.set).toHaveBeenCalledWith(
-          FirebaseMock.mockDoc('weeks', '2020-01-01'),
-          new Week({
+          FirebaseMock.mockDoc('events', '2020-01-01'),
+          new Event({
             id: 'id1',
             theme: 'theme1',
             date: DateTime.fromISO('2020-01-01', TZ),
