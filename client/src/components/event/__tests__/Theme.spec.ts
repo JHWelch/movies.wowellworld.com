@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 import Theme from '@components/event/Theme.vue'
 import { EventDto } from '@shared/dtos'
 import RichTextFactory from '@tests/utils/factories/richTextFactory'
-import EventFactory from '@client/__tests__/utils/factories/eventFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 
 let event: EventDto
 

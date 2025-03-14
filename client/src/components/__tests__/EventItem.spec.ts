@@ -3,7 +3,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import EventItem from '@components/EventItem.vue'
-import EventFactory from '@client/__tests__/utils/factories/eventFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 import SkippedBanner from '@components/SkippedBanner.vue'
 
 it('has id of the event\'s slug', () => {

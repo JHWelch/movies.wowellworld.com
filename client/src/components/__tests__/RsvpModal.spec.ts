@@ -3,7 +3,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
 import RsvpModal from '@components/RsvpModal.vue'
-import EventFactory from '@client/__tests__/utils/factories/eventFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
 import fetchMock from '@fetch-mock/vitest'

@@ -3,7 +3,7 @@
 import { expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
 import MovieItem from '@components/MovieItem.vue'
-import EventFactory from '@client/__tests__/utils/factories/eventFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 import MovieFactory from '@tests/utils/factories/movieFactory'
 import IconLabel from '@components/IconLabel.vue'
 
