@@ -101,7 +101,9 @@ export default class NotionAdapter {
     return notionMovie.id
   }
 
-  private eventFilter = (after?: string | null): QueryDatabaseParameters['filter'] => after
+  private eventFilter = (
+    after?: string | null
+  ): QueryDatabaseParameters['filter'] => after
     ? {
       and: [
         {
@@ -127,7 +129,9 @@ export default class NotionAdapter {
       date: { is_not_empty: true },
     }
 
-  private recordToEvent = async (record: NotionQueryResponse): Promise<Event> => {
+  private recordToEvent = async (
+    record: NotionQueryResponse
+  ): Promise<Event> => {
     if (!isFullPageOrDatabase(record)) {
       throw new Error('Page was not successfully retrieved')
     }

@@ -45,7 +45,9 @@ export default class CacheEventsController {
       .getEvents(previousLastUpdated?.toISOString())
 
     if (!events.length) {
-      const { dto, meta } = this.generateCacheEventsData({ previousLastUpdated })
+      const { dto, meta } = this.generateCacheEventsData({
+        previousLastUpdated,
+      })
 
       res.status(200).json(dto)
 

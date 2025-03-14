@@ -7,26 +7,26 @@ import { EventDto } from '@shared/dtos'
 import RichTextFactory from '@tests/utils/factories/richTextFactory'
 import EventFactory from '@tests/utils/factories/eventFactory'
 
-let event: EventDto
+let eventDto: EventDto
 
 describe('Just a theme, no styled theme', () => {
   beforeEach(() => {
-    event = new EventFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
     })
   })
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: { event },
+      props: { event: eventDto },
     })
-    expect(wrapper.text()).toContain(event.theme)
+    expect(wrapper.text()).toContain(eventDto.theme)
   })
 })
 
 describe('Styled theme', () => {
   beforeEach(() => {
-    event = new EventFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
       styledTheme: [
         new RichTextFactory().text('The').bold().build(),
@@ -39,7 +39,7 @@ describe('Styled theme', () => {
 
   it('shows the styled theme', () => {
     const wrapper = mount(Theme, {
-      props: { event },
+      props: { event: eventDto },
     })
 
     const component = wrapper.byTestId('theme')
@@ -57,7 +57,7 @@ describe('Styled theme', () => {
 
 describe('Event skipped', () => {
   beforeEach(() => {
-    event = new EventFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
       isSkipped: true,
     })
@@ -65,14 +65,14 @@ describe('Event skipped', () => {
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: { event },
+      props: { event: eventDto },
     })
     expect(wrapper.text()).toContain('No movies this week!')
   })
 
   describe('with styled Theme', () => {
     beforeEach(() => {
-      event.styledTheme = [
+      eventDto.styledTheme = [
         new RichTextFactory().text('The').bold().build(),
         new RichTextFactory().text('Matrix').italic().build(),
       ]
@@ -80,7 +80,7 @@ describe('Event skipped', () => {
 
     it('shows the styled theme', () => {
       const wrapper = mount(Theme, {
-        props: { event },
+        props: { event: eventDto },
       })
 
       const component = wrapper.byTestId('theme')

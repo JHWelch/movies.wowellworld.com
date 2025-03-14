@@ -95,7 +95,9 @@ export default class FirestoreAdapter {
     ))
   }
 
-  getUpcomingEvents = async (args: { limit?: number } = {}): Promise<Event[]> => {
+  getUpcomingEvents = async (args: {
+    limit?: number
+  } = {}): Promise<Event[]> => {
     return this.getEvents(query(
       this.eventCollection,
       where('date', '>=', this.today()),
