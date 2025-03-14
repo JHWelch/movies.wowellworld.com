@@ -23,7 +23,12 @@ export default class CacheEventsController {
     const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
 
     if (!lastUpdated) {
-      res.status(200).json(null)
+      res.status(200).json({
+        updatedEvents: 0,
+        tmdbMoviesSynced: [],
+        previousLastUpdated: null,
+        newLastUpdated: null,
+      })
 
       return
     }
