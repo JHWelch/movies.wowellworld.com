@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`can generate an ical file from a week 1`] = `
+exports[`can generate an ical file from an event 1`] = `
 "BEGIN:VCALENDAR
 VERSION:2.0
 CALSCALE:GREGORIAN

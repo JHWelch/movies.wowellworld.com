@@ -58,7 +58,7 @@ const mockBody = ({
 }: MockBodyArgs = {}) => ({ theme, submitted_by, movies })
 
 describe('store', () => {
-  it('should create a new week and movies', async () => {
+  it('should create a new event and movies', async () => {
     const req = getMockReq({
       body: mockBody(),
     })
@@ -127,7 +127,7 @@ describe('store', () => {
       tmdbMock.mockMovieDetails(movie2, 456)
     })
 
-    it('should create a new week and movies', async () => {
+    it('should create a new event and movies', async () => {
       const req = getMockReq({ body })
 
       notionMock.mockCreate('movieId1', 'movieId2')

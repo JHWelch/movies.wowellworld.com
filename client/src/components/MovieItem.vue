@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import type { MovieDto, WeekDto } from '@shared/dtos'
+import type { MovieDto, EventDto } from '@shared/dtos'
 import IconLabel from '@components/IconLabel.vue'
 import FieldTripBanner from '@components/movie/FieldTripBanner.vue'
 
 defineProps<{
   movie: MovieDto
   showEventDetails: boolean
-  week: WeekDto
+  event: EventDto
 }>()
 
-const movieSizeClass = (week: WeekDto, max: number) => {
-  if (week.movies.length == 1) {
+const movieSizeClass = (event: EventDto, max: number) => {
+  if (event.movies.length == 1) {
     return 'w-full'
   }
 
-  return 'w-1/' + Math.min(week.movies.length, max)
+  return 'w-1/' + Math.min(event.movies.length, max)
 }
 
 /*
@@ -28,10 +28,10 @@ xl:w-full
 2xl:w-full
 */
 
-const movieSizeClasses = (week: WeekDto) => {
-  const sm = movieSizeClass(week, 2)
-  const lg = movieSizeClass(week, 3)
-  const xxl = movieSizeClass(week, 4)
+const movieSizeClasses = (event: EventDto) => {
+  const sm = movieSizeClass(event, 2)
+  const lg = movieSizeClass(event, 3)
+  const xxl = movieSizeClass(event, 4)
 
   return `w-full sm:${sm} lg:${lg} 2xl:${xxl}`
 }
@@ -42,7 +42,7 @@ const movieSizeClasses = (week: WeekDto) => {
   <div
     :class="[
       'px-3 max-w-lg lg:px-5',
-      movieSizeClasses(week),
+      movieSizeClasses(event),
     ]"
   >
     <div class="flex flex-col px-4 py-2 rounded-md shadow-xs bg-brat-500">
@@ -70,7 +70,7 @@ const movieSizeClasses = (week: WeekDto) => {
           <FieldTripBanner
             v-if="showEventDetails"
             :movie="movie"
-            :week="week"
+            :event="event"
           />
 
           <a

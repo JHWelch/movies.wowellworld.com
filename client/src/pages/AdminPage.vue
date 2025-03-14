@@ -3,19 +3,19 @@ import Info from '@client/components/admin/Info.vue'
 import FormInput from '@client/components/form/FormInput.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ArrowPathIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/vue/24/solid'
-import { CacheWeeksOutput } from '@shared/dtos'
+import { CacheEventsOutput } from '@shared/dtos'
 import { computed, ref } from 'vue'
 
-const cacheWeeksLoading = ref<boolean>(false)
-const cacheWeeksOutput = ref<CacheWeeksOutput | null>(null)
+const cacheEventsLoading = ref<boolean>(false)
+const cacheEventsOutput = ref<CacheEventsOutput | null>(null)
 
 const password = ref<string>('')
 const passwordError = ref<string | undefined>(undefined)
 
-const cacheWeeks = (fetchOnly: boolean = false) => {
-  cacheWeeksLoading.value = true
+const cacheEvents = (fetchOnly: boolean = false) => {
+  cacheEventsLoading.value = true
 
-  fetch('/api/cache/weeks', {
+  fetch('/api/cache/events', {
     method: fetchOnly ? 'GET' : 'POST',
     headers: {
       ...jsonHeaders,
@@ -28,7 +28,7 @@ const cacheWeeks = (fetchOnly: boolean = false) => {
       }
 
       if (!response.ok) {
-        console.error('Error fetching week data: ', response.status, response.statusText)
+        console.error('Error fetching event data: ', response.status, response.statusText)
 
         return Promise.resolve(null)
       }
@@ -42,10 +42,10 @@ const cacheWeeks = (fetchOnly: boolean = false) => {
         return
       }
 
-      cacheWeeksOutput.value = data
+      cacheEventsOutput.value = data
     })
     .finally(() => {
-      cacheWeeksLoading.value = false
+      cacheEventsLoading.value = false
     })
 }
 
@@ -54,10 +54,10 @@ const formattedDate = (date: string | null | undefined) => date
   : 'Never'
 
 const displayPreviousLastUpdated = computed(
-  () => formattedDate(cacheWeeksOutput.value?.previousLastUpdated)
+  () => formattedDate(cacheEventsOutput.value?.previousLastUpdated)
 )
 const displayNewLastUpdated = computed(
-  () => formattedDate(cacheWeeksOutput.value?.newLastUpdated)
+  () => formattedDate(cacheEventsOutput.value?.newLastUpdated)
 )
 </script>
 
@@ -71,20 +71,20 @@ const displayNewLastUpdated = computed(
 
         <div class="flex flex-col px-4 py-4 rounded-md shadow-xs bg-brat-500 min-w-96">
           <div
-            v-if="cacheWeeksOutput"
+            v-if="cacheEventsOutput"
             class="flex flex-col space-y-4"
           >
             <button
               class="flex items-center justify-center w-full px-4 py-2 mt-2 space-x-2 text-lg font-semibold text-white rounded-md h-14 md:w-auto bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
-              :disabled="cacheWeeksLoading"
-              @click="() => cacheWeeks()"
+              :disabled="cacheEventsLoading"
+              @click="() => cacheEvents()"
             >
               <span>
-                {{ cacheWeeksLoading ? 'Syncing Weeks' : 'Sync Weeks' }}
+                {{ cacheEventsLoading ? 'Syncing Events' : 'Sync Events' }}
               </span>
 
               <ArrowPathIcon
-                v-if="cacheWeeksLoading"
+                v-if="cacheEventsLoading"
                 class="w-6 h-6 animate-spin"
               />
             </button>
@@ -92,13 +92,13 @@ const displayNewLastUpdated = computed(
             <div class="flex w-full">
               <div class="grid w-full grid-cols-2 gap-4">
                 <Info
-                  title="Weeks Cached"
-                  :value="cacheWeeksOutput.updatedWeeks.toString()"
+                  title="Events Cached"
+                  :value="cacheEventsOutput.updatedEvents.toString()"
                 />
 
                 <Info
                   title="Movies Populated"
-                  :value="cacheWeeksOutput.tmdbMoviesSynced.length.toString()"
+                  :value="cacheEventsOutput.tmdbMoviesSynced.length.toString()"
                 />
 
                 <Info
@@ -131,16 +131,16 @@ const displayNewLastUpdated = computed(
 
             <button
               class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-lg font-semibold text-white rounded-md bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purp-dark disabled:opacity-75 disabled:hover:bg-purp-dark"
-              :disabled="cacheWeeksLoading"
+              :disabled="cacheEventsLoading"
               data-testid="unlock-button"
-              @click="() => cacheWeeks(true)"
+              @click="() => cacheEvents(true)"
             >
               <span>
-                {{ cacheWeeksLoading ? 'Unlocking' : 'Unlock' }}
+                {{ cacheEventsLoading ? 'Unlocking' : 'Unlock' }}
               </span>
 
               <LockOpenIcon
-                v-if="cacheWeeksLoading"
+                v-if="cacheEventsLoading"
                 class="w-6 h-6"
               />
 

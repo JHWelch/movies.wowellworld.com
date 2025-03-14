@@ -2,7 +2,7 @@ import { beforeEach, expect, it, jest } from '@jest/globals'
 import { icalGenerator } from '@server/data/icalGenerator'
 import _directoryPath from '@server/helpers/directoryPath'
 import MovieFactory from '@tests/support/factories/movieFactory'
-import WeekFactory from '@tests/support/factories/weekFactory'
+import EventFactory from '@tests/support/factories/eventFactory'
 import MockDate from 'mockdate'
 
 const directoryPath = _directoryPath as jest.Mock
@@ -12,9 +12,9 @@ beforeEach(() => {
   directoryPath.mockReturnValue(__dirname + '/../../src/data')
 })
 
-it('can generate an ical file from a week', async () => {
-  const week = new WeekFactory().make()
-  week.movies = [
+it('can generate an ical file from an event', async () => {
+  const event = new EventFactory().make()
+  event.movies = [
     new MovieFactory().make({
       title: 'Labyrinth',
       director: 'Jim Henson',
@@ -42,5 +42,5 @@ it('can generate an ical file from a week', async () => {
     }),
   ]
 
-  expect(await icalGenerator(week)).toMatchSnapshot()
+  expect(await icalGenerator(event)).toMatchSnapshot()
 })

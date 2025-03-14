@@ -1,4 +1,4 @@
-import WeekEventController from '@server/controllers/weekEventController'
+import EventEventController from '@server/controllers/eventEventController'
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { getMockReq, getMockRes } from '@jest-mock/express'
 import { FirebaseMock } from '@tests/support/firebaseMock'
@@ -6,8 +6,8 @@ import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { Request } from 'express'
 import { icalGenerator } from '@server/data/icalGenerator'
-import { Week } from '@server/models/week'
-import WeekFactory from '@tests/support/factories/weekFactory'
+import { Event } from '@server/models/event'
+import EventFactory from '@tests/support/factories/eventFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
@@ -25,30 +25,30 @@ beforeEach(() => {
 describe('show', () => {
   let firestoreAdapter: FirestoreAdapter
   let req: Request
-  let week: Week
+  let event: Event
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
     directoryPath.mockReturnValue(__dirname + '/../../src/data')
   })
 
-  describe('has correct week', () => {
+  describe('has correct event', () => {
     beforeEach(() => {
-      week = new WeekFactory().make({
+      event = new EventFactory().make({
         date: DateTime.fromISO('2021-01-01', TZ),
       })
-      week.movies = [
+      event.movies = [
         new MovieFactory().make(),
         new MovieFactory().make(),
       ]
 
-      FirebaseMock.mockGetWeek({
-        date: week.date,
-        id: week.id,
-        isSkipped: week.isSkipped,
-        theme: week.theme,
-        slug: week.slug,
-        movies:  week.movies.map(movie => ({
+      FirebaseMock.mockGetEvent({
+        date: event.date,
+        id: event.id,
+        isSkipped: event.isSkipped,
+        theme: event.theme,
+        slug: event.slug,
+        movies:  event.movies.map(movie => ({
           director: movie.director ?? '',
           length: movie.length ?? 0,
           notionId: movie.notionId ?? '',
@@ -63,32 +63,32 @@ describe('show', () => {
         })),
       })
       req = getMockReq({
-        params: { weekId: '2021-01-01' },
+        params: { eventId: '2021-01-01' },
       })
     })
 
-    it('returns a calendar event for the week', async () => {
-      await new WeekEventController(firestoreAdapter).show(req, res)
+    it('returns a calendar event for the event', async () => {
+      await new EventEventController(firestoreAdapter).show(req, res)
 
       expect(res.type).toHaveBeenCalledWith('text/calendar')
-      expect(res.send).toHaveBeenCalledWith(await icalGenerator(week))
+      expect(res.send).toHaveBeenCalledWith(await icalGenerator(event))
     })
   })
 
-  describe('week does not exist', () => {
+  describe('event does not exist', () => {
     beforeEach(() => {
-      FirebaseMock.mockGetWeek()
+      FirebaseMock.mockGetEvent()
       req = getMockReq({
-        params: { weekId: '2021-01-01' },
+        params: { eventId: '2021-01-01' },
       })
     })
 
     it('should return a 404', async () => {
-      await new WeekEventController(firestoreAdapter).show(req, res)
+      await new EventEventController(firestoreAdapter).show(req, res)
 
       expect(res.status).toHaveBeenCalledWith(404)
       expect(res.json).toHaveBeenCalledWith({
-        message: 'Week 2021-01-01 not found',
+        message: 'Event 2021-01-01 not found',
       })
     })
   })

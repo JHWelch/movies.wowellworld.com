@@ -10,9 +10,9 @@ class CronController {
   ) {}
 
   reminders = async (_req: Request, res: Response): Promise<void> => {
-    const week = await this.firestore.getWeek(tomorrow())
+    const event = await this.firestore.getEvent(tomorrow())
 
-    if (!week || week.isSkipped) {
+    if (!event || event.isSkipped) {
       res.status(200).send('ok')
 
       return
@@ -20,7 +20,7 @@ class CronController {
 
     const users = await this.firestore.getUsersWithReminders()
 
-    const movies = week.movies.map((movie) => ({
+    const movies = event.movies.map((movie) => ({
       title: movie.title,
       time: movie.time,
       year: movie.year?.toString(),
@@ -30,9 +30,9 @@ class CronController {
     await this.firestore.sendEmailTemplates('reminder', users.map((user) => ({
       to: user.email,
       data: {
-        date: week.displayDate(),
-        theme: week.theme,
-        weekId: week.dateString,
+        date: event.displayDate(),
+        theme: event.theme,
+        eventId: event.dateString,
         movies: movies,
         unsubscribeUrl: this.config.appUrl + user.unsubscribeUrl(),
       },

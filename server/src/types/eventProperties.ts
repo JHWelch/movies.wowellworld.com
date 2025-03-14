@@ -1,6 +1,6 @@
 import { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
-export default interface WeekProperties {
+export default interface EventProperties {
   Theme: {
     title: Array<{
       plain_text: string

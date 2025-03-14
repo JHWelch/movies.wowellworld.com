@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { z } from 'zod'
 import { validate } from '@server/helpers/validation'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 
 export default class RsvpController {
   constructor (
@@ -12,18 +12,18 @@ export default class RsvpController {
   store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
-    const { weekId } = req.params
+    const { eventId } = req.params
     const { name, email, reminders } = req.body
 
-    const week = await this.firestore.getWeek(weekId)
+    const event = await this.firestore.getEvent(eventId)
 
-    if (!week) {
-      res.status(404).json({ message: `Week ${weekId} not found` })
+    if (!event) {
+      res.status(404).json({ message: `Event ${eventId} not found` })
 
       return
     }
 
-    await this.firestore.createRsvp(weekId, name, email)
+    await this.firestore.createRsvp(eventId, name, email)
 
     if (reminders && email) {
       await this.subscribe(email)
@@ -32,8 +32,8 @@ export default class RsvpController {
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
     await Promise.all([
-      this.sendAdminEmail(name, weekId, email),
-      this.sendConfirmation(week, email),
+      this.sendAdminEmail(name, eventId, email),
+      this.sendConfirmation(event, email),
     ])
   }
 
@@ -56,23 +56,23 @@ export default class RsvpController {
 
   private sendAdminEmail = async (
     name: string,
-    weekId: string,
+    eventId: string,
     email: string,
   ): Promise<void> => this.firestore.sendEmail(this.firestore.adminEmail, {
     subject: `TNMC RSVP: ${name}`,
-    text: `${name} has RSVPed for ${weekId}\n\nEmail: ${email ?? 'None'}`,
-    html: `<p>${name} has RSVPed for ${weekId}<p><ul><li>Email: ${email ?? 'None'}</li></ul>`,
+    text: `${name} has RSVPed for ${eventId}\n\nEmail: ${email ?? 'None'}`,
+    html: `<p>${name} has RSVPed for ${eventId}<p><ul><li>Email: ${email ?? 'None'}</li></ul>`,
   })
 
   private sendConfirmation = async (
-    week: Week,
+    event: Event,
     email: string | undefined,
   ): Promise<void> => {
     if (!email) {
       return
     }
 
-    const movies = week.movies.map((movie) => ({
+    const movies = event.movies.map((movie) => ({
       title: movie.title,
       time: movie.time,
       year: movie.year?.toString(),
@@ -80,9 +80,9 @@ export default class RsvpController {
     }))
 
     await this.firestore.sendEmailTemplate(email, 'rsvpConfirmation', {
-      date: week.displayDate(),
-      theme: week.theme,
-      weekId: week.dateString,
+      date: event.displayDate(),
+      theme: event.theme,
+      eventId: event.dateString,
       movies: movies,
     })
   }

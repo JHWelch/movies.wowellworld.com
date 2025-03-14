@@ -2,22 +2,22 @@ import { type Request, type Response } from 'express'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { icalGenerator } from '@server/data/icalGenerator'
 
-export default class WeekEventController {
+export default class EventEventController {
   constructor (
     private firestore: FirestoreAdapter,
   ) {}
 
   show = async (req: Request, res: Response): Promise<void> => {
-    const { weekId } = req.params
+    const { eventId } = req.params
 
-    const week = await this.firestore.getWeek(weekId)
+    const event = await this.firestore.getEvent(eventId)
 
-    if (!week) {
-      res.status(404).json({ message: `Week ${weekId} not found` })
+    if (!event) {
+      res.status(404).json({ message: `Event ${eventId} not found` })
 
       return
     }
 
-    res.type('text/calendar').send(await icalGenerator(week))
+    res.type('text/calendar').send(await icalGenerator(event))
   }
 }

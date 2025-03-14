@@ -1,7 +1,7 @@
 {
   "indexes": [
     {
-      "collectionGroup": "weeks",
+      "collectionGroup": "events",
       "queryScope": "COLLECTION",
       "fields": [
         {

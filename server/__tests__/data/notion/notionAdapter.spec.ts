@@ -74,57 +74,57 @@ describe('getMovie', () => {
   })
 })
 
-describe('getWeek', () => {
+describe('getEvent', () => {
   beforeEach(() => {
     process.env = {
       NOTION_TOKEN: 'NOTION_TOKEN',
       DATABASE_ID: 'DATABASE_ID',
     }
     notionMock.mockQuery([
-      NotionMock.mockWeek({ id: 'weekId', date: '2021-01-01', theme: 'weekTheme' }),
+      NotionMock.mockEvent({ id: 'eventId', date: '2021-01-01', theme: 'eventTheme' }),
     ])
   })
 
-  describe('when the week exists', () => {
+  describe('when the event exists', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(true)
       notion = new NotionAdapter(mockConfig())
     })
 
-    it('should return the week', async () => {
-      const week = await notion.getWeek('2021-01-01')
+    it('should return the event', async () => {
+      const event = await notion.getEvent('2021-01-01')
 
-      expect(week).toMatchObject({
+      expect(event).toMatchObject({
         date: DateTime.fromISO('2021-01-01', TZ),
-        id: 'weekId',
+        id: 'eventId',
         isSkipped: false,
         slug: null,
         movies: [],
-        theme: 'weekTheme',
+        theme: 'eventTheme',
         styledTheme: [],
       })
     })
   })
 
-  describe('when the week does not exist', () => {
+  describe('when the event does not exist', () => {
     beforeEach(() => {
       notionMock.mockIsFullPageOrDatabase(false)
       notion = new NotionAdapter(mockConfig())
     })
 
     it('should throw an error', async () => {
-      expect(notion.getWeek('2021-01-01'))
+      expect(notion.getEvent('2021-01-01'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
 })
 
-describe('getWeeks', () => {
+describe('getEvents', () => {
   const styled: RichText[] = [
     {
       type: 'text',
       text: {
-        content: 'week',
+        content: 'event',
         link: null,
       },
       annotations: {
@@ -135,7 +135,7 @@ describe('getWeeks', () => {
         code: false,
         color: 'default',
       },
-      plain_text: 'week',
+      plain_text: 'event',
       href: null,
     },
     {
@@ -160,25 +160,25 @@ describe('getWeeks', () => {
   beforeEach(() => {
     notionMock.mockIsFullPageOrDatabase(true)
     notionMock.mockQuery([
-      NotionMock.mockWeek({
-        id: 'weekId3',
+      NotionMock.mockEvent({
+        id: 'eventId3',
         date: '2021-01-15',
         theme: 'theme3',
         lastEditedTime: '2022-08-12T15:45:00.000Z',
       }),
-      NotionMock.mockWeek({
-        id: 'weekId2',
+      NotionMock.mockEvent({
+        id: 'eventId2',
         date: '2021-01-08',
         theme: 'theme2',
         skipped: true,
         lastEditedTime: '2023-08-12T15:45:00.000Z',
         submittedBy: 'submittedBy',
       }),
-      NotionMock.mockWeek({
-        id: 'weekId1',
+      NotionMock.mockEvent({
+        id: 'eventId1',
         date: '2021-01-01',
         theme: 'theme1',
-        slug: 'weekSlug',
+        slug: 'eventSlug',
         styledTheme: styled,
         lastEditedTime: '2021-08-12T15:45:00.000Z',
       }),
@@ -186,12 +186,12 @@ describe('getWeeks', () => {
     notion = new NotionAdapter(mockConfig())
   })
 
-  it('should return the weeks', async () => {
-    const weeks = await notion.getWeeks()
+  it('should return the events', async () => {
+    const events = await notion.getEvents()
 
-    expect(weeks).toEqual([
+    expect(events).toEqual([
       {
-        id: 'weekId3',
+        id: 'eventId3',
         date: DateTime.fromISO('2021-01-15', TZ),
         isSkipped: false,
         slug: null,
@@ -201,7 +201,7 @@ describe('getWeeks', () => {
         lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
         submittedBy: null,
       }, {
-        id: 'weekId2',
+        id: 'eventId2',
         date: DateTime.fromISO('2021-01-08', TZ),
         isSkipped: true,
         slug: null,
@@ -211,10 +211,10 @@ describe('getWeeks', () => {
         lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
         submittedBy: 'submittedBy',
       }, {
-        id: 'weekId1',
+        id: 'eventId1',
         date: DateTime.fromISO('2021-01-01', TZ),
         isSkipped: false,
-        slug: 'weekSlug',
+        slug: 'eventSlug',
         movies: [],
         theme: 'theme1',
         styledTheme: styled,
@@ -225,7 +225,7 @@ describe('getWeeks', () => {
   })
 
   it('should call query with the correct parameters', async () => {
-    await notion.getWeeks()
+    await notion.getEvents()
 
     expect(notionMock.query).toHaveBeenCalledWith({
       database_id: 'NOTION_WEEK_DATABASE_ID',
@@ -280,13 +280,13 @@ describe('createMovie', () => {
   })
 })
 
-describe('createWeek', () => {
+describe('createEvent', () => {
   beforeEach(() => {
     notion = new NotionAdapter(mockConfig())
   })
 
   it('should call the create method with the correct parameters', async () => {
-    await notion.createWeek('Theme', ['movieId1', 'movieId2'], 'Anonymous')
+    await notion.createEvent('Theme', ['movieId1', 'movieId2'], 'Anonymous')
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },

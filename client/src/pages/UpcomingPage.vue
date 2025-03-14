@@ -2,7 +2,7 @@
 import Calendar from '@components/Calendar.vue'
 import RsvpModal from '@components/RsvpModal.vue'
 import ThankYou from '@components/ThankYou.vue'
-import WeekList from '@components/WeekList.vue'
+import EventList from '@components/EventList.vue'
 import heroImg from '@assets/hero.png'
 </script>
 
@@ -52,8 +52,8 @@ import heroImg from '@assets/hero.png'
       </section>
     </div>
 
-    <WeekList
-      fetch-url="/api/weeks/"
+    <EventList
+      fetch-url="/api/events/"
       :show-event-details="true"
       :section-titles="{
         0: 'Now Playing',

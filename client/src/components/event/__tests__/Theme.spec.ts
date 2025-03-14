@@ -2,31 +2,31 @@
 
 import { beforeEach, describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import Theme from '@components/week/Theme.vue'
-import { WeekDto } from '@shared/dtos'
+import Theme from '@components/event/Theme.vue'
+import { EventDto } from '@shared/dtos'
 import RichTextFactory from '@tests/utils/factories/richTextFactory'
-import WeekFactory from '@tests/utils/factories/weekFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 
-let week: WeekDto
+let eventDto: EventDto
 
 describe('Just a theme, no styled theme', () => {
   beforeEach(() => {
-    week = new WeekFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
     })
   })
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: { week: week },
+      props: { event: eventDto },
     })
-    expect(wrapper.text()).toContain(week.theme)
+    expect(wrapper.text()).toContain(eventDto.theme)
   })
 })
 
 describe('Styled theme', () => {
   beforeEach(() => {
-    week = new WeekFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
       styledTheme: [
         new RichTextFactory().text('The').bold().build(),
@@ -39,7 +39,7 @@ describe('Styled theme', () => {
 
   it('shows the styled theme', () => {
     const wrapper = mount(Theme, {
-      props: { week },
+      props: { event: eventDto },
     })
 
     const component = wrapper.byTestId('theme')
@@ -55,9 +55,9 @@ describe('Styled theme', () => {
   })
 })
 
-describe('Week skipped', () => {
+describe('Event skipped', () => {
   beforeEach(() => {
-    week = new WeekFactory().build({
+    eventDto = new EventFactory().build({
       theme: 'The Matrix',
       isSkipped: true,
     })
@@ -65,14 +65,14 @@ describe('Week skipped', () => {
 
   it('shows the theme', () => {
     const wrapper = mount(Theme, {
-      props: { week: week },
+      props: { event: eventDto },
     })
     expect(wrapper.text()).toContain('No movies this week!')
   })
 
   describe('with styled Theme', () => {
     beforeEach(() => {
-      week.styledTheme = [
+      eventDto.styledTheme = [
         new RichTextFactory().text('The').bold().build(),
         new RichTextFactory().text('Matrix').italic().build(),
       ]
@@ -80,7 +80,7 @@ describe('Week skipped', () => {
 
     it('shows the styled theme', () => {
       const wrapper = mount(Theme, {
-        props: { week },
+        props: { event: eventDto },
       })
 
       const component = wrapper.byTestId('theme')

@@ -3,7 +3,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
 import RsvpModal from '@components/RsvpModal.vue'
-import WeekFactory from '@tests/utils/factories/weekFactory'
+import EventFactory from '@tests/utils/factories/eventFactory'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
 import fetchMock from '@fetch-mock/vitest'
@@ -20,8 +20,8 @@ describe('name and email already set', () => {
   })
 
   it('prefills the name and email fields', () => {
-    const week = new WeekFactory().build()
-    rsvpModal.open(week)
+    const event = new EventFactory().build()
+    rsvpModal.open(event)
     const wrapper = mount(RsvpModal)
 
     expect(wrapper.byTestId('input-name')).toBeValue('John Doe')
@@ -31,8 +31,8 @@ describe('name and email already set', () => {
 
 describe('nothing input', () => {
   it('disables the submit button', () => {
-    const week = new WeekFactory().build()
-    rsvpModal.open(week)
+    const event = new EventFactory().build()
+    rsvpModal.open(event)
     const wrapper = mount(RsvpModal)
 
     expect(wrapper.byTestId('rsvp-button').attributes('disabled')).toBe('')
@@ -43,8 +43,8 @@ describe('only name input', () => {
   let wrapper: VueWrapper
 
   beforeEach(async () => {
-    const week = new WeekFactory().build()
-    rsvpModal.open(week)
+    const event = new EventFactory().build()
+    rsvpModal.open(event)
     wrapper = mount(RsvpModal)
 
     await wrapper.byTestId('input-name').setValue('John Doe')
@@ -70,11 +70,11 @@ describe('rsvp submit', () => {
     vi.mock(import('@client/utilities/confetti'), () => ({
       fireConfetti: vi.fn(),
     }))
-    fetchMock.mockGlobal().route('/api/weeks/2020-01-01/rsvp', {})
-    const week = new WeekFactory().build({
-      weekId: '2020-01-01',
+    fetchMock.mockGlobal().route('/api/events/2020-01-01/rsvp', {})
+    const event = new EventFactory().build({
+      eventId: '2020-01-01',
     })
-    rsvpModal.open(week)
+    rsvpModal.open(event)
     const wrapper = mount(RsvpModal)
     await wrapper.byTestId('input-name').setValue('John Doe')
     await wrapper.byTestId('input-email').setValue('jdoe@example.com')
@@ -83,7 +83,7 @@ describe('rsvp submit', () => {
   })
 
   it('calls api with the correct data', async () => {
-    expect({ fetchMock }).toHavePosted('/api/weeks/2020-01-01/rsvp', { body: {
+    expect({ fetchMock }).toHavePosted('/api/events/2020-01-01/rsvp', { body: {
       name: 'John Doe',
       email: 'jdoe@example.com',
       reminders: false,

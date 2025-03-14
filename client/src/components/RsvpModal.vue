@@ -29,14 +29,14 @@ const handleErrors = (data: ErrorBag) => {
   }
 }
 const rsvp = async () => {
-  if (!rsvpModal.week) { return }
+  if (!rsvpModal.event) { return }
 
   if (formData.value.email === '') {
     delete formData.value.email
   }
 
   const response = await fetch(
-    '/api/weeks/' + rsvpModal.week.weekId + '/rsvp', {
+    '/api/events/' + rsvpModal.event.eventId + '/rsvp', {
       method: 'POST',
       headers: jsonHeaders,
       body: JSON.stringify(formData.value),
@@ -116,7 +116,7 @@ const disabled = computed(() => !formData.value.name
                   >
                     <span class="text-brat-500">RSVP to: </span>
 
-                    <span v-text="rsvpModal.week?.theme" />
+                    <span v-text="rsvpModal.event?.theme" />
                   </h3>
 
                   <div class="mt-2">

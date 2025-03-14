@@ -1,8 +1,8 @@
 /* eslint-disable @stylistic/max-len */
-import WeekController from '@server/controllers/weekController'
+import EventController from '@server/controllers/eventController'
 import { Router } from 'express'
 import type NotionAdapter from '@server/data/notion/notionAdapter'
-import CacheWeeksController from '@server/controllers/cacheWeeksController'
+import CacheEventsController from '@server/controllers/cacheEventsController'
 import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
@@ -15,7 +15,7 @@ import { parseManifest } from '@server/config/vite'
 import { Route, registerRoutes } from '@server/routers/routes'
 import SubscriptionController from '@server/controllers/subscriptionController'
 import { CronController } from '@server/controllers/cronController'
-import WeekEventController from '@server/controllers/weekEventController'
+import EventEventController from '@server/controllers/eventEventController'
 import MovieController from '@server/controllers/movieController'
 
 export default function createAppRouter (
@@ -48,7 +48,7 @@ function routes (
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Route[] {
-  const cacheWeeksController = new CacheWeeksController(firestore, notion, tmdb)
+  const cacheEventsController = new CacheEventsController(firestore, notion, tmdb)
   const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
   const cronController = new CronController(config, firestore)
@@ -56,16 +56,16 @@ function routes (
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
   const suggestionController = new SuggestionController(notion, tmdb)
-  const weekController = new WeekController(firestore)
-  const weekEventController = new WeekEventController(firestore)
+  const eventController = new EventController(firestore)
+  const eventEventController = new EventEventController(firestore)
 
   return [
     Route.get('/health_check', HealthCheckController.index),
 
-    Route.get('/api/weeks', weekController.index),
-    Route.post('/api/weeks/:weekId/rsvp', rsvpController.store),
-    Route.get('/api/cache/weeks', cacheWeeksController.show),
-    Route.post('/api/cache/weeks', cacheWeeksController.store),
+    Route.get('/api/events', eventController.index),
+    Route.post('/api/events/:eventId/rsvp', rsvpController.store),
+    Route.get('/api/cache/events', cacheEventsController.show),
+    Route.post('/api/cache/events', cacheEventsController.store),
     Route.post('/api/cache/email-templates', cacheEmailTemplatesController.store),
     Route.post('/api/subscriptions', subscriptionController.store),
     Route.get('/api/movies', movieController.show),
@@ -74,6 +74,6 @@ function routes (
     Route.get('/calendar', calendarController.index),
     Route.get('/unsubscribe', subscriptionController.destroy),
     Route.get('/cron/reminders', cronController.reminders),
-    Route.get('/weeks/:weekId/event', weekEventController.show),
+    Route.get('/events/:eventId/event', eventEventController.show),
   ]
 }

@@ -1,39 +1,39 @@
 import { it, describe, expect, beforeEach } from '@jest/globals'
 import { TZ } from '@server/config/tz'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import MovieFactory from '@tests/support/factories/movieFactory'
-import WeekFactory from '@tests/support/factories/weekFactory'
+import EventFactory from '@tests/support/factories/eventFactory'
 import { NotionMock } from '@tests/support/notionMock'
 import { DateTime } from 'luxon'
 
 describe('dateString', () => {
-  let week: Week
+  let event: Event
 
   beforeEach(() => {
-    week = new WeekFactory().make({
+    event = new EventFactory().make({
       date: DateTime.fromISO('2021-09-13'),
     })
   })
 
   it('returns the date as a string', () => {
-    expect(week.dateString).toEqual('2021-09-13')
+    expect(event.dateString).toEqual('2021-09-13')
   })
 })
 
 describe('totalLength', () => {
   it('calculates total length with no times', () => {
-    const week = new WeekFactory().make({
+    const event = new EventFactory().make({
       movies: [
         new MovieFactory().make({ length: 90, time: null }),
         new MovieFactory().make({ length: 120, time: null }),
       ],
     })
 
-    expect(week.totalLength).toEqual(30 + 90 + 120 + 15)
+    expect(event.totalLength).toEqual(30 + 90 + 120 + 15)
   })
 
   it('calculates total length with no times with many movies', () => {
-    const week = new WeekFactory().make({
+    const event = new EventFactory().make({
       movies: [
         new MovieFactory().make({ length: 90, time: null }),
         new MovieFactory().make({ length: 120, time: null }),
@@ -42,7 +42,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(
+    expect(event.totalLength).toEqual(
       30 +
       90 + 15 +
       120 + 15 +
@@ -52,18 +52,18 @@ describe('totalLength', () => {
   })
 
   it('calculates total length with times on all', () => {
-    const week = new WeekFactory().make({
+    const event = new EventFactory().make({
       movies: [
         new MovieFactory().make({ time: '6:00 PM', length: 60 }),
         new MovieFactory().make({ time: '8:00 PM', length: 120 }),
       ],
     })
 
-    expect(week.totalLength).toEqual(30 + 240)
+    expect(event.totalLength).toEqual(30 + 240)
   })
 
   it('calculates total length with times on some', () => {
-    const week = new WeekFactory().make({
+    const event = new EventFactory().make({
       movies: [
         new MovieFactory().make({ time: '6:00 PM', length: 60 }),
         new MovieFactory().make({ time: '8:00 PM', length: 120 }),
@@ -72,7 +72,7 @@ describe('totalLength', () => {
       ],
     })
 
-    expect(week.totalLength).toEqual(
+    expect(event.totalLength).toEqual(
       30 +
       240 + 15 +
       45 + 15 +
@@ -84,7 +84,7 @@ describe('totalLength', () => {
 describe('startTime', () => {
   describe('with start time', () => {
     it('returns 30 minutes before start time', () => {
-      const week = new WeekFactory().make({
+      const event = new EventFactory().make({
         date: DateTime.fromISO('2021-09-13'),
         movies: [
           new MovieFactory().make({ length: 105, time: '6:00 PM' }),
@@ -92,21 +92,21 @@ describe('startTime', () => {
         ],
       })
 
-      expect(week.startTime).toEqual(DateTime.fromISO('2021-09-13T17:30:00'))
+      expect(event.startTime).toEqual(DateTime.fromISO('2021-09-13T17:30:00'))
     })
   })
 })
 
 describe('fromNotion', () => {
-  it('can create a week from a notion object', () => {
-    expect(Week.fromNotion(NotionMock.mockWeek({
-      id: 'weekId3',
+  it('can create a event from a notion object', () => {
+    expect(Event.fromNotion(NotionMock.mockEvent({
+      id: 'eventId3',
       date: '2021-01-15',
       theme: 'theme3',
       submittedBy: 'submittedBy',
       lastEditedTime: '2022-08-12T15:45:00.000Z',
     }))).toEqual({
-      id: 'weekId3',
+      id: 'eventId3',
       date: DateTime.fromISO('2021-01-15', TZ),
       isSkipped: false,
       slug: null,
@@ -119,8 +119,8 @@ describe('fromNotion', () => {
   })
 
   it('does not use lastEditedMovieTime if lastEditedTime is higher', () => {
-    expect(Week.fromNotion(NotionMock.mockWeek({
-      id: 'weekId3',
+    expect(Event.fromNotion(NotionMock.mockEvent({
+      id: 'eventId3',
       date: '2021-01-15',
       theme: 'theme3',
       lastEditedTime: '2022-08-12T15:45:00.000Z',
@@ -131,8 +131,8 @@ describe('fromNotion', () => {
   })
 
   it('uses lastEditedMovieTime if it is higher than lastEditedTime', () => {
-    expect(Week.fromNotion(NotionMock.mockWeek({
-      id: 'weekId3',
+    expect(Event.fromNotion(NotionMock.mockEvent({
+      id: 'eventId3',
       date: '2021-01-15',
       theme: 'theme3',
       lastEditedTime: '2021-08-12T15:45:00.000Z',

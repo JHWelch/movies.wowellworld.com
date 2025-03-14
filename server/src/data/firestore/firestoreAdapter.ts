@@ -20,7 +20,7 @@ import {
   where,
   WithFieldValue,
 } from 'firebase/firestore'
-import { Week } from '@server/models/week'
+import { Event } from '@server/models/event'
 import setupFirestore from '@server/config/firestore'
 import Config from '@server/config/config'
 import User from '@server/models/user'
@@ -34,7 +34,7 @@ export default class FirestoreAdapter {
   static readonly rsvpsCollectionName = 'rsvps'
   static readonly templatesCollectionName = 'mail-templates'
   static readonly usersCollectionName = 'users'
-  static readonly weeksCollectionName = 'weeks'
+  static readonly eventsCollectionName = 'events'
 
   private config: Config
   private firestore: FirestoreType
@@ -71,22 +71,22 @@ export default class FirestoreAdapter {
     ), { value })
   }
 
-  cacheWeeks = async (weeks: Week[]): Promise<void> => {
+  cacheEvents = async (events: Event[]): Promise<void> => {
     await runTransaction(this.firestore, async (transaction) => {
-      weeks.forEach((week: Week) => {
+      events.forEach((event: Event) => {
         const ref = doc(
           this.firestore,
-          FirestoreAdapter.weeksCollectionName,
-          week.dateString,
+          FirestoreAdapter.eventsCollectionName,
+          event.dateString,
         )
-        transaction.set(ref, week.toFirebaseDTO())
+        transaction.set(ref, event.toFirebaseDTO())
       })
     })
   }
 
-  getPastWeeks = async (): Promise<Week[]> => {
-    return this.getWeeks(query(
-      this.weekCollection,
+  getPastEvents = async (): Promise<Event[]> => {
+    return this.getEvents(query(
+      this.eventCollection,
       and(
         where('date', '<', this.today()),
         where('isSkipped', '==', false),
@@ -95,39 +95,41 @@ export default class FirestoreAdapter {
     ))
   }
 
-  getUpcomingWeeks = async (args: { limit?: number } = {}): Promise<Week[]> => {
-    return this.getWeeks(query(
-      this.weekCollection,
+  getUpcomingEvents = async (args: {
+    limit?: number
+  } = {}): Promise<Event[]> => {
+    return this.getEvents(query(
+      this.eventCollection,
       where('date', '>=', this.today()),
       orderBy('date'),
       ...(args.limit ? [limit(args.limit)] : []),
     ))
   }
 
-  getWeeks = async (firestoreQuery: Query): Promise<Week[]> => {
+  getEvents = async (firestoreQuery: Query): Promise<Event[]> => {
     const querySnapshot = await getDocs(firestoreQuery)
 
     return querySnapshot.docs
-      .map((doc) => Week.fromFirebase(doc.data()))
+      .map((doc) => Event.fromFirebase(doc.data()))
   }
 
-  getWeek = async (dateString: string): Promise<Week|null> => {
-    const document = await getDoc(doc(this.weekCollection, dateString))
+  getEvent = async (dateString: string): Promise<Event|null> => {
+    const document = await getDoc(doc(this.eventCollection, dateString))
 
     if (!document.exists()) {
       return null
     }
 
-    return Week.fromFirebase(document.data())
+    return Event.fromFirebase(document.data())
   }
 
   createRsvp = async (
-    week: string,
+    event: string,
     name: string,
     email: string | undefined,
   ): Promise<void> => {
     await addDoc(this.rsvpCollection, {
-      week,
+      event,
       name,
       createdAt: Timestamp.now(),
       email: email || null,
@@ -263,8 +265,8 @@ export default class FirestoreAdapter {
     return collection(this.firestore, FirestoreAdapter.usersCollectionName)
   }
 
-  private get weekCollection (): Collection {
-    return collection(this.firestore, FirestoreAdapter.weeksCollectionName)
+  private get eventCollection (): Collection {
+    return collection(this.firestore, FirestoreAdapter.eventsCollectionName)
   }
 }
 

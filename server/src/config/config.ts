@@ -7,7 +7,7 @@ export default class Config {
   nodeEnv: string
   notionMovieDatabaseId: string
   notionToken: string
-  notionWeekDatabaseId: string
+  notionEventDatabaseId: string
   port: number
   tmdbApiKey: string
 
@@ -19,7 +19,7 @@ export default class Config {
     this.googleCloudProject = this.requiredVariable('GOOGLE_CLOUD_PROJECT')
     this.nodeEnv = this.optionalVariable('NODE_ENV', 'development')
     this.notionMovieDatabaseId = this.requiredVariable('NOTION_MOVIE_DATABASE_ID')
-    this.notionWeekDatabaseId = this.requiredVariable('NOTION_WEEK_DATABASE_ID')
+    this.notionEventDatabaseId = this.requiredVariable('NOTION_WEEK_DATABASE_ID')
     this.notionToken = this.requiredVariable('NOTION_TOKEN')
     this.port = parseInt(this.optionalVariable('PORT', '8080'))
     this.tmdbApiKey = this.requiredVariable('TMDB_READ_KEY')
