@@ -2,8 +2,8 @@ import { createWebHistory, createRouter } from 'vue-router'
 import UpcomingPage from '@pages/UpcomingPage.vue'
 import PreviousPage from '@pages/PreviousPage.vue'
 import SuggestionsCreatePageVue from '@pages/SuggestionsCreatePage.vue'
-import PageNotFound from '@pages/PageNotFound.vue'
 import AdminPage from '@pages/AdminPage.vue'
+import EventPage from '@pages/EventPage.vue'
 
 const routes = [
   {
@@ -27,9 +27,15 @@ const routes = [
     component: AdminPage,
   },
   {
-    path: '/:pathMatch(.*)*',
-    component: PageNotFound,
+    path: '/:id',
+    name: 'Event Details',
+    component: EventPage,
+    props: true,
   },
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   component: PageNotFound,
+  // },
 ]
 
 const router = createRouter({
