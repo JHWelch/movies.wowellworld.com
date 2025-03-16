@@ -41,13 +41,25 @@ const subscribe = async (event: MouseEvent | KeyboardEvent) => {
   email.value = ''
   fireConfetti()
 }
+const toggle = () => {
+  isOpen.value = !isOpen.value
+
+  if (isOpen.value) {
+    setTimeout(() => {
+      const input = document.querySelector('input[name="email"]') as HTMLInputElement
+      if (input) {
+        input.focus()
+      }
+    }, 100)
+  }
+}
 </script>
 
 <template>
   <button
     class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0 md:text-xl"
     data-testid="get-reminders-button"
-    @click="isOpen = !isOpen"
+    @click.stop="toggle"
   >
     Get Reminders!
   </button>
