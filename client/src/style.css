@@ -24,6 +24,11 @@
     font-weight: 100 400;
     src: url(/fonts/PlaywriteCO.ttf) format("truetype");
   }
+
+  @font-face {
+    font-family: "Noto";
+    src: url(/fonts/NotoSans.ttf) format("truetype");
+  }
 }
 
 @layer utilities {

@@ -7,6 +7,7 @@ export default {
   theme: {
     fontFamily: {
       playwrite: ['Playwrite', 'sans-serif'],
+      noto: ['Noto', 'sans-serif'],
     },
     extend: {
       colors: {
