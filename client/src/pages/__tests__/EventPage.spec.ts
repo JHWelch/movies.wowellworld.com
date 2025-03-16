@@ -42,9 +42,6 @@ it('will fetch and show the specified event', async () => {
 })
 
 it('will redirect to 404 if the event is not found', async () => {
-  const mockRouter = {
-    push: vitest.fn(),
-  }
   fetchMock.mockGlobal().get('/api/events/2024-01-01', 404)
 
   wrapper = mount(EventPage, {

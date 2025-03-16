@@ -4,7 +4,7 @@ import PreviousPage from '@pages/PreviousPage.vue'
 import SuggestionsCreatePageVue from '@pages/SuggestionsCreatePage.vue'
 import AdminPage from '@pages/AdminPage.vue'
 import EventPage from '@pages/EventPage.vue'
-import PageNotFound from './pages/PageNotFound.vue'
+import PageNotFound from '@pages/PageNotFound.vue'
 
 const routes = [
   {
