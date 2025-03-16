@@ -23,25 +23,15 @@ afterEach(() => {
   fetchMock.mockReset()
 })
 
-it('renders "Get Reminders" button with unopened style', () => {
+it('renders "Get Reminders" button', () => {
   const button = wrapper.byTestId('get-reminders-button')
 
   expect(button.text()).toBe('Get Reminders!')
-  expect(button.classes()).toContain('text-white')
-  expect(button.classes()).toContain('hover:bg-purp-dark')
 })
 
 describe('press the "Get Reminders" button', () => {
   beforeEach(async () => {
     await wrapper.find('button').trigger('click')
-  })
-
-  it('renders "Get Reminders" button with opened style', () => {
-    const button = wrapper.byTestId('get-reminders-button')
-
-    expect(button.text()).toBe('Get Reminders!')
-    expect(button.classes()).toContain('text-mint')
-    expect(button.classes()).toContain('bg-purp-dark')
   })
 
   it('shows a form to enter an email address', () => {

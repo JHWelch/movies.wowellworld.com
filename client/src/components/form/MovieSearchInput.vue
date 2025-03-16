@@ -132,7 +132,7 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
         :key="movie.tmdbId"
         :class="{
           'flex items-center space-x-2 p-2 cursor-pointer': true,
-          'bg-brat-300': selected === i,
+          'bg-gray-300': selected === i,
         }"
         @mouseover="() => select(i)"
         @click="(event) => {

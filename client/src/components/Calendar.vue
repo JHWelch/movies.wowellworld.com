@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center w-full">
-    <div class="w-full max-w-lg p-2 rounded-md sm:p-4 bg-brat-500">
+    <div class="w-full max-w-lg">
       <iframe
         class="w-full h-96"
         src="/calendar"
