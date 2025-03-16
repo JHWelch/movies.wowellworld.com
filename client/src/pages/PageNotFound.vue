@@ -112,12 +112,11 @@ const movie = computed(() => movies[Math.floor(Math.random()*movies.length)])
 <style scoped>
 .four-oh-four {
   position: relative;
-  color: theme('colors.brat.950');
-  text-shadow: 6px 6px 0 theme('colors.brat.500');
+  text-shadow: 6px 6px 0 #aaa;
 }
 @media (min-width: 1024px){
   .four-oh-four {
-    text-shadow: 9px 9px 0 theme('colors.brat.500');
+    text-shadow: 9px 9px 0 #aaa;
   }
 }
 </style>
