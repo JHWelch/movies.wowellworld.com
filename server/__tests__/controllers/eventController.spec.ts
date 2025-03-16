@@ -274,3 +274,50 @@ describe('index', () => {
     })
   })
 })
+
+describe('show', () => {
+  let firestore: FirestoreAdapter
+  let req: Request
+
+  beforeEach(() => {
+    firestore = new FirestoreAdapter(mockConfig())
+    req = getMockReq()
+  })
+
+  it('should return a single event', async () => {
+    FirebaseMock.mockGetEvent({
+      date: DateTime.fromISO('2021-01-01', TZ),
+      id: 'id1',
+      isSkipped: false,
+      theme: 'theme1',
+      slug: null,
+    })
+
+    req.params = { id: 'id1' }
+
+    await new EventController(firestore).show(req, res)
+
+    expect(res.json).toHaveBeenCalledWith({
+      id: 'id1',
+      eventId: '2021-01-01',
+      date: 'Friday, January 1',
+      isSkipped: false,
+      slug: null,
+      movies: [],
+      theme: 'theme1',
+      styledTheme: [],
+      submittedBy: null,
+    })
+  })
+
+  it('will return 404 if event not found', async () => {
+    FirebaseMock.mockGetEvent()
+
+    req.params = { id: 'id1' }
+
+    await new EventController(firestore).show(req, res)
+
+    expect(res.status).toHaveBeenCalledWith(404)
+    expect(res.json).toHaveBeenCalledWith({ error: 'Event not found' })
+  })
+})
