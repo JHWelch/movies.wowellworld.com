@@ -19,6 +19,17 @@ export default class EventController {
     })))
   }
 
+  show = async (req: Request, res: Response): Promise<void> => {
+    const event = await this.firestore.getEvent(req.params.id)
+    if (!event) {
+      res.status(404).json({ error: 'Event not found' })
+
+      return
+    }
+
+    res.json(event.toDTO())
+  }
+
   parseIndexQuery = (req: Request): {
     past: boolean
     limit?: number

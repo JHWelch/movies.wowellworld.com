@@ -63,6 +63,7 @@ function routes (
     Route.get('/health_check', HealthCheckController.index),
 
     Route.get('/api/events', eventController.index),
+    Route.get('/api/events/:id', eventController.show),
     Route.post('/api/events/:eventId/rsvp', rsvpController.store),
     Route.get('/api/cache/events', cacheEventsController.show),
     Route.post('/api/cache/events', cacheEventsController.store),

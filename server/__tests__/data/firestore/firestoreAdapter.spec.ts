@@ -236,7 +236,7 @@ describe('getPastEvents', () => {
 })
 
 describe('getEvent', () => {
-  describe('when the event exists', () => {
+  describe('when the event exists by id', () => {
     beforeEach(() => {
       FirebaseMock.mockGetEvent({
         date: DateTime.fromISO('2021-01-01', TZ),
@@ -260,9 +260,35 @@ describe('getEvent', () => {
     })
   })
 
+  describe('when the event exists by slug', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetEvent()
+      FirebaseMock.mockEvents([{
+        date: DateTime.fromISO('2021-01-01', TZ),
+        id: 'id1',
+        isSkipped: false,
+        theme: 'theme1',
+        slug: null,
+        lastEditedTime: now.toISO() ?? undefined,
+      }])
+    })
+
+    it('returns the event', async () => {
+      expect(await firestore.getEvent('slug')).toEqual(
+        new Event({
+          id: 'id1',
+          theme: 'theme1',
+          date: DateTime.fromISO('2021-01-01', TZ),
+          lastUpdated: now,
+        }),
+      )
+    })
+  })
+
   describe('when the event does not exist', () => {
     beforeEach(() => {
       FirebaseMock.mockGetEvent()
+      FirebaseMock.mockEvents([])
     })
 
     it('returns null', async () => {

@@ -145,6 +145,7 @@ describe('reminders', () => {
   describe('there is no event tomorrow', () => {
     beforeEach(() => {
       FirebaseMock.mockGetEvent()
+      FirebaseMock.mockEvents([])
     })
 
     it('should return 200', async () => {
@@ -152,7 +153,6 @@ describe('reminders', () => {
 
       expect(res.status).toHaveBeenCalledWith(200)
       expect(res.send).toHaveBeenCalledWith('ok')
-      expect(getDocs).not.toHaveBeenCalled()
     })
   })
 

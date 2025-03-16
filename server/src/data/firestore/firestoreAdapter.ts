@@ -116,8 +116,17 @@ export default class FirestoreAdapter {
   getEvent = async (dateString: string): Promise<Event|null> => {
     const document = await getDoc(doc(this.eventCollection, dateString))
 
-    if (!document.exists()) {
-      return null
+    if (!document?.exists()) {
+      const documents = await getDocs(query(
+        this.eventCollection,
+        where('slug', '==', dateString),
+      ))
+
+      if (documents.docs.length === 0) {
+        return null
+      }
+
+      return Event.fromFirebase(documents.docs[0].data())
     }
 
     return Event.fromFirebase(document.data())
