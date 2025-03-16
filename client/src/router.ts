@@ -4,6 +4,7 @@ import PreviousPage from '@pages/PreviousPage.vue'
 import SuggestionsCreatePageVue from '@pages/SuggestionsCreatePage.vue'
 import AdminPage from '@pages/AdminPage.vue'
 import EventPage from '@pages/EventPage.vue'
+import PageNotFound from './pages/PageNotFound.vue'
 
 const routes = [
   {
@@ -27,15 +28,15 @@ const routes = [
     component: AdminPage,
   },
   {
+    path: '/404',
+    component: PageNotFound,
+  },
+  {
     path: '/:id',
     name: 'Event Details',
     component: EventPage,
     props: true,
   },
-  // {
-  //   path: '/:pathMatch(.*)*',
-  //   component: PageNotFound,
-  // },
 ]
 
 const router = createRouter({

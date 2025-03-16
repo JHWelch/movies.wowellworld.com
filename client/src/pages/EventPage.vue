@@ -4,7 +4,9 @@ import EventItem from '@client/components/EventItem.vue'
 import LoadingAnimation from '@client/components/LoadingAnimation.vue'
 import { EventDto } from '@shared/dtos'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps<{
   id: string
 }>()
@@ -16,6 +18,12 @@ const reload = () => {
   error.value = false
   fetch(`/api/events/${props.id}`)
     .then(response => {
+      if (response.status === 404) {
+        router.push('/404')
+
+        return Promise.resolve(null)
+      }
+
       if (!response.ok) {
         console.error('Error fetching event data: ', response.status, response.statusText)
         error.value = true
