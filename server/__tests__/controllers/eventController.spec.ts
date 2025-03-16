@@ -312,6 +312,7 @@ describe('show', () => {
 
   it('will return 404 if event not found', async () => {
     FirebaseMock.mockGetEvent()
+    FirebaseMock.mockEvents([])
 
     req.params = { id: 'id1' }
 

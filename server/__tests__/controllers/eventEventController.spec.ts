@@ -78,6 +78,7 @@ describe('show', () => {
   describe('event does not exist', () => {
     beforeEach(() => {
       FirebaseMock.mockGetEvent()
+      FirebaseMock.mockEvents([])
       req = getMockReq({
         params: { eventId: '2021-01-01' },
       })
