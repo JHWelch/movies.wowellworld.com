@@ -27,7 +27,6 @@ const displayLabel = computed(
         :name="name"
         :data-testid="'input-' + name"
         type="checkbox"
-        class="w-4 h-4 border-gray-300 rounded-sm text-brat-500 focus:ring-brat-500"
       >
     </div>
 

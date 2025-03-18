@@ -1,10 +1,10 @@
 <template>
-  <footer class="flex flex-col items-center w-full pt-10 space-y-3 bg-brat-500">
+  <footer class="flex flex-col items-center w-full pt-10 space-y-3">
     <div id="made-with" />
 
     <a href="https://www.themoviedb.org/">
       <img
-        class="p-10 bg-[#0d253f] w-60 rounded-lg"
+        class="p-10 bg-[#0d253f] w-60"
         alt="The Movie Database"
         src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
       >

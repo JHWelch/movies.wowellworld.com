@@ -11,7 +11,7 @@ withDefaults(defineProps<{
 <template>
   <div
     :class="{
-      'flex flex-col items-center w-full p-3 rounded-md bg-brat-300': true,
+      'flex flex-col items-center w-full p-3 border-4 border-double border-black': true,
       'col-span-2': style === 'large',
     }"
   >

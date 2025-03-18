@@ -87,7 +87,7 @@ const submit = async () => {
     </h1>
 
     <form
-      class="w-full max-w-sm p-4 mt-5 space-y-5 rounded-lg bg-brat-500 sm:mt-8"
+      class="w-full max-w-sm p-4 mt-5 space-y-5 border-4 border-black border-double sm:mt-8"
       @submit.prevent="submit"
     >
       <FormInput
@@ -127,12 +127,8 @@ const submit = async () => {
 
       <button
         type="button"
-        class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold rounded-md shadow-xs text-mint bg-purp-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
+        class="inline-flex justify-center w-full text-xl font-semibold sm:col-start-2 disabled:cursor-not-allowed disabled:opacity-50"
         :disabled="disabled"
-        :class="{
-          'opacity-50 cursor-not-allowed': disabled,
-          'hover:bg-purp-light hover:text-white': !disabled,
-        }"
         @click="submit()"
       >
         <span v-if="!submitting">

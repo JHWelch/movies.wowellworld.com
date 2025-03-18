@@ -7,22 +7,10 @@ export default {
   theme: {
     fontFamily: {
       playwrite: ['Playwrite', 'sans-serif'],
+      noto: ['Noto', 'sans-serif'],
     },
     extend: {
       colors: {
-        brat: {
-          50: '#faffe5',
-          100: '#f1ffc6',
-          200: '#e2ff94',
-          300: '#ccff56',
-          400: '#b4f724',
-          500: '#89cc04',
-          600: '#73b200',
-          700: '#568704',
-          800: '#466a0a',
-          900: '#3b590e',
-          950: '#1d3201',
-        },
         purp: {
           light: '#806297',
           dark: '#511a7a',

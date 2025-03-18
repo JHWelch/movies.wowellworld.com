@@ -18,14 +18,14 @@ const id = props.sectionTitle
         :id="id"
         class="relative flex items-center justify-between w-full max-w-5xl text-2xl italic text-center"
       >
-        <span class="flex-1 ml-4 mr-12 border-2 border-b border-purp-dark" />
+        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-purp-dark" />
 
         <span
           class="text-purp-dark"
           v-text="sectionTitle"
         />
 
-        <span class="flex-1 ml-12 mr-4 border-2 border-b border-purp-dark" />
+        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-purp-dark" />
       </h2>
     </div>
 

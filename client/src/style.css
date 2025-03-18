@@ -10,6 +10,7 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
+
 @layer base {
   *,
   ::after,
@@ -23,6 +24,31 @@
     font-family: "Playwrite";
     font-weight: 100 400;
     src: url(/fonts/PlaywriteCO.ttf) format("truetype");
+  }
+
+  @font-face {
+    font-family: "Noto";
+    src: url(/fonts/NotoSans.ttf) format("truetype");
+  }
+
+  :link {
+    color: #0000ee;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+  }
+  :visited {
+    color: #551a8b;
+  }
+  :link:active,
+  :visited:active {
+    color: #ff0000;
+  }
+
+  button {
+    color: #0000ee;
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-transform: uppercase;
   }
 }
 
@@ -55,8 +81,6 @@ html {
 }
 
 .loading div {
-  @apply bg-brat-500;
-
   display: inline-block;
   position: absolute;
   left: 8px;

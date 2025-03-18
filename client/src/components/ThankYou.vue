@@ -24,7 +24,7 @@ onMounted(() => {
   >
     <div
       v-if="isOpen"
-      class="absolute flex items-center justify-center w-full h-full text-6xl text-brat-950 backdrop-blur-xs"
+      class="absolute flex items-center justify-center w-full h-full text-6xl backdrop-blur-xs"
       @keydown.escape="isOpen = false"
     >
       thank you

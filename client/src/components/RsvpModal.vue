@@ -79,7 +79,7 @@ const disabled = computed(() => !formData.value.name
       aria-modal="true"
       @close-modal="rsvpModal.close()"
     >
-      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+      <div class="fixed inset-0 transition-opacity bg-gray-500/75" />
 
       <div
         class="fixed inset-0 z-10 overflow-y-auto"
@@ -101,12 +101,12 @@ const disabled = computed(() => !formData.value.name
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
-              class="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white border-4 border-black border-double shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
               @click.stop
             >
               <div>
-                <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-brat-100">
-                  <CalendarDaysIcon class="w-6 h-6 text-brat-500" />
+                <div class="flex items-center justify-center mx-auto">
+                  <CalendarDaysIcon class="w-6 h-6" />
                 </div>
 
                 <div class="mt-3 text-center sm:mt-5">
@@ -114,9 +114,12 @@ const disabled = computed(() => !formData.value.name
                     id="modal-title"
                     class="text-base font-semibold leading-6 text-gray-900"
                   >
-                    <span class="text-brat-500">RSVP to: </span>
+                    <span>RSVP to: </span>
 
-                    <span v-text="rsvpModal.event?.theme" />
+                    <span
+                      class="underline text-purp-dark"
+                      v-text="rsvpModal.event?.theme"
+                    />
                   </h3>
 
                   <div class="mt-2">
@@ -124,7 +127,7 @@ const disabled = computed(() => !formData.value.name
                       Let us know you are coming! Bring&nbsp;a&nbsp;friend&nbsp;if&nbsp;you&nbsp;like.
                     </p>
 
-                    <p class="text-sm text-brat-500">
+                    <p class="text-purp-dark">
                       Hope to see you soon!
                     </p>
                   </div>
@@ -163,7 +166,7 @@ const disabled = computed(() => !formData.value.name
                   data-testid="rsvp-button"
                   :disabled="disabled"
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 text-sm font-semibold text-black rounded-md shadow-xs bg-brat-500 hover:bg-brat-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brat-500 sm:col-start-2"
+                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2"
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
@@ -174,7 +177,7 @@ const disabled = computed(() => !formData.value.name
 
                 <button
                   type="button"
-                  class="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold bg-white rounded-md shadow-xs sm:col-start-1 sm:mt-0"
                   @click="rsvpModal.close()"
                 >
                   Cancel

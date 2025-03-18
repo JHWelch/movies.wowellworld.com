@@ -45,7 +45,7 @@ const movieSizeClasses = (event: EventDto) => {
       movieSizeClasses(event),
     ]"
   >
-    <div class="flex flex-col px-4 py-2 rounded-md shadow-xs bg-brat-500">
+    <div class="flex flex-col px-4 py-2 border-4 border-black border-double">
       <h4 class="flex items-center justify-between h-12 md:px-2">
         <span
           :class="[
@@ -58,7 +58,7 @@ const movieSizeClasses = (event: EventDto) => {
         <span
           v-if="showEventDetails"
           v-show="movie.time"
-          class="text-md overflow-hidden font-medium text-center bg-brat-300 text-black px-2 py-0.5 rounded-2xl"
+          class="overflow-hidden font-medium text-black text-md"
           v-text="movie.time?.replace(/ /g, '\u00a0')"
         />
 

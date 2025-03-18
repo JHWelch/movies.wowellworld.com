@@ -41,24 +41,32 @@ const subscribe = async (event: MouseEvent | KeyboardEvent) => {
   email.value = ''
   fireConfetti()
 }
+const toggle = () => {
+  isOpen.value = !isOpen.value
+
+  if (isOpen.value) {
+    setTimeout(() => {
+      const input = document.querySelector('input[name="email"]') as HTMLInputElement
+      if (input) {
+        input.focus()
+      }
+    }, 100)
+  }
+}
 </script>
 
 <template>
   <button
-    class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0"
-    :class="{
-      'bg-purp-dark text-mint': isOpen,
-      'hover:bg-purp-dark hover:text-mint text-white': !isOpen,
-    }"
+    class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0 md:text-xl"
     data-testid="get-reminders-button"
-    @click="isOpen = !isOpen"
+    @click.stop="toggle"
   >
     Get Reminders!
   </button>
 
   <div
     v-if="isOpen"
-    class="absolute w-full right-0 top-12 bg-brat-500 p-3 space-y-4 max-w-[500px] min-[500px]:rounded-b-md"
+    class="absolute w-full right-0 top-12 bg-white p-3 space-y-4 max-w-[500px] border-4 border-black border-double"
   >
     <p class="text-sm">
       Get an email reminder the day before upcoming movie nights
@@ -75,7 +83,7 @@ const subscribe = async (event: MouseEvent | KeyboardEvent) => {
       />
 
       <button
-        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-md text-mint bg-purp-dark hover:bg-purp-light focus:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brat-500 h-9"
+        class="flex items-center justify-center px-4 py-1 text-sm font-semibold"
         data-testid="subscribe-button"
         @click="subscribe"
       >
