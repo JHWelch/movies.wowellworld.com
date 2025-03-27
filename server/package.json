@@ -5,6 +5,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
+    "cli": "tsx src/cli.ts",
     "lint": "eslint .",
     "fix": "npm run lint -- --fix",
     "dev": "nodemon src/index.ts",
