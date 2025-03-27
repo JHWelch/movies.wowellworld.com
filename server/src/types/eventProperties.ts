@@ -46,4 +46,9 @@ export default interface EventProperties {
       }
     }
   }
+  Tags: {
+    multi_select: Array<{
+      name: string
+    }>
+  }
 }
