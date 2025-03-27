@@ -21,6 +21,7 @@ export type EventConstructor = {
   movies?: Movie[]
   lastUpdated?: DateTime
   submittedBy?: string | null
+  tags?: string[]
 }
 
 export type EventDtoOptions = {
@@ -37,6 +38,7 @@ export class Event {
   public movies: Movie[] = []
   public lastUpdated: DateTime = DateTime.now()
   public submittedBy: string | null = null
+  public tags: string[] = []
 
   constructor (event: EventConstructor) {
     Object.keys(event).forEach((key) => {
@@ -62,6 +64,7 @@ export class Event {
       styledTheme: properties['Styled Theme']?.rich_text,
       lastUpdated: this.parseLastUpdated(properties),
       submittedBy: properties['Submitted By']?.rich_text[0]?.plain_text,
+      tags: properties.Tags?.multi_select.map((tag) => tag.name) ?? [],
     })
   }
 
