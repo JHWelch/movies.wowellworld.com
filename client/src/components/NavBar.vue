@@ -4,7 +4,7 @@ import NavButton from '@components/navbar/NavButton.vue'
 </script>
 
 <template>
-  <nav class="flex justify-center h-12">
+  <nav class="flex justify-center h-12 max-w-screen">
     <div class="relative flex items-center justify-between w-full h-full max-w-screen">
       <div class="flex items-center h-full">
         <NavButton
