@@ -30,7 +30,7 @@ import heroImg from '@assets/hero.png'
       </div>
 
       <section class="px-4 py-8 mt-4 space-y-5 leading-7 min-[896px]:rounded-xl md:px-8 md:mt-8">
-        <h2 class="text-2xl font-bold text-purp-dark">
+        <h2 class="text-2xl font-bold text-web-pink">
           Don’t you miss movie nights?
         </h2>
 
@@ -42,8 +42,8 @@ import heroImg from '@assets/hero.png'
           Even though we’re a bit older now and some of the snacks have changed (we might actually make the pizza instead of just grabbing a frozen one), the fun of a movie night with your pals will never get old. So join us on most Thursday evenings at the Wowell abode in Ravenswood for a themed movie night! We will usually either have some snacks/food or order food together, but feel free to bring a dish to pass or a beverage, grab a seat, and settle in for - Movie Night!
         </p>
 
-        <p class="text-lg font-bold text-purp-dark">
-          All are welcome! In order to RSVP, accept the calendar invite or click RSVP and fill out the form.
+        <p class="text-lg font-bold text-web-aqua">
+          <span class="bg-black">All are welcome! In order to RSVP, accept the calendar invite or click RSVP and fill out the form.</span>
         </p>
 
         <p>

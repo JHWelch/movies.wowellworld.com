@@ -20,16 +20,18 @@ defineProps<{
           :id="event.slug ?? undefined"
           class="flex flex-col"
         >
-          <span
-            class="text-lg font-light text-purp-dark"
-            v-text="event.date"
-          />
+          <p class="text-lg font-light text-web-green">
+            <span
+              class="bg-black"
+              v-text="event.date"
+            />
+          </p>
 
           <Theme :event="event" />
 
           <span
             v-if="event.submittedBy"
-            class="mt-2 text-lg text-purp-dark font-playwrite font-extralight"
+            class="mt-2 text-lg text-web-red font-playwrite font-extralight"
           >
             Programming By
             <span class="font-normal">{{ event.submittedBy }}</span>

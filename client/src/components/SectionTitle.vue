@@ -18,14 +18,14 @@ const id = props.sectionTitle
         :id="id"
         class="relative flex items-center justify-between w-full max-w-5xl text-2xl italic text-center"
       >
-        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-purp-dark" />
+        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-web-pink" />
 
         <span
-          class="text-purp-dark"
+          class="text-web-pink"
           v-text="sectionTitle"
         />
 
-        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-purp-dark" />
+        <span class="flex-1 h-1 ml-4 mr-12 border-t border-b border-web-pink" />
       </h2>
     </div>
 
@@ -33,7 +33,7 @@ const id = props.sectionTitle
       v-else
       class="flex justify-center w-full"
     >
-      <span class="relative w-full max-w-5xl mx-4 text-2xl text-center border-2 border-b border-purp-dark" />
+      <span class="relative w-full max-w-5xl mx-4 text-2xl text-center border-2 border-b border-web-pink" />
     </div>
   </div>
 </template>

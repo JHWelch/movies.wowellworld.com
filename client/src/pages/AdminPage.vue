@@ -75,7 +75,7 @@ const displayNewLastUpdated = computed(
             class="flex flex-col space-y-4"
           >
             <button
-              class="flex items-center justify-center w-full mt-2 space-x-2 text-3xl font-semibold rounded-md h-14 md:w-auto disabled:opacity-75 disabled:hover:bg-purp-dark"
+              class="flex items-center justify-center w-full mt-2 space-x-2 text-3xl font-semibold rounded-md h-14 md:w-auto disabled:opacity-75"
               :disabled="cacheEventsLoading"
               @click="() => cacheEvents()"
             >
