@@ -1,5 +1,6 @@
 import {
   afterEach,
+  beforeAll,
   beforeEach,
   describe,
   expect,
@@ -15,15 +16,26 @@ import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { posterUrl } from '@server/data/tmdb/helpers'
+import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
+import { Movie } from '@server/models/movie'
+import { NotionMock } from '@tests/support/notionMock'
+import NotionAdapter from '@server/data/notion/notionAdapter'
 
 const { res, mockClear } = getMockRes()
 let req: Request
+let notionMock: NotionMock
+
+interface MockMovieArgs {
+  id: any // eslint-disable-line @typescript-eslint/no-explicit-any
+}
 
 const newMovieController = () => {
   const config = mockConfig()
-  const tmdbAdapter = new TmdbAdapter(config)
 
-  return new MovieController(tmdbAdapter)
+  return new MovieController(
+    new NotionAdapter(config),
+    new TmdbAdapter(config),
+  )
 }
 
 beforeEach(() => {
@@ -84,6 +96,40 @@ describe('show', () => {
 
       expect(res.status).toHaveBeenCalledWith(400)
       expect(res.json).toHaveBeenCalledWith({ error: 'No search query provided' })
+    })
+  })
+})
+
+describe('store', () => {
+  let body: MockMovieArgs
+  let movie: Movie
+
+  beforeAll(() => {
+    notionMock = new NotionMock()
+  })
+
+  beforeEach(() => {
+    body = { id: 123 }
+    const tmdbMock = new TmdbMock(mockFetch())
+
+    movie = new MovieFactory().tmdbFields().make({
+      title: 'movie1',
+      tmdbId: 123,
+      url: `${TMDB_MOVIE_URL}/123`,
+    })
+    tmdbMock.mockMovieDetails(movie, 123)
+  })
+
+  it('creates a new movie from passed id', async () => {
+    const req = getMockReq({ body })
+
+    notionMock.mockCreate('movieId1')
+
+    await newMovieController().store(req, res)
+
+    expect(notionMock.create).toHaveBeenCalledWith({
+      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      properties: movie.notionProperties(),
     })
   })
 })
