@@ -144,4 +144,19 @@ describe('store', () => {
       message: 'Successfully created movie.',
     })
   })
+
+  describe('id is missing', () => {
+    it('return a 422', () => {
+      const req = getMockReq({ body: {} })
+
+      newMovieController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: {
+          id: 'Required',
+        },
+      })
+    })
+  })
 })

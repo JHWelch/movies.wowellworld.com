@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import NotionAdapter from '@server/data/notion/notionAdapter'
+import { validate } from '@server/helpers/validation'
+import { z } from 'zod'
 
 export default class MovieController {
   constructor (
@@ -22,6 +24,8 @@ export default class MovieController {
   }
 
   store = async (req: Request, res: Response): Promise<void> => {
+    if (!this.validate(req, res)) return
+
     const { id } = req.body
 
     const movie = await this.tmdb.movieDetails(id)
@@ -30,4 +34,9 @@ export default class MovieController {
 
     res.status(201).json({ message: 'Successfully created movie.' })
   }
+
+  private validate = (req: Request, res: Response): boolean =>
+    validate(req, res, z.object({
+      id: z.number().int(),
+    }))
 }
