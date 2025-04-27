@@ -17,6 +17,7 @@ export default class MovieFactory extends Factory<Movie, MovieConstructor> {
     notionId: 'notionId',
     theaterName: 'Theater',
     showingUrl: 'Showing Url',
+    whereWatch: [],
   }
 
   noFields = (): MovieFactory => this.state({

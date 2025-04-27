@@ -37,7 +37,7 @@ describe('merge', () => {
 
 describe('toNotion', () => {
   it('returns a notion update object', () => {
-    const movie = new MovieFactory().make()
+    const movie = new MovieFactory().make({ watchWhere: ['Netflix'] })
 
     expect(movie.toNotion()).toEqual({
       page_id: movie.notionId,
@@ -53,6 +53,7 @@ describe('toNotion', () => {
         ] },
         'Showing URL': { url: movie.showingUrl },
         Time: { rich_text: [{ text: { content: movie.time } }] },
+        'Watch Where?': { multi_select: [{ name: 'Netflix' }] },
       },
     })
   })
