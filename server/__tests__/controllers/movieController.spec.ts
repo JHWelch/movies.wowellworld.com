@@ -27,6 +27,7 @@ let notionMock: NotionMock
 
 interface MockMovieArgs {
   id: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  watchWhere?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 const newMovieController = () => {
@@ -142,6 +143,20 @@ describe('store', () => {
     expect(res.status).toHaveBeenCalledWith(201)
     expect(res.json).toHaveBeenCalledWith({
       message: 'Successfully created movie.',
+    })
+  })
+
+  it('can include where to watch', async () => {
+    body.watchWhere = ['Blu-ray', '4K Blu-ray']
+    const req = getMockReq({ body })
+    notionMock.mockCreate('movieId1')
+    movie.watchWhere = ['Blu-ray', '4K Blu-ray']
+
+    await newMovieController().store(req, res)
+
+    expect(notionMock.create).toHaveBeenCalledWith({
+      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      properties: movie.notionProperties(),
     })
   })
 

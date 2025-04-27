@@ -30,6 +30,7 @@ export type MovieConstructor = {
   notionId?: string | null
   theaterName?: string | null
   showingUrl?: string | null
+  watchWhere?: string[]
 }
 
 export type MovieDtoOptions = {
@@ -48,6 +49,7 @@ export class Movie {
   public notionId: string | null = null
   public theaterName: string | null = null
   public showingUrl: string | null = null
+  public watchWhere: string[] = []
 
   constructor (movie: MovieConstructor) {
     Object.keys(movie).forEach((key) => {
@@ -74,6 +76,7 @@ export class Movie {
       notionId: movie.id,
       theaterName: properties['Theater Name']?.rich_text[0]?.plain_text,
       showingUrl: properties['Showing URL']?.url,
+      watchWhere: properties['Watch Where?']?.multi_select?.map((option) => option.name) || [],
     })
   }
 
@@ -181,6 +184,11 @@ export class Movie {
       'Theater Name': notionRichText(this.theaterName),
       'Showing URL': notionUrl(this.showingUrl),
       Time: notionRichText(this.time),
+      'Watch Where?': {
+        multi_select: this.watchWhere.map((option) => ({
+          name: option,
+        })),
+      },
     }
   }
 

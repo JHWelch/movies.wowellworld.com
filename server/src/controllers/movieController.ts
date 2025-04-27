@@ -26,9 +26,10 @@ export default class MovieController {
   store = async (req: Request, res: Response): Promise<void> => {
     if (!this.validate(req, res)) return
 
-    const { id } = req.body
+    const { id, watchWhere } = req.body
 
     const movie = await this.tmdb.movieDetails(id)
+    movie.watchWhere = watchWhere || []
 
     this.notion.createMovie(movie)
 
