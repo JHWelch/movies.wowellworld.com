@@ -10,13 +10,10 @@ const validate = (
     dataSchema.parse(req.body)
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errors = mapErrors(error.issues)
-      res.status(422).json(errors)
-
-      return false
+      res.status(422).json(mapErrors(error.issues))
+    } else {
+      res.status(500).json({ message: 'Something went wrong' })
     }
-
-    res.status(500).json({ message: 'Something went wrong' })
 
     return false
   }
