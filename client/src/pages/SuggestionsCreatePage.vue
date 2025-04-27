@@ -4,8 +4,8 @@ import FormInput from '@components/form/FormInput.vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
 import { jsonHeaders } from '@client/data/headers'
 import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
-import { MovieSearchInputData } from '@client/components/form/MovieSearchInput/types'
 import { useErrorHandling } from '@client/composables/useErrorHandling'
+import type { MovieSearchInputData } from '@client/components/form/MovieSearchInput/types'
 
 type SuggestionFormData = {
   theme: string
