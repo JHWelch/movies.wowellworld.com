@@ -5,7 +5,7 @@ import NavButton from '@components/navbar/NavButton.vue'
 
 <template>
   <nav class="flex justify-center h-12 max-w-screen">
-    <div class="relative flex items-center justify-between w-full h-full max-w-screen">
+    <div class="relative flex items-center justify-between w-full h-full">
       <div class="flex items-center h-full">
         <NavButton
           text="Upcoming"

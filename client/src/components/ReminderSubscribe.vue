@@ -57,7 +57,7 @@ const toggle = () => {
 
 <template>
   <button
-    class="flex flex-col items-center justify-center h-full px-4 py-2 font-medium leading-5 text-center grow sm:grow-0 md:text-xl"
+    class="flex flex-col items-center justify-center h-full px-2 py-2 text-sm font-medium leading-5 text-center grow sm:px-4 sm:grow-0 md:text-xl"
     data-testid="get-reminders-button"
     @click.stop="toggle"
   >
