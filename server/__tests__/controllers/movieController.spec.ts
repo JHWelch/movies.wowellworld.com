@@ -132,4 +132,16 @@ describe('store', () => {
       properties: movie.notionProperties(),
     })
   })
+
+  it('should return a 201 created', async () => {
+    const req = getMockReq({ body })
+    notionMock.mockCreate('movieId1')
+
+    await newMovieController().store(req, res)
+
+    expect(res.status).toHaveBeenCalledWith(201)
+    expect(res.json).toHaveBeenCalledWith({
+      message: 'Successfully created movie.',
+    })
+  })
 })
