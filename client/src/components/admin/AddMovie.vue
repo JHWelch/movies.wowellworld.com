@@ -4,6 +4,7 @@ import type { MovieSearchInputData } from '@client/components/form/MovieSearchIn
 import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ErrorBag } from '@client/types'
+import LoadingIcon from '@components/icons/LoadingIcon.vue'
 type AddMovieFormData = MovieSearchInputData
 type AddMovieErrors = {
   id?: string
@@ -35,11 +36,10 @@ const submit = async () => {
   const data = await response.json()
 
   if (!response.ok) {
-    submitting.value = false
     handleErrors(data)
-
-    return
   }
+
+  submitting.value = false
 }
 </script>
 <template>
@@ -54,5 +54,25 @@ const submit = async () => {
       :error="errors.id"
       @clear-error="errors.id = ''"
     />
+
+    <button
+      type="button"
+      class="inline-flex justify-center w-full text-xl font-semibold sm:col-start-2 disabled:cursor-not-allowed disabled:opacity-50"
+      :disabled="submitting || !formData.id"
+      @click="submit()"
+    >
+      <span v-if="!submitting">
+        Add Movie
+      </span>
+
+      <span
+        v-else
+        class="flex space-x-2"
+      >
+        <LoadingIcon />
+
+        <span class="ml-2">Submitting...</span>
+      </span>
+    </button>
   </form>
 </template>

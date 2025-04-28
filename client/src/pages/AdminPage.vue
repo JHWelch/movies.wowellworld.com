@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Info from '@client/components/admin/Info.vue'
 import FormInput from '@client/components/form/FormInput.vue'
+import AddMovie from '@client/components/admin/AddMovie.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ArrowPathIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/vue/24/solid'
 import { CacheEventsOutput } from '@shared/dtos'
@@ -114,6 +115,8 @@ const displayNewLastUpdated = computed(
                 />
               </div>
             </div>
+
+            <AddMovie />
           </div>
 
           <div
