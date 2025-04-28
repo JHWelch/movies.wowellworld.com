@@ -11,5 +11,6 @@ it('displays the movie form', () => {
   wrapper = mount(AddMovie)
 
   expect(wrapper.find('form').exists()).toBe(true)
+  expect(wrapper.text()).toContain('Add Movie')
   expect(wrapper.text()).toContain('Search for a movie')
 })

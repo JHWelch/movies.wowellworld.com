@@ -14,6 +14,8 @@ const formData = ref<AddMovieFormData>({
 </script>
 <template>
   <form>
+    <h2>Add Movie</h2>
+
     <MovieSearchInput
       v-model="formData"
       name="movie"
