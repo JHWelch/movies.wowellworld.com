@@ -43,7 +43,10 @@ const submit = async () => {
 }
 </script>
 <template>
-  <form @submit.prevent="submit">
+  <form
+    class="p-3 space-y-2 border-4 border-black border-double"
+    @submit.prevent="submit"
+  >
     <h2>Add Movie</h2>
 
     <MovieSearchInput
