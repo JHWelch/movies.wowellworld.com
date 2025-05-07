@@ -18,7 +18,7 @@
     "js-confetti": "^0.12.0",
     "lodash.debounce": "^4.0.8",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@fetch-mock/vitest": "^0.2.7",
@@ -38,6 +38,6 @@
     "vue-tsc": "^2.2.0"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.34.8"
+    "@rollup/rollup-linux-x64-gnu": "^4.40.2"
   }
 }
