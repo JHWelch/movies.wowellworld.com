@@ -12,6 +12,7 @@ import {
 } from '@notionhq/client/build/src/api-endpoints'
 import type EventProperties from '@server/types/eventProperties'
 import Config from '@server/config/config'
+import { notionRichText, notionTitle } from '@server/data/notion/notionFormatters'
 
 export default class NotionAdapter {
   #notion: Client
@@ -86,8 +87,8 @@ export default class NotionAdapter {
     this.#notion.pages.create({
       parent: { database_id: this.#eventDatabaseId },
       properties: {
-        Theme: { title: [{ text: { content: theme } }] },
-        'Submitted By': { rich_text: [{ text: { content: submittedBy } }] },
+        Theme: notionTitle(theme),
+        'Submitted By': notionRichText(submittedBy),
         Movies: { relation: movies.map((movie) => ({ id: movie })) },
       },
     })
