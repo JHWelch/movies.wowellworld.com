@@ -237,6 +237,7 @@ export default class FirestoreAdapter {
       })
     })
   }
+
   updateTemplates = async (templates: {
     name: string
     data: Record<string, unknown>
