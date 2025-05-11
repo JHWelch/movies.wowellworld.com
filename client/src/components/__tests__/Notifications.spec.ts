@@ -6,6 +6,7 @@ import Notifications from '@components/Notifications.vue'
 import { notifications } from '@client/state/notificationState'
 import { nextTick } from 'vue'
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/vue/24/solid'
+import { setQueryString } from '@client/__tests__/utils/locationHelpers'
 
 let wrapper: VueWrapper
 let notification: DOMWrapper<Element>
@@ -118,10 +119,7 @@ describe('message open', () => {
 
 describe('Message called via query param', () => {
   beforeEach(async () => {
-    window.location = {
-      ...window.location,
-      search: '?message=Hello%20World',
-    }
+    setQueryString('?message=Hello%20World')
     wrapper = mount(Notifications)
     await nextTick()
 
@@ -137,10 +135,7 @@ describe('Message called via query param', () => {
 
 describe('Message called via query param with type', () => {
   beforeEach(async () => {
-    window.location = {
-      ...window.location,
-      search: '?message=Hello%20World&type=success',
-    }
+    setQueryString('?message=Hello%20World&type=success')
     wrapper = mount(Notifications)
     await nextTick()
 

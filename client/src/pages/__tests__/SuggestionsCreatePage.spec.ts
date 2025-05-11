@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import SuggestionsCreatePage from '@pages/SuggestionsCreatePage.vue'
 import fetchMock from '@fetch-mock/vitest'
 import { ComponentPublicInstance } from 'vue'
+import { setCurrentHref } from '@client/__tests__/utils/locationHelpers'
 
 let wrapper: VueWrapper<ComponentPublicInstance<typeof SuggestionsCreatePage>>
 
@@ -39,10 +40,7 @@ describe('submit', () => {
 
   beforeEach(async () => {
     fetchMock.mockGlobal().route('/suggestions', {})
-    window.location = {
-      ...window.location,
-      href: '',
-    }
+    setCurrentHref('')
 
     wrapper = mount(SuggestionsCreatePage)
 
