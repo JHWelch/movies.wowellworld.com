@@ -73,7 +73,7 @@ export default class NotionAdapter {
     }
 
     return await Promise.all(results
-      .map(async (record) => await this.recordToEvent(record)))
+      .map((record) => this.recordToEvent(record)))
   }
 
   setMovie = (movie: Movie): Promise<UpdatePageResponse> =>
