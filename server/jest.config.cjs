@@ -11,7 +11,7 @@ module.exports = { // eslint-disable-line no-undef
     '^@shared/(.*)$': '<rootDir>/../shared/$1',
     '^@mocks/(.*)$': '<rootDir>/__mocks__/$1',
     '^@tests/(.*)$': '<rootDir>/__tests__/$1',
-    '(.+)\\.js': '$1',
+    '^(?!ipaddr\\.js$)(.+)\\.js$': '$1',
   },
   extensionsToTreatAsEsm: ['.ts'],
   preset: 'ts-jest',
