@@ -6,8 +6,6 @@
   "main": "src/index.ts",
   "scripts": {
     "cli": "tsx src/cli.ts",
-    "lint": "eslint .",
-    "fix": "npm run lint -- --fix",
     "dev": "nodemon src/index.ts",
     "firebase": "firebase emulators:start --import emulator-cache",
     "firebase:export": "firebase emulators:export emulator-cache",
