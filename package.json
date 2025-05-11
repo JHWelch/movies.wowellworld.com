@@ -22,7 +22,8 @@
     "test": "npm run test:server && npm run test:client",
     "test:server": "npm run --prefix server test",
     "test:client": "npm run --prefix client test -- run",
-    "types": "npm run --prefix server types && npm run --prefix client types"
+    "types": "npm run --prefix server types && npm run --prefix client types",
+    "coverage": "npm run --prefix server coverage && npm run --prefix client coverage -- run"
   },
   "keywords": [
     "notion",
