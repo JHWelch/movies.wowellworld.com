@@ -17,14 +17,12 @@ import { CronController } from '@server/controllers/cronController'
 import EventEventController from '@server/controllers/eventEventController'
 import MovieController from '@server/controllers/movieController'
 
-function registerRoutes (
+export default function createAppRouter (
   config: Config,
   firestore: FirestoreAdapter,
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Router {
-  const router = Router()
-
   const cacheEventsController = new CacheEventsController(firestore, notion, tmdb)
   const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
@@ -35,6 +33,8 @@ function registerRoutes (
   const suggestionController = new SuggestionController(notion, tmdb)
   const eventController = new EventController(firestore)
   const eventEventController = new EventEventController(firestore)
+
+  const router = Router()
 
   router.get('/health_check', HealthCheckController.index)
 
@@ -52,17 +52,6 @@ function registerRoutes (
   router.get('/unsubscribe', subscriptionController.destroy)
   router.get('/cron/reminders', cronController.reminders)
   router.get('/events/:eventId/event', eventEventController.show)
-
-  return router
-}
-
-export default function createAppRouter (
-  config: Config,
-  firestore: FirestoreAdapter,
-  notion: NotionAdapter,
-  tmdb: TmdbAdapter,
-): Router {
-  const router = registerRoutes(config, firestore, notion, tmdb)
 
   router.all(/(.*)/, (_req, res) => {
     try {
