@@ -23,7 +23,7 @@ const cacheEvents = (fetchOnly: boolean = false) => {
     },
   })
     .then(response => {
-      if([401, 403].includes(response.status)) {
+      if ([401, 403].includes(response.status)) {
         return response.json()
       }
 
