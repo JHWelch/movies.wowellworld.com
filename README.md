@@ -39,6 +39,12 @@ npm run lint
 npm run fix
 ```
 
+### TypeScript Static Analysis
+
+```sh
+npm run types
+```
+
 ### Repository Structure
 
 This application is split into two parts:
