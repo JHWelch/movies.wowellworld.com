@@ -21,7 +21,7 @@ export default class Application {
   }
 
   listen (): void {
-    const port = process.env.PORT ?? 8080
+    const port = this.config.port
 
     this.express.listen(port, () => {
       console.log(`Listening on port ${port}...`) // eslint-disable-line no-console

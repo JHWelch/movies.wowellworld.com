@@ -12,7 +12,6 @@ import SuggestionController from '@server/controllers/suggestionController'
 import Config from '@server/config/config'
 import CalendarController from '@server/controllers/calendarController'
 import { parseManifest } from '@server/config/vite'
-import { Route, registerRoutes } from '@server/routers/routes'
 import SubscriptionController from '@server/controllers/subscriptionController'
 import { CronController } from '@server/controllers/cronController'
 import EventEventController from '@server/controllers/eventEventController'
@@ -24,9 +23,35 @@ export default function createAppRouter (
   notion: NotionAdapter,
   tmdb: TmdbAdapter,
 ): Router {
+  const cacheEventsController = new CacheEventsController(firestore, notion, tmdb)
+  const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
+  const calendarController = new CalendarController(config)
+  const cronController = new CronController(config, firestore)
+  const movieController = new MovieController(tmdb)
+  const rsvpController = new RsvpController(firestore)
+  const subscriptionController = new SubscriptionController(firestore)
+  const suggestionController = new SuggestionController(notion, tmdb)
+  const eventController = new EventController(firestore)
+  const eventEventController = new EventEventController(firestore)
+
   const router = Router()
 
-  registerRoutes(router, routes(config, firestore, notion, tmdb))
+  router.get('/health_check', HealthCheckController.index)
+
+  router.get('/api/events', eventController.index)
+  router.get('/api/events/:id', eventController.show)
+  router.post('/api/events/:eventId/rsvp', rsvpController.store)
+  router.get('/api/cache/events', cacheEventsController.show)
+  router.post('/api/cache/events', cacheEventsController.store)
+  router.post('/api/cache/email-templates', cacheEmailTemplatesController.store)
+  router.post('/api/subscriptions', subscriptionController.store)
+  router.get('/api/movies', movieController.show)
+
+  router.post('/suggestions', suggestionController.store)
+  router.get('/calendar', calendarController.index)
+  router.get('/unsubscribe', subscriptionController.destroy)
+  router.get('/cron/reminders', cronController.reminders)
+  router.get('/events/:eventId/event', eventEventController.show)
 
   router.all(/(.*)/, (_req, res) => {
     try {
@@ -40,41 +65,4 @@ export default function createAppRouter (
   })
 
   return router
-}
-
-function routes (
-  config: Config,
-  firestore: FirestoreAdapter,
-  notion: NotionAdapter,
-  tmdb: TmdbAdapter,
-): Route[] {
-  const cacheEventsController = new CacheEventsController(firestore, notion, tmdb)
-  const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
-  const calendarController = new CalendarController(config)
-  const cronController = new CronController(config, firestore)
-  const movieController = new MovieController(tmdb)
-  const rsvpController = new RsvpController(firestore)
-  const subscriptionController = new SubscriptionController(firestore)
-  const suggestionController = new SuggestionController(notion, tmdb)
-  const eventController = new EventController(firestore)
-  const eventEventController = new EventEventController(firestore)
-
-  return [
-    Route.get('/health_check', HealthCheckController.index),
-
-    Route.get('/api/events', eventController.index),
-    Route.get('/api/events/:id', eventController.show),
-    Route.post('/api/events/:eventId/rsvp', rsvpController.store),
-    Route.get('/api/cache/events', cacheEventsController.show),
-    Route.post('/api/cache/events', cacheEventsController.store),
-    Route.post('/api/cache/email-templates', cacheEmailTemplatesController.store),
-    Route.post('/api/subscriptions', subscriptionController.store),
-    Route.get('/api/movies', movieController.show),
-
-    Route.post('/suggestions', suggestionController.store),
-    Route.get('/calendar', calendarController.index),
-    Route.get('/unsubscribe', subscriptionController.destroy),
-    Route.get('/cron/reminders', cronController.reminders),
-    Route.get('/events/:eventId/event', eventEventController.show),
-  ]
 }

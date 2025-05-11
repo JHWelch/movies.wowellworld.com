@@ -11,6 +11,7 @@ import { minutesAsTimeString, timeStringAsMinutes } from '@server/helpers/timeSt
 import { Timestamp } from 'firebase/firestore'
 import { CacheEventsOutput } from '@shared/dtos'
 import { LastUpdated } from '@server/data/globals/types'
+import { DateTime } from 'luxon'
 
 export default class CacheEventsController {
   constructor (
@@ -20,7 +21,7 @@ export default class CacheEventsController {
   ) {}
 
   show = async (_req: Request, res: Response): Promise<void> => {
-    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
+    const lastUpdated = await this.lastUpdated()
 
     if (!lastUpdated) {
       res.status(200).json({
@@ -43,7 +44,7 @@ export default class CacheEventsController {
   }
 
   store = async (_req: Request, res: Response): Promise<void> => {
-    const lastUpdated = await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
+    const lastUpdated = await this.lastUpdated()
     const previousLastUpdated = lastUpdated?.newLastUpdated?.toDate()
 
     const events = await this.notionAdapter
@@ -61,14 +62,9 @@ export default class CacheEventsController {
       return
     }
 
-    const moviesWithoutDetails = events.flatMap(event => event.movies
-      .filter(movie => !movie.director && !movie.posterPath))
+    const moviesWithoutDetails = this.moviesWithoutDetails(events)
     await this.fillMovieDetails(moviesWithoutDetails)
-
-    const eventsWithoutTimes = events.filter(event => !event.isSkipped
-      && !event.isPast
-      && event.movies.some(movie => !movie.time && movie.director))
-
+    const eventsWithoutTimes = this.eventsWithoutTimes(events)
     const moviesWithoutTimes = this.updateEventTimes(eventsWithoutTimes)
 
     await this.updateNotionMovies([
@@ -76,9 +72,7 @@ export default class CacheEventsController {
       ...moviesWithoutTimes,
     ])
 
-    const newUpdated = events.reduce((latest, event) => {
-      return event.lastUpdated > latest ? event.lastUpdated : latest
-    }, events[0].lastUpdated)
+    const newUpdated = this.lastUpdatedEventTime(events)
 
     const { dto, meta } = this.generateCacheEventsData({
       previousLastUpdated,
@@ -94,6 +88,14 @@ export default class CacheEventsController {
     res.status(200).json(dto)
   }
 
+  private lastUpdated = async (): Promise<LastUpdated | null> => {
+    return await this.firestore.getGlobal('lastUpdated') as LastUpdated | null
+  }
+
+  private moviesWithoutDetails = (events: Event[]): Movie[] => events
+    .flatMap(event => event.movies
+      .filter(movie => !movie.director && !movie.posterPath))
+
   private fillMovieDetails = (movies: Movie[]): Promise<void[]> =>
     Promise.all(movies.map<Promise<void>>(async movie => {
       const tmdbMovie = await this.tmdbAdapter.getMovie(movie.title)
@@ -101,6 +103,11 @@ export default class CacheEventsController {
 
       movie.merge(tmdbMovie)
     }))
+
+  private eventsWithoutTimes = (events: Event[]): Event[] => events
+    .filter(event => !event.isSkipped
+      && !event.isPast
+      && event.movies.some(movie => !movie.time && movie.director))
 
   private updateEventTimes = (events: Event[]): Movie[] => events
     .flatMap(event => this.updateMovieTimes(event.movies))
@@ -131,6 +138,11 @@ export default class CacheEventsController {
   ): Promise<UpdatePageResponse[]> => Promise.all(
     movies.map(this.notionAdapter.setMovie),
   )
+
+  private lastUpdatedEventTime = (events: Event[]): DateTime => events
+    .reduce((latest, event) => {
+      return event.lastUpdated > latest ? event.lastUpdated : latest
+    }, events[0].lastUpdated)
 
   private generateCacheEventsData = (input: {
     updatedEvents?: number
