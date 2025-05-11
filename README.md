@@ -39,16 +39,22 @@ npm run lint
 npm run fix
 ```
 
+### TypeScript Static Analysis
+
+```sh
+npm run types
+```
+
 ### Repository Structure
 
-This application is split into two parts:
+This repository is split into two applications
 
-- `server` - The Express server that serves the application and handles API requests.
+- `server` - The Node Express server that serves the application and handles API requests.
 - `client` - The Vue application served by the Express server that handles the UI.
 
-Each part has its own `package.json` and `node_modules` directory, however both can be installed with a single `npm install` command.
+Each application has its own `package.json` and `node_modules` directory, however both can be installed with a single `npm install` command in the root directory.
 
-You can find specific scripts for each part in their respective `package.json` files.
+You can find specific scripts for each application in their respective `package.json` files.
 
 ## Deploy to App Engine
 
