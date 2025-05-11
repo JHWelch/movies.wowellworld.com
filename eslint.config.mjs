@@ -8,6 +8,11 @@ export default [
     ],
   },{
     rules: {
+      '@stylistic/keyword-spacing': ['error', {
+        before: true,
+        after: true,
+      }],
+
       'no-restricted-imports': ['error', {
         patterns: ['.*'], // Disable all relative imports
       }],
