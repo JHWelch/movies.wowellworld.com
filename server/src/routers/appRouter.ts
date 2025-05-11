@@ -18,30 +18,6 @@ import { CronController } from '@server/controllers/cronController'
 import EventEventController from '@server/controllers/eventEventController'
 import MovieController from '@server/controllers/movieController'
 
-export default function createAppRouter (
-  config: Config,
-  firestore: FirestoreAdapter,
-  notion: NotionAdapter,
-  tmdb: TmdbAdapter,
-): Router {
-  const router = Router()
-
-  registerRoutes(router, routes(config, firestore, notion, tmdb))
-
-  router.all(/(.*)/, (_req, res) => {
-    try {
-      res.render('index.html.ejs', {
-        environment: config.nodeEnv,
-        manifest: parseManifest(config),
-      })
-    } catch (_) {
-      res.json({ success: false, message: 'Something went wrong' })
-    }
-  })
-
-  return router
-}
-
 function routes (
   config: Config,
   firestore: FirestoreAdapter,
@@ -77,4 +53,28 @@ function routes (
     Route.get('/cron/reminders', cronController.reminders),
     Route.get('/events/:eventId/event', eventEventController.show),
   ]
+}
+
+export default function createAppRouter (
+  config: Config,
+  firestore: FirestoreAdapter,
+  notion: NotionAdapter,
+  tmdb: TmdbAdapter,
+): Router {
+  const router = Router()
+
+  registerRoutes(router, routes(config, firestore, notion, tmdb))
+
+  router.all(/(.*)/, (_req, res) => {
+    try {
+      res.render('index.html.ejs', {
+        environment: config.nodeEnv,
+        manifest: parseManifest(config),
+      })
+    } catch (_) {
+      res.json({ success: false, message: 'Something went wrong' })
+    }
+  })
+
+  return router
 }
