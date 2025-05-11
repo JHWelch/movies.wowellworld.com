@@ -18,6 +18,7 @@ it('registers all routes', () => {
       .filter((layer) => layer.route)
       .map((layer) => [
         layer.route?.path,
+        // @ts-expect-error methods is showing up but it is working
         layer.route?.methods,
       ])
   )
