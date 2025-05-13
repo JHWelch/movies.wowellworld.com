@@ -1,25 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import FormInput from '@components/form/FormInput.vue'
-import { ErrorBag, Errors } from '@client/types'
-import { notifications } from '@client/state/notificationState'
 import { fireConfetti } from '@client/utilities/confetti'
 import { jsonHeaders } from '@client/data/headers'
+import { useErrorHandling } from '@client/composables/useErrorHandling'
 
 const isOpen = ref<boolean>(false)
 const email = ref<string>('')
-
-const errors = ref<Errors>({})
-
-const handleErrors = (data: ErrorBag) => {
-  if (data.errors) {
-    errors.value = data.errors
-  }
-
-  if (data.message) {
-    notifications.flash(data.message, 'error')
-  }
-}
+const { errors, handleErrors } = useErrorHandling()
 
 const subscribe = async (event: MouseEvent | KeyboardEvent) => {
   event.stopPropagation()

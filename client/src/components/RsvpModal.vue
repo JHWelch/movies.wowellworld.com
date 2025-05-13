@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { Errors, ErrorBag } from '@client/types'
 import FormInput from '@components/form/FormInput.vue'
 import FormCheckbox from '@components/form/FormCheckbox.vue'
 import { rsvpModal } from '@client/state/modalState'
 import { fireConfetti } from '@client/utilities/confetti'
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { jsonHeaders } from '@client/data/headers'
+import { useErrorHandling } from '@client/composables/useErrorHandling'
 
 type RsvpForm = {
   name: string
@@ -14,20 +14,12 @@ type RsvpForm = {
   reminders: boolean
 }
 
-const errors = ref<Errors>({})
 const formData = ref<RsvpForm>({
   name: localStorage.getItem('rsvp.name') || '',
   email: localStorage.getItem('rsvp.email') || '',
   reminders: false,
 })
-const handleErrors = (data: ErrorBag) => {
-  if (data.errors) {
-    errors.value = data.errors
-  }
-  if (data.message) {
-    alert(data.message)
-  }
-}
+const { errors, handleErrors } = useErrorHandling()
 const rsvp = async () => {
   if (!rsvpModal.event) { return }
 
