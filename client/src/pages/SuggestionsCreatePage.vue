@@ -2,10 +2,10 @@
 import { computed, ref } from 'vue'
 import FormInput from '@components/form/FormInput.vue'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
-import { ErrorBag } from '@client/types'
 import { jsonHeaders } from '@client/data/headers'
 import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 import { MovieSearchInputData } from '@client/components/form/MovieSearchInput/types'
+import { useErrorHandling } from '@client/composables/useErrorHandling'
 
 type SuggestionFormData = {
   theme: string
@@ -13,14 +13,6 @@ type SuggestionFormData = {
   movie1: MovieSearchInputData
   movie2: MovieSearchInputData
 }
-type SuggestionErrors = {
-  theme?: string
-  submitted_by?: string
-  movie1?: string
-  movie2?: string
-}
-
-const errors = ref<SuggestionErrors>({})
 
 const formData = ref<SuggestionFormData>({
   theme: '',
@@ -28,22 +20,13 @@ const formData = ref<SuggestionFormData>({
   movie1: { title: '' },
   movie2: { title: '' },
 })
-
 const submitting = ref<boolean>(false)
+const { errors, handleErrors } = useErrorHandling((initialErrors) => ({
+  ...initialErrors,
+  movie1: initialErrors.movies,
+  movie2: initialErrors.movies,
+}))
 
-const handleErrors = (data: ErrorBag) => {
-  if (data.errors) {
-    errors.value = {
-      theme: data.errors.theme,
-      submitted_by: data.errors.submitted_by,
-      movie1: data.errors.movies,
-      movie2: data.errors.movies,
-    }
-  }
-  if (data.message) {
-    alert(data.message)
-  }
-}
 const disabled = computed(() => submitting.value
     || !formData.value.theme
     || !formData.value.movie1.title
