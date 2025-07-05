@@ -34,7 +34,28 @@ describe('submit', () => {
     flushPromises()
 
     expect({ fetchMock }).toHavePosted('/api/movies', {
-      body: { id: 12345 },
+      body: {
+        id: 12345,
+        watchWhere: [],
+      },
+    })
+  })
+
+  it('can submit a movie with what where', () => {
+    wrapper.vm.formData.id = 12345
+    wrapper.vm.formData.watchWhere = [
+      'bluray',
+      'uhd',
+    ]
+
+    wrapper.find('form').trigger('submit')
+    flushPromises()
+
+    expect({ fetchMock }).toHavePosted('/api/movies', {
+      body: {
+        id: 12345,
+        watchWhere: ['bluray', 'uhd'],
+      },
     })
   })
 })

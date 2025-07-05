@@ -5,14 +5,18 @@ import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ErrorBag } from '@client/types'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
-type AddMovieFormData = MovieSearchInputData
+type AddMovieFormData = MovieSearchInputData & {
+  watchWhere: Array<string>
+}
 type AddMovieErrors = {
   id?: string
+  watchWhere?: string
 }
 const errors = ref<AddMovieErrors>({})
 const formData = ref<AddMovieFormData>({
   title: '',
   id: undefined,
+  watchWhere: [],
 })
 const submitting = ref<boolean>(false)
 const handleErrors = (data: ErrorBag) => {
@@ -30,6 +34,7 @@ const submit = async () => {
     headers: jsonHeaders,
     body: JSON.stringify({
       id: formData.value.id,
+      watchWhere: formData.value.watchWhere ?? [],
     }),
   })
 
@@ -57,6 +62,32 @@ const submit = async () => {
       :error="errors.id"
       @clear-error="errors.id = ''"
     />
+
+    <input
+      id="bluray"
+      v-model="formData.watchWhere"
+      type="checkbox"
+      value="Blu-ray"
+    >
+    <label
+      for="bluray"
+      class="ml-2"
+    >
+      Blu-ray
+    </label>
+
+    <input
+      id="uhd"
+      v-model="formData.watchWhere"
+      type="checkbox"
+      value="4K Blu-ray"
+    >
+    <label
+      for="uhd"
+      class="ml-2"
+    >
+      UHD
+    </label>
 
     <button
       type="button"
