@@ -52,7 +52,9 @@ const submit = async () => {
     class="p-3 space-y-2 border-4 border-black border-double"
     @submit.prevent="submit"
   >
-    <h2>Add Movie</h2>
+    <h2 class="font-semibold">
+      Add Movie
+    </h2>
 
     <MovieSearchInput
       v-model="formData"
@@ -63,30 +65,26 @@ const submit = async () => {
       @clear-error="errors.id = ''"
     />
 
-    <input
-      id="bluray"
-      v-model="formData.watchWhere"
-      type="checkbox"
-      value="Blu-ray"
-    >
-    <label
-      for="bluray"
-      class="ml-2"
-    >
-      Blu-ray
+    <label class="flex items-center space-x-1.5">
+      <input
+        id="bluray"
+        v-model="formData.watchWhere"
+        type="checkbox"
+        value="Blu-ray"
+      >
+
+      <span>Blu-ray</span>
     </label>
 
-    <input
-      id="uhd"
-      v-model="formData.watchWhere"
-      type="checkbox"
-      value="4K Blu-ray"
-    >
-    <label
-      for="uhd"
-      class="ml-2"
-    >
-      UHD
+    <label class="flex items-center space-x-1.5">
+      <input
+        id="uhd"
+        v-model="formData.watchWhere"
+        type="checkbox"
+        value="4K Blu-ray"
+      >
+
+      <span>UHD</span>
     </label>
 
     <button
