@@ -34,4 +34,9 @@ export default interface MovieProperties {
   'Showing URL': {
     url: string
   }
+  'Watch Where?': {
+    multi_select: Array<{
+      name: string
+    }>
+  }
 }

@@ -13,25 +13,41 @@ it('registers all routes', () => {
 
   const router = createAppRouter(config, firestore, notion, tmdbAdapter)
 
-  const routes = Object.fromEntries(
+  const routes =
     router.stack
       .filter((layer) => layer.route)
-      .map((layer) => [
-        layer.route?.path,
-        // @ts-expect-error methods is showing up but it is working
-        layer.route?.methods,
-      ])
-  )
+      .reduce<{ [key: string]: {
+      get?: boolean
+      post?: boolean
+      patch?: boolean
+      delete?: boolean
+    } }>((previous, current) => {
+        if (!current.route?.path) { return previous }
+
+        previous[current.route.path] = {
+          ...previous[current.route.path] ?? {},
+          // @ts-expect-error methods is showing up but it is working
+          ...current.route?.methods ?? {},
+        }
+
+        return previous
+      }, {})
 
   expect(routes).toEqual( {
     '/health_check':  { get: true },
     '/api/events':  { get: true },
     '/api/events/:id':  { get: true },
     '/api/events/:eventId/rsvp':  { post: true },
-    '/api/cache/events':  { post: true },
+    '/api/cache/events':  {
+      get: true,
+      post: true,
+    },
     '/api/cache/email-templates':  { post: true },
     '/api/subscriptions':  { post: true },
-    '/api/movies':  { get: true },
+    '/api/movies':  {
+      get: true,
+      post: true,
+    },
     '/suggestions':  { post: true },
     '/calendar':  { get: true },
     '/unsubscribe':  { get: true },

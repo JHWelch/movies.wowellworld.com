@@ -27,7 +27,7 @@ export default function createAppRouter (
   const cacheEmailTemplatesController = new CacheEmailTemplatesController(firestore)
   const calendarController = new CalendarController(config)
   const cronController = new CronController(config, firestore)
-  const movieController = new MovieController(tmdb)
+  const movieController = new MovieController(notion, tmdb)
   const rsvpController = new RsvpController(firestore)
   const subscriptionController = new SubscriptionController(firestore)
   const suggestionController = new SuggestionController(notion, tmdb)
@@ -46,6 +46,7 @@ export default function createAppRouter (
   router.post('/api/cache/email-templates', cacheEmailTemplatesController.store)
   router.post('/api/subscriptions', subscriptionController.store)
   router.get('/api/movies', movieController.show)
+  router.post('/api/movies', movieController.store)
 
   router.post('/suggestions', suggestionController.store)
   router.get('/calendar', calendarController.index)
