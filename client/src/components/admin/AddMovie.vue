@@ -45,6 +45,8 @@ const submit = async () => {
   }
 
   submitting.value = false
+  formData.value.id = undefined
+  formData.value.title = ''
 }
 </script>
 <template>

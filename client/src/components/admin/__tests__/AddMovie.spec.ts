@@ -27,11 +27,11 @@ describe('submit', () => {
     wrapper = mount(AddMovie)
   })
 
-  it('submits a movies id', () => {
+  it('submits a movies id', async () => {
     wrapper.vm.formData.id = 12345
 
     wrapper.find('form').trigger('submit')
-    flushPromises()
+    await flushPromises()
 
     expect({ fetchMock }).toHavePosted('/api/movies', {
       body: {
@@ -41,7 +41,7 @@ describe('submit', () => {
     })
   })
 
-  it('can submit a movie with what where', () => {
+  it('can submit a movie with what where', async () => {
     wrapper.vm.formData.id = 12345
     wrapper.vm.formData.watchWhere = [
       'bluray',
@@ -49,7 +49,7 @@ describe('submit', () => {
     ]
 
     wrapper.find('form').trigger('submit')
-    flushPromises()
+    await flushPromises()
 
     expect({ fetchMock }).toHavePosted('/api/movies', {
       body: {
@@ -57,5 +57,20 @@ describe('submit', () => {
         watchWhere: ['bluray', 'uhd'],
       },
     })
+  })
+
+  it('clears the input afterwards', async () => {
+    wrapper.vm.formData.id = 12345
+    wrapper.vm.formData.title = 'Movie Title'
+    wrapper.vm.formData.watchWhere = [
+      'bluray',
+      'uhd',
+    ]
+
+    wrapper.find('form').trigger('submit')
+    await flushPromises()
+
+    expect(wrapper.vm.formData.id).toBeUndefined()
+    expect(wrapper.vm.formData.title).toBe('')
   })
 })
