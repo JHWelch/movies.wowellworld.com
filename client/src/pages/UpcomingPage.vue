@@ -50,6 +50,23 @@ import heroImg from '@assets/hero.png'
           Wowell World Studios (our apartment) is home to a cat and dog. Please alert Rachel or Jordan if you have accessibility needs, parking needs, or dietary restrictions! Some weeks we may take a field trip to a theater, which will be clearly noted on the movie.
         </p>
       </section>
+
+      <section class="mb-16">
+        <h2
+          id="now-playing"
+          class="px-4 py-6 text-4xl font-semibold text-center uppercase md:px-8 md:mt-16 text-web-pink"
+        >
+          We're on a break until fall!
+        </h2>
+
+        <p class="px-4 py-2 text-center md:px-8">
+          We'll be back with more movies in October for our Horror Movie Month.
+        </p>
+
+        <p class="px-4 py-2 text-center md:px-8">
+          Stay tuned and we'll update the calendar soon!
+        </p>
+      </section>
     </div>
 
     <EventList
