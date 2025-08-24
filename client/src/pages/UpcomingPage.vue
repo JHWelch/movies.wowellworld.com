@@ -56,8 +56,8 @@ import heroImg from '@assets/hero.png'
       fetch-url="/api/events/"
       :show-event-details="true"
       :section-titles="{
-        0: 'Now Playing',
-        1: 'Coming Attractions',
+        // 0: 'Now Playing',
+        0: 'Coming Attractions',
       }"
     />
 
