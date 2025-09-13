@@ -62,10 +62,6 @@ import heroImg from '@assets/hero.png'
         <p class="px-4 py-2 text-center md:px-8">
           We'll be back with more movies in October for our Horror Movie Month.
         </p>
-
-        <p class="px-4 py-2 text-center md:px-8">
-          Stay tuned and we'll update the calendar soon!
-        </p>
       </section>
     </div>
 
