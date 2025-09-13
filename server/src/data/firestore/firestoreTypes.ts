@@ -11,6 +11,7 @@ export type FirestoreEvent = {
   movies: FirestoreMovie[]
   lastUpdated: Timestamp
   submittedBy: string | null
+  tags: string[]
 }
 
 export type FirestoreMovie = {

@@ -124,6 +124,7 @@ export class Event {
       styledTheme: this.styledTheme,
       lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
       submittedBy: this.submittedBy,
+      tags: this.tags,
     }
   }
 

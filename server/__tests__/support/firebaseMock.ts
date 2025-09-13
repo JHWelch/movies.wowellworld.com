@@ -115,6 +115,7 @@ export class FirebaseMock {
         ? typeof event.lastEditedTime === 'string' ? DateTime.fromISO(event.lastEditedTime) : event.lastEditedTime
         : DateTime.now(),
       submittedBy: event.submittedBy ?? null,
+      tags: event.tags ?? [],
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -164,6 +165,7 @@ export type FirebaseEventConstructor = {
   date: Date|string
   styledTheme?: RichText[]
   isSkipped?: boolean
+  tags?: string[]
   slug?: string | null
   movies?: Movie[]
   lastEditedTime?: DateTime|string

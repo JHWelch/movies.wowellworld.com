@@ -318,6 +318,7 @@ describe('cacheEvents', () => {
           theme: 'theme3',
           date: DateTime.fromISO('2021-01-15', TZ),
           lastUpdated: now.minus({ days: 20 }),
+          tags: ['tag1', 'tag2'],
         }),
       ])
 
@@ -349,6 +350,7 @@ describe('cacheEvents', () => {
             theme: 'theme3',
             date: '2021-01-15',
             lastEditedTime: now.minus({ days: 20 }),
+            tags: ['tag1', 'tag2'],
           }),
         )
     })
