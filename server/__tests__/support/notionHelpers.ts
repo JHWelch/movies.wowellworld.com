@@ -149,6 +149,26 @@ export const nFormula = (result: string | null): {
     id: 'mockId',
   }
 
+export const nMultiSelect = (options: string[]): {
+  id: string
+  type: 'multi_select'
+  name: string
+  multi_select: Array<{
+    id: string
+    name: string
+    color: 'default' | 'gray' | 'brown' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'red'
+  }>
+} => ({
+  id: 'mockedId',
+  name: 'mockedName',
+  type: 'multi_select',
+  multi_select: options.map((option) => ({
+    id: option.toLowerCase().replace(/\s+/g, '-'),
+    name: option,
+    color: 'default',
+  })),
+})
+
 export const pageObjectResponse = (
   id: string,
   properties: PageObjectResponse['properties'],
@@ -206,6 +226,7 @@ type NotionMovieConstructor = {
   posterPath?: string | null
   theaterName?: string | null
   showingUrl?: string | null
+  tags?: string[]
 }
 
 export class NotionMovie {
@@ -219,6 +240,7 @@ export class NotionMovie {
   public posterPath: string | null = null
   public theaterName: string | null = null
   public showingUrl: string | null = null
+  public tags: string[] = []
 
   constructor (movie: NotionMovieConstructor) {
     Object.keys(movie).forEach((key) => {
@@ -241,6 +263,7 @@ export class NotionMovie {
       Poster: nUrl(this.posterPath),
       'Theater Name': nRichText(this.theaterName),
       'Showing URL': nUrl(this.showingUrl),
+      Tags: nMultiSelect(this.tags || []),
     })
   }
 
@@ -255,6 +278,7 @@ export class NotionMovie {
     posterPath: 'moviePosterPath',
     theaterName: 'movieTheaterName',
     showingUrl: 'movieShowingUrl',
+    tags: ['tag1', 'tag2'],
   })
 
   static fromMovie = (movie: Movie) => new NotionMovie({

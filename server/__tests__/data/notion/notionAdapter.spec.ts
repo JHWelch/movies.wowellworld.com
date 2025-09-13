@@ -52,6 +52,7 @@ describe('getMovie', () => {
         theaterName: 'movieTheaterName',
         showingUrl: 'movieShowingUrl',
         tmdbId: null,
+        tags: ['tag1', 'tag2'],
       })
     })
 
