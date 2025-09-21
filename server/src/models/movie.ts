@@ -31,7 +31,6 @@ export type MovieConstructor = {
   theaterName?: string | null
   showingUrl?: string | null
   watchWhere?: string[]
-  tags?: string[]
 }
 
 export type MovieDtoOptions = {
@@ -51,7 +50,6 @@ export class Movie {
   public theaterName: string | null = null
   public showingUrl: string | null = null
   public watchWhere: string[] = []
-  public tags: string[] = []
 
   constructor (movie: MovieConstructor) {
     Object.keys(movie).forEach((key) => {
@@ -79,7 +77,6 @@ export class Movie {
       theaterName: properties['Theater Name']?.rich_text[0]?.plain_text,
       showingUrl: properties['Showing URL']?.url,
       watchWhere: properties['Watch Where?']?.multi_select?.map((option) => option.name) || [],
-      tags: properties['Tags']?.multi_select?.map((option) => option.name) || [],
     })
   }
 

@@ -39,9 +39,4 @@ export default interface MovieProperties {
       name: string
     }>
   }
-  Tags: {
-    multi_select: Array<{
-      name: string
-    }>
-  }
 }
