@@ -273,6 +273,74 @@ describe('index', () => {
       }])
     })
   })
+
+  describe('called with tag filter', () => {
+    let firestore: FirestoreAdapter
+    let req: Request
+
+    beforeEach(() => {
+      firestore = new FirestoreAdapter(mockConfig())
+      FirebaseMock.mockEvents([
+        {
+          date: DateTime.fromISO('2021-01-01', TZ),
+          id: 'id1',
+          isSkipped: false,
+          theme: 'theme1',
+          slug: null,
+          tags: ['action', 'comedy'],
+        }, {
+          date: DateTime.fromISO('2021-01-08', TZ),
+          id: 'id2',
+          isSkipped: false,
+          theme: 'theme2',
+          slug: null,
+          tags: ['action', 'drama'],
+        },
+      ])
+      req = getMockReq()
+    })
+
+    it('should return only events with the given tag', async () => {
+      req.query = { tag: 'action' }
+      await new EventController(firestore).index(req, res)
+
+      expect(res.json).toHaveBeenCalledWith([
+        {
+          id: 'id1',
+          eventId: '2021-01-01',
+          date: 'Friday, January 1',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme1',
+          styledTheme: [],
+          slug: null,
+          submittedBy: null,
+        }, {
+          id: 'id2',
+          eventId: '2021-01-08',
+          date: 'Friday, January 8',
+          isSkipped: false,
+          movies: [],
+          theme: 'theme2',
+          styledTheme: [],
+          slug: null,
+          submittedBy: null,
+        },
+      ])
+    })
+
+    it('should call firestore with the tag filter', async () => {
+      req.query = { tag: 'comedy' }
+      await new EventController(firestore).index(req, res)
+
+      expect(query).toHaveBeenCalledWith(
+        { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
+        { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+        { fieldPath: 'date' },
+        { fieldPath: 'tags', opStr: 'array-contains', value: 'comedy' },
+      )
+    })
+  })
 })
 
 describe('show', () => {

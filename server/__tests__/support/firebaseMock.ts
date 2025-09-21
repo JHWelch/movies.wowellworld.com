@@ -137,6 +137,7 @@ export type FirebaseEvent = {
   styledTheme?: RichText[]
   lastEditedTime?: string
   submittedBy?: string | null
+  tags?: string[]
 }
 
 export type FirebaseMovie = {
