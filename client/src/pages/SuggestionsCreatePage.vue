@@ -43,7 +43,7 @@ const submit = async () => {
       movies: [
         formData.value.movie1,
         formData.value.movie2,
-      ],
+      ].filter((movie) => movie.title.trim() !== ''),
     }),
   })
 

@@ -87,36 +87,64 @@ describe('submit', () => {
     fetchMock.mockReset()
   })
 
-  beforeEach(async () => {
-    fetchMock.mockGlobal().route('/suggestions', {})
-    setCurrentHref('')
+  describe('all fields filled', () => {
+    beforeEach(async () => {
+      fetchMock.mockGlobal().route('/suggestions', {})
+      setCurrentHref('')
 
-    wrapper = mount(SuggestionsCreatePage)
+      wrapper = mount(SuggestionsCreatePage)
 
-    await wrapper.find('#submitted_by').setValue('Jane Doe')
-    await wrapper.find('#theme').setValue('Test Theme')
-    await wrapper.find('#movie1').setValue('Test Movie 1')
-    await wrapper.find('#movie2').setValue('Test Movie 2')
-    await wrapper.find('form').trigger('submit')
+      await wrapper.find('#submitted_by').setValue('Jane Doe')
+      await wrapper.find('#theme').setValue('Test Theme')
+      await wrapper.find('#movie1').setValue('Test Movie 1')
+      await wrapper.find('#movie2').setValue('Test Movie 2')
+      await wrapper.find('form').trigger('submit')
 
-    await flushPromises()
+      await flushPromises()
+    })
+
+    it('should save name to local storage', async () => {
+      expect(localStorage.getItem('submitted_by')).toBe('Jane Doe')
+    })
+
+    it('should redirect to suggest_success', async () => {
+      expect(window.location.href).toBe('/?suggest_success')
+    })
+
+    it('should send POST request to /suggestions', async () => {
+      expect({ fetchMock }).toHavePosted('/suggestions', {
+        body: {
+          theme: 'Test Theme',
+          submitted_by: 'Jane Doe',
+          movies: [{ title: 'Test Movie 1' }, { title: 'Test Movie 2' }],
+        },
+      })
+    })
   })
 
-  it('should save name to local storage', async () => {
-    expect(localStorage.getItem('submitted_by')).toBe('Jane Doe')
-  })
+  describe('only one movie', () => {
+    beforeEach(async () => {
+      fetchMock.mockGlobal().route('/suggestions', {})
+      setCurrentHref('')
 
-  it('should redirect to suggest_success', async () => {
-    expect(window.location.href).toBe('/?suggest_success')
-  })
+      wrapper = mount(SuggestionsCreatePage)
 
-  it('should send POST request to /suggestions', async () => {
-    expect({ fetchMock }).toHavePosted('/suggestions', {
-      body: {
-        theme: 'Test Theme',
-        submitted_by: 'Jane Doe',
-        movies: [{ title: 'Test Movie 1' }, { title: 'Test Movie 2' }],
-      },
+      await wrapper.find('#submitted_by').setValue('Jane Doe')
+      await wrapper.find('#theme').setValue('Test Theme')
+      await wrapper.find('#movie1').setValue('Test Movie 1')
+      await wrapper.find('form').trigger('submit')
+
+      await flushPromises()
+    })
+
+    it('should send POST request to /suggestions with one movie', async () => {
+      expect({ fetchMock }).toHavePosted('/suggestions', {
+        body: {
+          theme: 'Test Theme',
+          submitted_by: 'Jane Doe',
+          movies: [{ title: 'Test Movie 1' }],
+        },
+      })
     })
   })
 })
