@@ -5,6 +5,7 @@ import SuggestionsCreatePageVue from '@pages/SuggestionsCreatePage.vue'
 import AdminPage from '@pages/AdminPage.vue'
 import EventPage from '@pages/EventPage.vue'
 import PageNotFound from '@pages/PageNotFound.vue'
+import EventsByTagPage from '@pages/EventsByTagPage.vue'
 
 const routes = [
   {
@@ -32,7 +33,13 @@ const routes = [
     component: PageNotFound,
   },
   {
-    path: '/:id',
+    path: '/:tag',
+    name: 'Events By Tag',
+    component: EventsByTagPage,
+    props: true,
+  },
+  {
+    path: '/event/:id',
     name: 'Event Details',
     component: EventPage,
     props: true,
