@@ -33,6 +33,55 @@ describe('value saved', () => {
   })
 })
 
+describe('submit enabled', () => {
+  it('disables submit for empty form', () => {
+    wrapper = mount(SuggestionsCreatePage)
+
+    expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
+  })
+
+  it('disables with everything except theme', async () => {
+    wrapper = mount(SuggestionsCreatePage)
+
+    await wrapper.find('#submitted_by').setValue('Jane Doe')
+    await wrapper.find('#movie1').setValue('Test Movie 1')
+    await wrapper.find('#movie2').setValue('Test Movie 2')
+
+    expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
+  })
+
+  it('disables with everything except movie1', async () => {
+    wrapper = mount(SuggestionsCreatePage)
+
+    await wrapper.find('#submitted_by').setValue('Jane Doe')
+    await wrapper.find('#theme').setValue('Test Theme')
+    await wrapper.find('#movie2').setValue('Test Movie 2')
+
+    expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
+  })
+
+  it('disables with everything except movie2', async () => {
+    wrapper = mount(SuggestionsCreatePage)
+
+    await wrapper.find('#submitted_by').setValue('Jane Doe')
+    await wrapper.find('#theme').setValue('Test Theme')
+    await wrapper.find('#movie1').setValue('Test Movie 1')
+
+    expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
+  })
+
+  it('enables with all fields filled', async () => {
+    wrapper = mount(SuggestionsCreatePage)
+
+    await wrapper.find('#submitted_by').setValue('Jane Doe')
+    await wrapper.find('#theme').setValue('Test Theme')
+    await wrapper.find('#movie1').setValue('Test Movie 1')
+    await wrapper.find('#movie2').setValue('Test Movie 2')
+
+    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
+  })
+})
+
 describe('submit', () => {
   afterEach(() => {
     fetchMock.mockReset()
