@@ -86,6 +86,7 @@ describe('getEvent', () => {
         date: '2021-01-01',
         theme: 'eventTheme',
         tags: ['tag1', 'tag2'],
+        hideFromHome: true,
       }),
     ])
   })
@@ -108,6 +109,7 @@ describe('getEvent', () => {
         theme: 'eventTheme',
         styledTheme: [],
         tags: ['tag1', 'tag2'],
+        hideFromHome: true,
       })
     })
   })

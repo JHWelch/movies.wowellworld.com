@@ -101,6 +101,7 @@ export class NotionMock {
     lastEditedMovieTime?: string
     submittedBy?: string | null
     tags?: string[]
+    hideFromHome?: boolean
   }): PageObjectResponse => pageObjectResponse(event.id, {
     Date: nDate(event.date),
     Theme: nTitle(event.theme),
@@ -112,5 +113,6 @@ export class NotionMock {
     'Last edited movie time': nFormula(event.lastEditedMovieTime || null),
     'Submitted By': nRichText(event.submittedBy ?? null),
     Tags: nMultiSelect(event.tags ?? []),
+    'Hide from Home': nCheckbox(event.hideFromHome ?? false),
   })
 }
