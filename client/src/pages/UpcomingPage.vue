@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Calendar from '@components/Calendar.vue'
-import RsvpModal from '@components/RsvpModal.vue'
 import ThankYou from '@components/ThankYou.vue'
 import EventList from '@components/EventList.vue'
 import heroImg from '@assets/hero.png'
