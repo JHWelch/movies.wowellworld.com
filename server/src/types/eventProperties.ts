@@ -51,4 +51,7 @@ export default interface EventProperties {
       name: string
     }>
   }
+  'Hide from Home': {
+    checkbox: boolean
+  }
 }

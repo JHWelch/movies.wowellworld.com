@@ -11,6 +11,7 @@
     "dev:server": "npm run --prefix server dev",
     "dev:firebase": "npm run --prefix server firebase",
     "dev:client": "npm run --prefix client dev",
+    "dev:export": "npm run --prefix server firebase:export",
     "build": "npm run build:server && npm run build:client && npm run build:emails && npm run link:emails",
     "build:server": "npm run --prefix server build",
     "build:client": "npm run --prefix client build",

@@ -148,13 +148,14 @@ describe('getUpcomingEvents', () => {
     ])
   })
 
-  it('should query with the correct constraints', async () => {
+  it('queries with the correct constraints, not including those hidden', async () => {
     await firestore.getUpcomingEvents()
 
     expect(query).toHaveBeenCalledWith(
       { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
+      { fieldPath: 'hideFromHome', opStr: '!=', value: true },
     )
   })
 
@@ -166,6 +167,18 @@ describe('getUpcomingEvents', () => {
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
       { limit: 3 },
+      { fieldPath: 'hideFromHome', opStr: '!=', value: true },
+    )
+  })
+
+  it('can get events for a specific tag', async () => {
+    await firestore.getUpcomingEvents({ tag: 'tag1' })
+
+    expect(query).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
+      { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+      { fieldPath: 'date' },
+      { fieldPath: 'tags', opStr: 'array-contains', value: 'tag1' },
     )
   })
 })
@@ -245,6 +258,8 @@ describe('getEvent', () => {
         theme: 'theme1',
         slug: null,
         lastEditedTime: now.toISO() ?? undefined,
+        tags: ['tag1', 'tag2'],
+        hideFromHome: true,
       })
     })
 
@@ -255,6 +270,8 @@ describe('getEvent', () => {
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
           lastUpdated: now,
+          tags: ['tag1', 'tag2'],
+          hideFromHome: true,
         }),
       )
     })
@@ -312,12 +329,14 @@ describe('cacheEvents', () => {
           theme: 'theme2',
           date: DateTime.fromISO('2021-01-08', TZ),
           lastUpdated: now.minus({ days: 10 }),
+          hideFromHome: true,
         }),
         new Event({
           id: 'id3',
           theme: 'theme3',
           date: DateTime.fromISO('2021-01-15', TZ),
           lastUpdated: now.minus({ days: 20 }),
+          tags: ['tag1', 'tag2'],
         }),
       ])
 
@@ -339,6 +358,7 @@ describe('cacheEvents', () => {
             theme: 'theme2',
             date: '2021-01-08',
             lastEditedTime: now.minus({ days: 10 }),
+            hideFromHome: true,
           }),
         )
       expect(transaction.set)
@@ -349,6 +369,7 @@ describe('cacheEvents', () => {
             theme: 'theme3',
             date: '2021-01-15',
             lastEditedTime: now.minus({ days: 20 }),
+            tags: ['tag1', 'tag2'],
           }),
         )
     })
@@ -360,6 +381,8 @@ describe('cacheEvents', () => {
       id: 'id1',
       theme: 'theme1',
       date: DateTime.fromISO('2021-01-01', TZ),
+      tags: ['tag1', 'tag2'],
+      hideFromHome: true,
       movies: [movie],
     })
 
@@ -375,6 +398,8 @@ describe('cacheEvents', () => {
           theme: 'theme1',
           date: '2021-01-01',
           movies: [movie],
+          tags: ['tag1', 'tag2'],
+          hideFromHome: true,
         }),
       )
   })

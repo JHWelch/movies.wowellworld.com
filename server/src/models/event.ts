@@ -22,6 +22,7 @@ export type EventConstructor = {
   lastUpdated?: DateTime
   submittedBy?: string | null
   tags?: string[]
+  hideFromHome?: boolean
 }
 
 export type EventDtoOptions = {
@@ -39,6 +40,7 @@ export class Event {
   public lastUpdated: DateTime = DateTime.now()
   public submittedBy: string | null = null
   public tags: string[] = []
+  public hideFromHome: boolean = false
 
   constructor (event: EventConstructor) {
     Object.keys(event).forEach((key) => {
@@ -65,6 +67,7 @@ export class Event {
       lastUpdated: this.parseLastUpdated(properties),
       submittedBy: properties['Submitted By']?.rich_text[0]?.plain_text,
       tags: properties.Tags?.multi_select.map((tag) => tag.name) ?? [],
+      hideFromHome: properties['Hide from Home']?.checkbox ?? false,
     })
   }
 
@@ -78,6 +81,8 @@ export class Event {
       styledTheme: record.styledTheme,
       lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
       submittedBy: record.submittedBy,
+      tags: record.tags ?? [],
+      hideFromHome: record.hideFromHome ?? false,
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })
@@ -124,6 +129,8 @@ export class Event {
       styledTheme: this.styledTheme,
       lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
       submittedBy: this.submittedBy,
+      tags: this.tags,
+      hideFromHome: this.hideFromHome ?? false,
     }
   }
 
