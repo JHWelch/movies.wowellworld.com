@@ -104,7 +104,9 @@ export default class FirestoreAdapter {
       where('date', '>=', this.today()),
       orderBy('date'),
       ...args.limit ? [limit(args.limit)] : [],
-      ...args.tag ? [where('tags', 'array-contains', args.tag)] : [],
+      ...args.tag
+        ? [where('tags', 'array-contains', args.tag)]
+        : [where('hideFromHome', '!=', true)],
     ))
   }
 

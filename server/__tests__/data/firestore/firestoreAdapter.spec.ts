@@ -148,13 +148,14 @@ describe('getUpcomingEvents', () => {
     ])
   })
 
-  it('should query with the correct constraints', async () => {
+  it('queries with the correct constraints, not including those hidden', async () => {
     await firestore.getUpcomingEvents()
 
     expect(query).toHaveBeenCalledWith(
       { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
+      { fieldPath: 'hideFromHome', opStr: '!=', value: true },
     )
   })
 
@@ -166,6 +167,7 @@ describe('getUpcomingEvents', () => {
       { fieldPath: 'date', opStr: '>=', value: firestore.today() },
       { fieldPath: 'date' },
       { limit: 3 },
+      { fieldPath: 'hideFromHome', opStr: '!=', value: true },
     )
   })
 
