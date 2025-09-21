@@ -1,6 +1,6 @@
 import { MovieDto, EventDto as EventDto } from '@shared/dtos'
 import Factory from '@tests/utils/factories/factory'
-import MovieFactory from './movieFactory'
+import MovieFactory from '@tests/utils/factories/movieFactory'
 
 export default class EventFactory extends Factory<EventDto> {
   protected state: EventDto = {
@@ -18,7 +18,7 @@ export default class EventFactory extends Factory<EventDto> {
   public withMovies = (movies: MovieDto[]|number): EventFactory => {
     this.state.movies = Array.isArray(movies)
       ? movies
-      : new Array(movies).fill(null).map(() => new MovieFactory().build())
+      : new Array(movies).fill(null).map(new MovieFactory().build)
 
     return this
   }
