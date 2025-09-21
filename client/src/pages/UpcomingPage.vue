@@ -74,8 +74,6 @@ import heroImg from '@assets/hero.png'
       }"
     />
 
-    <RsvpModal />
-
     <ThankYou />
   </div>
 
