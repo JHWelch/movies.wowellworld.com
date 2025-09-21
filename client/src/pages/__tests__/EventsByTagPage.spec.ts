@@ -21,8 +21,24 @@ afterEach(() => {
   fetchMock.mockReset()
 })
 
+it('should show the display title', async () => {
+  fetchMock.mockGlobal().route('/api/events?tag=Horror%20October', [
+    new EventFactory().withMovies(2).build(),
+    new EventFactory().withMovies(2).build(),
+  ])
+
+  wrapper = mount(EventsByTagPage, {
+    props: {
+      tag: 'october',
+    },
+  })
+  await flushPromises()
+
+  expect(wrapper.text()).toContain('Horror October')
+})
+
 it('should show the tags events', async () => {
-  fetchMock.mockGlobal().route('/api/events?tag=october', [
+  fetchMock.mockGlobal().route('/api/events?tag=Horror%20October', [
     new EventFactory().withMovies([
       new MovieFactory().build({
         title: 'The Matrix',
@@ -42,7 +58,6 @@ it('should show the tags events', async () => {
       tag: 'october',
     },
   })
-
   await flushPromises()
 
   expect(wrapper.text()).toContain('The Matrix')
