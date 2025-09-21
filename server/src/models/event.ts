@@ -81,6 +81,7 @@ export class Event {
       styledTheme: record.styledTheme,
       lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
       submittedBy: record.submittedBy,
+      tags: record.tags ?? [],
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })

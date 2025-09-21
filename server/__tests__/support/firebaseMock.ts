@@ -55,6 +55,7 @@ export class FirebaseMock {
         date: Timestamp.fromDate(event.date.toJSDate()),
         isSkipped: event.isSkipped,
         movies: event.movies ?? [],
+        tags: event.tags ?? [],
         lastUpdated: event.lastEditedTime
           ? Timestamp.fromDate(new Date(event.lastEditedTime))
           : Timestamp.now(),

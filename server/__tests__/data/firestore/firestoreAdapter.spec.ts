@@ -256,6 +256,7 @@ describe('getEvent', () => {
         theme: 'theme1',
         slug: null,
         lastEditedTime: now.toISO() ?? undefined,
+        tags: ['tag1', 'tag2'],
       })
     })
 
@@ -266,6 +267,7 @@ describe('getEvent', () => {
           theme: 'theme1',
           date: DateTime.fromISO('2021-01-01', TZ),
           lastUpdated: now,
+          tags: ['tag1', 'tag2'],
         }),
       )
     })
