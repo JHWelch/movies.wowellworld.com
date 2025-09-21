@@ -10,7 +10,7 @@ const router = useRouter()
 const {
   query,
   display,
-} = tags?.[props.tag] || {
+} = tags?.[props.tag.toLowerCase()] || {
   query: props.tag,
   display: props.tag,
 }

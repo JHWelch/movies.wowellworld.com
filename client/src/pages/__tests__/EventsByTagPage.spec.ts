@@ -37,6 +37,22 @@ it('should show the display title', async () => {
   expect(wrapper.text()).toContain('Horror October')
 })
 
+it('should not care about tag casing', async () => {
+  fetchMock.mockGlobal().route('/api/events?tag=Horror%20October', [
+    new EventFactory().withMovies(2).build(),
+    new EventFactory().withMovies(2).build(),
+  ])
+
+  wrapper = mount(EventsByTagPage, {
+    props: {
+      tag: 'OCtoBER',
+    },
+  })
+  await flushPromises()
+
+  expect(wrapper.text()).toContain('Horror October')
+})
+
 it('should show the tags events', async () => {
   fetchMock.mockGlobal().route('/api/events?tag=Horror%20October', [
     new EventFactory().withMovies([
