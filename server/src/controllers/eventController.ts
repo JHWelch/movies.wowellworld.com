@@ -8,7 +8,7 @@ export default class EventController {
   ) {}
 
   index = async (req: Request, res: Response): Promise<void> => {
-    const { past, limit, posterWidth } = this.parseIndexQuery(req)
+    const { past, limit, posterWidth } = this.parseQuery(req)
 
     const events = past
       ? await this.firestore.getPastEvents()
@@ -30,7 +30,7 @@ export default class EventController {
     res.json(event.toDTO())
   }
 
-  parseIndexQuery = (req: Request): {
+  parseQuery = (req: Request): {
     past: boolean
     limit?: number
     posterWidth: Width
