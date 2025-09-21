@@ -257,6 +257,7 @@ describe('getEvent', () => {
         slug: null,
         lastEditedTime: now.toISO() ?? undefined,
         tags: ['tag1', 'tag2'],
+        hideFromHome: true,
       })
     })
 
@@ -268,6 +269,7 @@ describe('getEvent', () => {
           date: DateTime.fromISO('2021-01-01', TZ),
           lastUpdated: now,
           tags: ['tag1', 'tag2'],
+          hideFromHome: true,
         }),
       )
     })

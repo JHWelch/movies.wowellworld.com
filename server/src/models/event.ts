@@ -82,6 +82,7 @@ export class Event {
       lastUpdated: DateTime.fromJSDate(record.lastUpdated.toDate()),
       submittedBy: record.submittedBy,
       tags: record.tags ?? [],
+      hideFromHome: record.hideFromHome ?? false,
       movies: record.movies
         .map((movie: DocumentData) => Movie.fromFirebase(movie)),
     })

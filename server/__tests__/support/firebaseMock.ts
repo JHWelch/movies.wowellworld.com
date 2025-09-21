@@ -56,6 +56,7 @@ export class FirebaseMock {
         isSkipped: event.isSkipped,
         movies: event.movies ?? [],
         tags: event.tags ?? [],
+        hideFromHome: event.hideFromHome ?? false,
         lastUpdated: event.lastEditedTime
           ? Timestamp.fromDate(new Date(event.lastEditedTime))
           : Timestamp.now(),
@@ -139,6 +140,7 @@ export type FirebaseEvent = {
   lastEditedTime?: string
   submittedBy?: string | null
   tags?: string[]
+  hideFromHome?: boolean
 }
 
 export type FirebaseMovie = {
