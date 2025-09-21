@@ -23,6 +23,12 @@ To build assets for development and serve on port `PORT`.
 npm run dev
 ```
 
+This will create a local mock Firebase environment. To store local data after syncing
+
+```sh
+npm run dev:export
+```
+
 ### Testing
 
 ```sh
