@@ -327,6 +327,7 @@ describe('cacheEvents', () => {
           theme: 'theme2',
           date: DateTime.fromISO('2021-01-08', TZ),
           lastUpdated: now.minus({ days: 10 }),
+          hideFromHome: true,
         }),
         new Event({
           id: 'id3',
@@ -355,6 +356,7 @@ describe('cacheEvents', () => {
             theme: 'theme2',
             date: '2021-01-08',
             lastEditedTime: now.minus({ days: 10 }),
+            hideFromHome: true,
           }),
         )
       expect(transaction.set)

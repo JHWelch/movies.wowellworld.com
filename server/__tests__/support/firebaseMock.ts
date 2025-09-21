@@ -118,6 +118,7 @@ export class FirebaseMock {
         : DateTime.now(),
       submittedBy: event.submittedBy ?? null,
       tags: event.tags ?? [],
+      hideFromHome: event.hideFromHome ?? false,
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -170,6 +171,7 @@ export type FirebaseEventConstructor = {
   styledTheme?: RichText[]
   isSkipped?: boolean
   tags?: string[]
+  hideFromHome?: boolean
   slug?: string | null
   movies?: Movie[]
   lastEditedTime?: DateTime|string
