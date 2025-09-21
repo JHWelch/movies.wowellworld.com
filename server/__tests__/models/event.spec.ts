@@ -116,6 +116,7 @@ describe('fromNotion', () => {
       lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
       submittedBy: 'submittedBy',
       tags: [],
+      hideFromHome: false,
     })
   })
 

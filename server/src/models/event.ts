@@ -130,6 +130,7 @@ export class Event {
       lastUpdated: Timestamp.fromDate(this.lastUpdated.toJSDate()),
       submittedBy: this.submittedBy,
       tags: this.tags,
+      hideFromHome: this.hideFromHome ?? false,
     }
   }
 

@@ -381,6 +381,8 @@ describe('cacheEvents', () => {
       id: 'id1',
       theme: 'theme1',
       date: DateTime.fromISO('2021-01-01', TZ),
+      tags: ['tag1', 'tag2'],
+      hideFromHome: true,
       movies: [movie],
     })
 
@@ -396,6 +398,8 @@ describe('cacheEvents', () => {
           theme: 'theme1',
           date: '2021-01-01',
           movies: [movie],
+          tags: ['tag1', 'tag2'],
+          hideFromHome: true,
         }),
       )
   })

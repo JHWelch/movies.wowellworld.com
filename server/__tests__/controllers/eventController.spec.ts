@@ -106,6 +106,7 @@ describe('index', () => {
         { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
         { fieldPath: 'date', opStr: '>=', value: firestore.today() },
         { fieldPath: 'date' },
+        { fieldPath: 'hideFromHome', opStr: '!=', value: true },
       )
     })
   })
@@ -226,6 +227,7 @@ describe('index', () => {
         { fieldPath: 'date', opStr: '>=', value: firestore.today() },
         { fieldPath: 'date' },
         { limit: 1 },
+        { fieldPath: 'hideFromHome', opStr: '!=', value: true },
       )
     })
   })

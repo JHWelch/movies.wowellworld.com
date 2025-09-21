@@ -12,6 +12,7 @@ export type FirestoreEvent = {
   lastUpdated: Timestamp
   submittedBy: string | null
   tags: string[]
+  hideFromHome: boolean
 }
 
 export type FirestoreMovie = {
