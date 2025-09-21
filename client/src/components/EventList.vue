@@ -6,6 +6,7 @@ import EventItem from '@components/EventItem.vue'
 import ErrorBanner from '@components/ErrorBanner.vue'
 import { EventDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
+import RsvpModal from '@client/components/RsvpModal.vue'
 
 const props = defineProps<{
   sectionTitles: { [key: number]: string }
@@ -90,5 +91,7 @@ reload()
         />
       </div>
     </div>
+
+    <RsvpModal v-if="showEventDetails" />
   </div>
 </template>
