@@ -11,6 +11,7 @@ const props = defineProps<{
   sectionTitles: { [key: number]: string }
   fetchUrl: string
   showEventDetails: boolean
+  onEmpty?: () => void
 }>()
 
 const events = ref<EventDto[]>([])
@@ -36,6 +37,10 @@ const reload = () => {
     .then(data => {
       events.value = data
       loading.value = false
+
+      if (data.length === 0 && props.onEmpty) {
+        props.onEmpty()
+      }
 
       const rsvp_event = rsvpEvent()
       if (!rsvp_event) { return }

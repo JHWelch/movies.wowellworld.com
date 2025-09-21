@@ -9,11 +9,11 @@ import EventFactory from '@client/__tests__/utils/factories/eventFactory'
 
 let wrapper: VueWrapper
 
-const routerPushMock = vitest.fn()
+const routerReplaceMock = vitest.fn()
 
 vitest.mock('vue-router', () => ({
   useRouter: () => ({
-    push: routerPushMock,
+    replace: routerReplaceMock,
   }),
 }))
 
@@ -49,4 +49,18 @@ it('should show the tags events', async () => {
   expect(wrapper.text()).toContain('The Wachowskis')
   expect(wrapper.text()).toContain('Mars Attacks!')
   expect(wrapper.text()).toContain('Tim Burton')
+})
+
+it('redirects to /404 when no events are found', async () => {
+  fetchMock.mockGlobal().route('/api/events?tag=nonexistent', [])
+
+  wrapper = mount(EventsByTagPage, {
+    props: {
+      tag: 'nonexistent',
+    },
+  })
+
+  await flushPromises()
+
+  expect(routerReplaceMock).toHaveBeenCalledWith('/404')
 })
