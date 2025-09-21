@@ -20,7 +20,7 @@ const {
   <div class="mt-10">
     <EventList
       :fetch-url="`/api/events?tag=${query}`"
-      :show-event-details="false"
+      :show-event-details="true"
       :section-titles="{ 0: display }"
       :on-empty="() => router.replace('/404')"
     />

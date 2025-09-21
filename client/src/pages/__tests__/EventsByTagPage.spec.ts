@@ -28,6 +28,7 @@ describe('events found', () => {
         new MovieFactory().build({
           title: 'The Matrix',
           director: 'The Wachowskis',
+          time: '8:00 PM',
         }),
       ]).build(),
       new EventFactory().withMovies([
@@ -73,6 +74,18 @@ describe('events found', () => {
     expect(wrapper.text()).toContain('The Wachowskis')
     expect(wrapper.text()).toContain('Mars Attacks!')
     expect(wrapper.text()).toContain('Tim Burton')
+  })
+
+  it('shows RSVP and time information', async () => {
+    wrapper = mount(EventsByTagPage, {
+      props: {
+        tag: 'october',
+      },
+    })
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('RSVP')
+    expect(wrapper.text()).toMatch(/8:00.PM/)
   })
 })
 
