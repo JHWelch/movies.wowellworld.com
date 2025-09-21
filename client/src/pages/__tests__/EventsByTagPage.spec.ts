@@ -4,7 +4,7 @@ import { flushPromises, mount, VueWrapper } from '@vue/test-utils'
 import { afterEach, expect, it, vitest } from 'vitest'
 import fetchMock from '@fetch-mock/vitest'
 import MovieFactory from '@client/__tests__/utils/factories/movieFactory'
-import EventByTagPage from '@pages/EventByTagPage.vue'
+import EventsByTagPage from '@pages/EventsByTagPage.vue'
 import EventFactory from '@client/__tests__/utils/factories/eventFactory'
 
 let wrapper: VueWrapper
@@ -37,7 +37,7 @@ it('should show the tags events', async () => {
     ]).build(),
   ])
 
-  wrapper = mount(EventByTagPage, {
+  wrapper = mount(EventsByTagPage, {
     props: {
       tag: 'october',
     },
