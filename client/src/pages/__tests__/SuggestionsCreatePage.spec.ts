@@ -60,14 +60,14 @@ describe('submit enabled', () => {
     expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
   })
 
-  it('disables with everything except movie2', async () => {
+  it('enables with everything except movie2', async () => {
     wrapper = mount(SuggestionsCreatePage)
 
     await wrapper.find('#submitted_by').setValue('Jane Doe')
     await wrapper.find('#theme').setValue('Test Theme')
     await wrapper.find('#movie1').setValue('Test Movie 1')
 
-    expect(wrapper.find('button').attributes('disabled')).not.toBeUndefined()
+    expect(wrapper.find('button').attributes('disabled')).toBeUndefined()
   })
 
   it('enables with all fields filled', async () => {

@@ -30,8 +30,7 @@ const { errors, handleErrors } = useErrorHandling((initialErrors) => ({
 const disabled = computed(() => submitting.value
     || !formData.value.theme
     || !formData.value.movie1.title
-    || !formData.value.movie2.title
-    || !formData.value.submitted_by,
+    || !formData.value.submitted_by
 )
 const submit = async () => {
   submitting.value = true
@@ -78,6 +77,7 @@ const submit = async () => {
         name="submitted_by"
         label="Your Name"
         placeholder="Who are you?"
+        :required="true"
         :error="errors.submitted_by"
         @clear-error="errors.submitted_by = ''"
       />
@@ -86,6 +86,7 @@ const submit = async () => {
         v-model="formData.theme"
         name="theme"
         placeholder="Something punny..."
+        :required="true"
         :error="errors.theme"
         @clear-error="errors.theme = ''"
       />
@@ -95,6 +96,7 @@ const submit = async () => {
         name="movie1"
         label="First Movie"
         placeholder="Triangle"
+        :required="true"
         :error="errors.movie1"
         @clear-error="errors.movie1 = ''"
       />
