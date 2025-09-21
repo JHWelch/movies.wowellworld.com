@@ -15,6 +15,7 @@ import {
   nDate,
   nFormula,
   nLastEditedTime,
+  nMultiSelect,
   nRelation,
   nRichText,
   nTitle,
@@ -99,6 +100,7 @@ export class NotionMock {
     lastEditedTime?: string
     lastEditedMovieTime?: string
     submittedBy?: string | null
+    tags?: string[]
   }): PageObjectResponse => pageObjectResponse(event.id, {
     Date: nDate(event.date),
     Theme: nTitle(event.theme),
@@ -109,5 +111,6 @@ export class NotionMock {
     'Last edited time': nLastEditedTime(event.lastEditedTime ?? DateTime.now().toISO()),
     'Last edited movie time': nFormula(event.lastEditedMovieTime || null),
     'Submitted By': nRichText(event.submittedBy ?? null),
+    Tags: nMultiSelect(event.tags ?? []),
   })
 }

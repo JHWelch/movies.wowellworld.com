@@ -81,7 +81,12 @@ describe('getEvent', () => {
       DATABASE_ID: 'DATABASE_ID',
     }
     notionMock.mockQuery([
-      NotionMock.mockEvent({ id: 'eventId', date: '2021-01-01', theme: 'eventTheme' }),
+      NotionMock.mockEvent({
+        id: 'eventId',
+        date: '2021-01-01',
+        theme: 'eventTheme',
+        tags: ['tag1', 'tag2'],
+      }),
     ])
   })
 
@@ -102,6 +107,7 @@ describe('getEvent', () => {
         movies: [],
         theme: 'eventTheme',
         styledTheme: [],
+        tags: ['tag1', 'tag2'],
       })
     })
   })
