@@ -97,12 +97,14 @@ export default class FirestoreAdapter {
 
   getUpcomingEvents = async (args: {
     limit?: number
+    tag?: string
   } = {}): Promise<Event[]> => {
     return this.getEvents(query(
       this.eventCollection,
       where('date', '>=', this.today()),
       orderBy('date'),
-      ...(args.limit ? [limit(args.limit)] : []),
+      ...args.limit ? [limit(args.limit)] : [],
+      ...args.tag ? [where('tags', 'array-contains', args.tag)] : [],
     ))
   }
 

@@ -168,6 +168,17 @@ describe('getUpcomingEvents', () => {
       { limit: 3 },
     )
   })
+
+  it('can get events for a specific tag', async () => {
+    await firestore.getUpcomingEvents({ tag: 'tag1' })
+
+    expect(query).toHaveBeenCalledWith(
+      { firestore: { firestore: 'firestore' }, collectionPath: 'events' },
+      { fieldPath: 'date', opStr: '>=', value: firestore.today() },
+      { fieldPath: 'date' },
+      { fieldPath: 'tags', opStr: 'array-contains', value: 'tag1' },
+    )
+  })
 })
 
 describe('getPastEvents', () => {
