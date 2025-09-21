@@ -59,7 +59,14 @@ import heroImg from '@assets/hero.png'
         </h2>
 
         <p class="px-4 py-2 text-center md:px-8">
-          We'll be back with more movies in October for our Horror Movie Month.
+          We'll be back with more movies in October for our
+
+          <router-link
+            to="/october"
+            class="text-orange-600 underline"
+          >
+            Horror Movie Month 🎃
+          </router-link>
         </p>
       </section>
     </div>
