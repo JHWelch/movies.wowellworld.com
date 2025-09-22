@@ -149,6 +149,26 @@ export const nFormula = (result: string | null): {
     id: 'mockId',
   }
 
+export const nMultiSelect = (options: string[]): {
+  id: string
+  type: 'multi_select'
+  name: string
+  multi_select: Array<{
+    id: string
+    name: string
+    color: 'default' | 'gray' | 'brown' | 'orange' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'red'
+  }>
+} => ({
+  id: 'mockedId',
+  name: 'mockedName',
+  type: 'multi_select',
+  multi_select: options.map((option) => ({
+    id: option.toLowerCase().replace(/\s+/g, '-'),
+    name: option,
+    color: 'default',
+  })),
+})
+
 export const pageObjectResponse = (
   id: string,
   properties: PageObjectResponse['properties'],

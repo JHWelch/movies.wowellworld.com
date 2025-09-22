@@ -8,11 +8,11 @@ export default class EventController {
   ) {}
 
   index = async (req: Request, res: Response): Promise<void> => {
-    const { past, limit, posterWidth } = this.parseIndexQuery(req)
+    const { past, limit, posterWidth, tag } = this.parseQuery(req)
 
     const events = past
       ? await this.firestore.getPastEvents()
-      : await this.firestore.getUpcomingEvents({ limit })
+      : await this.firestore.getUpcomingEvents({ limit, tag })
 
     res.json(events.map((event) => event.toDTO({
       movies: { posterWidth },
@@ -30,14 +30,16 @@ export default class EventController {
     res.json(event.toDTO())
   }
 
-  parseIndexQuery = (req: Request): {
+  parseQuery = (req: Request): {
     past: boolean
     limit?: number
     posterWidth: Width
+    tag: string | undefined
   } =>
     ({
       past: req.query.past === 'true',
       limit: req.query.limit ? parseInt(req.query.limit as string) : undefined,
       posterWidth: isWidth(req.query.posterWidth) ? req.query.posterWidth : 'w500',
+      tag: typeof req.query.tag === 'string' ? req.query.tag : undefined,
     })
 }

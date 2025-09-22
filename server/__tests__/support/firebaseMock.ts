@@ -55,6 +55,8 @@ export class FirebaseMock {
         date: Timestamp.fromDate(event.date.toJSDate()),
         isSkipped: event.isSkipped,
         movies: event.movies ?? [],
+        tags: event.tags ?? [],
+        hideFromHome: event.hideFromHome ?? false,
         lastUpdated: event.lastEditedTime
           ? Timestamp.fromDate(new Date(event.lastEditedTime))
           : Timestamp.now(),
@@ -115,6 +117,8 @@ export class FirebaseMock {
         ? typeof event.lastEditedTime === 'string' ? DateTime.fromISO(event.lastEditedTime) : event.lastEditedTime
         : DateTime.now(),
       submittedBy: event.submittedBy ?? null,
+      tags: event.tags ?? [],
+      hideFromHome: event.hideFromHome ?? false,
     }).toFirebaseDTO()
 
   static mockCollection = (collectionPath: string): {
@@ -136,6 +140,8 @@ export type FirebaseEvent = {
   styledTheme?: RichText[]
   lastEditedTime?: string
   submittedBy?: string | null
+  tags?: string[]
+  hideFromHome?: boolean
 }
 
 export type FirebaseMovie = {
@@ -164,6 +170,8 @@ export type FirebaseEventConstructor = {
   date: Date|string
   styledTheme?: RichText[]
   isSkipped?: boolean
+  tags?: string[]
+  hideFromHome?: boolean
   slug?: string | null
   movies?: Movie[]
   lastEditedTime?: DateTime|string

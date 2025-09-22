@@ -81,7 +81,13 @@ describe('getEvent', () => {
       DATABASE_ID: 'DATABASE_ID',
     }
     notionMock.mockQuery([
-      NotionMock.mockEvent({ id: 'eventId', date: '2021-01-01', theme: 'eventTheme' }),
+      NotionMock.mockEvent({
+        id: 'eventId',
+        date: '2021-01-01',
+        theme: 'eventTheme',
+        tags: ['tag1', 'tag2'],
+        hideFromHome: true,
+      }),
     ])
   })
 
@@ -102,6 +108,8 @@ describe('getEvent', () => {
         movies: [],
         theme: 'eventTheme',
         styledTheme: [],
+        tags: ['tag1', 'tag2'],
+        hideFromHome: true,
       })
     })
   })
@@ -201,6 +209,7 @@ describe('getEvents', () => {
         lastUpdated: DateTime.fromISO('2022-08-12T15:45:00.000Z'),
         submittedBy: null,
         tags: [],
+        hideFromHome: false,
       }, {
         id: 'eventId2',
         date: DateTime.fromISO('2021-01-08', TZ),
@@ -212,6 +221,7 @@ describe('getEvents', () => {
         lastUpdated: DateTime.fromISO('2023-08-12T15:45:00.000Z'),
         submittedBy: 'submittedBy',
         tags: [],
+        hideFromHome: false,
       }, {
         id: 'eventId1',
         date: DateTime.fromISO('2021-01-01', TZ),
@@ -223,6 +233,7 @@ describe('getEvents', () => {
         lastUpdated: DateTime.fromISO('2021-08-12T15:45:00.000Z'),
         submittedBy: null,
         tags: [],
+        hideFromHome: false,
       },
     ])
   })

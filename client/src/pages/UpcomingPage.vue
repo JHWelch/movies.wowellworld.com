@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Calendar from '@components/Calendar.vue'
-import RsvpModal from '@components/RsvpModal.vue'
 import ThankYou from '@components/ThankYou.vue'
 import EventList from '@components/EventList.vue'
 import heroImg from '@assets/hero.png'
@@ -60,11 +59,14 @@ import heroImg from '@assets/hero.png'
         </h2>
 
         <p class="px-4 py-2 text-center md:px-8">
-          We'll be back with more movies in October for our Horror Movie Month.
-        </p>
+          We'll be back with more movies in October for our
 
-        <p class="px-4 py-2 text-center md:px-8">
-          Stay tuned and we'll update the calendar soon!
+          <router-link
+            to="/october"
+            class="text-orange-600 underline"
+          >
+            Horror Movie Month 🎃
+          </router-link>
         </p>
       </section>
     </div>
@@ -77,8 +79,6 @@ import heroImg from '@assets/hero.png'
         0: 'Coming Attractions',
       }"
     />
-
-    <RsvpModal />
 
     <ThankYou />
   </div>
