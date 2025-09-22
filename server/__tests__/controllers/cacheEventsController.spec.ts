@@ -214,7 +214,7 @@ describe('store', () => {
       await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
-        data_source_id: 'NOTION_WEEK_DATABASE_ID',
+        data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID',
         page_size: 100,
         filter: {
           property: 'Date',
@@ -329,7 +329,7 @@ describe('store', () => {
       await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
-        data_source_id: 'NOTION_WEEK_DATABASE_ID',
+        data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID',
         page_size: 100,
         filter: {
           and: [

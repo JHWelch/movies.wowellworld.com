@@ -242,7 +242,7 @@ describe('getEvents', () => {
     await notion.getEvents()
 
     expect(notionMock.query).toHaveBeenCalledWith({
-      data_source_id: 'NOTION_WEEK_DATABASE_ID',
+      data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID',
       page_size: 100,
       filter: {
         property: 'Date',
@@ -282,7 +282,7 @@ describe('createMovie', () => {
     await notion.createMovie(movie)
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
       properties: movie.notionProperties(),
     })
   })
@@ -303,7 +303,7 @@ describe('createEvent', () => {
     await notion.createEvent('Theme', ['movieId1', 'movieId2'], 'Anonymous')
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { data_source_id: 'NOTION_WEEK_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'Theme' } }] },
         'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },

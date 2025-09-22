@@ -10,9 +10,9 @@ beforeEach(() => {
     CALENDAR_URL: 'https://CALENDAR_URL',
     GOOGLE_CLOUD_PROJECT: 'GOOGLE_CLOUD_PROJECT',
     NODE_ENV: 'production',
-    NOTION_MOVIE_DATABASE_ID: 'NOTION_MOVIE_DATABASE_ID',
+    NOTION_MOVIE_DATA_SOURCE_ID: 'NOTION_MOVIE_DATA_SOURCE_ID',
     NOTION_TOKEN: 'NOTION_TOKEN',
-    NOTION_WEEK_DATABASE_ID: 'NOTION_WEEK_DATABASE_ID',
+    NOTION_EVENT_DATA_SOURCE_ID: 'NOTION_EVENT_DATA_SOURCE_ID',
     PORT: '3000',
     TMDB_READ_KEY: 'TMDB_READ_KEY',
   }
@@ -26,8 +26,8 @@ describe('env variables all present', () => {
     expect(config.apiPassword).toBe('API_PASSWORD')
     expect(config.nodeEnv).toBe('production')
     expect(config.notionToken).toBe('NOTION_TOKEN')
-    expect(config.notionEventDatabaseId).toBe('NOTION_WEEK_DATABASE_ID')
-    expect(config.notionMovieDatabaseId).toBe('NOTION_MOVIE_DATABASE_ID')
+    expect(config.notionEventDatabaseId).toBe('NOTION_EVENT_DATA_SOURCE_ID')
+    expect(config.notionMovieDatabaseId).toBe('NOTION_MOVIE_DATA_SOURCE_ID')
     expect(config.port).toBe(3000)
     expect(config.googleCloudProject).toBe('GOOGLE_CLOUD_PROJECT')
     expect(config.adminEmail).toBe('ADMIN_EMAIL@example.com')
@@ -46,25 +46,25 @@ describe('env missing NOTION_TOKEN', () => {
   })
 })
 
-describe('env missing NOTION_MOVIE_DATABASE_ID', () => {
+describe('env missing NOTION_MOVIE_DATA_SOURCE_ID', () => {
   beforeEach(() => {
-    delete process.env.NOTION_MOVIE_DATABASE_ID
+    delete process.env.NOTION_MOVIE_DATA_SOURCE_ID
   })
 
   it('throws an error', () => {
     expect(() => new Config())
-      .toThrowError('NOTION_MOVIE_DATABASE_ID is missing')
+      .toThrowError('NOTION_MOVIE_DATA_SOURCE_ID is missing')
   })
 })
 
-describe('env missing NOTION_WEEK_DATABASE_ID', () => {
+describe('env missing NOTION_EVENT_DATA_SOURCE_ID', () => {
   beforeEach(() => {
-    delete process.env.NOTION_WEEK_DATABASE_ID
+    delete process.env.NOTION_EVENT_DATA_SOURCE_ID
   })
 
   it('throws an error', () => {
     expect(() => new Config())
-      .toThrowError('NOTION_WEEK_DATABASE_ID is missing')
+      .toThrowError('NOTION_EVENT_DATA_SOURCE_ID is missing')
   })
 })
 
