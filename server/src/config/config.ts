@@ -17,8 +17,8 @@ export default class Config {
     this.appUrl = requiredVariable('APP_URL')
     this.calendarUrl = requiredVariable('CALENDAR_URL')
     this.googleCloudProject = requiredVariable('GOOGLE_CLOUD_PROJECT')
-    this.notionMovieDatabaseId = requiredVariable('NOTION_MOVIE_DATABASE_ID')
-    this.notionEventDatabaseId = requiredVariable('NOTION_WEEK_DATABASE_ID')
+    this.notionMovieDatabaseId = requiredVariable('NOTION_MOVIE_DATA_SOURCE_ID')
+    this.notionEventDatabaseId = requiredVariable('NOTION_EVENT_DATA_SOURCE_ID')
     this.notionToken = requiredVariable('NOTION_TOKEN')
     this.tmdbApiKey = requiredVariable('TMDB_READ_KEY')
 

@@ -129,7 +129,7 @@ describe('store', () => {
     await newMovieController().store(req, res)
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
       properties: movie.notionProperties(),
     })
   })
@@ -155,7 +155,7 @@ describe('store', () => {
     await newMovieController().store(req, res)
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
       properties: movie.notionProperties(),
     })
   })

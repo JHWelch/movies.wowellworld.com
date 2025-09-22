@@ -1,5 +1,4 @@
 import {
-  DatabaseObjectResponse,
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { Movie, MovieDtoOptions } from '@server/models/movie'
@@ -52,9 +51,7 @@ export class Event {
     Object.assign(this, event)
   }
 
-  static fromNotion (
-    record: PageObjectResponse | DatabaseObjectResponse,
-  ): Event {
+  static fromNotion (record: PageObjectResponse): Event {
     const properties = record.properties as unknown as EventProperties
 
     return new Event({

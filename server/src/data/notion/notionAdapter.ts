@@ -1,14 +1,14 @@
-import { Client, isFullPageOrDatabase } from '@notionhq/client'
+import { Client, isFullPage } from '@notionhq/client'
 import { Movie } from '@server/models/movie'
 import { Event } from '@server/models/event'
 import {
-  type DatabaseObjectResponse,
-  type PartialDatabaseObjectResponse,
   type CreatePageResponse,
   type PageObjectResponse,
   type PartialPageObjectResponse,
   type UpdatePageResponse,
-  QueryDatabaseParameters,
+  type DataSourceObjectResponse,
+  type PartialDataSourceObjectResponse,
+  type QueryDataSourceParameters,
 } from '@notionhq/client/build/src/api-endpoints'
 import type EventProperties from '@server/types/eventProperties'
 import Config from '@server/config/config'
@@ -27,7 +27,7 @@ export default class NotionAdapter {
 
   async getMovie (id: string): Promise<Movie> {
     const page = await this.#notion.pages.retrieve({ page_id: id })
-    if (!isFullPageOrDatabase(page)) {
+    if (!isFullPage(page)) {
       throw new Error('Page was not successfully retrieved')
     }
 
@@ -35,8 +35,8 @@ export default class NotionAdapter {
   }
 
   async getEvent (date: string): Promise<Event | null> {
-    const records = await this.#notion.databases.query({
-      database_id: this.#eventDatabaseId,
+    const records = await this.#notion.dataSources.query({
+      data_source_id: this.#eventDatabaseId,
       filter: {
         property: 'Date',
         date: { equals: date },
@@ -49,16 +49,13 @@ export default class NotionAdapter {
   }
 
   async getEvents (after?: string | null): Promise<Event[]> {
-    const results: (PageObjectResponse
-      | PartialPageObjectResponse
-      | DatabaseObjectResponse
-      | PartialDatabaseObjectResponse)[] = []
+    const results: NotionQueryResponse[] = []
     let hasMore = true
     let nextCursor: string | undefined | null
 
     while (hasMore) {
-      const records = await this.#notion.databases.query({
-        database_id: this.#eventDatabaseId,
+      const records = await this.#notion.dataSources.query({
+        data_source_id: this.#eventDatabaseId,
         page_size: 100,
         filter: this.eventFilter(after),
         sorts: [{
@@ -85,7 +82,7 @@ export default class NotionAdapter {
     submittedBy: string,
   ): Promise<CreatePageResponse> =>
     this.#notion.pages.create({
-      parent: { database_id: this.#eventDatabaseId },
+      parent: { data_source_id: this.#eventDatabaseId },
       properties: {
         Theme: notionTitle(theme),
         'Submitted By': notionRichText(submittedBy),
@@ -95,7 +92,7 @@ export default class NotionAdapter {
 
   createMovie = async (movie: Movie): Promise<string> => {
     const notionMovie = await this.#notion.pages.create({
-      parent: { database_id: this.#movieDatabaseId },
+      parent: { data_source_id: this.#movieDatabaseId },
       properties: movie.notionProperties(),
     })
 
@@ -104,7 +101,7 @@ export default class NotionAdapter {
 
   private eventFilter = (
     after?: string | null
-  ): QueryDatabaseParameters['filter'] => after
+  ): QueryDataSourceParameters['filter'] => after
     ? {
       and: [
         {
@@ -133,7 +130,7 @@ export default class NotionAdapter {
   private recordToEvent = async (
     record: NotionQueryResponse
   ): Promise<Event> => {
-    if (!isFullPageOrDatabase(record)) {
+    if (!isFullPage(record)) {
       throw new Error('Page was not successfully retrieved')
     }
 
@@ -148,8 +145,7 @@ export default class NotionAdapter {
   }
 }
 
-type NotionQueryResponse =
-  PageObjectResponse |
-  PartialPageObjectResponse |
-  PartialDatabaseObjectResponse |
-  DatabaseObjectResponse
+type NotionQueryResponse = PageObjectResponse
+  | PartialPageObjectResponse
+  | PartialDataSourceObjectResponse
+  | DataSourceObjectResponse
