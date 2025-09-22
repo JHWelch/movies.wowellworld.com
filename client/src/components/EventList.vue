@@ -8,12 +8,16 @@ import { EventDto } from '@shared/dtos'
 import { rsvpModal } from '@client/state/modalState'
 import RsvpModal from '@client/components/RsvpModal.vue'
 
-const props = defineProps<{
-  sectionTitles: { [key: number]: string }
+const props = withDefaults(defineProps<{
   fetchUrl: string
   showEventDetails: boolean
+  sectionTitles?: { [key: number]: string }
   onEmpty?: () => void
-}>()
+}>(), {
+  sectionTitles: () => ({}),
+  showEventDetails: false,
+  onEmpty: undefined,
+})
 
 const events = ref<EventDto[]>([])
 const loading = ref<boolean>(true)
