@@ -68,15 +68,15 @@ describe('store', () => {
     await newSuggestionController().store(req, res)
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
       properties: new Movie({ title: 'movie1' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
       properties: new Movie({ title: 'movie2' }).notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_WEEK_DATABASE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'theme' } }] },
         'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
@@ -135,15 +135,15 @@ describe('store', () => {
       await newSuggestionController().store(req, res)
 
       expect(notionMock.create).toHaveBeenCalledWith({
-        parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+        parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
         properties: movie1.notionProperties(),
       })
       expect(notionMock.create).toHaveBeenCalledWith({
-        parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+        parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
         properties: movie2.notionProperties(),
       })
       expect(notionMock.create).toHaveBeenCalledWith({
-        parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
+        parent: { data_source_id: 'NOTION_WEEK_DATABASE_ID' },
         properties: {
           Theme: { title: [{ text: { content: 'theme' } }] },
           'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },

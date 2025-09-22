@@ -1,11 +1,11 @@
 import { jest } from '@jest/globals'
-import { Client as _Client, isFullPageOrDatabase as _isFullPageOrDatabase } from '@notionhq/client'
+import { Client as _Client, isFullPage as _isFullPage } from '@notionhq/client'
 import {
   GetPageParameters,
   GetPageResponse,
   PageObjectResponse,
-  QueryDatabaseParameters,
-  QueryDatabaseResponse,
+  QueryDataSourceParameters,
+  QueryDataSourceResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { RichText } from '@shared/dtos'
 import {
@@ -24,7 +24,7 @@ import {
 import { DateTime } from 'luxon'
 
 const Client = _Client as unknown as jest.Mock
-const isFullPageOrDatabase = _isFullPageOrDatabase as unknown as jest.Mock
+const isFullPage = _isFullPage as unknown as jest.Mock
 
 type CreateType = typeof Client.prototype.pages.create
 type UpdateType = typeof Client.prototype.pages.update
@@ -49,12 +49,12 @@ export class NotionMock {
         update: this.update,
         retrieve: this.retrieve,
       },
-      databases: { query: this.query },
+      dataSources: { query: this.query },
     }))
   }
 
-  mockIsFullPageOrDatabase = (response: boolean) =>
-    isFullPageOrDatabase.mockReturnValue(response)
+  mockIsFullPage = (response: boolean) =>
+    isFullPage.mockReturnValue(response)
 
   mockRetrieve = (movie?: NotionMovie) => {
     const notionMovie = movie ?? NotionMovie.demo()
@@ -69,10 +69,10 @@ export class NotionMock {
   mockQuery = (events: PageObjectResponse[] = []) => {
     this.query.mockImplementation(
       async (
-        _args: WithAuth<QueryDatabaseParameters>,
-      ): Promise<QueryDatabaseResponse> => ({
-        page_or_database: {},
-        type: 'page_or_database',
+        _args: WithAuth<QueryDataSourceParameters>,
+      ): Promise<QueryDataSourceResponse> => ({
+        page_or_data_source: {},
+        type: 'page_or_data_source',
         object: 'list',
         next_cursor: null,
         has_more: false,

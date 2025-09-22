@@ -130,7 +130,7 @@ describe('store', () => {
     ]
 
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       FirebaseMock.mockGetGlobal('lastUpdated')
       notionMock.mockQuery([
         NotionMock.mockEvent({
@@ -214,7 +214,7 @@ describe('store', () => {
       await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
-        database_id: 'NOTION_WEEK_DATABASE_ID',
+        data_source_id: 'NOTION_WEEK_DATABASE_ID',
         page_size: 100,
         filter: {
           property: 'Date',
@@ -244,7 +244,7 @@ describe('store', () => {
 
   describe('when cache lastUpdated already exists', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       FirebaseMock.mockGetGlobal('lastUpdated', {
         updatedEvents: 3,
         previousLastUpdated: null,
@@ -329,7 +329,7 @@ describe('store', () => {
       await newCacheController().store(req, res)
 
       expect(notionMock.query).toHaveBeenCalledWith({
-        database_id: 'NOTION_WEEK_DATABASE_ID',
+        data_source_id: 'NOTION_WEEK_DATABASE_ID',
         page_size: 100,
         filter: {
           and: [
@@ -375,7 +375,7 @@ describe('store', () => {
 
   describe('when no events are returned', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       FirebaseMock.mockGetGlobal('lastUpdated',{
         updatedEvents: 3,
         previousLastUpdated: null,
@@ -437,7 +437,7 @@ describe('store', () => {
         id: 'notionId',
         ...movieDetails,
       })
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       notionMock.mockQuery([
         NotionMock.mockEvent({
           id: 'id1',
@@ -510,7 +510,7 @@ describe('store', () => {
         tmdbId: 1234,
       })
       const notionResponse = new NotionMovie({ id: 'notionId', title: 'title' })
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       notionMock.mockQuery([
         NotionMock.mockEvent({
           id: 'id1',
@@ -564,7 +564,7 @@ describe('store', () => {
   describe('movies without times', () => {
     const setupNotionMocks = (movies: Movie[], date = '2021-01-01') => {
       const notionResponse = movies.map(NotionMovie.fromMovie)
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       notionMock.mockQuery([
         NotionMock.mockEvent({
           id: 'id1',

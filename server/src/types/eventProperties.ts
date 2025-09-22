@@ -1,4 +1,4 @@
-import { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import { RichTextItemResponse, RichTextItemResponseCommon, TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
 export default interface EventProperties {
   Theme: {
@@ -25,7 +25,7 @@ export default interface EventProperties {
     }>
   }
   'Styled Theme': {
-    rich_text: Array<TextRichTextItemResponse>
+    rich_text: Array<RichTextItemResponseCommon & TextRichTextItemResponse>
   }
   'Submitted By': {
     rich_text: Array<{

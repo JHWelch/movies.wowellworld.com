@@ -52,9 +52,7 @@ export class Event {
     Object.assign(this, event)
   }
 
-  static fromNotion (
-    record: PageObjectResponse | DatabaseObjectResponse,
-  ): Event {
+  static fromNotion (record: PageObjectResponse): Event {
     const properties = record.properties as unknown as EventProperties
 
     return new Event({

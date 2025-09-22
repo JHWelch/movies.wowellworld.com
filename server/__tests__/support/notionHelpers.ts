@@ -193,10 +193,11 @@ export const pageObjectResponse = (
   },
   url: '',
   in_trash: false,
+  is_locked: false,
 })
 
 export type QueryBody = {
-  database_id: string
+  data_source_id: string
   page_size?: number
   filter?: {
     property: string

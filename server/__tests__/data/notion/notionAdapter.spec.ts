@@ -34,7 +34,7 @@ describe('getMovie', () => {
 
   describe('when the movie exists', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
     })
 
     it('should return the movie', async () => {
@@ -64,7 +64,7 @@ describe('getMovie', () => {
 
   describe('returns not full page', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(false)
+      notionMock.mockIsFullPage(false)
     })
 
     it('should throw an error', async () => {
@@ -93,7 +93,7 @@ describe('getEvent', () => {
 
   describe('when the event exists', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(true)
+      notionMock.mockIsFullPage(true)
       notion = new NotionAdapter(mockConfig())
     })
 
@@ -116,7 +116,7 @@ describe('getEvent', () => {
 
   describe('when the event does not exist', () => {
     beforeEach(() => {
-      notionMock.mockIsFullPageOrDatabase(false)
+      notionMock.mockIsFullPage(false)
       notion = new NotionAdapter(mockConfig())
     })
 
@@ -166,7 +166,7 @@ describe('getEvents', () => {
   ]
 
   beforeEach(() => {
-    notionMock.mockIsFullPageOrDatabase(true)
+    notionMock.mockIsFullPage(true)
     notionMock.mockQuery([
       NotionMock.mockEvent({
         id: 'eventId3',
@@ -242,7 +242,7 @@ describe('getEvents', () => {
     await notion.getEvents()
 
     expect(notionMock.query).toHaveBeenCalledWith({
-      database_id: 'NOTION_WEEK_DATABASE_ID',
+      data_source_id: 'NOTION_WEEK_DATABASE_ID',
       page_size: 100,
       filter: {
         property: 'Date',
@@ -282,7 +282,7 @@ describe('createMovie', () => {
     await notion.createMovie(movie)
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_MOVIE_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_MOVIE_DATABASE_ID' },
       properties: movie.notionProperties(),
     })
   })
@@ -303,7 +303,7 @@ describe('createEvent', () => {
     await notion.createEvent('Theme', ['movieId1', 'movieId2'], 'Anonymous')
 
     expect(notionMock.create).toHaveBeenCalledWith({
-      parent: { database_id: 'NOTION_WEEK_DATABASE_ID' },
+      parent: { data_source_id: 'NOTION_WEEK_DATABASE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'Theme' } }] },
         'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },
