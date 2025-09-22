@@ -1,5 +1,4 @@
 import {
-  DatabaseObjectResponse,
   type PageObjectResponse,
 } from '@notionhq/client/build/src/api-endpoints'
 import { Movie, MovieDtoOptions } from '@server/models/movie'

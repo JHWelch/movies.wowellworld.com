@@ -1,4 +1,4 @@
-import { RichTextItemResponse, RichTextItemResponseCommon, TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
+import { RichTextItemResponseCommon, TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
 
 export default interface EventProperties {
   Theme: {
