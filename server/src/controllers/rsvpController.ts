@@ -90,7 +90,7 @@ export default class RsvpController {
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
       name: z.string().min(1, { message: 'Required' }),
-      email: z.string().email().optional(),
+      email: z.email().optional(),
       reminders: z.boolean().default(false),
     }).refine((data) => {
       if (data.reminders) {

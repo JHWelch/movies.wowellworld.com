@@ -54,6 +54,6 @@ export default class SubscriptionController {
 
   private validate = (req: Request, res: Response): boolean =>
     validate(req, res, z.object({
-      email: z.string().email(),
+      email: z.email(),
     }))
 }
