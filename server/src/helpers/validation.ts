@@ -4,7 +4,7 @@ import { z } from 'zod'
 const validate = (
   req: Request,
   res: Response,
-  dataSchema: z.ZodFirstPartySchemaTypes
+  dataSchema: z.ZodType<unknown>,
 ): boolean => {
   try {
     dataSchema.parse(req.body)
