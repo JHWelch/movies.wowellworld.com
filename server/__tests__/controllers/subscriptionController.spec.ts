@@ -141,7 +141,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
-        errors: { email: 'Required' },
+        errors: { email: 'Invalid input: expected string, received undefined' },
       })
     })
   })
@@ -158,7 +158,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
-        errors: { email: 'Invalid email' },
+        errors: { email: 'Invalid email address' },
       })
     })
   })

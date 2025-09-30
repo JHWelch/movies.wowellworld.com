@@ -282,7 +282,7 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(422)
         expect(res.json).toHaveBeenCalledWith({
-          errors: { reminders: 'Expected boolean, received string' },
+          errors: { reminders: 'Invalid input: expected boolean, received string' },
         })
       })
     })
@@ -355,7 +355,7 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(422)
         expect(res.json).toHaveBeenCalledWith({
-          errors: { email: 'Invalid email' },
+          errors: { email: 'Invalid email address' },
         })
       })
     })
@@ -370,7 +370,7 @@ describe('store', () => {
 
         expect(res.status).toHaveBeenCalledWith(422)
         expect(res.json).toHaveBeenCalledWith({
-          errors: { name: 'Required' },
+          errors: { name: 'Invalid input: expected string, received undefined' },
         })
       })
     })
