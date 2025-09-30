@@ -169,7 +169,7 @@ describe('store', () => {
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
         errors: {
-          id: 'Required',
+          id: 'Invalid input: expected number, received undefined',
         },
       })
     })

@@ -168,7 +168,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
-        errors: { theme: 'Required' },
+        errors: { theme: 'Invalid input: expected string, received undefined' },
       })
     })
   })
@@ -183,7 +183,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
-        errors: { movies: 'Required' },
+        errors: { movies: 'Invalid input: expected array, received undefined' },
       })
     })
   })
@@ -234,7 +234,7 @@ describe('store', () => {
 
       expect(res.status).toHaveBeenCalledWith(422)
       expect(res.json).toHaveBeenCalledWith({
-        errors: { submitted_by: 'Required' },
+        errors: { submitted_by: 'Invalid input: expected string, received undefined' },
       })
     })
   })
