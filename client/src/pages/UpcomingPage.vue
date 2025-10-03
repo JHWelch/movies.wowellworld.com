@@ -46,7 +46,7 @@ import heroImg from '@assets/hero.png'
         </p>
 
         <p>
-          Wowell World Studios (our apartment) is home to a cat and dog. Please alert Rachel or Jordan if you have accessibility needs, parking needs, or dietary restrictions! Some weeks we may take a field trip to a theater, which will be clearly noted on the movie.
+          Wowell World Studios (our apartment) is home to a small dog. Please alert Rachel or Jordan if you have accessibility needs, parking needs, or dietary restrictions! Some weeks we may take a field trip to a theater, which will be clearly noted on the movie.
         </p>
       </section>
     </div>
