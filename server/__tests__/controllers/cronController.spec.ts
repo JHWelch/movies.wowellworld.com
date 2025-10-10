@@ -175,4 +175,25 @@ describe('reminders', () => {
       expect(getDocs).not.toHaveBeenCalled()
     })
   })
+
+  describe('the event is hideFromHome', () => {
+    beforeEach(() => {
+      FirebaseMock.mockGetEvent({
+        id: 'event-id1',
+        theme: 'theme1',
+        date: DateTime.fromISO('2021-01-01', TZ),
+        slug: null,
+        isSkipped: false,
+        hideFromHome: true,
+      })
+    })
+
+    it('should return 200', async () => {
+      await new CronController(config, firestore).reminders(getMockReq(), res)
+
+      expect(res.status).toHaveBeenCalledWith(200)
+      expect(res.send).toHaveBeenCalledWith('ok')
+      expect(getDocs).not.toHaveBeenCalled()
+    })
+  })
 })
