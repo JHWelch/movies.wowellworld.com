@@ -12,7 +12,7 @@ class CronController {
   reminders = async (_req: Request, res: Response): Promise<void> => {
     const event = await this.firestore.getEvent(tomorrow())
 
-    if (!event || event.isSkipped) {
+    if (!event || event.isSkipped || event.hideFromHome) {
       res.status(200).send('ok')
 
       return
