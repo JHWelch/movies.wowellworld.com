@@ -110,7 +110,7 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
       @input="search"
       @keyup.down="down"
       @keyup.up="up"
-      @keyup.enter="enter"
+      @keydown.enter.prevent="enter"
       @keyup.esc="closeSearch"
       @blur="(event: KeyboardEvent) => closeSearch(event, 200)"
     />
