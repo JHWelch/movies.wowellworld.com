@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 withDefaults(defineProps<{
   name: string
   hideLabel?: boolean
@@ -22,6 +24,12 @@ defineEmits([
 ])
 
 const model = defineModel<string>()
+const input = ref<HTMLElement | null>(null)
+defineExpose({
+  focus: () => {
+    input.value?.focus()
+  },
+})
 </script>
 
 <template>
@@ -45,6 +53,7 @@ const model = defineModel<string>()
     >
       <input
         :id="name"
+        ref="input"
         v-model="model"
         :data-testid="'input-' + name"
         :required="required"
