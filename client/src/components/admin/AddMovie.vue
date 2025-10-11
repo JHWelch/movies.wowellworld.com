@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import type { MovieSearchInputData } from '@client/components/form/MovieSearchInput/types'
 import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 import { jsonHeaders } from '@client/data/headers'
@@ -47,7 +47,11 @@ const submit = async () => {
   submitting.value = false
   formData.value.id = undefined
   formData.value.title = ''
+  nextTick(function () {
+    movieInput.value?.focus()
+  })
 }
+const movieInput = ref<InstanceType<typeof MovieSearchInput> | null>(null)
 </script>
 <template>
   <form
@@ -59,6 +63,7 @@ const submit = async () => {
     </h2>
 
     <MovieSearchInput
+      ref="movieInput"
       v-model="formData"
       name="movie"
       label="Search for a movie"

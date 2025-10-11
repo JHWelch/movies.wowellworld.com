@@ -94,10 +94,17 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
     movies.value = []
   }, timeout) // Timeout to allow click event to fire
 }
+const input = ref<InstanceType<typeof FormInput> | null>(null)
+defineExpose({
+  focus: () => {
+    input.value?.focus()
+  },
+})
 </script>
 <template>
   <div class="relative">
     <FormInput
+      ref="input"
       v-model="data.title"
       :name="name"
       :hide-label="hideLabel"
@@ -110,7 +117,7 @@ const closeSearch = (event?: KeyboardEvent, timeout: number = 0) => {
       @input="search"
       @keyup.down="down"
       @keyup.up="up"
-      @keyup.enter="enter"
+      @keydown.enter.prevent="enter"
       @keyup.esc="closeSearch"
       @blur="(event: KeyboardEvent) => closeSearch(event, 200)"
     />
