@@ -5,9 +5,12 @@ export function notionNumber (number: number | null): {
 }
 
 export function notionRichText (content: string | null): {
-  rich_text: { text: { content: string } }[]
+  rich_text: { text: { content: string }, plain_text: string }[]
 } {
-  return { rich_text: [{ text: { content: content ?? '' } }] }
+  return { rich_text: [{
+    text: { content: content ?? '' },
+    plain_text: content ?? '',
+  }] }
 }
 
 export function notionTitle (content: string): {

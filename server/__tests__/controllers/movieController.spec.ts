@@ -142,9 +142,12 @@ describe('store', () => {
 
     await newMovieController().store(req, res)
 
+    movie.theaterName = ''
+    movie.time = ''
     expect(res.status).toHaveBeenCalledWith(201)
     expect(res.json).toHaveBeenCalledWith({
       message: 'Successfully created movie.',
+      movie: movie.toDTO(),
     })
   })
 

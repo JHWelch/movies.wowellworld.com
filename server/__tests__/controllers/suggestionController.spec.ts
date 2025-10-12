@@ -82,7 +82,10 @@ describe('store', () => {
       parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
       properties: {
         Theme: { title: [{ text: { content: 'theme' }, plain_text: 'theme' }] },
-        'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
+        'Submitted By': { rich_text: [{
+          text: { content: 'submitted_by' },
+          plain_text: 'submitted_by',
+        }] },
         Movies: {
           relation: [
             { id: 'movieId1' },
@@ -155,7 +158,10 @@ describe('store', () => {
             text: { content: 'theme' },
             plain_text: 'theme',
           }] },
-          'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
+          'Submitted By': { rich_text: [{
+            text: { content: 'submitted_by' },
+            plain_text: 'submitted_by',
+          }] },
           Movies: {
             relation: [
               { id: 'movieId1' },

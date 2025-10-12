@@ -291,6 +291,9 @@ describe('createMovie', () => {
   it('should return the movie id', async () => {
     const response = await notion.createMovie(movie)
 
+    movie.theaterName = ''
+    movie.time = ''
+    movie.director = ''
     expect(response.toDTO()).toEqual(movie.toDTO())
   })
 })
@@ -310,7 +313,10 @@ describe('createEvent', () => {
           text: { content: 'Theme' },
           plain_text: 'Theme',
         }] },
-        'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },
+        'Submitted By': { rich_text: [{
+          text: { content: 'Anonymous' },
+          plain_text: 'Anonymous',
+        }] },
         Movies: { relation: [
           { id: 'movieId1' },
           { id: 'movieId2' },
