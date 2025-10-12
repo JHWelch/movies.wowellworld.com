@@ -5,6 +5,7 @@ import MovieSearchInput from '@client/components/form/MovieSearchInput.vue'
 import { jsonHeaders } from '@client/data/headers'
 import { ErrorBag } from '@client/types'
 import LoadingIcon from '@components/icons/LoadingIcon.vue'
+import { notifications } from '@client/state/notificationState'
 type AddMovieFormData = MovieSearchInputData & {
   watchWhere: Array<string>
 }
@@ -50,6 +51,8 @@ const submit = async () => {
   nextTick(function () {
     movieInput.value?.focus()
   })
+
+  notifications.flash(`${data.movie.title} added successfully`, 'success')
 }
 const movieInput = ref<InstanceType<typeof MovieSearchInput> | null>(null)
 </script>
