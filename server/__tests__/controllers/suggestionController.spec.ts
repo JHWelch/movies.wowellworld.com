@@ -63,22 +63,25 @@ describe('store', () => {
       body: mockBody(),
     })
 
-    notionMock.mockCreate('movieId1', 'movieId2')
+    const movie1 = new Movie({ title: 'movie1', notionId: 'movieId1' })
+    const movie2 = new Movie({ title: 'movie2', notionId: 'movieId2' })
+
+    notionMock.mockCreate(movie1, movie2)
 
     await newSuggestionController().store(req, res)
 
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
-      properties: new Movie({ title: 'movie1' }).notionProperties(),
+      properties: movie1.notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
-      properties: new Movie({ title: 'movie2' }).notionProperties(),
+      properties: movie2.notionProperties(),
     })
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
       properties: {
-        Theme: { title: [{ text: { content: 'theme' } }] },
+        Theme: { title: [{ text: { content: 'theme' }, plain_text: 'theme' }] },
         'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
         Movies: {
           relation: [
@@ -92,7 +95,10 @@ describe('store', () => {
 
   it('should return a 201 Created', async () => {
     const req = getMockReq({ body: mockBody() })
-    notionMock.mockCreate('movieId1', 'movieId2')
+    notionMock.mockCreate(
+      new Movie({ title: 'movie1', notionId: 'movieId1' }),
+      new Movie({ title: 'movie2', notionId: 'movieId2' })
+    )
 
     await newSuggestionController().store(req, res)
 
@@ -130,7 +136,7 @@ describe('store', () => {
     it('should create a new event and movies', async () => {
       const req = getMockReq({ body })
 
-      notionMock.mockCreate('movieId1', 'movieId2')
+      notionMock.mockCreate(movie1, movie2)
 
       await newSuggestionController().store(req, res)
 
@@ -145,7 +151,10 @@ describe('store', () => {
       expect(notionMock.create).toHaveBeenCalledWith({
         parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
         properties: {
-          Theme: { title: [{ text: { content: 'theme' } }] },
+          Theme: { title: [{
+            text: { content: 'theme' },
+            plain_text: 'theme',
+          }] },
           'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
           Movies: {
             relation: [

@@ -42,7 +42,10 @@ describe('toNotion', () => {
     expect(movie.toNotion()).toEqual({
       page_id: movie.notionId,
       properties: {
-        Title: { title: [{ text: { content: movie.title } }] },
+        Title: { title: [{
+          text: { content: movie.title },
+          plain_text: movie.title,
+        }] },
         Director: { rich_text: [{ text: { content: movie.director } }] },
         Year: { number: movie.year },
         'Length (mins)': { number: movie.length },

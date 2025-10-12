@@ -271,14 +271,15 @@ describe('setMovie', () => {
 })
 
 describe('createMovie', () => {
+  let movie: Movie
+
   beforeEach(() => {
-    notionMock.mockCreate('movieId')
+    movie = new Movie({ title: 'Movie Title', notionId: 'movieId' })
+    notionMock.mockCreate(movie)
     notion = new NotionAdapter(mockConfig())
   })
 
   it('should call the create method with the correct parameters', async () => {
-    const movie = new Movie({ title: 'Movie Title' })
-
     await notion.createMovie(movie)
 
     expect(notionMock.create).toHaveBeenCalledWith({
@@ -288,9 +289,9 @@ describe('createMovie', () => {
   })
 
   it('should return the movie id', async () => {
-    const movieId = await notion.createMovie(new Movie({ title: 'Movie Title' }))
+    const response = await notion.createMovie(movie)
 
-    expect(movieId).toEqual('movieId')
+    expect(response.toDTO()).toEqual(movie.toDTO())
   })
 })
 
@@ -305,7 +306,10 @@ describe('createEvent', () => {
     expect(notionMock.create).toHaveBeenCalledWith({
       parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
       properties: {
-        Theme: { title: [{ text: { content: 'Theme' } }] },
+        Theme: { title: [{
+          text: { content: 'Theme' },
+          plain_text: 'Theme',
+        }] },
         'Submitted By': { rich_text: [{ text: { content: 'Anonymous' } }] },
         Movies: { relation: [
           { id: 'movieId1' },
