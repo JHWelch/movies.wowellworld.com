@@ -7,6 +7,7 @@ import {
   QueryDataSourceParameters,
   QueryDataSourceResponse,
 } from '@notionhq/client/build/src/api-endpoints'
+import { Movie } from '@server/models/movie'
 import { RichText } from '@shared/dtos'
 import {
   NotionMovie,
@@ -82,10 +83,12 @@ export class NotionMock {
     return { databases: { query: this.query } }
   }
 
-  mockCreate = (...ids: string[]) => {
-    ids.forEach((id) => this.create.mockResolvedValueOnce({
-      id: id,
+  mockCreate = (...movies: Movie[]) => {
+    this.mockIsFullPage(true)
+    movies.forEach((movie) => this.create.mockResolvedValueOnce({
+      id: movie.notionId,
       object: 'page',
+      properties : movie.notionProperties(),
     }))
   }
 
