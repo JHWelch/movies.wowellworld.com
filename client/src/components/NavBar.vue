@@ -24,22 +24,8 @@ import NavButton from '@components/navbar/NavButton.vue'
           />
         </div>
 
-        <router-link
-          to="/october"
-          class="flex-col items-center justify-center hidden h-full p-2 text-sm font-bold leading-5 text-center text-orange-600 bg-black md:text-xl grow sm:grow-0 sm:flex"
-        >
-          Horror October
-        </router-link>
-
         <ReminderSubscribe />
       </div>
-
-      <router-link
-        to="/october"
-        class="flex flex-col items-center justify-center h-full p-2 text-sm font-bold leading-5 text-center text-orange-600 bg-black grow sm:hidden"
-      >
-        Horror October
-      </router-link>
     </div>
   </nav>
 </template>
