@@ -4,16 +4,25 @@ export function notionNumber (number: number | null): {
   return { number }
 }
 
-export function notionRichText (text: string | null): {
-  rich_text: { text: { content: string } }[]
+export function notionRichText (content: string | null): {
+  rich_text: { text: { content: string }, plain_text: string }[]
 } {
-  return { rich_text: [{ text: { content: text ?? '' } }] }
+  return { rich_text: [{
+    text: { content: content ?? '' },
+    plain_text: content ?? '',
+  }] }
 }
 
-export function notionTitle (text: string): {
-  title: { text: { content: string } }[]
+export function notionTitle (content: string): {
+  title: {
+    text: { content: string }
+    plain_text: string
+  }[]
 } {
-  return { title: [{ text: { content: text } }] }
+  return { title: [{
+    text: { content },
+    plain_text: content,
+  }] }
 }
 
 export function notionUrl (url: string | null): {
