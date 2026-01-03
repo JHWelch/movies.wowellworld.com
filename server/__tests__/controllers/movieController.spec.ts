@@ -114,6 +114,7 @@ describe('store', () => {
     const tmdbMock = new TmdbMock(mockFetch())
 
     movie = new MovieFactory().tmdbFields().make({
+      notionId: 'movieId1',
       title: 'movie1',
       tmdbId: 123,
       url: `${TMDB_MOVIE_URL}/123`,
@@ -124,7 +125,7 @@ describe('store', () => {
   it('creates a new movie from passed id', async () => {
     const req = getMockReq({ body })
 
-    notionMock.mockCreate('movieId1')
+    notionMock.mockCreate(movie)
 
     await newMovieController().store(req, res)
 
@@ -134,22 +135,26 @@ describe('store', () => {
     })
   })
 
-  it('should return a 201 created', async () => {
+  it('should return a 201 created with movie information', async () => {
     const req = getMockReq({ body })
-    notionMock.mockCreate('movieId1')
+    notionMock.mockCreate(movie)
+    notionMock.mockIsFullPage(true)
 
     await newMovieController().store(req, res)
 
+    movie.theaterName = ''
+    movie.time = ''
     expect(res.status).toHaveBeenCalledWith(201)
     expect(res.json).toHaveBeenCalledWith({
       message: 'Successfully created movie.',
+      movie: movie.toDTO(),
     })
   })
 
   it('can include where to watch', async () => {
     body.watchWhere = ['Blu-ray', '4K Blu-ray']
     const req = getMockReq({ body })
-    notionMock.mockCreate('movieId1')
+    notionMock.mockCreate(movie)
     movie.watchWhere = ['Blu-ray', '4K Blu-ray']
 
     await newMovieController().store(req, res)

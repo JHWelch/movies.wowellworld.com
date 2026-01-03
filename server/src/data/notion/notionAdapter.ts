@@ -90,13 +90,17 @@ export default class NotionAdapter {
       },
     })
 
-  createMovie = async (movie: Movie): Promise<string> => {
+  createMovie = async (movie: Movie): Promise<Movie> => {
     const notionMovie = await this.#notion.pages.create({
       parent: { data_source_id: this.#movieDatabaseId },
       properties: movie.notionProperties(),
     })
 
-    return notionMovie.id
+    if (!isFullPage(notionMovie)) {
+      throw new Error('Page was not successfully created')
+    }
+
+    return Movie.fromNotion(notionMovie)
   }
 
   private eventFilter = (
