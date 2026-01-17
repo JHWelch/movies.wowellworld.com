@@ -20,7 +20,8 @@ export default class EventController {
   }
 
   show = async (req: Request, res: Response): Promise<void> => {
-    const event = await this.firestore.getEvent(req.params.id)
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id
+    const event = await this.firestore.getEvent(id)
     if (!event) {
       res.status(404).json({ error: 'Event not found' })
 
