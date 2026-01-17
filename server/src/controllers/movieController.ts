@@ -31,9 +31,12 @@ export default class MovieController {
     const movie = await this.tmdb.movieDetails(id)
     movie.watchWhere = watchWhere || []
 
-    this.notion.createMovie(movie)
+    const notionMovie = await this.notion.createMovie(movie)
 
-    res.status(201).json({ message: 'Successfully created movie.' })
+    res.status(201).json({
+      message: 'Successfully created movie.',
+      movie: notionMovie.toDTO(),
+    })
   }
 
   private validate = (req: Request, res: Response): boolean =>

@@ -42,17 +42,27 @@ describe('toNotion', () => {
     expect(movie.toNotion()).toEqual({
       page_id: movie.notionId,
       properties: {
-        Title: { title: [{ text: { content: movie.title } }] },
-        Director: { rich_text: [{ text: { content: movie.director } }] },
+        Title: { title: [{
+          text: { content: movie.title },
+          plain_text: movie.title,
+        }] },
+        Director: { rich_text: [{
+          text: { content: movie.director },
+          plain_text: movie.director,
+        }] },
         Year: { number: movie.year },
         'Length (mins)': { number: movie.length },
         URL: { url: movie.url },
         Poster: { url: movie.posterPath },
-        'Theater Name': { rich_text: [
-          { text: { content: movie.theaterName } },
-        ] },
+        'Theater Name': { rich_text: [{
+          text: { content: movie.theaterName },
+          plain_text: movie.theaterName,
+        }] },
         'Showing URL': { url: movie.showingUrl },
-        Time: { rich_text: [{ text: { content: movie.time } }] },
+        Time: { rich_text: [{
+          text: { content: movie.time },
+          plain_text: movie.time,
+        }] },
         'Watch Where?': { multi_select: [{ name: 'Netflix' }] },
       },
     })
