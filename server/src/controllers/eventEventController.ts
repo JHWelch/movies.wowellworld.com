@@ -9,11 +9,12 @@ export default class EventEventController {
 
   show = async (req: Request, res: Response): Promise<void> => {
     const { eventId } = req.params
+    const id = Array.isArray(eventId) ? eventId[0] : eventId
 
-    const event = await this.firestore.getEvent(eventId)
+    const event = await this.firestore.getEvent(id)
 
     if (!event) {
-      res.status(404).json({ message: `Event ${eventId} not found` })
+      res.status(404).json({ message: `Event ${id} not found` })
 
       return
     }

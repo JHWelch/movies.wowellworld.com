@@ -13,17 +13,18 @@ export default class RsvpController {
     if (!this.validate(req, res)) return
 
     const { eventId } = req.params
+    const id = Array.isArray(eventId) ? eventId[0] : eventId
     const { name, email, reminders } = req.body
 
-    const event = await this.firestore.getEvent(eventId)
+    const event = await this.firestore.getEvent(id)
 
     if (!event) {
-      res.status(404).json({ message: `Event ${eventId} not found` })
+      res.status(404).json({ message: `Event ${id} not found` })
 
       return
     }
 
-    await this.firestore.createRsvp(eventId, name, email)
+    await this.firestore.createRsvp(id, name, email)
 
     if (reminders && email) {
       await this.subscribe(email)
@@ -32,7 +33,7 @@ export default class RsvpController {
     res.status(201).json({ message: 'Successfully RSVP\'d' })
 
     await Promise.all([
-      this.sendAdminEmail(name, eventId, email),
+      this.sendAdminEmail(name, id, email),
       this.sendConfirmation(event, email),
     ])
   }
