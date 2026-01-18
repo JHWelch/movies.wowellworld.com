@@ -1,7 +1,7 @@
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
 module.exports = {
-  Client: jest.fn(),
+  Client: vi.fn(),
 
-  isFullPage: jest.fn(),
+  isFullPage: vi.fn(),
 }
