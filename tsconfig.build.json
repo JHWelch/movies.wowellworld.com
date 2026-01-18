@@ -18,6 +18,18 @@
     "forceConsistentCasingInFileNames": true,
     "allowUnreachableCode": true,
     "paths": {
+      "@assets/*": [
+        "./src/client/assets/*",
+      ],
+      "@client/*": [
+        "./src/client/*",
+      ],
+      "@components/*": [
+        "./src/client/components/*"
+      ],
+      "@pages/*": [
+        "./src/client/pages/*"
+      ],
       "@server/*": [
         "./src/server/*"
       ],
@@ -28,10 +40,10 @@
   },
   "include": [
     "src/**/*.ts",
-    "../shared/**/*.ts",
   ],
   "exclude": [
     "node_modules",
     "<node_internals>/**",
+    "src/**/__tests__/*",
   ]
 }

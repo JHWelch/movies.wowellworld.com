@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,9 +8,6 @@
   <title>MOVIE NIGHT | WOWELL WORLD</title>
 
   <link rel="icon" href="https://fav.farm/🎥" />
-  <% if (environment === 'production') { %>
-    <link rel="stylesheet" href="/<%= manifest['src/main.ts'].css %>">
-  <% } %>
 
   <link rel="stylesheet" href="/made-with/made-with.css">
   <link rel="preconnect" href="https://rsms.me/">
@@ -20,12 +16,7 @@
 <body>
   <div id="app"></div>
 
-  <% if (environment === 'production') { %>
-    <script type="module" src="/<%= manifest['src/main.ts'].file %>"></script>
-  <% } else { %>
-    <script type="module" src="http://localhost:5173/@vite/client"></script>
-    <script type="module" src="http://localhost:5173/src/main.ts"></script>
-  <% } %>
+  <script type="module" src="/src/client/main.ts"></script>
   <script defer src="/made-with/made-with.js"></script>
 </body>
 </html>

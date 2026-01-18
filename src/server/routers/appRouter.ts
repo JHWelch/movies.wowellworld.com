@@ -54,16 +54,5 @@ export default function createAppRouter (
   router.get('/cron/reminders', cronController.reminders)
   router.get('/events/:eventId/event', eventEventController.show)
 
-  router.all(/(.*)/, (_req, res) => {
-    try {
-      res.render('index.html.ejs', {
-        environment: config.nodeEnv,
-        manifest: parseManifest(config),
-      })
-    } catch (_) {
-      res.json({ success: false, message: 'Something went wrong' })
-    }
-  })
-
   return router
 }
