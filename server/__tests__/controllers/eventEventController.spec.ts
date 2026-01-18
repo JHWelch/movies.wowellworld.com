@@ -20,6 +20,7 @@ const { res, mockClear } = getMockRes()
 beforeEach(() => {
   vitest.clearAllMocks()
   mockClear()
+  vi.mock('firebase/firestore')
 })
 
 describe('show', () => {

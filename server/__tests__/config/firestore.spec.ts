@@ -7,6 +7,9 @@ import { mockConfig } from '@tests/support/mockConfig'
 
 beforeEach(() => {
   vi.clearAllMocks()
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
 })
 
 describe('setupFirestore', () => {

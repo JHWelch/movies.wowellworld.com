@@ -42,6 +42,7 @@ const newMovieController = () => {
 beforeEach(() => {
   vi.clearAllMocks()
   mockClear()
+  vi.mock('@notionhq/client')
 })
 
 afterEach(() => {
