@@ -47,7 +47,15 @@ export class NotionMock {
     this.retrieve = retrieve
     this.query = query
 
-    Client.mockImplementation(class {
+    const FakeClient = class {
+      pages: {
+        create: MockedFunction<CreateType>
+        update: MockedFunction<UpdateType>
+        retrieve: MockedFunction<RetrieveType>
+      }
+      dataSources: {
+        query: MockedFunction<QueryType>
+      }
       constructor () {
         this.pages = {
           create: create,
@@ -56,7 +64,9 @@ export class NotionMock {
         }
         this.dataSources = { query: query }
       }
-    })
+    }
+
+    Client.mockImplementation(FakeClient as unknown as () => _Client)
   }
 
   mockIsFullPage = (response: boolean) =>
@@ -65,16 +75,18 @@ export class NotionMock {
   mockRetrieve = (movie?: NotionMovie) => {
     const notionMovie = movie ?? NotionMovie.demo()
 
-    this.retrieve.mockImplementationOnce(async (
-      _args: WithAuth<GetPageParameters>,
-    ): Promise<GetPageResponse> => notionMovie.toPageObjectResponse())
+    this.retrieve.mockImplementationOnce(
+      (async (_args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
+        return notionMovie.toPageObjectResponse() as GetPageResponse
+      }) as unknown as (this: any, ...args: unknown[]) => void // eslint-disable-line @typescript-eslint/no-explicit-any
+    )
 
     return { pages: { retrieve: this.retrieve } }
   }
 
   mockQuery = (events: PageObjectResponse[] = []) => {
     this.query.mockImplementation(
-      async (
+      (async (
         _args: WithAuth<QueryDataSourceParameters>,
       ): Promise<QueryDataSourceResponse> => ({
         page_or_data_source: {},
@@ -83,7 +95,7 @@ export class NotionMock {
         next_cursor: null,
         has_more: false,
         results: events,
-      }))
+      })) as unknown as (this: any, ...args: unknown[]) => void) // eslint-disable-line @typescript-eslint/no-explicit-any
 
     return { databases: { query: this.query } }
   }

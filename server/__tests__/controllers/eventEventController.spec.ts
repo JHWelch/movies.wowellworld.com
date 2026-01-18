@@ -1,5 +1,5 @@
 import EventEventController from '@server/controllers/eventEventController'
-import { beforeEach, describe, expect, it, vi, vitest } from 'vitest'
+import { beforeEach, describe, expect, it, Mock, vi, vitest } from 'vitest'
 import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
@@ -30,7 +30,7 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
-    directoryPath.mockReturnValue(__dirname + '/../../src/data')
+    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../src/data')
   })
 
   describe('has correct event', () => {
