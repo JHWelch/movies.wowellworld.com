@@ -19,10 +19,10 @@
     "allowUnreachableCode": true,
     "paths": {
       "@server/*": [
-        "./src/*"
+        "./src/server/*"
       ],
       "@shared/*": [
-        "../shared/*"
+        "./src/shared/*"
       ]
     }
   },

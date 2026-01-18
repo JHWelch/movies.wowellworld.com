@@ -5,13 +5,13 @@
   "compilerOptions": {
     "paths": {
       "@server/*": [
-        "./src/*"
+        "./src/server/*"
       ],
       "@shared/*": [
-        "../shared/*"
+        "./src/shared/*"
       ],
       "@tests/*": [
-        "./__tests__/*"
+        "./src/server/__tests__/*"
       ],
       "@mocks/*": [
         "./__mocks__/*"
