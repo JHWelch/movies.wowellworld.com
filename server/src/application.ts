@@ -1,4 +1,5 @@
 import { type Express } from 'express'
+import ViteExpress from 'vite-express'
 import type NotionAdapter from '@server/data/notion/notionAdapter'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
@@ -23,7 +24,7 @@ export default class Application {
   listen (): void {
     const port = this.config.port
 
-    this.express.listen(port, () => {
+    ViteExpress.listen(this.express, port, () => {
       console.log(`Listening on port ${port}...`) // eslint-disable-line no-console
     })
   }
