@@ -11,7 +11,7 @@
     "firebase:export": "firebase emulators:export emulator-cache",
     "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json --resolve-full-paths",
     "postbuild": "npm prune --omit=dev && mv node_modules ../built/node_modules",
-    "test": "jest",
+    "test": "vitest",
     "test:watch": "jest --watch",
     "types": "tsc --noEmit",
     "coverage": "jest --coverage"
@@ -52,6 +52,7 @@
     "ts-jest": "^29.3.2",
     "tsc-alias": "^1.8.15",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.17"
   }
 }
