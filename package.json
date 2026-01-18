@@ -17,7 +17,7 @@
     "build": "vue-tsc -p tsconfig.build.json && vite build && npm run build:emails && npm run link:emails",
     "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
     "preview": "vite preview",
-    "clean" : "rm -rf built",
+    "clean" : "rm -rf dist",
     "link:emails": "ln -s ../emails built/emails",
     "start": "NODE_ENV=production tsx src/server/main.ts",
     "test": "vitest",
