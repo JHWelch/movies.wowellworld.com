@@ -5,16 +5,16 @@ import {
   WithFieldValue,
   Primitive,
 } from 'firebase/firestore'
-import { jest } from '@jest/globals'
 import { FirestoreEvent } from '@server/data/firestore/firestoreTypes'
 import { Event } from '@server/models/event'
 import { Movie } from '@server/models/movie'
 import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
+import { Mock } from 'vitest'
 
-const getDocs = _getDocs as jest.Mock
-const getDoc = _getDoc as jest.Mock
+const getDocs = _getDocs as Mock
+const getDoc = _getDoc as Mock
 
 export class FirebaseMock {
   static mockGetGlobal<AppDataType> (

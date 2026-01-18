@@ -1,6 +1,6 @@
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
 module.exports = {
-  initializeApp: jest.fn()
+  initializeApp: vi.fn()
     .mockImplementation((config) => ({ initialize: config })),
 }

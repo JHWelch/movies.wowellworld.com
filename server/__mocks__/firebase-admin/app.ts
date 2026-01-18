@@ -1,5 +1,5 @@
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
 module.exports = {
-  applicationDefault: jest.fn().mockReturnValue({ applicationDefault: true }),
+  applicationDefault: vi.fn().mockReturnValue({ applicationDefault: true }),
 }
