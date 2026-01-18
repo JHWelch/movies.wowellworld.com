@@ -4,8 +4,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
+  vi,
+} from 'vitest'
+
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { NotionMock } from '@tests/support/notionMock'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -19,12 +20,12 @@ let notion: NotionAdapter
 let notionMock: NotionMock
 
 beforeAll(() => {
-  jest.mock('@notionhq/client')
+  vi.mock('@notionhq/client')
   notionMock = new NotionMock()
 })
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('getMovie', () => {

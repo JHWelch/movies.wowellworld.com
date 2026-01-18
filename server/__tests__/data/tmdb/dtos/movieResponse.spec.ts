@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from '@jest/globals'
+import { beforeEach, describe, expect, it } from 'vitest'
 import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
 import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
 

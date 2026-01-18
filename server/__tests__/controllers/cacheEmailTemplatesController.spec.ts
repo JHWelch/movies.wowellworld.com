@@ -5,9 +5,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+  vi,
+} from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import CacheEmailTemplatesController from '@server/controllers/cacheEmailTemplatesController'
 import { transaction } from '@mocks/firebase/firestore'
 import { Request } from 'express'
@@ -28,26 +28,26 @@ const newCacheController = () => {
 }
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
   MockDate.set('2021-01-01')
 })
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   mockClear()
-  jest.mock('@server/helpers/directoryPath')
+  vi.mock('@server/helpers/directoryPath')
   req = getMockReq()
 })
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  vi.restoreAllMocks()
 })
 
 describe('cacheEmailTemplates', () => {
   it('uploads email templates to firestore', async () => {
-    jest.spyOn(fs, 'readFileSync').mockReturnValue('html')
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('html')
     await newCacheController().store(req, res)
 
     expect(res.sendStatus).toHaveBeenCalledWith(200)

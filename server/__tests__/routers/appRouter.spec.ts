@@ -1,4 +1,4 @@
-import { expect, it } from '@jest/globals'
+import { expect, it } from 'vitest'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'

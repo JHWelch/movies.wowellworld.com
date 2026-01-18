@@ -1,15 +1,15 @@
-import { beforeEach, expect, it, jest } from '@jest/globals'
+import { beforeEach, expect, it, Mock, vi } from 'vitest'
 import { icalGenerator } from '@server/data/icalGenerator'
-import _directoryPath from '@server/helpers/directoryPath'
+import directoryPath from '@server/helpers/directoryPath'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import EventFactory from '@tests/support/factories/eventFactory'
 import MockDate from 'mockdate'
 
-const directoryPath = _directoryPath as jest.Mock
+vi.mock('@server/helpers/directoryPath')
 
 beforeEach(() => {
   MockDate.set('2021-01-01')
-  directoryPath.mockReturnValue(__dirname + '/../../src/data')
+  ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../src/data')
 })
 
 it('can generate an ical file from an event', async () => {

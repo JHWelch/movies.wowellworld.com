@@ -1,4 +1,3 @@
-import { jest } from '@jest/globals'
 import { Client as _Client, isFullPage as _isFullPage } from '@notionhq/client'
 import {
   GetPageParameters,
@@ -22,9 +21,10 @@ import {
   pageObjectResponse,
 } from '@tests/support/notionHelpers'
 import { DateTime } from 'luxon'
+import { Mock, MockedFunction, vi } from 'vitest'
 
-const Client = _Client as unknown as jest.Mock
-const isFullPage = _isFullPage as unknown as jest.Mock
+const Client = _Client as unknown as Mock
+const isFullPage = _isFullPage as unknown as Mock
 
 type CreateType = typeof Client.prototype.pages.create
 type UpdateType = typeof Client.prototype.pages.update
@@ -32,25 +32,41 @@ type QueryType = typeof Client.prototype.databases.query
 type RetrieveType = typeof Client.prototype.pages.retrieve
 
 export class NotionMock {
-  create: jest.MockedFunction<CreateType>
-  update: jest.MockedFunction<UpdateType>
-  query: jest.MockedFunction<QueryType>
-  retrieve: jest.MockedFunction<RetrieveType>
+  create: MockedFunction<CreateType>
+  update: MockedFunction<UpdateType>
+  query: MockedFunction<QueryType>
+  retrieve: MockedFunction<RetrieveType>
 
   constructor () {
-    this.create = jest.fn<CreateType>()
-    this.update = jest.fn<UpdateType>()
-    this.retrieve = jest.fn<RetrieveType>()
-    this.query = jest.fn<QueryType>()
+    const create = vi.fn<CreateType>()
+    const update = vi.fn<UpdateType>()
+    const retrieve = vi.fn<RetrieveType>()
+    const query = vi.fn<QueryType>()
+    this.create = create
+    this.update = update
+    this.retrieve = retrieve
+    this.query = query
 
-    Client.mockImplementation(() => ({
+    const FakeClient = class {
       pages: {
-        create: this.create,
-        update: this.update,
-        retrieve: this.retrieve,
-      },
-      dataSources: { query: this.query },
-    }))
+        create: MockedFunction<CreateType>
+        update: MockedFunction<UpdateType>
+        retrieve: MockedFunction<RetrieveType>
+      }
+      dataSources: {
+        query: MockedFunction<QueryType>
+      }
+      constructor () {
+        this.pages = {
+          create: create,
+          update: update,
+          retrieve: retrieve,
+        }
+        this.dataSources = { query: query }
+      }
+    }
+
+    Client.mockImplementation(FakeClient as unknown as () => _Client)
   }
 
   mockIsFullPage = (response: boolean) =>
@@ -59,16 +75,18 @@ export class NotionMock {
   mockRetrieve = (movie?: NotionMovie) => {
     const notionMovie = movie ?? NotionMovie.demo()
 
-    this.retrieve.mockImplementationOnce(async (
-      _args: WithAuth<GetPageParameters>,
-    ): Promise<GetPageResponse> => notionMovie.toPageObjectResponse())
+    this.retrieve.mockImplementationOnce(
+      (async (_args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
+        return notionMovie.toPageObjectResponse() as GetPageResponse
+      }) as unknown as (this: any, ...args: unknown[]) => void // eslint-disable-line @typescript-eslint/no-explicit-any
+    )
 
     return { pages: { retrieve: this.retrieve } }
   }
 
   mockQuery = (events: PageObjectResponse[] = []) => {
     this.query.mockImplementation(
-      async (
+      (async (
         _args: WithAuth<QueryDataSourceParameters>,
       ): Promise<QueryDataSourceResponse> => ({
         page_or_data_source: {},
@@ -77,7 +95,7 @@ export class NotionMock {
         next_cursor: null,
         has_more: false,
         results: events,
-      }))
+      })) as unknown as (this: any, ...args: unknown[]) => void) // eslint-disable-line @typescript-eslint/no-explicit-any
 
     return { databases: { query: this.query } }
   }

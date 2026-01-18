@@ -1,6 +1,6 @@
 
-import { beforeAll, beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { CronController } from '@server/controllers/cronController'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -18,16 +18,16 @@ let firestore: FirestoreAdapter
 let config: Config
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
 })
 
 beforeEach(() => {
   mockClear()
   config = mockConfig()
   firestore = new FirestoreAdapter(config)
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
 describe('reminders', () => {

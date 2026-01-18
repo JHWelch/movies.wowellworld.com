@@ -5,9 +5,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+  vi,
+} from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import SubscriptionController
   from '@server/controllers/subscriptionController'
 import { Request } from 'express'
@@ -22,9 +22,9 @@ let req: Request
 let firestore: FirestoreAdapter
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
 })
 
 beforeEach(() => {

@@ -1,5 +1,5 @@
-import { jest } from '@jest/globals'
+import { vi } from 'vitest'
 
-const directoryPath = jest.fn(() => '/path/to/dir')
+const directoryPath = vi.fn(() => '/path/to/dir')
 
 export default directoryPath

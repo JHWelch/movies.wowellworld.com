@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
 import { posterUrl } from '@server/data/tmdb/helpers'
 

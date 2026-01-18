@@ -1,6 +1,6 @@
 
-import { beforeEach, describe, expect, it } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import HealthCheckController from '@server/controllers/healthCheckController'
 
 const { res, mockClear } = getMockRes()

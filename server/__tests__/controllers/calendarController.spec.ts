@@ -1,6 +1,6 @@
 import CalendarController from '@server/controllers/calendarController'
-import { getMockReq, getMockRes } from '@jest-mock/express'
-import { beforeEach, describe, expect, it } from '@jest/globals'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { mockConfig } from '@tests/support/mockConfig'
 import Config from '@server/config/config'
 

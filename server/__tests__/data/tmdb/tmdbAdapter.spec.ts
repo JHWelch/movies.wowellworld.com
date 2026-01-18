@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, describe, expect, it } from '@jest/globals'
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import TmdbAdapter from '@server/data/tmdb/tmdbAdapter'
 import { Movie } from '@server/models/movie'
 import { TmdbMock } from '@tests/support/tmdbMock'

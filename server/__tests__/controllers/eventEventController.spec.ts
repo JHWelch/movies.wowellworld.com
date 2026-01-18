@@ -1,6 +1,6 @@
 import EventEventController from '@server/controllers/eventEventController'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, describe, expect, it, Mock, vi, vitest } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -11,15 +11,16 @@ import EventFactory from '@tests/support/factories/eventFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
-import _directoryPath from '@server/helpers/directoryPath'
+import directoryPath from '@server/helpers/directoryPath'
 
-const directoryPath = _directoryPath as jest.Mock
+vi.mock('@server/helpers/directoryPath')
 
 const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vitest.clearAllMocks()
   mockClear()
+  vi.mock('firebase/firestore')
 })
 
 describe('show', () => {
@@ -29,7 +30,7 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
-    directoryPath.mockReturnValue(__dirname + '/../../src/data')
+    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../src/data')
   })
 
   describe('has correct event', () => {

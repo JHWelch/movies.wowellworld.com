@@ -5,9 +5,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+  vi,
+} from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import MovieController from '@server/controllers/movieController'
 import { Request } from 'express'
 import { TmdbMock } from '@tests/support/tmdbMock'
@@ -40,12 +40,13 @@ const newMovieController = () => {
 }
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   mockClear()
+  vi.mock('@notionhq/client')
 })
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  vi.restoreAllMocks()
 })
 
 describe('show', () => {

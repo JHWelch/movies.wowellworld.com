@@ -1,21 +1,21 @@
 import { NextFunction, Request } from 'express'
 import passwordMiddleware from '@server/middleware/passwordMiddleware'
-import { beforeEach, describe, expect, jest, it } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, describe, expect, vi, it } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { mockConfig } from '@tests/support/mockConfig'
 import { afterEach } from 'node:test'
 
 const { res, mockClear } = getMockRes()
 let req: Request
 
-const nextFunction: NextFunction = jest.fn()
+const nextFunction: NextFunction = vi.fn()
 
 beforeEach(() => {
   mockClear()
 })
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  vi.restoreAllMocks()
 })
 
 describe('Request has no headers', () => {

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { initializeApp } from 'firebase/app'
 import { applicationDefault } from 'firebase-admin/app'
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
@@ -6,7 +6,10 @@ import setupFirestore from '@server/config/firestore'
 import { mockConfig } from '@tests/support/mockConfig'
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
 })
 
 describe('setupFirestore', () => {

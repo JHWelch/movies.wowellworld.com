@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Config from '@server/config/config'
 
 beforeEach(() => {
-  jest.resetModules()
+  vi.resetModules()
   process.env = {
     ADMIN_EMAIL: 'ADMIN_EMAIL@example.com',
     API_PASSWORD: 'API_PASSWORD',
