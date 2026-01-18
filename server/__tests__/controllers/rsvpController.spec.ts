@@ -20,6 +20,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   mockClear()
   MockDate.set('2021-01-01')
+  vi.mock('firebase/firestore')
 })
 
 const mockBody = ({
