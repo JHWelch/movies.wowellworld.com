@@ -21,7 +21,7 @@
     "link:emails": "ln -s ../emails built/emails",
     "start": "NODE_ENV=production tsx src/server/main.ts",
     "test": "vitest",
-    "types": "vue-tsc --noEmit",
+    "types": "vue-tsc -p tsconfig.build.json --noEmit",
     "coverage": "vitest run --coverage"
   },
   "keywords": [
