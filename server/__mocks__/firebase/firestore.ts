@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Timestamp } from 'firebase/firestore'
+import * as firestore from 'firebase/firestore'
 import { vi } from 'vitest'
 
 export const transaction = {
@@ -9,41 +9,48 @@ export const transaction = {
   delete: vi.fn(),
 }
 
-module.exports = {
-  addDoc: vi.fn(),
-  and: vi.fn((...filters: any[]) => ({ and: filters })),
-  connectFirestoreEmulator: vi.fn().mockImplementation((app, _, __) => app),
-  collection: vi.fn((firestore: any, collectionPath: string) => ({
-    collectionPath,
-    firestore,
-  })),
-  getDoc: vi.fn(),
-  getDocs: vi.fn(),
-  getFirestore: vi.fn().mockReturnValue({ firestore: 'firestore' }),
-  runTransaction: (firestore: any, updateFunction: any, _options: any) => {
-    return updateFunction(transaction)
-  },
-  deleteDoc: vi.fn(),
-  doc: (firestore: any, collectionPath: string, documentPath?: string) => ({
-    firestore,
-    collectionPath,
-    documentPath,
-  }),
-  limit: vi.fn((limit: number) => ({ limit })),
-  orderBy: vi.fn((fieldPath: string, directionStr?: string) => ({
-    fieldPath,
-    directionStr,
-  })),
-  query: vi.fn(),
-  setDoc: vi.fn(),
-  transaction: transaction,
-  Timestamp: {
-    fromDate: (date: Date) => Timestamp.fromDate(date),
-    now: () => Timestamp.now(),
-  },
-  where: vi.fn((fieldPath: string, opStr: string, value: any) => ({
-    fieldPath,
-    opStr,
-    value,
-  })),
+export const addDoc = vi.fn()
+export const and = vi.fn((...filters: any[]) => ({ and: filters }))
+export const connectFirestoreEmulator = vi
+  .fn()
+  .mockImplementation((app, _, __) => app)
+export const collection = vi.fn((firestore: any, collectionPath: string) => ({
+  collectionPath,
+  firestore,
+}))
+export const getDoc = vi.fn()
+export const getDocs = vi.fn()
+export const getFirestore = vi.fn().mockReturnValue({ firestore: 'firestore' })
+export const runTransaction = (
+  firestore: any,
+  updateFunction: any,
+  _options: any
+) => {
+  return updateFunction(transaction)
 }
+export const deleteDoc = vi.fn()
+export const doc = (
+  firestore: any,
+  collectionPath: string,
+  documentPath?: string
+) => ({
+  firestore,
+  collectionPath,
+  documentPath,
+})
+export const limit = vi.fn((limit: number) => ({ limit }))
+export const orderBy = vi.fn((fieldPath: string, directionStr?: string) => ({
+  fieldPath,
+  directionStr,
+}))
+export const query = vi.fn()
+export const setDoc = vi.fn()
+export const Timestamp = {
+  fromDate: (date: Date) => firestore.Timestamp.fromDate(date),
+  now: () => firestore.Timestamp.now(),
+}
+export const where = vi.fn((fieldPath: string, opStr: string, value: any) => ({
+  fieldPath,
+  opStr,
+  value,
+}))

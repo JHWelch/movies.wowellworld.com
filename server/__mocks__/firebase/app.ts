@@ -1,6 +1,4 @@
 import { vi } from 'vitest'
 
-module.exports = {
-  initializeApp: vi.fn()
-    .mockImplementation((config) => ({ initialize: config })),
-}
+export const initializeApp = vi.fn()
+  .mockImplementation((config) => ({ initialize: config }))

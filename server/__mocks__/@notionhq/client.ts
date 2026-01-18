@@ -1,7 +1,5 @@
 import { vi } from 'vitest'
 
-module.exports = {
-  Client: vi.fn(),
+export const Client = vi.fn()
 
-  isFullPage: vi.fn(),
-}
+export const isFullPage = vi.fn()
