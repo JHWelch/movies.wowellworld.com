@@ -4,11 +4,11 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
+  vi,
+} from 'vitest'
 import EventController from '@server/controllers/eventController'
 import { Request } from 'express'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
@@ -20,13 +20,13 @@ import MovieFactory from '@tests/support/factories/movieFactory'
 const { res, mockClear } = getMockRes()
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
 })
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   mockClear()
 })
 

@@ -5,9 +5,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+  vi,
+} from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import { mockConfig } from '@tests/support/mockConfig'
 import { NotionMock } from '@tests/support/notionMock'
@@ -23,10 +23,10 @@ const { res, mockClear } = getMockRes()
 let notionMock: NotionMock
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
-  jest.mock('@notionhq/client')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
+  vi.mock('@notionhq/client')
   notionMock = new NotionMock()
 })
 

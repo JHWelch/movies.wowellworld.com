@@ -1,5 +1,5 @@
 import { withMessage } from '@server/helpers/messageBuilder'
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 
 describe('withMessage', () => {
   describe('called with defaults', () => {

@@ -1,4 +1,4 @@
-import { it, describe, expect, beforeEach } from '@jest/globals'
+import { it, describe, expect, beforeEach } from 'vitest'
 import { TZ } from '@server/config/tz'
 import { Event } from '@server/models/event'
 import MovieFactory from '@tests/support/factories/movieFactory'

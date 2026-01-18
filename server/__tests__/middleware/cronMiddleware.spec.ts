@@ -1,12 +1,12 @@
 import { NextFunction, Request } from 'express'
 import cronMiddleware from '@server/middleware/cronMiddleware'
-import { beforeEach, describe, expect, jest, it } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, describe, expect, vi, it } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 
 const { res, mockClear } = getMockRes()
 let req: Request
 
-const nextFunction: NextFunction = jest.fn()
+const nextFunction: NextFunction = vi.fn()
 
 beforeEach(() => {
   mockClear()

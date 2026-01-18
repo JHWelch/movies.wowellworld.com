@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import SearchResponse from '@server/data/tmdb/dtos/searchResponse'
 import MovieResponse from '@server/data/tmdb/dtos/movieResponse'
 

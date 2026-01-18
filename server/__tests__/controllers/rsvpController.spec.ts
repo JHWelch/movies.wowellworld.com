@@ -1,6 +1,6 @@
 import RsvpController from '@server/controllers/rsvpController'
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { Timestamp, addDoc, setDoc } from 'firebase/firestore'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
@@ -17,7 +17,7 @@ import MockDate from 'mockdate'
 const { res, mockClear } = getMockRes()
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   mockClear()
   MockDate.set('2021-01-01')
 })

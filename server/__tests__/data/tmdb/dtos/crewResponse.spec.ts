@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import CrewResponse from '@server/data/tmdb/dtos/crewResponse'
 
 describe('fromTmdbResponse', () => {

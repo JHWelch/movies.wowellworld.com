@@ -5,10 +5,9 @@ import {
   describe,
   expect,
   it,
-  jest,
-} from '@jest/globals'
+  vi,
+} from 'vitest'
 import { NotionMock } from '@tests/support/notionMock'
-import { getMockReq, getMockRes } from '@jest-mock/express'
 import NotionAdapter from '@server/data/notion/notionAdapter'
 import CacheController from '@server/controllers/cacheEventsController'
 import { transaction } from '@mocks/firebase/firestore'
@@ -28,6 +27,7 @@ import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 import { setDoc, Timestamp } from 'firebase/firestore'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 
 let notionMock: NotionMock
 
@@ -44,22 +44,22 @@ const newCacheController = () => {
 }
 
 beforeAll(() => {
-  jest.mock('firebase-admin/app')
-  jest.mock('firebase/app')
-  jest.mock('firebase/firestore')
+  vi.mock('firebase-admin/app')
+  vi.mock('firebase/app')
+  vi.mock('firebase/firestore')
   MockDate.set('2021-01-01T00:00:00.000Z')
-  jest.mock('@notionhq/client')
+  vi.mock('@notionhq/client')
   notionMock = new NotionMock()
 })
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   mockClear()
-  jest.mock('@server/helpers/directoryPath')
+  vi.mock('@server/helpers/directoryPath')
 })
 
 afterEach(() => {
-  jest.restoreAllMocks()
+  vi.restoreAllMocks()
 })
 
 describe('show', () => {

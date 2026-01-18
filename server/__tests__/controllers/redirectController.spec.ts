@@ -1,6 +1,6 @@
 import RedirectController from '@server/controllers/redirectController'
-import { beforeEach, expect, it } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
+import { beforeEach, expect, it } from 'vitest'
+import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 
 const { res, mockClear } = getMockRes()
 
