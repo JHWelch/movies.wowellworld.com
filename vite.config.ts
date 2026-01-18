@@ -25,7 +25,7 @@ export default defineConfig({
       '@shared/': new URL('./src/shared/', import.meta.url).pathname,
 
       // Server aliases
-      '@server/': new URL('./src/server', import.meta.url).pathname,
+      '@server/': new URL('./src/server/', import.meta.url).pathname,
     },
   },
   test: {
@@ -34,8 +34,23 @@ export default defineConfig({
       '@tests/utils': new URL('./src/client/__tests__/utils', import.meta.url).pathname,
       '@tests/support': new URL('./src/server/__tests__/support', import.meta.url).pathname,
     },
-    setupFiles:[
-      './src/__tests__/setup.ts',
+
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'client',
+          include: ['src/client/**/*.spec.ts'],
+          setupFiles: 'src/client/__tests__/setup.ts',
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'server',
+          include: ['src/server/**/*.spec.ts'],
+        },
+      },
     ],
   },
 })
