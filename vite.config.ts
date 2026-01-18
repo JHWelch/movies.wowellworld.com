@@ -30,7 +30,7 @@ export default defineConfig({
   },
   test: {
     alias: {
-      '@mocks': new URL('./src/server/__mocks__/', import.meta.url).pathname,
+      '@mocks': new URL('./__mocks__/', import.meta.url).pathname,
       '@tests/utils': new URL('./src/client/__tests__/utils', import.meta.url).pathname,
       '@tests/support': new URL('./src/server/__tests__/support', import.meta.url).pathname,
     },
