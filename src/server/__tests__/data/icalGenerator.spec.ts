@@ -9,7 +9,7 @@ vi.mock('@server/helpers/directoryPath')
 
 beforeEach(() => {
   MockDate.set('2021-01-01')
-  ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../src/data')
+  ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../data')
 })
 
 it('can generate an ical file from an event', async () => {

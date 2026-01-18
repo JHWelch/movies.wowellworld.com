@@ -13,7 +13,7 @@ const description = (event: Event): string => 'Come one, come all (okay maybe no
     .join('\n')
 
 const htmlDescription = async (event: Event) => (await ejs.renderFile(
-  directoryPath() + '/../../views/event.html.ejs',
+  directoryPath() + '/../views/event.html.ejs',
   event,
 )).replace(/\s/g, ' ')
 

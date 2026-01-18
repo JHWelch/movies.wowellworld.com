@@ -30,7 +30,7 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
-    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../src/data')
+    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../data')
   })
 
   describe('has correct event', () => {
