@@ -8,13 +8,13 @@ export default defineConfig({
     tsconfigPaths(),
     vue(),
   ],
-  build: {
-    manifest: true,
-    outDir: '../built/public',
-    rollupOptions: {
-      input: 'src/main.ts',
-    },
-  },
+  // build: {
+  //   manifest: true,
+  //   outDir: '../built/public',
+  //   rollupOptions: {
+  //     input: 'src/main.ts',
+  //   },
+  // },
   resolve: {
     alias: {
       // Client aliases
