@@ -39,7 +39,7 @@ export default defineConfig({
       {
         extends: true,
         test: {
-          name: 'client',
+          name: { label: 'client', color: 'cyan' },
           include: ['src/client/**/*.spec.ts'],
           setupFiles: 'src/client/__tests__/setup.ts',
         },
