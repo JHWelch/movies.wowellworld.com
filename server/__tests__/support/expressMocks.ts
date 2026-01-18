@@ -1,4 +1,4 @@
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { Mock, vi } from 'vitest'
 
 const getMockReq = (overrides: object = {}): Request => {
@@ -8,8 +8,11 @@ const getMockReq = (overrides: object = {}): Request => {
   } as unknown as Request
 }
 
-const getMockRes = () => {
-  const res: Partial<Express.Response> = {}
+const getMockRes = (): {
+  res: Response
+  mockClear: () => void
+} => {
+  const res: Partial<Response> = {}
 
   res.status = vi.fn().mockReturnValue(res)
   res.json = vi.fn().mockReturnValue(res)
@@ -28,7 +31,7 @@ const getMockRes = () => {
   }
 
   return {
-    res: res as Express.Response,
+    res: res as Response,
     mockClear,
   }
 }
