@@ -8,7 +8,7 @@
     "cli": "tsx src/cli.ts",
     "lint": "eslint",
     "fix": "npm run lint -- --fix",
-    "dev": "concurrently -k -c \"#e7b885,#53ceff,#a4d4b8\"  \"npm run firebase\" \"sleep 2 && npm run dev:app\" --names=firebase,vite",
+    "dev": "concurrently -k -c \"#e7b885,#53ceff,#a4d4b8\"  \"npm run firebase\" \"sleep 2 && npm run dev:app\" \"vite\" --names=firebase,app,vite",
     "dev:app": "nodemon -w src/server -x tsx src/server/main.ts",
     "firebase": "firebase emulators:start --import emulator-cache",
     "firebase:export": "firebase emulators:export emulator-cache",
