@@ -5,7 +5,7 @@ export default [
   ...jhwelch,
   {
     ignores: [
-      'built',
+      'dist',
     ],
   },
   {

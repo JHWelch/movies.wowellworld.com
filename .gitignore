@@ -1,7 +1,6 @@
 .env
 .env.production
 
-built
 emails/built
 
 # Logs
