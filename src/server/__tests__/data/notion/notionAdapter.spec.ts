@@ -122,7 +122,7 @@ describe('getEvent', () => {
     })
 
     it('should throw an error', async () => {
-      expect(notion.getEvent('2021-01-01'))
+      await expect(notion.getEvent('2021-01-01'))
         .rejects.toThrowError('Page was not successfully retrieved')
     })
   })
