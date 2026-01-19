@@ -31,7 +31,7 @@ jobs:
     - name: Run Lint
       run: npm run lint
 
-  test-server:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -44,18 +44,12 @@ jobs:
         node-version-file: .nvmrc
 
     - name: Install Dependencies
-      working-directory: ./server
       run: npm ci
 
     - name: Run Tests
-      working-directory: ./server
       run: npm test
 
-    - name: Test Types
-      working-directory: ./server
-      run: npm run types
-
-  test-client:
+  types:
     runs-on: ubuntu-latest
 
     steps:
@@ -68,13 +62,7 @@ jobs:
         node-version-file: .nvmrc
 
     - name: Install Dependencies
-      working-directory: ./client
       run: npm ci
 
-    - name: Run Tests
-      working-directory: ./client
-      run: npm test -- run
-
     - name: Test Types
-      working-directory: ./client
       run: npm run types
