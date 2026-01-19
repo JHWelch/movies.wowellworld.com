@@ -54,7 +54,7 @@
   "devDependencies": {
     "@types/ejs": "^3.1.5",
     "@fetch-mock/vitest": "^0.2.15",
-    "@jhwelch/eslint-config": "^4.0.0",
+    "@jhwelch/eslint-config": "^5.0.0",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.1.13",
     "@tailwindcss/typography": "^0.5.18",
