@@ -100,7 +100,7 @@ export default class NotionAdapter {
   }
 
   private eventFilter = (
-    after?: string | null
+    after?: string | null,
   ): QueryDataSourceParameters['filter'] => after
     ? {
       and: [
@@ -128,7 +128,7 @@ export default class NotionAdapter {
     }
 
   private recordToEvent = async (
-    record: NotionQueryResponse
+    record: NotionQueryResponse,
   ): Promise<Event> => {
     if (!isFullPage(record)) {
       throw new Error('Page was not successfully retrieved')

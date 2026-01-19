@@ -9,7 +9,7 @@ export type NotificationState = {
   flash: (
     message: string,
     type?: NotificationType,
-    timeout?: number
+    timeout?: number,
   ) => void
   close: () => void
 }

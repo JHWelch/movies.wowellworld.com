@@ -42,5 +42,5 @@ const requiredVariable = (name: string): string => {
 
 const optionalVariable = (
   name: string,
-  fallback: string
+  fallback: string,
 ): string => process.env[name] ?? fallback

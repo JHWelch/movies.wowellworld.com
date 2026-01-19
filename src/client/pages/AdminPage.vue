@@ -55,10 +55,10 @@ const formattedDate = (date: string | null | undefined) => date
   : 'Never'
 
 const displayPreviousLastUpdated = computed(
-  () => formattedDate(cacheEventsOutput.value?.previousLastUpdated)
+  () => formattedDate(cacheEventsOutput.value?.previousLastUpdated),
 )
 const displayNewLastUpdated = computed(
-  () => formattedDate(cacheEventsOutput.value?.newLastUpdated)
+  () => formattedDate(cacheEventsOutput.value?.newLastUpdated),
 )
 </script>
 

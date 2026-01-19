@@ -157,7 +157,7 @@ export default class CacheEventsController {
         ?? input.previousLastUpdated
         ?? null,
       tmdbMoviesSynced: input.tmdbMoviesSynced?.map(
-        movie => movie.toDTO()
+        movie => movie.toDTO(),
       ) ?? [],
     }
 

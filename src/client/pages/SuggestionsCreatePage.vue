@@ -30,7 +30,7 @@ const { errors, handleErrors } = useErrorHandling((initialErrors) => ({
 const disabled = computed(() => submitting.value
     || !formData.value.theme
     || !formData.value.movie1.title
-    || !formData.value.submitted_by
+    || !formData.value.submitted_by,
 )
 const submit = async () => {
   submitting.value = true

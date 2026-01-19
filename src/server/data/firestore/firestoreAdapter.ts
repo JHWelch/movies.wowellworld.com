@@ -45,7 +45,7 @@ export default class FirestoreAdapter {
   }
 
   getGlobal = async <AppDataType>(
-    key: string
+    key: string,
   ): Promise<Primitive|Timestamp|WithFieldValue<AppDataType>|null> => {
     const document = await getDoc(doc(
       this.firestore,
@@ -259,7 +259,7 @@ export default class FirestoreAdapter {
 
   today = (): Timestamp => {
     return Timestamp.fromDate(
-      DateTime.now().setZone(CHICAGO).startOf('day').toJSDate()
+      DateTime.now().setZone(CHICAGO).startOf('day').toJSDate(),
     )
   }
 

@@ -5,7 +5,7 @@ import { DOMWrapper, VueWrapper } from '@vue/test-utils'
 
 VueWrapper.prototype.byTestId = function<NodeType extends Node> (
   this: VueWrapper<NodeType>,
-  id: string
+  id: string,
 ): DOMWrapper<Element> {
   return this.find(`[data-testid="${id}"]`)
 }

@@ -2,7 +2,7 @@ import { Mock, vi } from 'vitest'
 
 type FetchFunction = (
   input: RequestInfo | URL,
-  init?: RequestInit | undefined
+  init?: RequestInit | undefined,
 ) => Promise<Response>
 
 export type MockFetch = Mock<FetchFunction>

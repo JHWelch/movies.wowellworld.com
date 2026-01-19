@@ -24,7 +24,7 @@ export const getFirestore = vi.fn().mockReturnValue({ firestore: 'firestore' })
 export const runTransaction = (
   firestore: any,
   updateFunction: any,
-  _options: any
+  _options: any,
 ) => {
   return updateFunction(transaction)
 }
@@ -32,7 +32,7 @@ export const deleteDoc = vi.fn()
 export const doc = (
   firestore: any,
   collectionPath: string,
-  documentPath?: string
+  documentPath?: string,
 ) => ({
   firestore,
   collectionPath,

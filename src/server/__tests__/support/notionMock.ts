@@ -78,7 +78,7 @@ export class NotionMock {
     this.retrieve.mockImplementationOnce(
       (async (_args: WithAuth<GetPageParameters>): Promise<GetPageResponse> => {
         return notionMovie.toPageObjectResponse() as GetPageResponse
-      }) as unknown as (this: any, ...args: unknown[]) => void // eslint-disable-line @typescript-eslint/no-explicit-any
+      }) as unknown as (this: any, ...args: unknown[]) => void, // eslint-disable-line @typescript-eslint/no-explicit-any
     )
 
     return { pages: { retrieve: this.retrieve } }

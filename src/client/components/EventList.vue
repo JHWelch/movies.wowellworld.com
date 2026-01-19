@@ -10,7 +10,7 @@ import RsvpModal from '@client/components/RsvpModal.vue'
 
 const props = withDefaults(defineProps<{
   fetchUrl: string
-  showEventDetails: boolean
+  showEventDetails?: boolean
   sectionTitles?: { [key: number]: string }
   onEmpty?: () => void
 }>(), {
