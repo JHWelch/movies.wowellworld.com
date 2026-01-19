@@ -53,6 +53,5 @@ it('registers all routes', () => {
     '/unsubscribe':  { get: true },
     '/cron/reminders':  { get: true },
     '/events/:eventId/event':  { get: true },
-    '/(.*)/':  { _all: true },
   })
 })
