@@ -5,7 +5,7 @@ import NotionAdapter from '@server/data/notion/notionAdapter'
 
 const arg = process.argv[2]
 
-if (arg.replace(/^--?/, '') === 'help') {
+if (arg?.replace(/^--?/, '') === 'help') {
   console.log('Usage: npm run cli')
   console.log('       npm run cli -- help')
   console.log('')
@@ -14,8 +14,6 @@ if (arg.replace(/^--?/, '') === 'help') {
 
   process.exit(0)
 }
-
-process.exit(1)
 
 const run = async () => {
   dotenv.config()

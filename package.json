@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/server/main.ts",
   "scripts": {
-    "cli": "tsx src/cli.ts",
+    "cli": "tsx src/server/cli.ts",
     "lint": "eslint",
     "fix": "npm run lint -- --fix",
     "dev": "concurrently -k -c \"#e7b885,#53ceff,#a4d4b8\"  \"npm run firebase\" \"sleep 2 && npm run dev:app\" \"vite\" --names=firebase,app,vite",
