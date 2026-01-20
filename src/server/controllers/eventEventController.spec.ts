@@ -1,5 +1,5 @@
 import EventEventController from '@server/controllers/eventEventController'
-import { beforeEach, describe, expect, it, Mock, vi, vitest } from 'vitest'
+import { beforeEach, describe, expect, it, vi, vitest } from 'vitest'
 import { getMockReq, getMockRes } from '@tests/support/expressMocks'
 import { FirebaseMock } from '@tests/support/firebaseMock'
 import FirestoreAdapter from '@server/data/firestore/firestoreAdapter'
@@ -11,9 +11,6 @@ import EventFactory from '@tests/support/factories/eventFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
-import directoryPath from '@server/helpers/directoryPath'
-
-vi.mock('@server/helpers/directoryPath')
 
 const { res, mockClear } = getMockRes()
 
@@ -30,7 +27,6 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
-    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../data')
   })
 
   describe('has correct event', () => {
