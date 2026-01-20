@@ -20,27 +20,7 @@ updates:
     schedule:
       interval: monthly
     groups:
-      global-development-dependencies:
+      development-dependencies:
         dependency-type: development
-      global-production-dependencies:
-        dependency-type: production
-
-  - package-ecosystem: npm
-    directory: /client
-    schedule:
-      interval: monthly
-    groups:
-      client-development-dependencies:
-        dependency-type: development
-      client-production-dependencies:
-        dependency-type: production
-
-  - package-ecosystem: npm
-    directory: /server
-    schedule:
-      interval: monthly
-    groups:
-      server-development-dependencies:
-        dependency-type: development
-      server-production-dependencies:
+      production-dependencies:
         dependency-type: production
