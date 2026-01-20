@@ -1,7 +1,7 @@
 // The production tsconfig for this project is tsconfig.build.json
 // This tsconfig.json file is used for proper IDE intellisense and path aliasing
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
       "@assets/*": [

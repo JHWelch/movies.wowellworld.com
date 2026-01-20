@@ -1,52 +1,5 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "outDir": "../built",
-    "moduleResolution": "node",
-    "types": [
-      "node"
-    ],
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "useDefineForClassFields": true,
-    "resolveJsonModule": true,
-    /* Linting */
-    "strict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@assets/*": [
-        "./src/client/assets/*"
-      ],
-      "@client/*": [
-        "./src/client/*"
-      ],
-      "@components/*": [
-        "./src/client/components/*"
-      ],
-      "@pages/*": [
-        "./src/client/pages/*"
-      ],
-      "@server/*": [
-        "./src/server/*"
-      ],
-      "@shared/*": [
-        "./src/shared/*"
-      ]
-    }
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.vue"
-  ],
+  "extends": "./tsconfig.base.json",
   "exclude": [
     "node_modules",
     "<node_internals>/**",
