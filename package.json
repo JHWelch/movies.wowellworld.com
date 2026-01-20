@@ -12,8 +12,6 @@
     "dev:app": "nodemon -w src/server -x tsx src/server/main.ts",
     "firebase": "firebase emulators:start --import emulator-cache",
     "firebase:export": "firebase emulators:export emulator-cache",
-    "dev:client": "npm run --prefix client dev",
-    "dev:export": "npm run --prefix server firebase:export",
     "build": "vue-tsc -p tsconfig.build.json && vite build && npm run build:emails",
     "build:emails": "mkdir -p ./emails/built && mjml --config.minify=true ./emails/*.mjml -o ./emails/built/",
     "preview": "vite preview",
