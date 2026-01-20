@@ -11,9 +11,6 @@ import EventFactory from '@tests/support/factories/eventFactory'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
-import directoryPath from '@server/helpers/directoryPath'
-
-vi.mock('@server/helpers/directoryPath')
 
 const { res, mockClear } = getMockRes()
 
@@ -30,7 +27,6 @@ describe('show', () => {
 
   beforeEach(() => {
     firestoreAdapter = new FirestoreAdapter(mockConfig())
-    ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../data')
   })
 
   describe('has correct event', () => {

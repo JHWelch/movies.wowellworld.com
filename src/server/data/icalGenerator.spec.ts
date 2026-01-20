@@ -1,15 +1,11 @@
-import { beforeEach, expect, it, Mock, vi } from 'vitest'
+import { beforeEach, expect, it } from 'vitest'
 import { icalGenerator } from '@server/data/icalGenerator'
-import directoryPath from '@server/helpers/directoryPath'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import EventFactory from '@tests/support/factories/eventFactory'
 import MockDate from 'mockdate'
 
-vi.mock('@server/helpers/directoryPath')
-
 beforeEach(() => {
   MockDate.set('2021-01-01')
-  ;(directoryPath as Mock).mockReturnValue(__dirname + '/../../data')
 })
 
 it('can generate an ical file from an event', async () => {
