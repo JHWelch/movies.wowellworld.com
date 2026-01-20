@@ -12,9 +12,9 @@ export default class Application {
   constructor (
     private config: Config,
     private express: Express,
-    private firestore: FirestoreAdapter,
-    private notion: NotionAdapter,
-    private tmdb: TmdbAdapter,
+    firestore: FirestoreAdapter,
+    notion: NotionAdapter,
+    tmdb: TmdbAdapter,
   ) {
     express.use('/cron', cronMiddleware)
     express.use('/api/cache', passwordMiddleware(config))
