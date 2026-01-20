@@ -58,6 +58,8 @@ const reload = () => {
 }
 
 watch(events, () => nextTick(() => setTimeout(() => {
+  if (!window.location?.hash) { return }
+
   const anchor = window.location.hash.substring(1)
   if (!anchor) { return }
 
