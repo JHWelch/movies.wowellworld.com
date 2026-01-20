@@ -1,22 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
+    "target": "ESNext",
+    "module": "ESNext",
     "outDir": "../built",
-    "strict": true,
-    "strictNullChecks": true,
     "moduleResolution": "node",
     "types": [
       "node"
     ],
     "lib": [
-      "es6",
-      "dom"
+      "ESNext",
+      "DOM",
     ],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowUnreachableCode": true,
+    "useDefineForClassFields": true,
+    "resolveJsonModule": true,
+    /* Linting */
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
     "paths": {
       "@assets/*": [
         "./src/client/assets/*",
@@ -40,10 +45,12 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules",
     "<node_internals>/**",
     "src/**/__tests__/*",
+    "src/**/*.spec.ts"
   ]
 }

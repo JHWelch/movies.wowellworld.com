@@ -4,14 +4,29 @@
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "paths": {
+      "@assets/*": [
+        "./src/client/assets/*",
+      ],
+      "@client/*": [
+        "./src/client/*",
+      ],
+      "@components/*": [
+        "./src/client/components/*"
+      ],
+      "@pages/*": [
+        "./src/client/pages/*"
+      ],
       "@server/*": [
         "./src/server/*"
       ],
       "@shared/*": [
         "./src/shared/*"
       ],
-      "@tests/*": [
+      "@tests/support": [
         "./src/server/__tests__/*"
+      ],
+      "@tests/utils": [
+        "./src/client/__tests__/*"
       ],
       "@mocks/*": [
         "./__mocks__/*"
@@ -20,7 +35,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "../shared/**/*.ts",
+    "src/**/*.vue",
     "__tests__/**/*.ts",
   ],
 }
