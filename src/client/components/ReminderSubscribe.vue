@@ -34,7 +34,7 @@ const toggle = () => {
 
   if (isOpen.value) {
     setTimeout(() => {
-      const input = document.querySelector('input[name="email"]') as HTMLInputElement
+      const input = document?.querySelector('input[name="email"]') as HTMLInputElement
       if (input) {
         input.focus()
       }
