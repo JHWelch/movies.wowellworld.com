@@ -8,7 +8,6 @@ An integration with [Notion](https://notion.so) to display weekly movie nights u
 ### .env
 
 ```sh
-cd server
 cp .env.example .env
 ```
 
