@@ -5,10 +5,10 @@
   "compilerOptions": {
     "paths": {
       "@assets/*": [
-        "./src/client/assets/*",
+        "./src/client/assets/*"
       ],
       "@client/*": [
-        "./src/client/*",
+        "./src/client/*"
       ],
       "@components/*": [
         "./src/client/components/*"
@@ -22,11 +22,11 @@
       "@shared/*": [
         "./src/shared/*"
       ],
-      "@tests/support": [
-        "./src/server/__tests__/*"
+      "@tests/support/*": [
+        "./src/server/__tests__/support/*"
       ],
-      "@tests/utils": [
-        "./src/client/__tests__/*"
+      "@tests/utils/*": [
+        "./src/client/__tests__/utils/*"
       ],
       "@mocks/*": [
         "./__mocks__/*"
@@ -36,6 +36,6 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.vue",
-    "__tests__/**/*.ts",
-  ],
+    "__mocks__/**/*.ts"
+  ]
 }

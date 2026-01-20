@@ -9,7 +9,7 @@
     ],
     "lib": [
       "ESNext",
-      "DOM",
+      "DOM"
     ],
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -24,10 +24,10 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@assets/*": [
-        "./src/client/assets/*",
+        "./src/client/assets/*"
       ],
       "@client/*": [
-        "./src/client/*",
+        "./src/client/*"
       ],
       "@components/*": [
         "./src/client/components/*"
