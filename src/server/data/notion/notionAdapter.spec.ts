@@ -52,7 +52,7 @@ describe('getMovie', () => {
         posterPath: 'moviePosterPath',
         theaterName: 'movieTheaterName',
         showingUrl: 'movieShowingUrl',
-        tmdbId: null,
+        tmdbId: 123,
       })
     })
 

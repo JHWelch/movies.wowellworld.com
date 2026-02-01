@@ -72,7 +72,7 @@ export class Movie {
       time: properties.Time?.rich_text[0]?.plain_text,
       url: properties.URL?.url,
       posterPath: properties.Poster?.url,
-      tmdbId: null,
+      tmdbId: properties['TMDB Id']?.number,
       notionId: movie.id,
       theaterName: properties['Theater Name']?.rich_text[0]?.plain_text,
       showingUrl: properties['Showing URL']?.url,
@@ -184,6 +184,7 @@ export class Movie {
       'Theater Name': notionRichText(this.theaterName),
       'Showing URL': notionUrl(this.showingUrl),
       Time: notionRichText(this.time),
+      'TMDB Id': notionNumber(this.tmdbId),
       'Watch Where?': {
         multi_select: this.watchWhere.map((option) => ({
           name: option,

@@ -2,6 +2,7 @@ import { describe, expect, it, test } from 'vitest'
 import { Movie } from '@server/models/movie'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { TMDB_POSTER_URL } from '@server/data/tmdb/constants'
+import { NotionMovie } from '@server/__tests__/support/notionHelpers'
 
 describe('merge', () => {
   test('only null/undefined fields are overwritten by merge', () => {
@@ -53,6 +54,7 @@ describe('toNotion', () => {
         ] },
         'Showing URL': { url: movie.showingUrl },
         Time: { rich_text: [{ text: { content: movie.time } }] },
+        'TMDB Id': { number: movie.tmdbId },
         'Watch Where?': { multi_select: [{ name: 'Netflix' }] },
       },
     })
@@ -64,6 +66,26 @@ describe('toNotion', () => {
 
       expect(() => movie.toNotion())
         .toThrowError('Movie does not have notionId')
+    })
+  })
+})
+
+describe('fromNotion', () => {
+  it('creates a Movie from Notion properties', () => {
+    const movie = NotionMovie.demo()
+
+    expect(Movie.fromNotion(movie.toPageObjectResponse())).toMatchObject({
+      title: movie.title,
+      director: movie.director,
+      year: movie.year,
+      length: movie.length,
+      time: movie.time,
+      url: movie.url,
+      tmdbId: movie.tmdbId,
+      notionId: movie.id,
+      posterPath: movie.posterPath,
+      theaterName: movie.theaterName,
+      showingUrl: movie.showingUrl,
     })
   })
 })
