@@ -227,6 +227,7 @@ type NotionMovieConstructor = {
   posterPath?: string | null
   theaterName?: string | null
   showingUrl?: string | null
+  tmdbId?: number | null
 }
 
 export class NotionMovie {
@@ -240,6 +241,7 @@ export class NotionMovie {
   public posterPath: string | null = null
   public theaterName: string | null = null
   public showingUrl: string | null = null
+  public tmdbId: number | null = null
 
   constructor (movie: NotionMovieConstructor) {
     Object.keys(movie).forEach((key) => {
@@ -262,6 +264,7 @@ export class NotionMovie {
       Poster: nUrl(this.posterPath),
       'Theater Name': nRichText(this.theaterName),
       'Showing URL': nUrl(this.showingUrl),
+      'TMDB Id': nNumber(this.tmdbId),
     })
   }
 
@@ -276,6 +279,7 @@ export class NotionMovie {
     posterPath: 'moviePosterPath',
     theaterName: 'movieTheaterName',
     showingUrl: 'movieShowingUrl',
+    tmdbId: 123,
   })
 
   static fromMovie = (movie: Movie) => new NotionMovie({

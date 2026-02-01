@@ -15,6 +15,9 @@ export default interface MovieProperties {
   'Length (mins)': {
     number: number
   }
+  'TMDB Id': {
+    number: number
+  }
   Time: {
     rich_text: Array<{
       plain_text: string

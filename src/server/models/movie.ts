@@ -72,7 +72,7 @@ export class Movie {
       time: properties.Time?.rich_text[0]?.plain_text,
       url: properties.URL?.url,
       posterPath: properties.Poster?.url,
-      tmdbId: null,
+      tmdbId: properties['TMDB Id']?.number,
       notionId: movie.id,
       theaterName: properties['Theater Name']?.rich_text[0]?.plain_text,
       showingUrl: properties['Showing URL']?.url,
