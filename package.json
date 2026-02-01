@@ -58,11 +58,11 @@
     "@types/luxon": "^3.7.1",
     "@types/node": "^24.10.9",
     "@vitejs/plugin-vue": "^6.0.1",
-    "@vitest/coverage-v8": "^4.0.0",
+    "@vitest/coverage-v8": "^4.0.18",
     "@vue/test-utils": "^2.4.3",
     "concurrently": "^9.2.1",
     "eslint": "^9.14.0",
-    "firebase-tools": "^15.3.1",
+    "firebase-tools": "^15.5.1",
     "js-confetti": "^0.13.1",
     "jsdom": "^27.0.0",
     "lodash.debounce": "^4.0.8",
@@ -73,11 +73,11 @@
     "tailwindcss": "^4.0.0",
     "tsc-alias": "^1.8.15",
     "vite": "^7.1.11",
-    "vite-tsconfig-paths": "^6.0.4",
+    "vite-tsconfig-paths": "^6.0.5",
     "vitest": "^4.0.17",
     "vue": "^3.5.27",
-    "vue-router": "^4.6.4",
-    "vue-tsc": "^3.0.7"
+    "vue-router": "^5.0.1",
+    "vue-tsc": "^3.2.4"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.57.1"
