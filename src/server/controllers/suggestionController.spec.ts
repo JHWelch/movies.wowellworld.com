@@ -17,6 +17,7 @@ import { TmdbMock } from '@tests/support/tmdbMock'
 import { mockFetch } from '@tests/support/fetchMock'
 import MovieFactory from '@tests/support/factories/movieFactory'
 import { TMDB_MOVIE_URL } from '@server/data/tmdb/constants'
+import { NotionMovie } from '@server/__tests__/support/notionHelpers'
 
 const { res, mockClear } = getMockRes()
 
@@ -128,8 +129,9 @@ describe('store', () => {
     })
 
     it('should create a new event and movies', async () => {
+      notionMock.mockQuery([])
+      notionMock.mockQuery([])
       const req = getMockReq({ body })
-
       notionMock.mockCreate('movieId1', 'movieId2')
 
       await newSuggestionController().store(req, res)
@@ -150,6 +152,36 @@ describe('store', () => {
           Movies: {
             relation: [
               { id: 'movieId1' },
+              { id: 'movieId2' },
+            ],
+          },
+        },
+      })
+    })
+
+    it('should not create a new movie if it already exists', async () => {
+      notionMock.mockQuery([
+        NotionMovie.fromMovie(movie1).toPageObjectResponse(),
+      ])
+      notionMock.mockQuery([])
+      notionMock.mockIsFullPage(true)
+      const req = getMockReq({ body })
+      notionMock.mockCreate('movieId2')
+
+      await newSuggestionController().store(req, res)
+
+      expect(notionMock.create).toHaveBeenCalledWith({
+        parent: { data_source_id: 'NOTION_MOVIE_DATA_SOURCE_ID' },
+        properties: movie1.notionProperties(),
+      })
+      expect(notionMock.create).toHaveBeenCalledWith({
+        parent: { data_source_id: 'NOTION_EVENT_DATA_SOURCE_ID' },
+        properties: {
+          Theme: { title: [{ text: { content: 'theme' } }] },
+          'Submitted By': { rich_text: [{ text: { content: 'submitted_by' } }] },
+          Movies: {
+            relation: [
+              { id: 'notionId' },
               { id: 'movieId2' },
             ],
           },

@@ -22,6 +22,10 @@ export default class SuggestionController {
     }) => {
       let movie: Movie
       if (movieData.id) {
+        const existingMovie = await this.notion.getMovieByTmdbId(movieData.id)
+        if (existingMovie) {
+          return existingMovie.notionId
+        }
         movie = await this.tmdb.movieDetails(movieData.id)
       }
 
