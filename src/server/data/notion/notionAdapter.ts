@@ -34,6 +34,24 @@ export default class NotionAdapter {
     return Movie.fromNotion(page)
   }
 
+  async getMovieByTmdbId (tmdbId: number): Promise<Movie | null> {
+    const records = await this.#notion.dataSources.query({
+      data_source_id: this.#movieDatabaseId,
+      filter: {
+        property: 'TMDB Id',
+        number: { equals: tmdbId },
+      },
+    })
+
+    const record = records.results[0]
+
+    if (record == null || !isFullPage(record)) {
+      return null
+    }
+
+    return Movie.fromNotion(record)
+  }
+
   async getEvent (date: string): Promise<Event | null> {
     const records = await this.#notion.dataSources.query({
       data_source_id: this.#eventDatabaseId,

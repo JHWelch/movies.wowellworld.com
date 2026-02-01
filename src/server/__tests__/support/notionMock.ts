@@ -85,7 +85,7 @@ export class NotionMock {
   }
 
   mockQuery = (events: PageObjectResponse[] = []) => {
-    this.query.mockImplementation(
+    this.query.mockImplementationOnce(
       (async (
         _args: WithAuth<QueryDataSourceParameters>,
       ): Promise<QueryDataSourceResponse> => ({
