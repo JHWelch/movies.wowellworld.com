@@ -74,9 +74,7 @@ describe('fromNotion', () => {
   it('creates a Movie from Notion properties', () => {
     const movie = NotionMovie.demo()
 
-    const createdMovie = Movie.fromNotion(movie.toPageObjectResponse())
-
-    expect(createdMovie).toMatchObject({
+    expect(Movie.fromNotion(movie.toPageObjectResponse())).toMatchObject({
       title: movie.title,
       director: movie.director,
       year: movie.year,
