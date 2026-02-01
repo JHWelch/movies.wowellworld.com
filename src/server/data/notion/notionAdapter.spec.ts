@@ -15,6 +15,7 @@ import { RichText } from '@shared/dtos'
 import { DateTime } from 'luxon'
 import { TZ } from '@server/config/tz'
 import { Movie } from '@server/models/movie'
+import { NotionMovie } from '@server/__tests__/support/notionHelpers'
 
 let notion: NotionAdapter
 let notionMock: NotionMock
@@ -71,6 +72,62 @@ describe('getMovie', () => {
     it('should throw an error', async () => {
       await expect(new NotionAdapter(mockConfig()).getMovie('movieId'))
         .rejects.toThrowError('Page was not successfully retrieved')
+    })
+  })
+})
+
+describe('getMovieByTmdbId', () => {
+  beforeEach(() => {
+    notion = new NotionAdapter(mockConfig())
+  })
+
+  it('will return a movie if found', async () => {
+    const notionMovie = NotionMovie.demo()
+    notionMovie.tmdbId = 123
+    notionMock.mockQuery([
+      notionMovie.toPageObjectResponse(),
+    ])
+    notionMock.mockIsFullPage(true)
+
+    const movie = await notion.getMovieByTmdbId(123)
+
+    expect(movie).toMatchObject({
+      notionId: 'movieId',
+      tmdbId: 123,
+    })
+  })
+
+  it('will return null if not found', async () => {
+    notionMock.mockQuery([])
+
+    const movie = await notion.getMovieByTmdbId(999)
+
+    expect(movie).toBeNull()
+  })
+
+  it('will return null if not a full page', async () => {
+    const notionMovie = NotionMovie.demo()
+    notionMock.mockQuery([
+      notionMovie.toPageObjectResponse(),
+    ])
+    notionMock.mockIsFullPage(false)
+
+    const movie = await notion.getMovieByTmdbId(123)
+
+    expect(movie).toBeNull()
+  })
+
+  it('queries Notion with the proper arguments', () => {
+    notionMock.mockQuery([])
+
+    notion.getMovieByTmdbId(123)
+
+    expect(notionMock.query).toHaveBeenCalledWith({
+      data_source_id: mockConfig().notionMovieDatabaseId,
+      filter: {
+        property: 'TMDB Id',
+        number: { equals: 123 },
+      },
     })
   })
 })
