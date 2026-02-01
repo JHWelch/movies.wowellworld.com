@@ -54,6 +54,7 @@ describe('toNotion', () => {
         ] },
         'Showing URL': { url: movie.showingUrl },
         Time: { rich_text: [{ text: { content: movie.time } }] },
+        'TMDB Id': { number: movie.tmdbId },
         'Watch Where?': { multi_select: [{ name: 'Netflix' }] },
       },
     })
