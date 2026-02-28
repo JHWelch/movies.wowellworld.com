@@ -44,6 +44,7 @@ export default class SuggestionController {
       theme: z.string().min(1, { message: 'Required' }),
       submitted_by: z.string().min(1, { message: 'Required' }),
       movies: z.array(z.object({
+        id: z.number().int().nonnegative().optional(),
         title: z.string().min(1, { message: 'Required' }),
       }))
         .min(1, { message: 'Required' }),
