@@ -12,6 +12,9 @@ concurrency:
   group: qc-check-app-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     name: Lint
