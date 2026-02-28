@@ -270,4 +270,23 @@ describe('store', () => {
       })
     })
   })
+
+  describe('id is malicious execution string', () => {
+    it('will throw an error', async () => {
+      const req = getMockReq({
+        body: mockBody({
+          movies: [
+            { id: 'malicious_string', title: 'movie1' },
+          ],
+        }),
+      })
+
+      await newSuggestionController().store(req, res)
+
+      expect(res.status).toHaveBeenCalledWith(422)
+      expect(res.json).toHaveBeenCalledWith({
+        errors: { movies: 'Invalid input: expected number, received string' },
+      })
+    })
+  })
 })
