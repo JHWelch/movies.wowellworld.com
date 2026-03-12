@@ -7,7 +7,6 @@ import EventList from '@components/EventList.vue'
     <EventList
       fetch-url="/api/events?past=true"
       :show-event-details="false"
-      :section-titles="{ 0: 'Past Releases' }"
     />
   </div>
 </template>
