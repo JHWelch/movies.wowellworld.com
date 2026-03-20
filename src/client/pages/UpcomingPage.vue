@@ -46,7 +46,7 @@ import wowellWorld from '@assets/wowell_world.png'
         </p>
 
         <p class="text-lg font-bold text-primary-light">
-          <span class="bg-black">All are welcome! In order to RSVP, accept the calendar invite or click RSVP and fill out the form.</span>
+          All are welcome! In order to RSVP, click RSVP next to the movie night and fill out the form.
         </p>
 
         <p>
