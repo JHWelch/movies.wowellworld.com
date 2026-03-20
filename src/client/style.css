@@ -30,6 +30,20 @@
     font-family: "Noto";
     src: url(/fonts/NotoSans.ttf) format("truetype");
   }
+
+  @font-face {
+    font-family: "Coolvetica";
+    font-weight: normal;
+    font-style: normal;
+    src: url(/fonts/Coolvetica-Rg.otf) format("opentype");
+  }
+
+  @font-face {
+    font-family: "Coolvetica";
+    font-weight: normal;
+    font-style: italic;
+    src: url(/fonts/Coolvetica-Rg-It.otf) format("opentype");
+  }
 }
 
 @layer utilities {
@@ -38,14 +52,8 @@
   }
 
   :root {
-    font-family: Inter, sans-serif;
+    font-family: Coolvetica, sans-serif;
     font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
-  }
-}
-
-@supports (font-variation-settings: normal) {
-  :root {
-    font-family: InterVariable, sans-serif;
   }
 }
 

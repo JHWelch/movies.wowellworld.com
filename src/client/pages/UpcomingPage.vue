@@ -28,7 +28,7 @@ import wowellWorld from '@assets/wowell_world.png'
       >
         <a
           href="#now-playing"
-          class="flex w-full px-4 py-3 text-2xl font-semibold text-white rounded-lg bg-primary-dark md:w-auto"
+          class="flex w-full px-4 py-3 text-2xl font-semibold rounded-lg text-dark bg-primary-dark md:w-auto"
         >Jump to the Movies</a>
       </div>
 
