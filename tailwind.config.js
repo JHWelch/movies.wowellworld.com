@@ -8,7 +8,7 @@ export default {
     fontFamily: {
       playwrite: ['Playwrite', 'sans-serif'],
       noto: ['Noto', 'sans-serif'],
-      coolvetica: ['Coolvetica'],
+      coolvetica: ['Coolvetica', 'sans-serif'],
     },
     extend: {
       colors: {
