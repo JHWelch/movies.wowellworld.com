@@ -112,7 +112,7 @@ const submit = async () => {
 
       <button
         type="button"
-        class="inline-flex justify-center w-full text-xl font-semibold sm:col-start-2 disabled:cursor-not-allowed disabled:opacity-50"
+        class="inline-flex justify-center w-full p-2 text-xl font-semibold rounded-lg sm:col-start-2 disabled:cursor-not-allowed disabled:opacity-50 bg-primary-dark text-dark"
         :disabled="disabled"
         @click="submit()"
       >

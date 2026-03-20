@@ -1,16 +1,18 @@
 <script lang="ts" setup>
-import Calendar from '@components/Calendar.vue'
 import ThankYou from '@components/ThankYou.vue'
 import EventList from '@components/EventList.vue'
 import heroImg from '@assets/hero.png'
+import comingSoon from '@assets/coming_soon.png'
+import nowPlayingImg from '@assets/now_playing.png'
+import wowellWorld from '@assets/wowell_world.png'
 </script>
 
 <template>
   <div class="flex flex-col items-center w-full">
-    <div class="max-w-4xl py-10">
-      <div class="flex flex-col items-center px-4 py-5 text-center md:px-8">
+    <div class="mt-10">
+      <div class="flex flex-col items-center py-5 text-center">
         <h1 class="sr-only">
-          Wowell World Cinemas Presents Movie Nights
+          Movie Night
         </h1>
 
         <img
@@ -18,18 +20,20 @@ import heroImg from '@assets/hero.png'
           alt=""
         >
       </div>
+    </div>
 
+    <div class="max-w-4xl mb-10">
       <div
         class="flex flex-col items-center justify-center px-4 py-6 space-y-4 text-center md:px-8"
       >
         <a
           href="#now-playing"
-          class="flex items-center justify-center w-full text-2xl font-semibold md:w-auto"
+          class="flex items-center justify-center w-full px-4 py-3 text-2xl font-semibold rounded-lg text-dark bg-primary-dark md:w-auto"
         >Jump to the Movies</a>
       </div>
 
       <section class="px-4 py-8 mt-4 space-y-5 leading-7 min-[896px]:rounded-xl md:px-8 md:mt-8">
-        <h2 class="text-2xl font-bold text-web-pink">
+        <h2 class="text-2xl font-bold text-primary-light">
           Don’t you miss movie nights?
         </h2>
 
@@ -41,7 +45,7 @@ import heroImg from '@assets/hero.png'
           Even though we’re a bit older now and some of the snacks have changed (we might actually make the pizza instead of just grabbing a frozen one), the fun of a movie night with your pals will never get old. So join us on most Thursday evenings at the Wowell abode in Edgewater for a themed movie night! We will usually either have some snacks/food or order food together, but feel free to bring a dish to pass or a beverage, grab a seat, and settle in for - Movie Night!
         </p>
 
-        <p class="text-lg font-bold text-web-aqua">
+        <p class="text-lg font-bold text-primary-light">
           <span class="bg-black">All are welcome! In order to RSVP, accept the calendar invite or click RSVP and fill out the form.</span>
         </p>
 
@@ -55,15 +59,23 @@ import heroImg from '@assets/hero.png'
       fetch-url="/api/events/"
       :show-event-details="true"
       :section-titles="{
-        0: 'Now Playing',
-        1: 'Coming Attractions',
+        0: {
+          title: 'Now Playing',
+          image: nowPlayingImg,
+        },
+        1: {
+          title: 'Coming Soon',
+          image: comingSoon,
+        },
       }"
     />
 
-    <ThankYou />
-  </div>
+    <img
+      :src="wowellWorld"
+      class="mt-10 lg:mt-20"
+      alt="Wowell World"
+    >
 
-  <div class="mt-10 sm:p-4">
-    <Calendar />
+    <ThankYou />
   </div>
 </template>

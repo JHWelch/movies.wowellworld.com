@@ -71,7 +71,7 @@ const disabled = computed(() => !formData.value.name
       aria-modal="true"
       @close-modal="rsvpModal.close()"
     >
-      <div class="fixed inset-0 transition-opacity bg-gray-500/75" />
+      <div class="fixed inset-0 transition-opacity bg-dark/75" />
 
       <div
         class="fixed inset-0 z-10 overflow-y-auto"
@@ -93,7 +93,7 @@ const disabled = computed(() => !formData.value.name
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
-              class="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white border-4 border-black border-double shadow-xl sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
+              class="relative px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform border-4 shadow-xl bg-dark border-primary-dark sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
               @click.stop
             >
               <div>
@@ -104,22 +104,22 @@ const disabled = computed(() => !formData.value.name
                 <div class="mt-3 text-center sm:mt-5">
                   <h3
                     id="modal-title"
-                    class="text-base font-semibold leading-6 text-gray-900"
+                    class="text-base font-semibold leading-6 text-primary-light"
                   >
                     <span>RSVP to: </span>
 
                     <span
-                      class="underline text-web-pink"
+                      class="underline text-primary-dark"
                       v-text="rsvpModal.event?.theme"
                     />
                   </h3>
 
                   <div class="mt-2">
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-light">
                       Let us know you are coming! Bring&nbsp;a&nbsp;friend&nbsp;if&nbsp;you&nbsp;like.
                     </p>
 
-                    <p class="text-web-yellow">
+                    <p class="text-primary-light">
                       <span class="bg-black">Hope to see you soon!</span>
                     </p>
                   </div>
@@ -133,6 +133,7 @@ const disabled = computed(() => !formData.value.name
                   name="name"
                   placeholder="Ghostface"
                   :required="true"
+                  @clear-error="errors.name = ''"
                 />
 
                 <FormInput
@@ -143,6 +144,7 @@ const disabled = computed(() => !formData.value.name
                   label="Email"
                   placeholder="ghostface@woodsboroca.gov"
                   :required="formData.reminders"
+                  @clear-error="errors.email = ''"
                 />
 
                 <FormCheckbox
@@ -158,7 +160,7 @@ const disabled = computed(() => !formData.value.name
                   data-testid="rsvp-button"
                   :disabled="disabled"
                   type="button"
-                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2"
+                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2 bg-primary-dark text-dark"
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
@@ -169,7 +171,7 @@ const disabled = computed(() => !formData.value.name
 
                 <button
                   type="button"
-                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold bg-white rounded-md shadow-xs sm:col-start-1 sm:mt-0"
+                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold rounded-md shadow-xs bg-primary-light text-dark sm:col-start-1 sm:mt-0"
                   @click="rsvpModal.close()"
                 >
                   Cancel

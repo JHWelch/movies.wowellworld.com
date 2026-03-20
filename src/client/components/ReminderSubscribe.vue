@@ -54,7 +54,7 @@ const toggle = () => {
 
   <div
     v-if="isOpen"
-    class="absolute w-full right-0 top-12 bg-white p-3 space-y-4 max-w-[500px] border-4 border-black border-double"
+    class="absolute w-full right-0 top-12 bg-dark p-3 space-y-4 max-w-[500px] border-2 border-primary-dark"
   >
     <p class="text-sm">
       Get an email reminder the day before upcoming movie nights
@@ -71,7 +71,7 @@ const toggle = () => {
       />
 
       <button
-        class="flex items-center justify-center px-4 py-1 text-sm font-semibold"
+        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-lg bg-primary-dark text-dark"
         data-testid="subscribe-button"
         @click="subscribe"
       >

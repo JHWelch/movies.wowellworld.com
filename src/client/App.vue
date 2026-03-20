@@ -5,7 +5,7 @@ import Notifications from '@components/Notifications.vue'
 </script>
 
 <template>
-  <body class="flex flex-col items-center min-h-screen bg-white font-noto">
+  <body class="flex flex-col items-center min-h-screen bg-dark text-light">
     <main class="flex flex-col justify-center w-full align-middle">
       <Notifications />
 

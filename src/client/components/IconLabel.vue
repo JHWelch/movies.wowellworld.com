@@ -7,7 +7,7 @@ withDefaults(defineProps<{
   icon: keyof typeof heroIcons
   iconClass?: string
 }>(), {
-  iconClass: 'h-4 w-4 text-black',
+  iconClass: 'h-4 w-4',
 })
 
 </script>
@@ -20,7 +20,7 @@ withDefaults(defineProps<{
     />
 
     <span
-      class="text-sm text-black"
+      class="text-sm"
       v-text="label"
     />
   </span>
