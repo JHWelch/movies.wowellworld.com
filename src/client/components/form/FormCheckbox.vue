@@ -33,14 +33,13 @@ const displayLabel = computed(
     <div class="ml-3 text-sm leading-6 cursor-default">
       <label
         :for="name"
-        class="font-medium text-gray-900"
+        class="font-medium"
         :aria-describedby="name +'-description'"
         v-text="displayLabel"
       />
 
       <span
         :id="name +'-description'"
-        class="text-gray-500"
         @click="model = !model"
       >
         <span

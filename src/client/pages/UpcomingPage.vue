@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import Calendar from '@components/Calendar.vue'
 import ThankYou from '@components/ThankYou.vue'
 import EventList from '@components/EventList.vue'
 import heroImg from '@assets/hero.png'
 import comingSoon from '@assets/coming_soon.png'
 import nowPlayingImg from '@assets/now_playing.png'
+import wowellWorld from '@assets/wowell_world.png'
 </script>
 
 <template>
   <div class="flex flex-col items-center w-full">
-    <div class="max-w-4xl py-10">
+    <div class="mt-10">
       <div class="flex flex-col items-center px-4 py-5 text-center md:px-8">
         <h1 class="sr-only">
-          Wowell World Cinemas Presents Movie Nights
+          Movie Night
         </h1>
 
         <img
@@ -20,13 +20,15 @@ import nowPlayingImg from '@assets/now_playing.png'
           alt=""
         >
       </div>
+    </div>
 
+    <div class="max-w-4xl mb-10">
       <div
         class="flex flex-col items-center justify-center px-4 py-6 space-y-4 text-center md:px-8"
       >
         <a
           href="#now-playing"
-          class="flex items-center justify-center w-full text-2xl font-semibold md:w-auto"
+          class="flex w-full px-4 py-3 text-2xl font-semibold text-white rounded-lg bg-primary-dark md:w-auto"
         >Jump to the Movies</a>
       </div>
 
@@ -68,10 +70,12 @@ import nowPlayingImg from '@assets/now_playing.png'
       }"
     />
 
-    <ThankYou />
-  </div>
+    <img
+      :src="wowellWorld"
+      class="mt-10 lg:mt-20"
+      alt="Wowell World"
+    >
 
-  <div class="mt-10 sm:p-4">
-    <Calendar />
+    <ThankYou />
   </div>
 </template>

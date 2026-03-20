@@ -37,7 +37,7 @@ defineExpose({
     <label
       v-if="!hideLabel"
       :for="name"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      class="block text-sm font-medium leading-6"
     >
       {{ label ?? name.charAt(0).toUpperCase() + name.slice(1) }}
 

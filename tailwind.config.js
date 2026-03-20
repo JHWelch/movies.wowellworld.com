@@ -12,25 +12,12 @@ export default {
     extend: {
       colors: {
         primary: {
+          darker: '#DF114F',
           dark: '#F25785',
           light: '#F4ABBB',
         },
         dark: '#040404',
         light: '#D5CCCC',
-        purp: {
-          light: '#806297',
-          dark: '#511a7a',
-        },
-        mint: '#a8dcb9',
-        web: {
-          pink: '#ff00fe',
-          red: '#fe0100',
-          blue: '#0000ff',
-          green: '#03ff00',
-          aqua: '#03ffff',
-          yellow: '#ffff00',
-          grey: '#dcdcdc',
-        },
       },
       maxWidth: {
         '8xl': '90rem',

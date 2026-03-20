@@ -45,7 +45,7 @@ const movieSizeClasses = (event: EventDto) => {
       movieSizeClasses(event),
     ]"
   >
-    <div class="flex flex-col px-4 py-2 border-4 border-black border-double">
+    <div class="flex flex-col px-4 py-2 border-4 border-black rounded-3xl bg-primary-dark text-dark">
       <h4 class="flex items-center justify-between h-12 md:px-2">
         <span
           :class="[

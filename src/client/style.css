@@ -30,26 +30,6 @@
     font-family: "Noto";
     src: url(/fonts/NotoSans.ttf) format("truetype");
   }
-
-  :link {
-    color: #0000ee;
-    text-decoration-line: underline;
-    text-transform: uppercase;
-  }
-  :visited {
-    color: #551a8b;
-  }
-  :link:active,
-  :visited:active {
-    color: #ff0000;
-  }
-
-  button {
-    color: #0000ee;
-    cursor: pointer;
-    text-decoration-line: underline;
-    text-transform: uppercase;
-  }
 }
 
 @layer utilities {
