@@ -2,7 +2,6 @@
 import EventList from '@components/EventList.vue'
 import { useRouter } from 'vue-router'
 import { tags } from '@client/data/tags'
-import SectionTitle from '@client/components/SectionTitle.vue'
 
 const props = defineProps<{
   tag: string
