@@ -10,7 +10,7 @@ import wowellWorld from '@assets/wowell_world.png'
 <template>
   <div class="flex flex-col items-center w-full">
     <div class="mt-10">
-      <div class="flex flex-col items-center px-4 py-5 text-center md:px-8">
+      <div class="flex flex-col items-center py-5 text-center">
         <h1 class="sr-only">
           Movie Night
         </h1>
@@ -28,7 +28,7 @@ import wowellWorld from '@assets/wowell_world.png'
       >
         <a
           href="#now-playing"
-          class="flex w-full px-4 py-3 text-2xl font-semibold rounded-lg text-dark bg-primary-dark md:w-auto"
+          class="flex items-center justify-center w-full px-4 py-3 text-2xl font-semibold rounded-lg text-dark bg-primary-dark md:w-auto"
         >Jump to the Movies</a>
       </div>
 

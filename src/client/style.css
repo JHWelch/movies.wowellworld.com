@@ -11,6 +11,13 @@
   color utility to any element that depends on these defaults.
 */
 
+/* @theme {
+  --text-xs: 0.875rem,
+  --text-sm: 1rem,
+  --text-base: 1.125rem,
+  --text-lg: 1.25rem,
+} */
+
 @layer base {
   *,
   ::after,

@@ -15,7 +15,7 @@ defineProps<{
 <template>
   <div class="flex flex-col items-center mt-12 mb-12">
     <div class="w-full max-w-4xl px-4 sm:px-8">
-      <div class="">
+      <div class="flex flex-col sm:justify-between sm:flex-row">
         <h3
           :id="event.slug ?? undefined"
           class="flex flex-col"
@@ -41,7 +41,7 @@ defineProps<{
         <button
           v-if="showEventDetails"
           v-show="!event.isSkipped"
-          class="flex items-center justify-center w-auto mt-2 space-x-2 text-xl font-semibold shrink"
+          class="flex items-center justify-center w-auto px-4 py-2 mt-2 space-x-2 text-xl font-semibold rounded-lg md:py-3 shrink bg-primary-dark text-dark"
           @click="rsvpModal.open(event)"
         >
           <span>RSVP</span>

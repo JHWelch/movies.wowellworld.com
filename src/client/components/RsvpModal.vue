@@ -133,6 +133,7 @@ const disabled = computed(() => !formData.value.name
                   name="name"
                   placeholder="Ghostface"
                   :required="true"
+                  @clear-error="errors.name = ''"
                 />
 
                 <FormInput
@@ -143,6 +144,7 @@ const disabled = computed(() => !formData.value.name
                   label="Email"
                   placeholder="ghostface@woodsboroca.gov"
                   :required="formData.reminders"
+                  @clear-error="errors.email = ''"
                 />
 
                 <FormCheckbox
@@ -158,7 +160,7 @@ const disabled = computed(() => !formData.value.name
                   data-testid="rsvp-button"
                   :disabled="disabled"
                   type="button"
-                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2"
+                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2 bg-primary-dark text-dark"
                   :class="{
                     'opacity-50 cursor-not-allowed': disabled,
                   }"
@@ -169,7 +171,7 @@ const disabled = computed(() => !formData.value.name
 
                 <button
                   type="button"
-                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold bg-white rounded-md shadow-xs sm:col-start-1 sm:mt-0"
+                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold rounded-md shadow-xs bg-primary-light text-dark sm:col-start-1 sm:mt-0"
                   @click="rsvpModal.close()"
                 >
                   Cancel
