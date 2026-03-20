@@ -37,7 +37,7 @@ defineExpose({
     <label
       v-if="!hideLabel"
       :for="name"
-      class="block text-sm font-medium leading-6 text-gray-900"
+      class="block text-sm font-medium leading-6"
     >
       {{ label ?? name.charAt(0).toUpperCase() + name.slice(1) }}
 
@@ -63,8 +63,8 @@ defineExpose({
         :aria-describedby="name + '-error'"
         :aria-invalid="error ? 'true' : 'false'"
         :class="{
-          'block w-full border-0 py-1.5 shadow-xs ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6': true,
-          'text-red-900 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
+          'block w-full border-0 py-1.5 shadow-xs ring-1 ring-inset focus:ring-2 focus:ring-inset focus:ring-primary-dark sm:text-sm sm:leading-6 bg-dark rounded-lg': true,
+          'text-red-500 ring-red-300 placeholder:text-red-300 focus:ring-red-500': error,
           'placeholder:text-gray-400 focus:ring-black': !error,
         }"
         v-bind="$attrs"

@@ -2,7 +2,6 @@
 import EventList from '@components/EventList.vue'
 import { useRouter } from 'vue-router'
 import { tags } from '@client/data/tags'
-import SectionTitle from '@client/components/SectionTitle.vue'
 
 const props = defineProps<{
   tag: string
@@ -20,7 +19,11 @@ const {
 
 <template>
   <div class="flex flex-col items-center w-full pt-20">
-    <SectionTitle :section-title="display" />
+    <h1
+      class="text-3xl"
+      v-text="display"
+    />
+
     <div class="max-w-4xl">
       <section
         v-if="description"

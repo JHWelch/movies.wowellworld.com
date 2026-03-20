@@ -131,7 +131,7 @@ defineExpose({
 
     <ul
       v-if="movies.length"
-      class="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 divide-y rounded-md shadow-lg divide-solid max-h-96"
+      class="absolute z-10 w-full mt-1 overflow-y-auto border border-gray-300 divide-y rounded-md shadow-lg bg-dark divide-solid max-h-96 text-primary-light"
     >
       <li
         v-for="movie, i in movies"
@@ -139,7 +139,7 @@ defineExpose({
         :key="movie.tmdbId"
         :class="{
           'flex items-center space-x-2 p-2 cursor-pointer': true,
-          'bg-gray-300': selected === i,
+          'bg-primary-light text-black': selected === i,
         }"
         @mouseover="() => select(i)"
         @click="(event) => {
