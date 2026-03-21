@@ -26,7 +26,7 @@ const events = ref<EventDto[]>([])
 const loading = ref<boolean>(true)
 const error = ref<boolean>(false)
 
-const rsvpEvent = () => new URLSearchParams(window.location.search).get('rsvp')
+const rsvpEvent = () => window?.location ? new URLSearchParams(window.location.search).get('rsvp') : null
 
 const reload = () => {
   loading.value = true
