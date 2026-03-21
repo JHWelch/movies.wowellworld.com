@@ -6,6 +6,7 @@ import { jsonHeaders } from '@client/data/headers'
 import { ArrowPathIcon, LockClosedIcon, LockOpenIcon } from '@heroicons/vue/24/solid'
 import { CacheEventsOutput } from '@shared/dtos'
 import { computed, ref } from 'vue'
+import Button from '@client/components/buttons/Button.vue'
 
 const cacheEventsLoading = ref<boolean>(false)
 const cacheEventsOutput = ref<CacheEventsOutput | null>(null)
@@ -75,8 +76,7 @@ const displayNewLastUpdated = computed(
             v-if="cacheEventsOutput"
             class="flex flex-col space-y-4"
           >
-            <button
-              class="flex items-center justify-center w-full mt-2 space-x-2 text-3xl font-semibold rounded-md h-14 md:w-auto disabled:opacity-75"
+            <Button
               :disabled="cacheEventsLoading"
               @click="() => cacheEvents()"
             >
@@ -88,7 +88,7 @@ const displayNewLastUpdated = computed(
                 v-if="cacheEventsLoading"
                 class="w-6 h-6 animate-spin"
               />
-            </button>
+            </Button>
 
             <div class="flex w-full">
               <div class="grid w-full grid-cols-2 gap-4">
@@ -132,8 +132,7 @@ const displayNewLastUpdated = computed(
               @clear-error="passwordError = undefined"
             />
 
-            <button
-              class="flex items-center justify-center w-full px-4 py-2 space-x-2 text-3xl font-semibold rounded-md disabled:opacity-75"
+            <Button
               :disabled="cacheEventsLoading"
               data-testid="unlock-button"
               @click="() => cacheEvents(true)"
@@ -151,7 +150,7 @@ const displayNewLastUpdated = computed(
                 v-else
                 class="w-6 h-6"
               />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
