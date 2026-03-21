@@ -68,11 +68,13 @@ import Button from '@client/components/buttons/Button.vue'
       }"
     />
 
-    <img
-      :src="wowellWorld"
-      class="mt-10 lg:mt-20"
-      alt="Wowell World"
-    >
+    <a href="https://wowellworld.com/">
+      <img
+        :src="wowellWorld"
+        class="mt-10 lg:mt-20"
+        alt="Wowell World"
+      >
+    </a>
 
     <ThankYou />
   </div>
