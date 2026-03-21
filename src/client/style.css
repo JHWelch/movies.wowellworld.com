@@ -2,7 +2,6 @@
 
 @config '../../tailwind.config.js';
 
-
 @theme {
   --color-primary-dark: #F25785;
   --color-primary-light: #F4ABBB;
@@ -13,7 +12,6 @@
   --font-coolvetica: Coolvetica, sans-serif;
   --font-playwrite: Playwrite, sans-serif;
 }
-
 
 @layer base {
   *,
