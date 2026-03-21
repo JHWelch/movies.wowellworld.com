@@ -162,6 +162,7 @@ const disabled = computed(() => !formData.value.name
                   :disabled="disabled"
                   type="button"
                   class="sm:col-start-2"
+                  size="small"
                   @click="rsvp"
                 >
                   RSVP!
@@ -171,6 +172,7 @@ const disabled = computed(() => !formData.value.name
                   type="button"
                   class="mt-3 sm:col-start-1 sm:mt-0"
                   variant="secondary"
+                  size="small"
                   @click="rsvpModal.close()"
                 >
                   Cancel

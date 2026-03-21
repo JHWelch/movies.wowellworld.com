@@ -73,7 +73,7 @@ const toggle = () => {
 
       <Button
         data-testid="subscribe-button"
-        type="small"
+        size="small"
         @click="subscribe"
       >
         Subscribe
