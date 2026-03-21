@@ -20,7 +20,7 @@ withDefaults(defineProps<{
     />
 
     <span
-      class="text-sm"
+      class="text-lg"
       v-text="label"
     />
   </span>
