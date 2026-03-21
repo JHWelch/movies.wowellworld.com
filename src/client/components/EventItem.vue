@@ -42,6 +42,7 @@ defineProps<{
         <Button
           v-if="showEventDetails"
           v-show="!event.isSkipped"
+          class="mt-2"
           @click="rsvpModal.open(event)"
         >
           <span>RSVP</span>
