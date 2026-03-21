@@ -110,7 +110,7 @@ const disabled = computed(() => !formData.value.name
                     <span>RSVP to: </span>
 
                     <span
-                      class="underline text-primary-dark"
+                      class="italic text-primary-dark"
                       v-text="rsvpModal.event?.theme"
                     />
                   </h3>
