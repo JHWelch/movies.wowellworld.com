@@ -5,21 +5,7 @@ export default {
     './src/**/*.ts',
   ],
   theme: {
-    fontFamily: {
-      playwrite: ['Playwrite', 'sans-serif'],
-      noto: ['Noto', 'sans-serif'],
-      coolvetica: ['Coolvetica', 'sans-serif'],
-    },
     extend: {
-      colors: {
-        primary: {
-          darker: '#DF114F',
-          dark: '#F25785',
-          light: '#F4ABBB',
-        },
-        dark: '#040404',
-        light: '#D5CCCC',
-      },
       maxWidth: {
         '8xl': '90rem',
         '9xl': '100rem',
