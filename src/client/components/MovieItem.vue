@@ -58,7 +58,7 @@ const movieSizeClasses = (event: EventDto) => {
         <span
           v-if="showEventDetails"
           v-show="movie.time"
-          class="overflow-hidden font-medium text-md"
+          class="overflow-hidden text-xl font-medium"
           v-text="movie.time?.replace(/ /g, '\u00a0')"
         />
 
@@ -90,7 +90,7 @@ const movieSizeClasses = (event: EventDto) => {
           <span
             v-if="movie.director"
             data-testid="movie-director"
-            class="font-medium text-md"
+            class="text-lg font-medium"
             v-text="movie.director"
           />
 
