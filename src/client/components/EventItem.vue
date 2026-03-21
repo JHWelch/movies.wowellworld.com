@@ -5,6 +5,7 @@ import { rsvpModal } from '@client/state/modalState'
 import MovieList from '@components/MovieList.vue'
 import SkippedBanner from '@components/SkippedBanner.vue'
 import Theme from '@components/event/Theme.vue'
+import Button from '@components/buttons/Button.vue'
 
 defineProps<{
   event: EventDto
@@ -38,16 +39,16 @@ defineProps<{
           </span>
         </h3>
 
-        <button
+        <Button
           v-if="showEventDetails"
           v-show="!event.isSkipped"
-          class="flex items-center justify-center w-auto px-4 py-2 mt-2 space-x-2 text-xl font-semibold rounded-lg md:py-3 shrink bg-primary-dark text-dark"
+          class="mt-2"
           @click="rsvpModal.open(event)"
         >
           <span>RSVP</span>
 
           <CalendarDaysIcon class="w-6 h-6" />
-        </button>
+        </Button>
       </div>
     </div>
 

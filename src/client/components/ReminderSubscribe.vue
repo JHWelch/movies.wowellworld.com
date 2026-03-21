@@ -4,6 +4,7 @@ import FormInput from '@components/form/FormInput.vue'
 import { fireConfetti } from '@client/utilities/confetti'
 import { jsonHeaders } from '@client/data/headers'
 import { useErrorHandling } from '@client/composables/useErrorHandling'
+import Button from '@components/buttons/Button.vue'
 
 const isOpen = ref<boolean>(false)
 const email = ref<string>('')
@@ -45,7 +46,7 @@ const toggle = () => {
 
 <template>
   <button
-    class="flex flex-col items-center justify-center h-full px-2 py-2 text-sm font-medium leading-5 text-center grow sm:px-4 sm:grow-0 md:text-xl"
+    class="flex flex-col items-center justify-center h-full px-2 py-2 text-sm font-medium leading-5 text-center cursor-pointer grow sm:px-4 sm:grow-0 md:text-xl"
     data-testid="get-reminders-button"
     @click.stop="toggle"
   >
@@ -70,13 +71,13 @@ const toggle = () => {
         @keyup.enter="subscribe"
       />
 
-      <button
-        class="flex items-center justify-center px-4 py-1 text-sm font-semibold rounded-lg bg-primary-dark text-dark"
+      <Button
         data-testid="subscribe-button"
+        size="small"
         @click="subscribe"
       >
         Subscribe
-      </button>
+      </Button>
     </div>
   </div>
 </template>
