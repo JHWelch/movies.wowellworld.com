@@ -5,6 +5,7 @@ import heroImg from '@assets/hero.png'
 import comingSoon from '@assets/coming_soon.png'
 import nowPlayingImg from '@assets/now_playing.png'
 import wowellWorld from '@assets/wowell_world.png'
+import Button from '@client/components/buttons/Button.vue'
 </script>
 
 <template>
@@ -23,13 +24,10 @@ import wowellWorld from '@assets/wowell_world.png'
     </div>
 
     <div class="max-w-4xl mb-10">
-      <div
-        class="flex flex-col items-center justify-center px-4 py-6 space-y-4 text-center md:px-8"
-      >
-        <a
-          href="#now-playing"
-          class="flex items-center justify-center w-full px-4 py-3 text-2xl font-semibold rounded-lg text-dark bg-primary-dark md:w-auto"
-        >Jump to the Movies</a>
+      <div class="flex flex-col items-center justify-center px-4 py-6 space-y-4 text-center md:px-8">
+        <Button href="#now-playing">
+          Jump to the Movies
+        </Button>
       </div>
 
       <section class="px-4 py-8 mt-4 space-y-5 leading-7 min-[896px]:rounded-xl md:px-8 md:mt-8">
