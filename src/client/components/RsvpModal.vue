@@ -7,6 +7,7 @@ import { fireConfetti } from '@client/utilities/confetti'
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { jsonHeaders } from '@client/data/headers'
 import { useErrorHandling } from '@client/composables/useErrorHandling'
+import Button from './buttons/Button.vue'
 
 type RsvpForm = {
   name: string
@@ -156,26 +157,24 @@ const disabled = computed(() => !formData.value.name
               </form>
 
               <div class="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                <button
+                <Button
                   data-testid="rsvp-button"
                   :disabled="disabled"
                   type="button"
-                  class="inline-flex justify-center w-full text-sm font-semibold rounded-md shadow-xs sm:col-start-2 bg-primary-dark text-dark"
-                  :class="{
-                    'opacity-50 cursor-not-allowed': disabled,
-                  }"
+                  class="sm:col-start-2"
                   @click="rsvp"
                 >
                   RSVP!
-                </button>
+                </Button>
 
-                <button
+                <Button
                   type="button"
-                  class="inline-flex justify-center w-full mt-3 text-sm font-semibold rounded-md shadow-xs bg-primary-light text-dark sm:col-start-1 sm:mt-0"
+                  class="mt-3 sm:col-start-1 sm:mt-0"
+                  variant="secondary"
                   @click="rsvpModal.close()"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </Transition>
