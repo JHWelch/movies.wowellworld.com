@@ -7,7 +7,7 @@ import { fireConfetti } from '@client/utilities/confetti'
 import { CalendarDaysIcon } from '@heroicons/vue/24/solid'
 import { jsonHeaders } from '@client/data/headers'
 import { useErrorHandling } from '@client/composables/useErrorHandling'
-import Button from './buttons/Button.vue'
+import Button from '@components/buttons/Button.vue'
 
 type RsvpForm = {
   name: string
