@@ -20,13 +20,13 @@ const htmlDescription = async (event: Event) => (await ejs.renderFile(
 export const icalGenerator =
   async (event: Event): Promise<string | undefined> => {
     const { error, value } = ics.createEvent({
-      uid: event.dateString + '@movies.wowellworld.com',
+      uid: event.dateString + '@movienite.club',
       start: event.startTime.toJSDate().getTime(),
       duration: { minutes: event.totalLength },
       title: 'Movie Nights: ' + event.theme,
       description: description(event),
       location: '2111 W Argyle St. Chicago, IL 60625',
-      url: 'https://movies.wowellworld.com/',
+      url: 'https://movienite.club/',
       status: 'CONFIRMED',
       busyStatus: 'BUSY',
       organizer: {

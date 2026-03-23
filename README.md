@@ -1,5 +1,5 @@
-# movies.wowellworld.com
-[![App Engine Build](https://github.com/JHWelch/movies.wowellworld.com/actions/workflows/deploy-to-app-engine.yml/badge.svg)](https://github.com/JHWelch/movies.wowellworld.com/deployments)
+# movienite.club
+[![App Engine Build](https://github.com/JHWelch/movienite.club/actions/workflows/deploy-to-app-engine.yml/badge.svg)](https://github.com/JHWelch/movienite.club/deployments)
 
 An integration with [Notion](https://notion.so) to display weekly movie nights using a Notion database as the source of truth.
 
