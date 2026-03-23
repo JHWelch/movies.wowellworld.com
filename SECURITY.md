@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-The only supported version of this application is the version deployed to [movies.wowellworld.com](https://movies.wowellworld.com) from `main`.
+The only supported version of this application is the version deployed to [movienite.club](https://movienite.club) from `main`.
 
 ## Reporting a Vulnerability
 
